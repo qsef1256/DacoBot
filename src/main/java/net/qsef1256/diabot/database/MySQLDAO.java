@@ -11,21 +11,10 @@ public class MySQLDAO implements DiscordDAO {
 
     @Override
     public void init() {
-        logger.info("Check for table 'discord'...");
-
-        String query = "CREATE TABLE IF NOT EXISTS user ("
-                + "discord_id      int(20) not null primary key,"
-                + "register_time   timestamp,"
-                + "status          varchar(255) default 'OK' not null"
-                + ")";
-        try (Connection conn = HikariPoolManager.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
-            ps.execute();
-        } catch (SQLException e) {
-            logger.error("Failed to load MySQL database: " + e.getSQLState());
-            e.printStackTrace();
-        }
+        logger.info("Checking for tables...");
+        isTableExist("user");
+        isTableExist("cash");
     }
-
 
     @Override
     public boolean isTableExist(String table) {
@@ -36,6 +25,7 @@ public class MySQLDAO implements DiscordDAO {
 
             return rs.next();
         } catch (SQLException e) {
+            logger.error("Failed to check MySQL table: " + table + ", SQL State: " + e.getSQLState());
             e.printStackTrace();
         }
         return false;

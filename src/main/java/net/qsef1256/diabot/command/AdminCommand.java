@@ -31,7 +31,7 @@ public class AdminCommand extends SlashCommand {
 
     private static class StopCommand extends SlashCommand {
         public StopCommand() {
-            name = "자라";
+            name = "자자";
             help = "장비를 정지합니다.";
         }
 
@@ -58,7 +58,6 @@ public class AdminCommand extends SlashCommand {
         public void execute(SlashCommandEvent event) {
             OptionMapping option = event.getOption("메시지");
             if (option == null) {
-                // Send a response only the command executor can see.
                 event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
                 return;
             }
