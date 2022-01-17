@@ -12,8 +12,11 @@ public class CommonUtil {
         return (int) (Math.random() * max) + min;
     }
 
-    public <T> T getRandomElement(List<T> list)
-    {
+    public boolean isBetween(int x, int lower, int upper) {
+        return lower <= x && x <= upper;
+    }
+    
+    public <T> T getRandomElement(List<T> list) {
         return list.get(new Random().nextInt(list.size()));
     }
 

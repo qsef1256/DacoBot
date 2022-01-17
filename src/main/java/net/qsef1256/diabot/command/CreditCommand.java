@@ -17,9 +17,9 @@ public class CreditCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
+    protected void execute(final SlashCommandEvent event) {
 
-        String ment = CommonUtil.getRandomElement(
+        final String message = CommonUtil.getRandomElement(
                 Arrays.asList("폭발은 예술이다!", "?", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM"));
 
         event.replyEmbeds(new EmbedBuilder()
@@ -29,9 +29,10 @@ public class CreditCommand extends SlashCommand {
                 .setThumbnail(DiaImage.MAIN_THUMBNAIL)
                 .addField("본체", String.join(", ", DiaInfo.AUTHOR), true)
                 .addField("버전", "v" + DiaInfo.VERSION, true)
+                .addField("시작일", DiaInfo.SINCE, true)
                 .addField("라이브러리", "JDA: https://github.com/DV8FromTheWorld/JDA\n" + "Chewtils: https://github.com/Chew/JDA-Chewtils", false)
                 .addField("연락처", "`qsef1256@naver.com`", false)
-                .addField("", ment, false)
+                .addField("", message, false)
                 .setFooter("provided by JDA v4.4.0_350")
                 .build()).queue();
     }

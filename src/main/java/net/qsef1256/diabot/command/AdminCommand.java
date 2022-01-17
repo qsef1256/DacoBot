@@ -25,7 +25,7 @@ public class AdminCommand extends SlashCommand {
     }
 
     @Override
-    public void execute(SlashCommandEvent event) {
+    public void execute(final SlashCommandEvent event) {
         event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
     }
 
@@ -36,14 +36,9 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(SlashCommandEvent event) {
+        public void execute(final SlashCommandEvent event) {
             logger.info("Shutting down with command");
-            event.reply("끄는 중....").setEphemeral(true).queue((msg) -> {
-                if (event.getGuild() != null) {
-                    event.getGuild().updateCommands().queue();
-                }
-                event.getJDA().shutdown();
-            });
+            event.reply("끄는 중....").setEphemeral(true).queue((msg) -> event.getJDA().shutdown());
         }
     }
 
@@ -55,8 +50,8 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(SlashCommandEvent event) {
-            OptionMapping option = event.getOption("메시지");
+        public void execute(final SlashCommandEvent event) {
+            final OptionMapping option = event.getOption("메시지");
             if (option == null) {
                 event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
                 return;
