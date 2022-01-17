@@ -1,7 +1,6 @@
 package net.qsef1256.diabot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import lombok.SneakyThrows;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
@@ -17,11 +16,10 @@ import java.util.Arrays;
 public class HelpCommand extends SlashCommand {
 
     public HelpCommand() {
-        this.name = "help";
+        this.name = "도움말";
         this.help = "다이아 덩어리를 다루는 방법";
     }
 
-    @SneakyThrows
     @Override
     protected void execute(SlashCommandEvent event) {
         if (event.getMember() == null) return;
@@ -31,7 +29,7 @@ public class HelpCommand extends SlashCommand {
         embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
         for (SlashCommand slashCommand : DiaBot.getCommandClient().getSlashCommands()) {
             if (slashCommand.isOwner(event, DiaBot.getCommandClient()) || canExecute(slashCommand, event.getMember())) {
-                embedBuilder.addField(" - " + slashCommand.getName(), slashCommand.getHelp(), false);
+                embedBuilder.addField(" - " + slashCommand.getName() , slashCommand.getHelp(), false);
             }
         }
 
@@ -42,6 +40,9 @@ public class HelpCommand extends SlashCommand {
     }
 
     private boolean canExecute(SlashCommand slashCommand, Member member) {
+        if (slashCommand.isOwnerCommand()) {
+            return false;
+        }
         if (slashCommand.getEnabledRoles().length != 0) {
             for (Role role : member.getRoles()) {
                 if (Arrays.asList(slashCommand.getEnabledRoles()).contains(role.getId())) return true;

@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class CreditCommand extends SlashCommand {
     public CreditCommand() {
-        this.name = "credit";
+        this.name = "정보";
         this.help = "다이아 덩어리의 구성 성분";
     }
 

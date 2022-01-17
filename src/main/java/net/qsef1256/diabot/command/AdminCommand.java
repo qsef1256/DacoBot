@@ -2,21 +2,26 @@ package net.qsef1256.diabot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+
+import java.util.Collections;
 
 import static net.qsef1256.diabot.DiaBot.logger;
 
 public class AdminCommand extends SlashCommand {
 
     public AdminCommand() {
-        name = "diaadmin";
-        help = "다이아 전용 관리용 명령어: !관계자외 접근 금지!";
+        name = "다야야";
+        help = "다이아 전용 관리용 명령어, 다이아만 접근 가능..?";
         ownerCommand = true;
         defaultEnabled = false;
 
         children = new SlashCommand[]{
-                new StopCommand()
+                new StopCommand(),
+                new SayCommand()
         };
-
     }
 
     @Override
@@ -26,8 +31,8 @@ public class AdminCommand extends SlashCommand {
 
     private static class StopCommand extends SlashCommand {
         public StopCommand() {
-            this.name = "stop";
-            this.help = "장비를 정지합니다.";
+            name = "자라";
+            help = "장비를 정지합니다.";
         }
 
         @Override
@@ -39,6 +44,26 @@ public class AdminCommand extends SlashCommand {
                 }
                 event.getJDA().shutdown();
             });
+        }
+    }
+
+    private static class SayCommand extends SlashCommand {
+        public SayCommand() {
+            name = "말해";
+            help = "메시지 보내기";
+            options = Collections.singletonList(new OptionData(OptionType.STRING, "메시지", "시킬 말").setRequired(true));
+        }
+
+        @Override
+        public void execute(SlashCommandEvent event) {
+            OptionMapping option = event.getOption("메시지");
+            if (option == null) {
+                // Send a response only the command executor can see.
+                event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
+                return;
+            }
+            event.deferReply().queue(m -> m.deleteOriginal().queue());
+            event.getChannel().sendMessage(option.getAsString()).queue();
         }
     }
 
