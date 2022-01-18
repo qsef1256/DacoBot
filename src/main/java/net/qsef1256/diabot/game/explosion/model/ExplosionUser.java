@@ -11,26 +11,27 @@ import java.sql.SQLException;
 public class ExplosionUser {
 
     protected final ExplosionDAO dao = new ExplosionDAOImpl();
+    @Getter
     private final DiscordUser user;
     @Getter
-    private final DiscordCashData record;
+    private final DiscordCashData data;
 
     public ExplosionUser(final long discord_id) throws SQLException {
         user = new DiscordUser(discord_id);
-        record = dao.getData(discord_id);
+        data = dao.getData(discord_id);
     }
 
     public long getCash() {
-        return record.getCash();
+        return data.getCash();
     }
 
     public int getPickaxeCount() {
-        return record.getPickaxe_count();
+        return data.getPickaxe_count();
     }
 
     public void addPickaxeCount(final int count) throws SQLException {
-        record.setPickaxe_count(getPickaxeCount() + count);
-        dao.updateData(record);
+        data.setPickaxe_count(getPickaxeCount() + count);
+        dao.updateData(data);
     }
 
     public void addPickaxeCount() throws SQLException {

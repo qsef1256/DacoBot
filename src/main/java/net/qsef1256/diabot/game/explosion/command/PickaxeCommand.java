@@ -7,6 +7,7 @@ import net.qsef1256.diabot.game.explosion.model.ExplosionUser;
 import net.qsef1256.diabot.util.CommonUtil;
 
 import java.sql.SQLException;
+import java.util.NoSuchElementException;
 
 public class PickaxeCommand extends SlashCommand {
 
@@ -46,9 +47,16 @@ public class PickaxeCommand extends SlashCommand {
             }
 
             explosionUser.addPickaxeCount(pickaxeCount);
-            event.reply(status + "다이아 보유량: `" + explosionUser.getPickaxeCount() + "` 개").queue();
-        } catch (final SQLException e) {
-            event.reply(user.getAsTag() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!").queue();
+            event.reply(status + "`+" + pickaxeCount + "` 다이아 보유량: `" + explosionUser.getPickaxeCount() + "` 개").queue();
+        } catch (SQLException | RuntimeException e) {
+            String message = ":warning: " + user.getAsTag() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
+
+            if (e instanceof NoSuchElementException) {
+                message = message + "\n곡괭이 커맨드는 계정 등록이 있어야 사용 가능해요. `/폭발 등록` 을 입력하세요.";
+                event.reply(message).queue();
+                return;
+            }
+            event.reply(message).queue();
             e.printStackTrace();
         }
     }

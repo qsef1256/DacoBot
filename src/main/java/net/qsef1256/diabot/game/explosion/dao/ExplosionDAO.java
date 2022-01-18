@@ -13,5 +13,6 @@ public interface ExplosionDAO {
 
     void addData(DiscordCashData cash) throws SQLException;
 
-    void resetData(long discord_id) throws SQLException;
+    void deleteData(long discord_id) throws SQLException;
+
 }

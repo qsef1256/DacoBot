@@ -63,7 +63,7 @@ public class ExplosionDAOImpl implements ExplosionDAO {
     }
 
     @Override
-    public void resetData(final long discord_id) throws SQLException {
+    public void deleteData(final long discord_id) throws SQLException {
         final String query = "DELETE FROM explosion_cash WHERE discord_id = ?";
         try (Connection conn = HikariPoolManager.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
             ps.setLong(1, discord_id);

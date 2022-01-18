@@ -16,4 +16,6 @@ public interface MainDAO {
 
     void addUser(DiscordUserData user) throws SQLException;
 
+    void removeUser(long discord_id) throws SQLException;
+
 }

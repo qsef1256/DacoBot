@@ -73,4 +73,14 @@ public class MainDAOImpl implements MainDAO {
             ps.executeUpdate();
         }
     }
+
+    @Override
+    public void removeUser(final long discord_id) throws SQLException {
+        final String query = "DELETE FROM discord_user WHERE discord_id = ?";
+        try (Connection conn = HikariPoolManager.getInstance().getConnection(); PreparedStatement ps = conn.prepareStatement(query)) {
+            ps.setLong(1, discord_id);
+            ps.executeUpdate();
+        }
+    }
+
 }
