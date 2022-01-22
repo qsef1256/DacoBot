@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.diabot.model.HibernateManager;
 
 import java.util.Collections;
 
@@ -38,7 +39,10 @@ public class AdminCommand extends SlashCommand {
         @Override
         public void execute(final SlashCommandEvent event) {
             logger.info("Shutting down with command");
-            event.reply("끄는 중....").setEphemeral(true).queue((msg) -> event.getJDA().shutdown());
+            event.reply("끄는 중....").setEphemeral(true).queue((msg) -> {
+                event.getJDA().shutdown();
+                HibernateManager.shutdown();
+            });
         }
     }
 

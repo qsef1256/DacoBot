@@ -16,8 +16,8 @@ import java.util.Arrays;
 public class HelpCommand extends SlashCommand {
 
     public HelpCommand() {
-        this.name = "도움말";
-        this.help = "다이아 덩어리를 다루는 방법";
+        name = "도움말";
+        help = "다이아 덩어리를 다루는 방법";
     }
 
     @Override
@@ -29,7 +29,7 @@ public class HelpCommand extends SlashCommand {
         embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
         for (SlashCommand slashCommand : DiaBot.getCommandClient().getSlashCommands()) {
             if (slashCommand.isOwner(event, DiaBot.getCommandClient()) || canExecute(slashCommand, event.getMember())) {
-                embedBuilder.addField(" - " + slashCommand.getName() , slashCommand.getHelp(), false);
+                embedBuilder.addField(" - " + slashCommand.getName(), slashCommand.getHelp(), false);
             }
         }
 

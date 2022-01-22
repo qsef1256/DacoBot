@@ -45,7 +45,7 @@ public class DiaBot {
         commandClientBuilder.forceGuildOnly("889451044445224970");
         commandClientBuilder.setActivity(Activity.playing("다야 가동 중..."));
         commandClientBuilder.useHelpBuilder(false);
-        commandClientBuilder.setPrefix("다야 ");
+        commandClientBuilder.setPrefix("다야야 ");
 
         try {
             registerCommands(commandClientBuilder);

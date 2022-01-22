@@ -2,6 +2,8 @@ package net.qsef1256.diabot.model;
 
 import lombok.Getter;
 import net.qsef1256.diabot.data.DiscordUserData;
+import net.qsef1256.diabot.database.DaoCommon;
+import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.database.MainDAO;
 import net.qsef1256.diabot.database.MainDAOImpl;
 import net.qsef1256.diabot.util.DiscordUtil;
@@ -10,6 +12,8 @@ import java.sql.SQLException;
 import java.util.NoSuchElementException;
 
 public class DiscordUser {
+    
+    protected final DaoCommon<DiscordUser, Long> daoCommon = new DaoCommonImpl<>(DiscordUser.class);
 
     protected final MainDAO dao = new MainDAOImpl();
     @Getter

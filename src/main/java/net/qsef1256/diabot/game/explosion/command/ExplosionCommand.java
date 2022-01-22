@@ -111,7 +111,7 @@ public class ExplosionCommand extends SlashCommand {
 
             } catch (SQLException | RuntimeException e) {
                 event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("문제가 생겼어요.")
+                        .setTitle("계정 정보 확인 실패")
                         .setColor(DiaColor.FAIL)
                         .setAuthor(user.getAsTag(), null, user.getAvatarUrl())
                         .setDescription(e.getMessage())

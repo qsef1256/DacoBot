@@ -5,8 +5,8 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 
 public class PingCommand extends SlashCommand {
     public PingCommand() {
-        this.name = "핑";
-        this.help = "퐁!";
+        name = "핑";
+        help = "퐁!";
     }
 
     @Override

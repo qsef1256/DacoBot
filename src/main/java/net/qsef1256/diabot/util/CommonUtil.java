@@ -9,14 +9,14 @@ import java.util.Random;
 public class CommonUtil {
 
     public int randomInt(int min, int max) {
-        return (int) (Math.random() * max) + min;
+        return new Random().nextInt(max + 1 - min) + min;
     }
 
     public boolean isBetween(int x, int lower, int upper) {
         return lower <= x && x <= upper;
     }
-    
-    public <T> T getRandomElement(List<T> list) {
+
+    public <T> T getRandomElement(final List<T> list) {
         return list.get(new Random().nextInt(list.size()));
     }
 

@@ -32,16 +32,20 @@ public class PickaxeCommand extends SlashCommand {
                     pickaxeCount = 1;
                     status = ":gem: ";
                 }
+                case 87, 88, 89 -> {
+                    pickaxeCount = CommonUtil.randomInt(-5, -1);
+                    status = ":crescent_moon: 어이쿠 손이 미끄러졌네!! 다이아가 박살났습니다. ";
+                }
                 case 90, 91, 92, 93, 94, 95, 96 -> {
-                    pickaxeCount = CommonUtil.randomInt(2, 3);
+                    pickaxeCount = CommonUtil.randomInt(2, 4);
                     status = ":pick: 깨진다... ";
                 }
                 case 97, 98, 99 -> {
-                    pickaxeCount = CommonUtil.randomInt(5, 7);
+                    pickaxeCount = CommonUtil.randomInt(5, 8);
                     status = ":sparkles: **치명타!** ";
                 }
                 case 100 -> {
-                    pickaxeCount = CommonUtil.randomInt(15, 20);
+                    pickaxeCount = CommonUtil.randomInt(15, 25);
                     status = ":boom: **폭발!!** ";
                 }
             }
