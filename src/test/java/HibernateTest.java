@@ -1,5 +1,5 @@
 import lombok.Getter;
-import net.qsef1256.diabot.data.DiscordUser;
+import net.qsef1256.diabot.data.DiscordUserData;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import org.junit.jupiter.api.Test;
@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static net.qsef1256.diabot.DiaBot.logger;
@@ -35,9 +34,9 @@ public class HibernateTest {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        final DiscordUser testUser = new DiscordUser();
+        final DiscordUserData testUser = new DiscordUserData();
         testUser.setId(419761037861060620L);
-        testUser.setRegisterTime(Date.from(Instant.now()));
+        testUser.setRegisterTime(LocalDateTime.now());
         testUser.setStatus("WHAT");
 
         logger.info("Before save: " + testUser.getId().toString());
@@ -52,8 +51,8 @@ public class HibernateTest {
     public void get() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        final List result = entityManager.createQuery("from DiscordUser ").getResultList();
-        for (final DiscordUser user : (List<DiscordUser>) result) {
+        final List result = entityManager.createQuery("from DiscordUserData ").getResultList();
+        for (final DiscordUserData user : (List<DiscordUserData>) result) {
             System.out.println("User (" + user.getId() + ") : " + user.getStatus());
         }
         entityManager.getTransaction().commit();
@@ -61,22 +60,24 @@ public class HibernateTest {
     }
 
     public void DaoCheck() {
-        DaoCommon<DiscordUser, Long> dao = new DaoCommonImpl<>(DiscordUser.class);
+        DaoCommon<Long, DiscordUserData> dao = new DaoCommonImpl<>(DiscordUserData.class);
 
-        if (!dao.isExist(419761037861060620L)) create(dao);
+        logger.info("qsef1256 is exist?: " + dao.isExist(419761037861060619L));
+        if (!dao.isExist(419761037861060620L))
+            create(dao);
         find(dao);
         dao.deleteById(419761037861060620L);
     }
 
-    private void find(DaoCommon<DiscordUser, Long> dao) {
-        DiscordUser user = dao.findById(419761037861060620L);
+    private void find(DaoCommon<Long, DiscordUserData> dao) {
+        DiscordUserData user = dao.findById(419761037861060620L);
         logger.info(user.getId() + " Status: " + user.getStatus() + " Time: " + user.getRegisterTime());
     }
 
-    private void create(DaoCommon<DiscordUser, Long> dao) {
-        DiscordUser testUser = new DiscordUser();
+    private void create(DaoCommon<Long, DiscordUserData> dao) {
+        DiscordUserData testUser = new DiscordUserData();
         testUser.setId(419761037861060620L);
-        testUser.setRegisterTime(Date.from(Instant.now()));
+        testUser.setRegisterTime(LocalDateTime.now());
         testUser.setStatus("TEST");
 
         logger.info("Creating user: " + testUser.getId());

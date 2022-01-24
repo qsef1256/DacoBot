@@ -3,7 +3,7 @@ package net.qsef1256.diabot.database;
 import java.io.Serializable;
 import java.util.List;
 
-public interface DaoCommon<T, K extends Serializable> {
+public interface DaoCommon<K extends Serializable, T> {
 
     void create(T entity);
 

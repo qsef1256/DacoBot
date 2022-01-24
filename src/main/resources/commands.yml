@@ -1,0 +1,44 @@
+# 커맨드 카테고리를 정하는 설정
+CATEGORY:
+  ADMIN:
+    TITLE: "본체 전용"
+    DESC: "여기에 뭐가 있는지 맞추시면 아무것도 드리지 않아요!"
+    LIST:
+      - AdminCommand
+
+  ACCOUNT:
+    TITLE: "정보"
+    DESC: "계정, 규칙, 관리와 관련된 명령어 입니다."
+    LIST:
+      - RuleCommand
+      - CreditCommand
+      - AccountCommand
+      - AttendCommand
+
+  FUN:
+    TITLE: "재미"
+    DESC: "간단한 재미용 명령어들 입니다. ~~잡것들~~"
+    LIST:
+      - AnvilCommand
+      - AsdfCommand
+      - StupudCommand
+
+  GAME:
+    TITLE: "게임"
+    DESC: "다이아 봇의 게임들입니다."
+    CATEGORY:
+      EXPLOSION:
+        TITLE: "폭발"
+        DESC: "폭발은 예술이다..."
+        LIST:
+          - ExplosionCommand
+      PICKAXE:
+        TITLE: "곡괭이"
+        DESC: "건드리면 폭탄 터트릴꺼에요......"
+        LIST:
+          - PickaxeCommand
+
+  MISC:
+    TITLE: "기타"
+    DESC: "모?루"
+    LIST: [ ]

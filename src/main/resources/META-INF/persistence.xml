@@ -9,15 +9,19 @@
             <property name="javax.persistence.jdbc.user" value="root"/>
             <property name="javax.persistence.jdbc.password" value="1234"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/DiaBot"/>
-            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
 
             <!-- Hibernate Setting -->
             <property name="hibernate.archive.autodetection" value="class, hbm"/>
             <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
-            <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hibernate.hbm2ddl.auto" value="validate"/>
-
             <property name="hibernate.current_session_context_class" value="thread"/>
+
+            <!-- Performance/Debug Logging -->
+            <property name="hibernate.show_sql" value="false"/>
+            <property name="hibernate.generate_statistics" value="false"/>
+
+            <!-- Auto DROP/CREATE Setting -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
 
             <!-- HikariCP Setting -->
             <property name="hibernate.connection.provider_class"

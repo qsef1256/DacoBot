@@ -23,7 +23,7 @@ public class HelpCommand extends SlashCommand {
     @Override
     protected void execute(SlashCommandEvent event) {
         if (event.getMember() == null) return;
-
+        
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(DiaColor.MAIN_COLOR);
         embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);

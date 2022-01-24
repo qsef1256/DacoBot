@@ -11,10 +11,9 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
-import net.qsef1256.diabot.database.MainDAO;
-import net.qsef1256.diabot.database.MainDAOImpl;
-import net.qsef1256.diabot.game.explosion.listener.ButtonListener;
+import net.qsef1256.diabot.listener.ButtonListener;
 import net.qsef1256.diabot.listener.MessageHandler;
+import net.qsef1256.diabot.model.HibernateManager;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +26,7 @@ import static org.reflections.scanners.Scanners.SubTypes;
 
 public class DiaBot {
 
-    public static Logger logger = LoggerFactory.getLogger(DiaBot.class.getSimpleName());
+    public static final Logger logger = LoggerFactory.getLogger(DiaBot.class.getSimpleName());
     @Getter
     private static JDA jda;
     @Getter
@@ -70,9 +69,7 @@ public class DiaBot {
             guild.updateCommands().queue();
         }
 
-        final MainDAO dao = new MainDAOImpl();
-        dao.init();
-
+        HibernateManager.getCurrentSessionFromJPA().openSession();
     }
 
     public static void configureMemoryUsage(final JDABuilder builder) {

@@ -6,4 +6,6 @@ public final class DiaInfo {
     public static final String BOT_NAME = "DiaBot";
     public static final String SINCE = "2022-01-16";
 
+    public static final String REGEX_WORD = "[^\\s](.[^\\s]+)";
+    
 }

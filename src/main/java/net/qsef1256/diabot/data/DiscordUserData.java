@@ -1,23 +1,38 @@
 package net.qsef1256.diabot.data;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import net.qsef1256.diabot.game.explosion.data.ExplosionCash;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.sql.Timestamp;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
+@Entity
+@Table(name = "discord_user")
 public class DiscordUserData {
+    @Id
+    @Column(name = "discord_id", nullable = false)
+    private Long id;
 
-    private long discord_id;
-    private Timestamp register_time;
+    @Column(name = "register_time")
+    private LocalDateTime registerTime;
+
+    @Column(name = "status", nullable = false)
+    @ColumnDefault(value = "'OK'")
     private String status;
 
-    public DiscordUserData(final long discord_id, final Timestamp register_time, final String status) {
-        if (discord_id == 0) {
-            throw new IllegalArgumentException("discord_id can't be 0");
-        }
-        this.discord_id = discord_id;
-        this.register_time = register_time;
-        this.status = status;
-    }
+    @Column(name = "last_attend_time")
+    private LocalDateTime lastAttendTime;
+
+    @Column(name = "attend_count")
+    @ColumnDefault(value = "0")
+    private Integer attendCount;
+
+    @OneToOne(mappedBy = "discord_user", cascade = CascadeType.ALL)
+    @JoinColumn(name = "discord_id", referencedColumnName = "discord_id")
+    private ExplosionCash explosionCash;
 
 }
