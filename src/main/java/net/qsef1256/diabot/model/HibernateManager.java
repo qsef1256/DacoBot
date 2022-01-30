@@ -17,11 +17,15 @@ public class HibernateManager {
     private HibernateManager() {
     }
 
-    public static SessionFactory getCurrentSessionFromJPA() {
+    public static SessionFactory getSessionFactoryFromJPA() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Session session = entityManager.unwrap(Session.class);
         session.getSessionFactory().openSession(); // 원래 쓰고 닫아야 하지만 DaoCommon 은 getCurrentSession() 을 사용하므로 당장은 필요치 않음
         return session.getSessionFactory();
+    }
+
+    public static EntityManager getEntityManager() {
+        return entityManagerFactory.createEntityManager();
     }
 
     static {

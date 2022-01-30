@@ -1,7 +1,7 @@
 # 커맨드 카테고리를 정하는 설정
-CATEGORY:
+CATEGORIES:
   ADMIN:
-    TITLE: "본체 전용"
+    TITLE: "다이아"
     DESC: "여기에 뭐가 있는지 맞추시면 아무것도 드리지 않아요!"
     LIST:
       - AdminCommand
@@ -22,11 +22,14 @@ CATEGORY:
       - AnvilCommand
       - AsdfCommand
       - StupudCommand
+      - MD5Command
+      - SHA256Command
+      - CreeperCommand
 
   GAME:
     TITLE: "게임"
-    DESC: "다이아 봇의 게임들입니다."
-    CATEGORY:
+    DESC: "재미 카테고리보다 복잡한 재미용 명령어 입니다. ~~큰것들~~"
+    CATEGORIES:
       EXPLOSION:
         TITLE: "폭발"
         DESC: "폭발은 예술이다..."
@@ -34,9 +37,15 @@ CATEGORY:
           - ExplosionCommand
       PICKAXE:
         TITLE: "곡괭이"
-        DESC: "건드리면 폭탄 터트릴꺼에요......"
+        DESC: "건드리면 폭탄 터트릴꺼에요..."
         LIST:
           - PickaxeCommand
+      PAINT:
+        TITLE: "그림"
+        DESC: "예술...?"
+        LIST:
+          - PaintCommand
+          - GalleryCommand
 
   MISC:
     TITLE: "기타"

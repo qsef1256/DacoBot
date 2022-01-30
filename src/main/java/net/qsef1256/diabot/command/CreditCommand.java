@@ -38,7 +38,7 @@ public class CreditCommand extends SlashCommand {
 
         final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
         final String message = CommonUtil.getRandomElement(
-                Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM"));
+                Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM", "나는 댕청하다, /댕청"));
 
         final String formattedUptime = DurationFormatUtils.formatDurationHMS(uptime);
         final String name = properties.getProperty("name");

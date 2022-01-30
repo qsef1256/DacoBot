@@ -6,11 +6,14 @@ import lombok.NoArgsConstructor;
 import net.qsef1256.diabot.model.HibernateManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -24,15 +27,27 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     public DaoCommonImpl(final Class<T> clazz) {
         this.clazz = clazz;
         this.clazzName = clazz.getSimpleName();
-        this.factory = HibernateManager.getCurrentSessionFromJPA();
+        this.factory = HibernateManager.getSessionFactoryFromJPA();
+    }
+
+    @Override
+    public Session getCurrentSession() {
+        return factory.getCurrentSession();
     }
 
     @Override
     public void create(T entity) {
+        create(List.of(entity));
+    }
+
+    @Override
+    public void create(List<T> entities) {
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
-            session.save(entity);
+            for (T entity : entities) {
+                session.save(entity);
+            }
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -42,10 +57,37 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
 
     @Override
     public void update(final T entity) {
+        update(List.of(entity));
+    }
+
+    @Override
+    public void update(List<T> entities) {
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
-            session.update(entity);
+            for (T entity : entities) {
+                session.update(entity);
+            }
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void createOrUpdate(final T entity) {
+        createOrUpdate(List.of(entity));
+    }
+
+    @Override
+    public void createOrUpdate(List<T> entities) {
+        final Session session = factory.getCurrentSession();
+        try {
+            session.beginTransaction();
+            for (T entity : entities) {
+                session.saveOrUpdate(entity);
+            }
             session.getTransaction().commit();
         } catch (Exception e) {
             session.getTransaction().rollback();
@@ -73,6 +115,28 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     }
 
     @Override
+    public List<T> findBy(Map<String, Object> constraint) {
+        final Session session = factory.getCurrentSession();
+        try {
+            session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<T> criteria = builder.createQuery(clazz);
+            Root<T> root = criteria.from(clazz);
+            constraint.forEach((key, value) -> criteria.where(builder.equal(root.get(key), value)));
+
+            List<T> result = session.createQuery(criteria).getResultList();
+            session.getTransaction().commit();
+            return result;
+        } catch (NoSuchElementException e) {
+            session.getTransaction().rollback();
+            throw e;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
     public boolean isExist(K id) {
         try {
             final T entity = findById(id);
@@ -88,11 +152,7 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
         try {
             session.beginTransaction();
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<T> criteria = builder.createQuery(clazz);
-            criteria.from(clazz);
-
-            List<T> resultList = session.createQuery(criteria).getResultList();
+            List<T> resultList = getAllList(session);
             session.getTransaction().commit();
             return resultList;
         } catch (Exception e) {
@@ -101,14 +161,21 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
         }
     }
 
+    private List<T> getAllList(Session session) {
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<T> criteria = builder.createQuery(clazz);
+        criteria.from(clazz);
+
+        return session.createQuery(criteria).getResultList();
+    }
+
     @Override
     public void deleteAll() {
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
 
-            // TODO: idk this is working? is effective? Nah...
-            for (T entity : findAll()) {
+            for (T entity : getAllList(session)) { // TODO: this is not effective
                 session.delete(entity);
             }
             session.getTransaction().commit();
@@ -116,6 +183,14 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
             session.getTransaction().rollback();
             throw new RuntimeException(e);
         }
+    }
+
+    // This is fast delete all item, but not working when entity is cascaded
+    public int hqlTruncate(String myTable){
+        final Session session = factory.getCurrentSession();
+        String hql = String.format("delete from %s",myTable);
+        Query query = session.createQuery(hql);
+        return query.executeUpdate();
     }
 
     @Override

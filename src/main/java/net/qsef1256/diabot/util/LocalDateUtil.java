@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
  * java.util.Date 에 대해서는 Apache Commons 의 DateUtils 를 사용하세요.
  */
 @UtilityClass
-public class DateUtil {
+public class LocalDateUtil {
 
     /**
      * 첫번째와 두번째 시간이 같은 날짜인지 확인합니다.

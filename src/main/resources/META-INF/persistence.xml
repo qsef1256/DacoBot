@@ -13,11 +13,11 @@
 
             <!-- Hibernate Setting -->
             <property name="hibernate.archive.autodetection" value="class, hbm"/>
-            <property name="hibernate.ejb.naming_strategy" value="org.hibernate.cfg.ImprovedNamingStrategy"/>
+            <property name="hibernate.physical_naming_strategy" value="net.qsef1256.diabot.hibernate.CustomPhysicalNamingStrategy"/>
             <property name="hibernate.current_session_context_class" value="thread"/>
 
-            <!-- Performance/Debug Logging -->
-            <property name="hibernate.show_sql" value="false"/>
+            <!-- Debug/Performance Logging -->
+            <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.generate_statistics" value="false"/>
 
             <!-- Auto DROP/CREATE Setting -->

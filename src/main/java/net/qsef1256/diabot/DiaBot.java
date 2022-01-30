@@ -11,6 +11,9 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import net.qsef1256.diabot.command.HelpCommand;
+import net.qsef1256.diabot.game.paint.listener.PaintButtonListener;
+import net.qsef1256.diabot.game.paint.listener.PaintReactionListener;
 import net.qsef1256.diabot.listener.ButtonListener;
 import net.qsef1256.diabot.listener.MessageHandler;
 import net.qsef1256.diabot.model.HibernateManager;
@@ -43,7 +46,9 @@ public class DiaBot {
         commandClientBuilder.setOwnerId("419761037861060619");
         commandClientBuilder.forceGuildOnly("889451044445224970");
         commandClientBuilder.setActivity(Activity.playing("다야 가동 중..."));
-        commandClientBuilder.useHelpBuilder(false);
+        commandClientBuilder.useHelpBuilder(true);
+        commandClientBuilder.setHelpWord("도움말");
+        commandClientBuilder.setHelpConsumer((event)-> event.reply("/도움말을 입력해주세요."));
         commandClientBuilder.setPrefix("다야야 ");
 
         try {
@@ -61,7 +66,9 @@ public class DiaBot {
         builder.addEventListeners(
                 commandClient,
                 new MessageHandler(),
-                new ButtonListener());
+                new ButtonListener(),
+                new PaintButtonListener(),
+                new PaintReactionListener());
 
         jda = builder.build();
         final Guild guild = jda.getGuildById(commandClient.forcedGuildId());
@@ -69,7 +76,8 @@ public class DiaBot {
             guild.updateCommands().queue();
         }
 
-        HibernateManager.getCurrentSessionFromJPA().openSession();
+        HelpCommand.initCommands();
+        HibernateManager.getSessionFactoryFromJPA().openSession();
     }
 
     public static void configureMemoryUsage(final JDABuilder builder) {
@@ -89,7 +97,8 @@ public class DiaBot {
         for (final Class<?> command : commands) {
             if (command.isMemberClass()) continue;
 
-            commandClientBuilder.addSlashCommand((SlashCommand) command.getConstructor().newInstance());
+            SlashCommand slashCommand = (SlashCommand) command.getConstructor().newInstance();
+            commandClientBuilder.addSlashCommand(slashCommand);
             logger.info("Loaded " + command.getSimpleName() + " successfully");
         }
     }

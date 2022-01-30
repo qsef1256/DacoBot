@@ -1,4 +1,4 @@
-package net.qsef1256.diabot.command.encrypt;
+package net.qsef1256.diabot.command.fun.encrypt;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -9,31 +9,29 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.diabot.enums.DiaColor;
 
-import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
 import static net.qsef1256.diabot.DiaBot.logger;
 
-public class SHA256Command extends SlashCommand {
+public class MD5Command extends SlashCommand {
 
-    public SHA256Command() {
-        name = "sha";
-        help = "SHA-256는 암호화 알고리즘 중 하나로, 인터넷 뱅킹에서 사용합니다.";
+    public MD5Command() {
+        name = "md5";
+        help = "MD5는 암호화 알고리즘 중 하나로, 뜷렸습니다.";
         options = Collections.singletonList(new OptionData(OptionType.STRING, "메시지", "시킬 말").setRequired(true));
     }
 
-    public static String toSHA256(String content) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(content.getBytes(StandardCharsets.UTF_8));
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
+    public static String toMD5(String content) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(content.getBytes());
+        byte[] byteData = md.digest();
+        StringBuilder sb = new StringBuilder();
+        for (byte byteDatum : byteData) {
+            sb.append(Integer.toString((byteDatum & 0xff) + 0x100, 16).substring(1));
         }
-        return hexString.toString();
+        return sb.toString();
     }
 
     @Override
@@ -48,18 +46,18 @@ public class SHA256Command extends SlashCommand {
         }
 
         try {
-            String MD5 = toSHA256(option.getAsString());
+            String MD5 = toMD5(option.getAsString());
             event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                     .setColor(DiaColor.INFO)
-                    .addField("SHA-256 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + MD5 + "`", false)
+                    .addField("MD5 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + MD5 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {
             logger.warn(e.getMessage());
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.FAIL)
                     .setTitle("문제 발생")
-                    .setDescription("주어진 문자열을 SHA-256로 변환하던 도중 문제가 생겼습니다.")
+                    .setDescription("주어진 문자열을 MD5로 변환하던 도중 문제가 생겼습니다.")
                     .setFooter("뭘 넣었길래...")
                     .build()).queue();
         }

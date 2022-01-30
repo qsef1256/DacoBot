@@ -13,14 +13,14 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "cmd_statistic")
-public class CmdStatisticData {
+public class CmdStatisticEntity {
 
     @Id
     private String commandName;
     @ColumnDefault(value = "0")
-    private int useCount;
+    private int useCount = 0;
     @ColumnDefault(value = "0")
-    private int todayUsed;
+    private int todayUsed = 0;
     private LocalDateTime lastUseTime;
 
 }

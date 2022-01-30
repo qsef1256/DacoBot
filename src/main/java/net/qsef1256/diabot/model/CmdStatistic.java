@@ -3,10 +3,10 @@ package net.qsef1256.diabot.model;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.qsef1256.diabot.data.CmdStatisticData;
+import net.qsef1256.diabot.data.CmdStatisticEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
-import net.qsef1256.diabot.util.DateUtil;
+import net.qsef1256.diabot.util.LocalDateUtil;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -16,14 +16,14 @@ import static net.qsef1256.diabot.DiaBot.logger;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CmdStatistic {
 
-    private CmdStatisticData statistic;
+    private CmdStatisticEntity statistic;
 
-    DaoCommon<String, CmdStatisticData> dao = new DaoCommonImpl<>(CmdStatisticData.class);
+    DaoCommon<String, CmdStatisticEntity> dao = new DaoCommonImpl<>(CmdStatisticEntity.class);
 
     public CmdStatistic(Class<? extends SlashCommand> command) {
         try {
             statistic = dao.findById(command.getSimpleName());
-            if (!DateUtil.isToday(getLastUseTime())) {
+            if (!LocalDateUtil.isToday(getLastUseTime())) {
                 statistic.setTodayUsed(0);
             }
             statistic.setUseCount(getUseCount() + 1);
@@ -39,7 +39,7 @@ public class CmdStatistic {
     }
 
     private void createStatistic(Class<? extends SlashCommand> command) {
-        CmdStatisticData data = new CmdStatisticData();
+        CmdStatisticEntity data = new CmdStatisticEntity();
         data.setCommandName(command.getSimpleName());
         data.setLastUseTime(LocalDateTime.now());
         data.setUseCount(1);
