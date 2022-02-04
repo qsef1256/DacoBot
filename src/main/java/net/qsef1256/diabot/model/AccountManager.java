@@ -1,7 +1,7 @@
 package net.qsef1256.diabot.model;
 
 import com.sun.jdi.request.DuplicateRequestException;
-import net.qsef1256.diabot.data.DiscordUserData;
+import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.util.DiscordUtil;
@@ -12,7 +12,7 @@ import static net.qsef1256.diabot.DiaBot.logger;
 
 public class AccountManager {
 
-    protected static final DaoCommon<Long, DiscordUserData> dao = new DaoCommonImpl<>(DiscordUserData.class);
+    protected static final DaoCommon<Long, DiscordUserEntity> dao = new DaoCommonImpl<>(DiscordUserEntity.class);
 
     /**
      * 다양한 기능을 사용하기 위해 유저 등록을 시도합니다.
@@ -23,8 +23,8 @@ public class AccountManager {
         try {
             if (dao.isExist(discord_id))
                 throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 유저는 이미 등록 되어 있습니다.");
-            DiscordUserData userData = new DiscordUserData();
-            userData.setId(discord_id);
+            DiscordUserEntity userData = new DiscordUserEntity();
+            userData.setDiscord_id(discord_id);
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
             dao.create(userData);

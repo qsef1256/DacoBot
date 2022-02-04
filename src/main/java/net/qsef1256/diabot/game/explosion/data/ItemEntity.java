@@ -2,38 +2,43 @@ package net.qsef1256.diabot.game.explosion.data;
 
 import lombok.Getter;
 import lombok.Setter;
-import net.qsef1256.diabot.data.DiscordUserData;
+import lombok.experimental.Accessors;
+import net.qsef1256.diabot.data.UserInventoryEntity;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "explosion_cash")
-public class ExplosionCash implements Serializable {
+@Accessors(chain = true)
+@Table(name = "explosion_item")
+public class ItemEntity implements Serializable {
+
+    @ManyToOne
+    private UserInventoryEntity userInventory;
+
     @Id
-    @OneToOne
-    @JoinColumn(name = "discord_id")
-    private DiscordUserData discord_user;
+    @Column
+    private Long itemID;
 
-    @Column(name = "cash", nullable = false)
+    @Column
     @ColumnDefault(value = "0")
-    private Long cash;
+    private Long amount;
 
-    @Column(name = "pickaxe_count")
-    @ColumnDefault(value = "0")
-    private Integer pickaxeCount;
+    @Column
+    private LocalDateTime lastGetTime;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        ExplosionCash that = (ExplosionCash) o;
-        return discord_user != null && Objects.equals(discord_user, that.discord_user);
+        ItemEntity that = (ItemEntity) o;
+        return itemID != null && Objects.equals(itemID, that.itemID);
     }
 
     @Override

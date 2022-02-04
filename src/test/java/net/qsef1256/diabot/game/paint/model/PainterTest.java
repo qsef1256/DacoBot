@@ -15,12 +15,14 @@ class PainterTest {
     @BeforeAll
     static void init() {
         painter = PainterContainer.getPainter(419761037861060619L);
-        painter.paintPixel(1,1, PixelColor.BLUE);
-        painter.paintPixel(1,2, PixelColor.BLUE);
+        painter.resize(6, 10);
+
+        painter.paintPixel(PixelColor.BLUE, 0, 0);
+        painter.paintPixel(PixelColor.BLUE, 0, 1);
 
         List<PixelColor> pixelColors = PaintCommand.parsePixelColor("rrrrbbbb");
-        painter.paintColumn(3,pixelColors);
-        painter.resize(1,1);
+        painter.paintColumn(pixelColors, 2);
+        painter.fill(PixelColor.BROWN, 0, 0);
 
     }
 
@@ -30,11 +32,12 @@ class PainterTest {
     }
 
     @Test
-    void save() {
-    }
-
-    @Test
-    void load() {
+    void isInBound() {
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 6; x++) {
+                painter.getPixel(x, y);
+            }
+        }
     }
 
 }

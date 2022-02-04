@@ -1,5 +1,5 @@
 import lombok.Getter;
-import net.qsef1256.diabot.data.DiscordUserData;
+import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import org.junit.jupiter.api.Test;
@@ -17,6 +17,8 @@ public class HibernateTest {
     @Getter
     private static EntityManagerFactory entityManagerFactory;
 
+    // Manually setup entityManager
+    @Deprecated
     protected void setUp() {
         try {
             entityManagerFactory = Persistence.createEntityManagerFactory("net.qsef1256.diabot");
@@ -26,41 +28,46 @@ public class HibernateTest {
         }
     }
 
+    @Deprecated
     public void shutdown() {
         entityManagerFactory.close();
     }
 
+    // Uses JDA native entityManager
+    @Deprecated
     public void save() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
 
         entityManager.getTransaction().begin();
-        final DiscordUserData testUser = new DiscordUserData();
-        testUser.setId(419761037861060620L);
+        final DiscordUserEntity testUser = new DiscordUserEntity();
+        testUser.setDiscord_id(419761037861060620L);
         testUser.setRegisterTime(LocalDateTime.now());
         testUser.setStatus("WHAT");
 
-        logger.info("Before save: " + testUser.getId().toString());
+        logger.info("Before save: " + testUser.getDiscord_id().toString());
         entityManager.persist(testUser);
-        assertEquals(String.valueOf(419761037861060620L), testUser.getId().toString());
-        logger.info("After save: " + testUser.getId().toString());
+        assertEquals(String.valueOf(419761037861060620L), testUser.getDiscord_id().toString());
+        logger.info("After save: " + testUser.getDiscord_id().toString());
         logger.info(entityManager.getTransaction().toString());
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 
+    // Uses JDA native entityManager
+    @Deprecated
     public void get() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        final List result = entityManager.createQuery("from DiscordUserData ").getResultList();
-        for (final DiscordUserData user : (List<DiscordUserData>) result) {
-            System.out.println("User (" + user.getId() + ") : " + user.getStatus());
+        final List result = entityManager.createQuery("from DiscordUserEntity ").getResultList();
+        for (final DiscordUserEntity user : (List<DiscordUserEntity>) result) {
+            System.out.println("User (" + user.getDiscord_id() + ") : " + user.getStatus());
         }
         entityManager.getTransaction().commit();
         entityManager.close();
     }
 
     public void DaoCheck() {
-        DaoCommon<Long, DiscordUserData> dao = new DaoCommonImpl<>(DiscordUserData.class);
+        DaoCommon<Long, DiscordUserEntity> dao = new DaoCommonImpl<>(DiscordUserEntity.class);
 
         logger.info("qsef1256 is exist?: " + dao.isExist(419761037861060619L));
         if (!dao.isExist(419761037861060620L))
@@ -69,18 +76,18 @@ public class HibernateTest {
         dao.deleteById(419761037861060620L);
     }
 
-    private void find(DaoCommon<Long, DiscordUserData> dao) {
-        DiscordUserData user = dao.findById(419761037861060620L);
-        logger.info(user.getId() + " Status: " + user.getStatus() + " Time: " + user.getRegisterTime());
+    private void find(DaoCommon<Long, DiscordUserEntity> dao) {
+        DiscordUserEntity user = dao.findById(419761037861060620L);
+        logger.info(user.getDiscord_id() + " Status: " + user.getStatus() + " Time: " + user.getRegisterTime());
     }
 
-    private void create(DaoCommon<Long, DiscordUserData> dao) {
-        DiscordUserData testUser = new DiscordUserData();
-        testUser.setId(419761037861060620L);
+    private void create(DaoCommon<Long, DiscordUserEntity> dao) {
+        DiscordUserEntity testUser = new DiscordUserEntity();
+        testUser.setDiscord_id(419761037861060620L);
         testUser.setRegisterTime(LocalDateTime.now());
         testUser.setStatus("TEST");
 
-        logger.info("Creating user: " + testUser.getId());
+        logger.info("Creating user: " + testUser.getDiscord_id());
         dao.create(testUser);
     }
 

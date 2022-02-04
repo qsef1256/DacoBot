@@ -104,7 +104,7 @@ public class PaintDrawer {
                 PixelColor color = getColor(user.getIdLong());
                 if (color == null) return;
 
-                painter.paintPixel(x, y, color);
+                painter.paintPixel(color, x - 1, y - 1);
             }
             message.editMessageEmbeds(getDrawerEmbed(user, painter, x, y)).queue();
         } catch (RuntimeException e) {

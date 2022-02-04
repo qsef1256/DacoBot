@@ -3,7 +3,7 @@ package net.qsef1256.diabot.model;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.qsef1256.diabot.data.DiscordUserData;
+import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.util.DiscordUtil;
@@ -13,10 +13,10 @@ import java.util.NoSuchElementException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DiscordUser {
 
-    protected final DaoCommon<Long, DiscordUserData> dao = new DaoCommonImpl<>(DiscordUserData.class);
+    protected final DaoCommon<Long, DiscordUserEntity> dao = new DaoCommonImpl<>(DiscordUserEntity.class);
 
     @Getter
-    private DiscordUserData data;
+    private DiscordUserEntity data;
 
     public DiscordUser(final long discord_id) {
         try {

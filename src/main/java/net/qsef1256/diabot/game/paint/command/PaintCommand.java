@@ -11,8 +11,8 @@ import net.dv8tion.jda.api.interactions.components.Button;
 import net.qsef1256.diabot.enums.DiaColor;
 import net.qsef1256.diabot.enums.DiaImage;
 import net.qsef1256.diabot.enums.DiaInfo;
-import net.qsef1256.diabot.game.paint.model.PaintDrawer;
 import net.qsef1256.diabot.game.paint.enums.PixelColor;
+import net.qsef1256.diabot.game.paint.model.PaintDrawer;
 import net.qsef1256.diabot.game.paint.model.painter.Painter;
 import net.qsef1256.diabot.game.paint.model.painter.PainterContainer;
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +36,7 @@ public class PaintCommand extends SlashCommand {
                 new DrawAllCommand(),
                 new ResizeCommand(),
                 new EraseCommand(),
+                new FillCommand(),
                 new DrawerCommand()
         };
     }
@@ -141,7 +142,7 @@ public class PaintCommand extends SlashCommand {
             try {
                 color = parsePixelColor(optionColor.getAsString()).get(0);
 
-                painter.paintPixel((int) x, (int) y, color);
+                painter.paintPixel(color, (int) x - 1, (int) y - 1);
             } catch (IllegalArgumentException e) {
                 event.reply("오류 발생: " + e.getMessage()).queue();
                 return;
@@ -200,7 +201,7 @@ public class PaintCommand extends SlashCommand {
             try {
                 List<PixelColor> colorList = parsePixelColor(column);
 
-                painter.paintColumn((int) y, colorList);
+                painter.paintColumn(colorList, (int) y - 1);
             } catch (IllegalArgumentException e) {
                 event.reply("오류 발생: " + e.getMessage()).queue();
                 return;
@@ -348,6 +349,63 @@ public class PaintCommand extends SlashCommand {
             printPallet(event, painter);
         }
 
+    }
+
+    public static class FillCommand extends SlashCommand {
+
+        public FillCommand() {
+            name = "채우기";
+            help = "페인트 통, 지정된 색깔로 바꿔줍니다.";
+
+            options = List.of(
+                    new OptionData(OptionType.INTEGER, "x", "x 좌표"),
+                    new OptionData(OptionType.INTEGER, "y", "y 좌표"),
+                    new OptionData(OptionType.STRING, "색깔", "색깔")
+            );
+        }
+
+        @Override
+        protected void execute(SlashCommandEvent event) {
+            OptionMapping optionX = event.getOption("x");
+            OptionMapping optionY = event.getOption("y");
+            OptionMapping optionColor = event.getOption("색깔");
+
+            User user = event.getUser();
+            Painter painter = PainterContainer.getPainter(user.getIdLong());
+
+            if (optionX == null || optionY == null) {
+                event.reply("x와 y를 입력해주세요. (0 < x,y)").queue();
+                return;
+            }
+            if (optionColor == null) {
+                event.reply("색깔 또는 색깔 ID를 입력해주세요. /그림 색깔").queue();
+                return;
+            }
+
+            long x = optionX.getAsLong();
+            long y = optionY.getAsLong();
+            PixelColor color;
+
+            try {
+                color = parsePixelColor(optionColor.getAsString()).get(0);
+
+                painter.fill(color, (int) x - 1, (int) y - 1);
+            } catch (IllegalArgumentException e) {
+                event.reply("오류 발생: " + e.getMessage()).queue();
+                return;
+            } catch (RuntimeException e) {
+                logger.warn(e.getMessage());
+                event.replyEmbeds(new EmbedBuilder()
+                        .setColor(DiaColor.FAIL)
+                        .setTitle("오류 발생")
+                        .setDescription("그림을 그리던 도중 문제가 발생했습니다.")
+                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
+                        .build()).queue();
+                return;
+            }
+
+            printPallet(event, painter);
+        }
     }
 
     public static class DrawerCommand extends SlashCommand {

@@ -1,9 +1,10 @@
 package net.qsef1256.diabot.game.explosion.model;
 
-import lombok.Getter;
+import com.sun.jdi.request.DuplicateRequestException;
+import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
-import net.qsef1256.diabot.game.explosion.data.ExplosionCash;
+import net.qsef1256.diabot.game.explosion.data.CashEntity;
 import net.qsef1256.diabot.util.DiscordUtil;
 
 import java.util.NoSuchElementException;
@@ -11,48 +12,52 @@ import java.util.NoSuchElementException;
 import static net.qsef1256.diabot.DiaBot.logger;
 
 public class ExplosionUser {
+    protected static final DaoCommon<Long, DiscordUserEntity> mainDao = new DaoCommonImpl<>(DiscordUserEntity.class);
+    protected static final DaoCommon<Long, CashEntity> cashDao = new DaoCommonImpl<>(CashEntity.class);
 
-    protected final DaoCommon<Long, ExplosionCash> dao = new DaoCommonImpl<>(ExplosionCash.class);
-    @Getter
-    private final ExplosionCash data;
-
-    public ExplosionUser(final long discord_id) {
+    public static void register(final long discord_id) {
         try {
-            data = dao.findById(discord_id);
+            if (!mainDao.isExist(discord_id))
+                throw new NoSuchElementException(DiscordUtil.getNameAsTag(discord_id) + " 유저가 존재하지 않습니다.");
+            CashEntity cashData = new CashEntity();
+            cashData.setDiscord_user(mainDao.findById(discord_id));
+            cashData.setCash(0L);
+            cashData.setPickaxeCount(0);
+            cashData.setPrestigeCount(0);
+            cashDao.create(cashData);
         } catch (NoSuchElementException e) {
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(discord_id) + "님의 계정이 존재하지 않습니다.");
-        } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
-            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + "님의 계정을 로드하는데 실패했습니다.");
+            throw e;
+        } catch (final RuntimeException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 데이터 등록에 실패했습니다.");
         }
     }
 
-    public long getCash() {
-        return data.getCash();
-    }
-
-    public void addCash(final int amount) {
-        data.setCash(getCash() + amount);
-        if (data.getCash() < 0) {
-            data.setCash(0L);
+    public static void reset(final long discord_id) {
+        try {
+            cashDao.deleteById(discord_id);
+            register(discord_id);
+        } catch (final RuntimeException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 초기화에 실패했습니다.");
         }
-        dao.update(data);
     }
 
-    public int getPickaxeCount() {
-        return data.getPickaxeCount();
-    }
-
-    public void addPickaxeCount(final int count) {
-        data.setPickaxeCount(getPickaxeCount() + count);
-        if (data.getPickaxeCount() < 0) {
-            data.setPickaxeCount(0);
+    public static void delete(final long discord_id) {
+        try {
+            if (!mainDao.isExist(discord_id))
+                throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 계정은 이미 삭제 되었습니다.");
+            mainDao.deleteById(discord_id);
+        } catch (DuplicateRequestException e) {
+            throw e;
+        } catch (final RuntimeException e) {
+            logger.error(e.getMessage());
+            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 계정 삭제에 실패했습니다.");
         }
-        dao.update(data);
     }
 
-    public void addPickaxeCount() {
-        addPickaxeCount(1);
+    public static boolean isExist(long discord_id) {
+        return cashDao.isExist(discord_id);
     }
 
 }

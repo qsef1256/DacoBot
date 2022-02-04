@@ -14,6 +14,7 @@ CATEGORIES:
       - CreditCommand
       - AccountCommand
       - AttendCommand
+      - RequestCommand
 
   FUN:
     TITLE: "재미"
@@ -46,6 +47,11 @@ CATEGORIES:
         LIST:
           - PaintCommand
           - GalleryCommand
+      OMOK:
+        TITLE: "오목"
+        DESC: "육목 무시"
+        LIST:
+          - OmokCommand
 
   MISC:
     TITLE: "기타"

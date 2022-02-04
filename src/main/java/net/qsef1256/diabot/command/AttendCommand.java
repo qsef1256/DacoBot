@@ -4,12 +4,12 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.diabot.data.DiscordUserData;
+import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.enums.DiaColor;
 import net.qsef1256.diabot.model.DiscordUser;
-import net.qsef1256.diabot.util.DateUtil;
+import net.qsef1256.diabot.util.LocalDateUtil;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -28,20 +28,19 @@ public class AttendCommand extends SlashCommand {
         User eventUser = event.getUser();
 
         try {
-            DaoCommon<Long, DiscordUserData> dao = new DaoCommonImpl<>(DiscordUserData.class);
+            DaoCommon<Long, DiscordUserEntity> dao = new DaoCommonImpl<>(DiscordUserEntity.class);
 
             DiscordUser user = new DiscordUser(eventUser.getIdLong());
-            DiscordUserData userData = user.getData();
+            DiscordUserEntity userData = user.getData();
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
-            if (lastAttendTime != null && DateUtil.isToday(lastAttendTime)) {
+            if (lastAttendTime != null && LocalDateUtil.isToday(lastAttendTime)) {
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("이미 출석했습니다.")
                         .setAuthor(eventUser.getName(), null, eventUser.getEffectiveAvatarUrl())
                         .setColor(DiaColor.FAIL)
-                        .setDescription("출석 시간: " + DateUtil.getTimeString(lastAttendTime))
+                        .setDescription("출석 시간: " + LocalDateUtil.getTimeString(lastAttendTime))
                         .build()).queue();
-
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);

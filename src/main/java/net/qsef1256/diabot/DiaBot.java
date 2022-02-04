@@ -8,14 +8,11 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.diabot.command.HelpCommand;
-import net.qsef1256.diabot.game.paint.listener.PaintButtonListener;
-import net.qsef1256.diabot.game.paint.listener.PaintReactionListener;
-import net.qsef1256.diabot.listener.ButtonListener;
-import net.qsef1256.diabot.listener.MessageHandler;
 import net.qsef1256.diabot.model.HibernateManager;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
@@ -48,7 +45,7 @@ public class DiaBot {
         commandClientBuilder.setActivity(Activity.playing("다야 가동 중..."));
         commandClientBuilder.useHelpBuilder(true);
         commandClientBuilder.setHelpWord("도움말");
-        commandClientBuilder.setHelpConsumer((event)-> event.reply("/도움말을 입력해주세요."));
+        commandClientBuilder.setHelpConsumer((event) -> event.reply("/도움말을 입력해주세요."));
         commandClientBuilder.setPrefix("다야야 ");
 
         try {
@@ -58,17 +55,22 @@ public class DiaBot {
             e.printStackTrace();
             System.exit(1);
         }
+
         commandClient = commandClientBuilder.build();
         logger.info("DiaBot Prefix: '" + commandClient.getPrefix() + "'");
 
         final JDABuilder builder = JDABuilder.createDefault(args[0]);
         configureMemoryUsage(builder);
         builder.addEventListeners(
-                commandClient,
-                new MessageHandler(),
-                new ButtonListener(),
-                new PaintButtonListener(),
-                new PaintReactionListener());
+                commandClient);
+
+        try {
+            registerListeners(builder);
+        } catch (final ReflectiveOperationException e) {
+            logger.error("Error on loading commands");
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         jda = builder.build();
         final Guild guild = jda.getGuildById(commandClient.forcedGuildId());
@@ -100,6 +102,22 @@ public class DiaBot {
             SlashCommand slashCommand = (SlashCommand) command.getConstructor().newInstance();
             commandClientBuilder.addSlashCommand(slashCommand);
             logger.info("Loaded " + command.getSimpleName() + " successfully");
+        }
+    }
+
+    private static void registerListeners(final JDABuilder builder) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        logger.info("Loading Listeners");
+        final Reflections classes = new Reflections("net.qsef1256.diabot");
+        final Set<Class<?>> listeners = classes.get(SubTypes.of(ListenerAdapter.class).asClass());
+
+        if (listeners.size() == 0)
+            logger.warn("There is no command in the registered package. No commands were loaded.");
+        for (final Class<?> listener : listeners) {
+            if (listener.isMemberClass()) continue;
+
+            ListenerAdapter slashCommand = (ListenerAdapter) listener.getConstructor().newInstance();
+            builder.addEventListeners(slashCommand);
+            logger.info("Loaded " + listener.getSimpleName() + " successfully");
         }
     }
 

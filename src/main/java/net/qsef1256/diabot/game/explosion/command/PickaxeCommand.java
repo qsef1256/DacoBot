@@ -3,7 +3,7 @@ package net.qsef1256.diabot.game.explosion.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.diabot.game.explosion.model.ExplosionUser;
+import net.qsef1256.diabot.game.explosion.model.ExplosionCash;
 import net.qsef1256.diabot.util.CommonUtil;
 
 import java.util.NoSuchElementException;
@@ -21,7 +21,7 @@ public class PickaxeCommand extends SlashCommand {
 
         event.deferReply().queue(callback -> {
             try {
-                final ExplosionUser explosionUser = new ExplosionUser(user.getIdLong());
+                final ExplosionCash explosionUser = new ExplosionCash(user.getIdLong());
 
                 final String status;
                 final int pickaxeCount;

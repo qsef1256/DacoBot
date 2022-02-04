@@ -2,7 +2,6 @@ package net.qsef1256.diabot.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,10 +10,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// Hibernate 로 변경됨
+@Deprecated
 public class HikariPoolManager {
 
-    @Getter
-    private static final HikariPoolManager instance;
+    /*@Getter
+    private static final HikariPoolManager instance;*/
     private final HikariDataSource dataSource;
 
     private static final Logger log = LoggerFactory.getLogger(HikariPoolManager.class.getSimpleName());
@@ -26,9 +27,9 @@ public class HikariPoolManager {
     private String username;
     private String password;
 
-    static {
+    /*static {
         instance = new HikariPoolManager();
-    }
+    }*/
 
     private HikariPoolManager() {
         setJdbcInfo();
@@ -56,9 +57,18 @@ public class HikariPoolManager {
     }
 
     public void close(Connection conn, PreparedStatement ps, ResultSet res) {
-        if (conn != null) try { conn.close(); } catch (SQLException ignored) {}
-        if (ps != null) try { ps.close(); } catch (SQLException ignored) {}
-        if (res != null) try { res.close(); } catch (SQLException ignored) {}
+        if (conn != null) try {
+            conn.close();
+        } catch (SQLException ignored) {
+        }
+        if (ps != null) try {
+            ps.close();
+        } catch (SQLException ignored) {
+        }
+        if (res != null) try {
+            res.close();
+        } catch (SQLException ignored) {
+        }
     }
 
 }

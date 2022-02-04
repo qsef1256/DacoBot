@@ -6,13 +6,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.diabot.data.DiscordUserData;
+import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.enums.DiaColor;
 import net.qsef1256.diabot.enums.DiaImage;
 import net.qsef1256.diabot.enums.DiaInfo;
-import net.qsef1256.diabot.game.explosion.data.ExplosionCash;
-import net.qsef1256.diabot.game.explosion.model.ExplosionGameCore;
+import net.qsef1256.diabot.game.explosion.data.CashEntity;
 import net.qsef1256.diabot.game.explosion.model.ExplosionUser;
+import net.qsef1256.diabot.game.explosion.model.ExplosionCash;
 import net.qsef1256.diabot.model.AccountManager;
 import net.qsef1256.diabot.model.DiscordUser;
 
@@ -51,7 +51,7 @@ public class AccountCommand extends SlashCommand {
             event.deferReply().queue(callback -> {
                 try {
                     AccountManager.register(user.getIdLong());
-                    ExplosionGameCore.register(user.getIdLong());
+                    ExplosionUser.register(user.getIdLong());
                     callback.editOriginalEmbeds(new EmbedBuilder()
                             .setTitle("등록 성공")
                             .setColor(DiaColor.SUCCESS)
@@ -87,8 +87,8 @@ public class AccountCommand extends SlashCommand {
             final User user = event.getUser();
 
             try {
-                final DiscordUserData userData = new DiscordUser(user.getIdLong()).getData();
-                final ExplosionCash cashData = new ExplosionUser(user.getIdLong()).getData();
+                final DiscordUserEntity userData = new DiscordUser(user.getIdLong()).getData();
+                final CashEntity cashData = new ExplosionCash(user.getIdLong()).getData();
                 final long cash = cashData.getCash();
 
                 String footer = "아직 돈이 없군요. 돈을 벌어보세요!";
@@ -118,7 +118,6 @@ public class AccountCommand extends SlashCommand {
                 if (e instanceof NoSuchElementException) return;
                 e.printStackTrace();
             }
-
         }
 
         private String getFooter(final long cash, String footer) {
@@ -130,7 +129,6 @@ public class AccountCommand extends SlashCommand {
             if (cash > 50000) footer = "돈 많아요!";
             return footer;
         }
-
     }
 
     private static class ResetCommand extends SlashCommand {

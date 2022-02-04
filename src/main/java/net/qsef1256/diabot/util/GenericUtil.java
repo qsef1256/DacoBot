@@ -27,4 +27,9 @@ public class GenericUtil {
         return list;
     }
 
+    @Contract(value = "_, null -> false", pure = true)
+    public static boolean instanceOf(@NotNull Class<?> clazz, Class<?> targetClass) {
+        return clazz.isInstance(targetClass);
+    }
+
 }

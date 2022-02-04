@@ -23,7 +23,7 @@ public class AnvilCommand extends SlashCommand {
         User user = event.getUser();
         CmdStatistic statistic = new CmdStatistic(getClass());
 
-        int random = CommonUtil.randomInt(1, 2);
+        int random = CommonUtil.randomInt(1, 3);
         switch (random) {
             case 1 -> event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
@@ -37,6 +37,20 @@ public class AnvilCommand extends SlashCommand {
                     .setColor(new Color(27, 221, 239))
                     .setTitle("Mola mola")
                     .setImage(DiaImage.MOLA_MOLA)
+                    .setFooter(statistic.getUseInfo())
+                    .build()).queue();
+            case 3 -> event.replyEmbeds(new EmbedBuilder()
+                    .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
+                    .setColor(new Color(27, 126, 239))
+                    .setTitle("ㅁ ㄹ")
+                    .setDescription("""
+                            ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                            ⬛🟥⬛🟥🟥⬛⬛🟥⬛🟥⬛
+                            ⬛🟥⬛🟥⬛🟥⬛🟥🟥⬛⬛
+                            ⬛🟥⬛🟥⬛🟥⬛🟥🟥⬛⬛
+                            ⬛🟥⬛🟥🟥⬛⬛🟥⬛🟥⬛
+                            ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
+                            """)
                     .setFooter(statistic.getUseInfo())
                     .build()).queue();
         }
