@@ -1,17 +1,18 @@
-package net.qsef1256.diabot.listener;
+package net.qsef1256.diabot.system.account.listener;
 
 import com.sun.jdi.request.DuplicateRequestException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.qsef1256.diabot.command.AccountCommand;
 import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.game.explosion.model.ExplosionUser;
+import net.qsef1256.diabot.game.explosion.model.UserManager;
+import net.qsef1256.diabot.system.account.command.AccountCommand;
+import net.qsef1256.diabot.system.account.model.AccountManager;
 
 import java.util.NoSuchElementException;
 
-public class ButtonListener extends ListenerAdapter {
+public class AccountButtonListener extends ListenerAdapter {
 
     /**
      * Event for AccountCommand#ResetCommand
@@ -26,7 +27,7 @@ public class ButtonListener extends ListenerAdapter {
                 final User user = event.getUser();
 
                 try {
-                    ExplosionUser.reset(user.getIdLong());
+                    UserManager.reset(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 초기화 됨")
                             .setColor(DiaColor.SUCCESS)
@@ -61,7 +62,7 @@ public class ButtonListener extends ListenerAdapter {
                 final User user = event.getUser();
 
                 try {
-                    ExplosionUser.delete(user.getIdLong());
+                    AccountManager.delete(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 삭제 됨")
                             .setColor(DiaColor.SUCCESS)

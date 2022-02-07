@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.diabot.model.HibernateManager;
+import net.qsef1256.diabot.database.HibernateManager;
 
 import java.util.Collections;
 

@@ -1,4 +1,4 @@
-package net.qsef1256.diabot.command;
+package net.qsef1256.diabot.system.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.sun.jdi.request.DuplicateRequestException;
@@ -6,15 +6,14 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.enums.DiaColor;
 import net.qsef1256.diabot.enums.DiaImage;
 import net.qsef1256.diabot.enums.DiaInfo;
-import net.qsef1256.diabot.game.explosion.data.CashEntity;
-import net.qsef1256.diabot.game.explosion.model.ExplosionUser;
-import net.qsef1256.diabot.game.explosion.model.ExplosionCash;
-import net.qsef1256.diabot.model.AccountManager;
-import net.qsef1256.diabot.model.DiscordUser;
+import net.qsef1256.diabot.game.explosion.model.Cash;
+import net.qsef1256.diabot.game.explosion.model.UserManager;
+import net.qsef1256.diabot.system.account.data.AccountEntity;
+import net.qsef1256.diabot.system.account.model.Account;
+import net.qsef1256.diabot.system.account.model.AccountManager;
 
 import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
@@ -51,7 +50,7 @@ public class AccountCommand extends SlashCommand {
             event.deferReply().queue(callback -> {
                 try {
                     AccountManager.register(user.getIdLong());
-                    ExplosionUser.register(user.getIdLong());
+                    UserManager.register(user.getIdLong());
                     callback.editOriginalEmbeds(new EmbedBuilder()
                             .setTitle("등록 성공")
                             .setColor(DiaColor.SUCCESS)
@@ -87,8 +86,8 @@ public class AccountCommand extends SlashCommand {
             final User user = event.getUser();
 
             try {
-                final DiscordUserEntity userData = new DiscordUser(user.getIdLong()).getData();
-                final CashEntity cashData = new ExplosionCash(user.getIdLong()).getData();
+                final AccountEntity userData = new Account(user.getIdLong()).getData();
+                final Cash cashData = new Cash(user.getIdLong());
                 final long cash = cashData.getCash();
 
                 String footer = "아직 돈이 없군요. 돈을 벌어보세요!";

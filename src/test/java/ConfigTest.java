@@ -42,6 +42,7 @@ public class ConfigTest {
         });
     }
 
+    // ??
     private void displayHelp(Map<?, ?> map) {
         if (map.containsKey("CATEGORIES")) {
             Map<?, ?> category = (Map<?, ?>) map.get("CATEGORIES");

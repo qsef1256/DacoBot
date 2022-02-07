@@ -3,10 +3,10 @@ package net.qsef1256.diabot.database;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.qsef1256.diabot.model.HibernateManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -24,7 +24,7 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     @Getter
     private String clazzName;
 
-    public DaoCommonImpl(final Class<T> clazz) {
+    public DaoCommonImpl(final @NotNull Class<T> clazz) {
         this.clazz = clazz;
         this.clazzName = clazz.getSimpleName();
         this.factory = HibernateManager.getSessionFactoryFromJPA();
@@ -161,7 +161,7 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
         }
     }
 
-    private List<T> getAllList(Session session) {
+    private List<T> getAllList(@NotNull Session session) {
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<T> criteria = builder.createQuery(clazz);
         criteria.from(clazz);
@@ -186,9 +186,9 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     }
 
     // This is fast delete all item, but not working when entity is cascaded
-    public int hqlTruncate(String myTable){
+    public int hqlTruncate(String myTable) {
         final Session session = factory.getCurrentSession();
-        String hql = String.format("delete from %s",myTable);
+        String hql = String.format("delete from %s", myTable);
         Query query = session.createQuery(hql);
         return query.executeUpdate();
     }

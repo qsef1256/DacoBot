@@ -12,6 +12,8 @@ public class ShopCommand extends SlashCommand {
 
     @Override
     protected void execute(SlashCommandEvent event) {
+        event.reply(":construction: 공사중...").queue();
+
 
     }
 

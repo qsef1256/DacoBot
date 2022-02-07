@@ -4,12 +4,14 @@ import lombok.Getter;
 import net.qsef1256.diabot.game.paint.enums.PixelColor;
 import net.qsef1256.diabot.game.paint.model.painter.Painter;
 import net.qsef1256.diabot.util.CommonUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.qsef1256.diabot.DiaBot.logger;
 
+// ax = x - 1, ay = y - 1
 public class OmokGame {
 
     public static final PixelColor BOARD = PixelColor.BROWN;
@@ -32,7 +34,8 @@ public class OmokGame {
         reset();
     }
 
-    private static String getNumMok(PixelColor color, int count) {
+    @NotNull
+    private static String getNumMok(@NotNull PixelColor color, int count) {
         return String.valueOf(color.getEmoji()).repeat(count);
     }
 
@@ -46,11 +49,11 @@ public class OmokGame {
         status = OmokStatus.PREV;
     }
 
-    public void previewStone(int x, int y) {
+    public void previewStone(int x, int y, PixelColor stone) {
+        validate(x, y, stone);
         previewColor = painter.getPixel(x, y);
         previewX = x;
         previewY = y;
-        validate(x, y, getStone());
         painter.paintPixel(PREVIEW, previewX - 1, previewY - 1);
         status = OmokStatus.PREVIEW;
     }
@@ -63,10 +66,10 @@ public class OmokGame {
 
     public void placeStone(int x, int y, PixelColor stone) {
         logger.info("status: " + status.getDisplay());
+        validate(x, y, stone);
 
         if (status == OmokStatus.PREVIEW || status == OmokStatus.PREV) unPreview();
         if (status != OmokStatus.PROGRESS) throw new IllegalStateException("게임이 진행 중이지 않습니다.");
-        validate(x, y, stone);
 
         prevX = x;
         prevY = y;
@@ -84,30 +87,35 @@ public class OmokGame {
         return isBlackTurn ? OmokGame.BLACK : OmokGame.WHITE;
     }
 
-    private void processStone(PixelColor stone, int x, int y) {
-        System.out.printf("y: %s x: %s \n", y, x);
+    private void processStone(PixelColor stone, int mx, int my) {
+        logger.info("OmokGame#processStone> mx: %s my: %s".formatted(mx, my));
 
-        painter.paintPixel(stone, x, y);
-        if (checkWin(buildCheckString(x, y, 1, 0), stone)) win(stone);
-        if (checkWin(buildCheckString(x, y, 0, 1), stone)) win(stone);
-        if (checkWin(buildCheckString(x, y, 1, 1), stone)) win(stone);
-        if (checkWin(buildCheckString(x, y, 1, -1), stone)) win(stone);
+        painter.paintPixel(stone, mx, my);
+        if (checkWin(buildCheckString(mx, my, 1, 0), stone)) win(stone);
+        if (checkWin(buildCheckString(mx, my, 0, 1), stone)) win(stone);
+        if (checkWin(buildCheckString(mx, my, 1, 1), stone)) win(stone);
+        if (checkWin(buildCheckString(mx, my, 1, -1), stone)) win(stone);
         if (checkDraw()) draw();
     }
 
     private void validate(int x, int y, PixelColor stone) {
-        if (!painter.isInBound(y - 1, x - 1))
+        logger.info("OmokGame#validate> x: %s y: %s".formatted(x, y));
+        if (!painter.isInBound(x - 1, y - 1))
             throw new IllegalArgumentException("잘못된 좌표입니다. 입력한 x: " + x + " 입력한 y: " + y);
-        if (stone != BLACK && stone != WHITE) throw new IllegalArgumentException("잘못된 돌 입니다: " + stone);
-        if (painter.getPixel(x, y) != BOARD) throw new KeyAlreadyExistsException("거기엔 이미 돌이 놓여져 있습니다!");
+        if (stone != BLACK && stone != WHITE)
+            throw new IllegalArgumentException("잘못된 돌 입니다: " + stone);
+        logger.info("Color: " + painter.getPixel(x, y));
+        if (painter.getPixel(x - 1, y - 1) != BOARD)
+            throw new KeyAlreadyExistsException("거기엔 이미 돌이 놓여져 있습니다!");
         if (getStone() != stone)
             throw new IllegalStateException("당신의 차례가 아닙니다. 현재 차례: " + (isBlackTurn ? "흑돌" : "백돌"));
     }
 
-    private String buildCheckString(int x, int y, int dx, int dy) {
+    @NotNull
+    private String buildCheckString(int mx, int my, int dx, int dy) {
         int checkLength = 6;
-        int topY = y - dx * checkLength;
-        int topX = x - dy * checkLength;
+        int topY = my - dx * checkLength;
+        int topX = mx - dy * checkLength;
 
         PixelColor[] stones = new PixelColor[13];
         int count = 0, destY = topY, destX = topX;
@@ -133,7 +141,7 @@ public class OmokGame {
         return checkString;
     }
 
-    private boolean checkWin(String checkString, PixelColor stone) {
+    private boolean checkWin(@NotNull String checkString, PixelColor stone) {
         if (checkString.contains(getNumMok(BLACK, 6)) || checkString.contains(getNumMok(WHITE, 6))) return false;
         return checkString.contains(getNumMok(BLACK, 5)) && stone == BLACK || checkString.contains(getNumMok(WHITE, 5)) && stone == WHITE;
     }

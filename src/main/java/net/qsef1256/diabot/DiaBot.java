@@ -13,7 +13,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.diabot.command.HelpCommand;
-import net.qsef1256.diabot.model.HibernateManager;
+import net.qsef1256.diabot.database.HibernateManager;
 import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

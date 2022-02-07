@@ -1,9 +1,10 @@
-package net.qsef1256.diabot.data;
+package net.qsef1256.diabot.system.account.data;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.qsef1256.diabot.game.explosion.data.CashEntity;
+import net.qsef1256.diabot.game.explosion.data.InventoryEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Accessors(chain = true)
 @Table(name = "discord_user")
-public class DiscordUserEntity {
+public class AccountEntity {
     @Id
     @Column(name = "discord_id", nullable = false)
     private Long discord_id;
@@ -33,7 +34,7 @@ public class DiscordUserEntity {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inventory_id")
-    private UserInventoryEntity inventory;
+    private InventoryEntity inventory;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cash_id")

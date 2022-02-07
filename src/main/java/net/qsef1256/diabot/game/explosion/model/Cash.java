@@ -1,22 +1,22 @@
 package net.qsef1256.diabot.game.explosion.model;
 
 import lombok.Getter;
-import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.game.explosion.data.CashEntity;
+import net.qsef1256.diabot.system.account.data.AccountEntity;
 import net.qsef1256.diabot.util.DiscordUtil;
 
 import static net.qsef1256.diabot.DiaBot.logger;
 
-public class ExplosionCash {
+public class Cash {
 
-    protected final DaoCommon<Long, DiscordUserEntity> userDao = new DaoCommonImpl<>(DiscordUserEntity.class);
+    protected final DaoCommon<Long, AccountEntity> userDao = new DaoCommonImpl<>(AccountEntity.class);
     protected final DaoCommon<Long, CashEntity> cashDao = new DaoCommonImpl<>(CashEntity.class);
     @Getter
     private final CashEntity data;
 
-    public ExplosionCash(final long discord_id) {
+    public Cash(final long discord_id) {
         try {
             data = userDao.findById(discord_id).getExplosionCash();
         } catch (RuntimeException e) {

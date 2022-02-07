@@ -1,18 +1,17 @@
 package net.qsef1256.diabot.game.explosion.model;
 
-import com.sun.jdi.request.DuplicateRequestException;
-import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.game.explosion.data.CashEntity;
+import net.qsef1256.diabot.system.account.data.AccountEntity;
 import net.qsef1256.diabot.util.DiscordUtil;
 
 import java.util.NoSuchElementException;
 
 import static net.qsef1256.diabot.DiaBot.logger;
 
-public class ExplosionUser {
-    protected static final DaoCommon<Long, DiscordUserEntity> mainDao = new DaoCommonImpl<>(DiscordUserEntity.class);
+public class UserManager {
+    protected static final DaoCommon<Long, AccountEntity> mainDao = new DaoCommonImpl<>(AccountEntity.class);
     protected static final DaoCommon<Long, CashEntity> cashDao = new DaoCommonImpl<>(CashEntity.class);
 
     public static void register(final long discord_id) {
@@ -40,19 +39,6 @@ public class ExplosionUser {
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
             throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 초기화에 실패했습니다.");
-        }
-    }
-
-    public static void delete(final long discord_id) {
-        try {
-            if (!mainDao.isExist(discord_id))
-                throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 계정은 이미 삭제 되었습니다.");
-            mainDao.deleteById(discord_id);
-        } catch (DuplicateRequestException e) {
-            throw e;
-        } catch (final RuntimeException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 계정 삭제에 실패했습니다.");
         }
     }
 

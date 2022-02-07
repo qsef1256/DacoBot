@@ -1,14 +1,14 @@
-package net.qsef1256.diabot.command;
+package net.qsef1256.diabot.system.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.diabot.data.DiscordUserEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.model.DiscordUser;
+import net.qsef1256.diabot.system.account.data.AccountEntity;
+import net.qsef1256.diabot.system.account.model.Account;
 import net.qsef1256.diabot.util.LocalDateUtil;
 
 import java.time.LocalDateTime;
@@ -28,10 +28,10 @@ public class AttendCommand extends SlashCommand {
         User eventUser = event.getUser();
 
         try {
-            DaoCommon<Long, DiscordUserEntity> dao = new DaoCommonImpl<>(DiscordUserEntity.class);
+            DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
 
-            DiscordUser user = new DiscordUser(eventUser.getIdLong());
-            DiscordUserEntity userData = user.getData();
+            Account user = new Account(eventUser.getIdLong());
+            AccountEntity userData = user.getData();
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateUtil.isToday(lastAttendTime)) {
@@ -50,8 +50,8 @@ public class AttendCommand extends SlashCommand {
                         .setTitle("출석 체크!")
                         .setAuthor(eventUser.getName(), null, eventUser.getEffectiveAvatarUrl())
                         .setColor(DiaColor.SUCCESS)
-                        .setDescription("정상적으로 출석 체크 되었습니다.")
-                        .setDescription("출석 횟수: " + userData.getAttendCount())
+                        .appendDescription("정상적으로 출석 체크 되었습니다.\n\n")
+                        .appendDescription("출석 횟수: " + userData.getAttendCount())
                         .build()).queue();
             }
 

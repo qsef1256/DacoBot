@@ -1,4 +1,4 @@
-package net.qsef1256.diabot.model;
+package net.qsef1256.diabot.database;
 
 import lombok.Getter;
 import org.hibernate.Session;
@@ -24,6 +24,7 @@ public class HibernateManager {
         return session.getSessionFactory();
     }
 
+    // 쓰고 닫을것 (Non-thread-safe)
     public static EntityManager getEntityManager() {
         return entityManagerFactory.createEntityManager();
     }

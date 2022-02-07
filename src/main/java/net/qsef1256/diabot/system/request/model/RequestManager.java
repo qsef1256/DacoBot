@@ -78,7 +78,7 @@ public class RequestManager {
         Long messageId = getMessageId(userId);
         if (messageId == null) throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
 
-        cancel(messageId, userId);
+        cancel(userId, messageId);
     }
 
     private static void cancel(long userId, long messageId) {

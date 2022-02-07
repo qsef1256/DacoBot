@@ -3,7 +3,7 @@ package net.qsef1256.diabot.game.explosion.data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.diabot.data.DiscordUserEntity;
+import net.qsef1256.diabot.system.account.data.AccountEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
@@ -20,7 +20,7 @@ public class CashEntity {
     private Long cashId;
 
     @OneToOne(mappedBy = "explosionCash")
-    private DiscordUserEntity discord_user;
+    private AccountEntity discord_user;
 
     @Column(name = "cash", nullable = false)
     @ColumnDefault(value = "0")

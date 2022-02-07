@@ -30,6 +30,9 @@ CATEGORIES:
   GAME:
     TITLE: "게임"
     DESC: "재미 카테고리보다 복잡한 재미용 명령어 입니다. ~~큰것들~~"
+    LIST:
+      - ShopCommand
+      - InventoryCommand
     CATEGORIES:
       EXPLOSION:
         TITLE: "폭발"

@@ -102,7 +102,7 @@ public class OmokManager {
 
     private static void processGame(long userId, int x, int y, String process) {
         Long messageId = getMessageId(userId);
-        System.out.printf("ID: %s process: %s%n", messageId, process);
+        logger.info("ID: %s process: %s, x: %s y: %s".formatted(messageId, process, x, y));
         if (messageId == null)
             throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
 
@@ -125,7 +125,7 @@ public class OmokManager {
             case "place" -> game.placeStone(x, y, stone);
             case "prev" -> game.prevStone();
             case "preview" -> {
-                game.previewStone(x, y);
+                game.previewStone(x, y, stone);
                 channel.sendMessageEmbeds(getPreviewEmbed(x, y).build())
                         .setActionRow(
                                 Button.success("omok_confirm", "놓기"),
@@ -165,9 +165,7 @@ public class OmokManager {
     private static Long getMessageId(long userId) {
         AtomicReference<Long> messageId = new AtomicReference<>();
         omokMap.forEach((mainKey, subMap) -> subMap.forEach((subKey, data) -> {
-            System.out.printf("main: %s sub: %s value: %s%n", mainKey, subKey, data);
             if ("blackId".equals(subKey) || "whiteId".equals(subKey) && String.valueOf(userId).equals(data)) {
-                System.out.println("found: " + data);
                 messageId.set(mainKey);
             }
         }));

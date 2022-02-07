@@ -62,4 +62,12 @@ public class CommonUtil {
         return Arrays.stream(parameter).anyMatch(Objects::isNull);
     }
 
+    @SafeVarargs
+    public <T> boolean anyContains(T target, T... parameter) {
+        HashSet<T> checkSet = new HashSet<>();
+
+        Collections.addAll(checkSet, parameter);
+        return checkSet.contains(target);
+    }
+
 }

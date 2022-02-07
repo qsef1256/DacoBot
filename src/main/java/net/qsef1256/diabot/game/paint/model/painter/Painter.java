@@ -7,6 +7,7 @@ import net.qsef1256.diabot.util.MatrixUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+// x and y from 1
 public class Painter {
 
     private PixelColor[][] pallet;
