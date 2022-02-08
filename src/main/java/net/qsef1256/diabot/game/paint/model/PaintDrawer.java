@@ -88,14 +88,14 @@ public class PaintDrawer {
         x += dx;
         y += dy;
 
-        if (!CommonUtil.isBetween(x,1,painter.getWidth())) {
-            if (CommonUtil.getDiff(x,painter.getWidth()) > 1) {
-                x = CommonUtil.toBetween(x,1,painter.getWidth());
+        if (!CommonUtil.isBetween(x, 1, painter.getWidth())) {
+            if (CommonUtil.getDiff(x, painter.getWidth()) > 1) {
+                x = CommonUtil.toBetween(x, 1, painter.getWidth());
             } else return;
         }
-        if (!CommonUtil.isBetween(y,1,painter.getHeight())) {
-            if (CommonUtil.getDiff(y,painter.getHeight()) > 1) {
-                y = CommonUtil.toBetween(y,1,painter.getHeight());
+        if (!CommonUtil.isBetween(y, 1, painter.getHeight())) {
+            if (CommonUtil.getDiff(y, painter.getHeight()) > 1) {
+                y = CommonUtil.toBetween(y, 1, painter.getHeight());
             } else return;
         }
 
@@ -104,7 +104,7 @@ public class PaintDrawer {
                 PixelColor color = getColor(user.getIdLong());
                 if (color == null) return;
 
-                painter.paintPixel(color, x - 1, y - 1);
+                painter.paintPixel(color, x, y);
             }
             message.editMessageEmbeds(getDrawerEmbed(user, painter, x, y)).queue();
         } catch (RuntimeException e) {

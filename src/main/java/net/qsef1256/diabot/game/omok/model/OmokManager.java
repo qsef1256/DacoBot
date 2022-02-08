@@ -121,9 +121,9 @@ public class OmokManager {
 
         switch (process) {
             case "confirm" -> game.confirmStone(stone);
-            case "cancel" -> game.unPreview();
+            case "cancel" -> game.resetPreview();
             case "place" -> game.placeStone(x, y, stone);
-            case "prev" -> game.prevStone();
+            case "prev" -> game.prevStone(stone);
             case "preview" -> {
                 game.previewStone(x, y, stone);
                 channel.sendMessageEmbeds(getPreviewEmbed(x, y).build())

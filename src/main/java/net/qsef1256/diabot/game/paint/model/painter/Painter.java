@@ -3,6 +3,7 @@ package net.qsef1256.diabot.game.paint.model.painter;
 import net.qsef1256.diabot.game.paint.data.PixelEntity;
 import net.qsef1256.diabot.game.paint.enums.PixelColor;
 import net.qsef1256.diabot.util.MatrixUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +56,7 @@ public class Painter {
 
     public void paintPixel(PixelColor color, int x, int y) {
         validate(x, y);
-        pallet[y][x] = color;
+        pallet[y - 1][x - 1] = color;
     }
 
     public void paintColumn(List<PixelColor> colorList, int y) {
@@ -63,11 +64,11 @@ public class Painter {
             throw new IllegalArgumentException("올바른 숫자를 입력해주세요. (1<=y<=" + getHeight() + "), 입력된 숫자: " + y);
         }
         for (int x = 0; x < getWidth(); x++) {
-            pallet[y][x] = colorList.get(x);
+            pallet[y - 1][x] = colorList.get(x);
         }
     }
 
-    public void paintAll(List<PixelColor> colorList) {
+    public void paintAll(@NotNull List<PixelColor> colorList) {
         if (colorList.size() == 0) {
             throw new IllegalArgumentException("칠할 게 없네요!");
         }
@@ -99,13 +100,8 @@ public class Painter {
 
     public PixelColor getPixel(int x, int y) {
         validate(x, y);
-        return pallet[y][x];
-    }
 
-    private void validate(int x, int y) {
-        if (!isInBound(x, y)) {
-            throw new IllegalArgumentException("올바른 숫자를 입력하세요. (1<=x<=" + getWidth() + ") (1<=y<=" + getHeight() + "), 입력된 숫자: " + x + ", " + y);
-        }
+        return pallet[y - 1][x - 1];
     }
 
     public List<PixelEntity> getPixels() {
@@ -122,30 +118,36 @@ public class Painter {
         return pixelList;
     }
 
-    public void setPixels(List<PixelEntity> pixelList) {
+    public void setPixels(@NotNull List<PixelEntity> pixelList) {
         for (PixelEntity pixel : pixelList) {
             pallet[pixel.getY()][pixel.getX()] = pixel.getPixelColor() != null ? pixel.getPixelColor() : PixelColor.WHITE;
         }
     }
 
-    public boolean isInBound(int x, int y) {
-        return 0 <= x && x < getWidth() && 0 <= y && y < getHeight();
-    }
-
     private void fill(int x, int y, PixelColor targetColor, PixelColor replacementColor) {
         if (!isInBound(x, y)) return;
         if (targetColor == replacementColor) return;
-        if (pallet[y][x] != targetColor) return;
-        pallet[y][x] = replacementColor;
-        fill(x, y + 1, targetColor, replacementColor);
-        fill(x, y - 1, targetColor, replacementColor);
+        if (pallet[y - 1][x - 1] != targetColor) return;
+        pallet[y - 1][x - 1] = replacementColor;
         fill(x + 1, y, targetColor, replacementColor);
         fill(x - 1, y, targetColor, replacementColor);
+        fill(x, y + 1, targetColor, replacementColor);
+        fill(x, y - 1, targetColor, replacementColor);
     }
 
     public void fill(PixelColor replacementColor, int x, int y) {
         validate(x, y);
-        fill(x, y, pallet[x][y], replacementColor);
+        fill(x, y, pallet[y - 1][x - 1], replacementColor);
+    }
+
+    public boolean isInBound(int x, int y) {
+        return 1 <= x && x <= getWidth() && 1 <= y && y <= getHeight();
+    }
+
+    private void validate(int x, int y) {
+        if (!isInBound(x, y)) {
+            throw new IllegalArgumentException("올바른 숫자를 입력하세요. (1<=x<=" + getWidth() + ") (1<=y<=" + getHeight() + "), 입력된 숫자: " + x + ", " + y);
+        }
     }
 
 }

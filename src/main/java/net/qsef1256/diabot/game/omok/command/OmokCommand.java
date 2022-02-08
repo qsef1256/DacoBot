@@ -179,7 +179,7 @@ public class OmokCommand extends SlashCommand {
 
         public LogCommand() {
             name = "로그";
-            help = "어디다가 뒀더라...";
+            help = "어디다가 뒀더라... 상대의 이전 수를 표시합니다.";
         }
 
         @Override
@@ -191,7 +191,8 @@ public class OmokCommand extends SlashCommand {
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {
-                event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
+                event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue(callback ->
+                        callback.deleteOriginal().queueAfter(5, TimeUnit.SECONDS));
             }
         }
     }

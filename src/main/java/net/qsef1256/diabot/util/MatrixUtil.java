@@ -1,5 +1,7 @@
 package net.qsef1256.diabot.util;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.lang.reflect.Array;
 
 public class MatrixUtil<T> {
@@ -16,7 +18,7 @@ public class MatrixUtil<T> {
      * @param matrix matrix
      * @return matrix's width
      */
-    public int getWidth(final T[][] matrix) {
+    public int getWidth(@NotNull T[][] matrix) {
         return matrix.length > 0 ? matrix[0].length : 0;
     }
 
@@ -26,7 +28,7 @@ public class MatrixUtil<T> {
      * @param matrix matrix
      * @return matrix's height
      */
-    public int getHeight(final T[][] matrix) {
+    public int getHeight(@NotNull T[][] matrix) {
         return matrix.length;
     }
 

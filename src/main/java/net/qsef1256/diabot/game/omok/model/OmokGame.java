@@ -43,82 +43,102 @@ public class OmokGame {
         return painter.printToString();
     }
 
-    public void prevStone() {
+    public void prevStone(PixelColor stone) {
+        checkTurn(stone);
+        if (prevX == 0 || prevY == 0) throw new IllegalStateException("저장된 로그가 없습니다.");
+
+        resetPreview();
         previewColor = painter.getPixel(prevX, prevY);
         painter.paintPixel(PREVIEW, prevX, prevY);
         status = OmokStatus.PREV;
     }
 
     public void previewStone(int x, int y, PixelColor stone) {
-        validate(x, y, stone);
+        checkTurn(stone);
+        resetPreview();
+        checkStone(x, y, stone);
+
         previewColor = painter.getPixel(x, y);
         previewX = x;
         previewY = y;
-        painter.paintPixel(PREVIEW, previewX - 1, previewY - 1);
+        painter.paintPixel(PREVIEW, x, y);
         status = OmokStatus.PREVIEW;
     }
 
-    public void unPreview() {
-        painter.paintPixel(previewColor, previewX - 1, previewY - 1);
-        previewColor = null;
-        status = OmokStatus.PROGRESS;
-    }
-
     public void placeStone(int x, int y, PixelColor stone) {
-        logger.info("status: " + status.getDisplay());
-        validate(x, y, stone);
-
-        if (status == OmokStatus.PREVIEW || status == OmokStatus.PREV) unPreview();
-        if (status != OmokStatus.PROGRESS) throw new IllegalStateException("게임이 진행 중이지 않습니다.");
+        checkTurn(stone);
+        resetPreview();
+        checkStone(x, y, stone);
 
         prevX = x;
         prevY = y;
-        processStone(stone, x - 1, y - 1);
+        processStone(stone, x, y);
         isBlackTurn = !isBlackTurn;
     }
 
     public void confirmStone(PixelColor stone) {
-        if (status != OmokStatus.PREVIEW) throw new IllegalStateException("미리보기 중이 아닙니다.");
-
         placeStone(previewX, previewY, stone);
+    }
+
+    public void resetPreview() {
+        if (isEnd()) return;
+        if (status == OmokStatus.PREVIEW) painter.paintPixel(previewColor, previewX, previewY);
+        if (status == OmokStatus.PREV) painter.paintPixel(previewColor, prevX, prevY);
+
+        status = OmokStatus.WAIT;
+        previewColor = null;
     }
 
     private PixelColor getStone() {
         return isBlackTurn ? OmokGame.BLACK : OmokGame.WHITE;
     }
 
-    private void processStone(PixelColor stone, int mx, int my) {
-        logger.info("OmokGame#processStone> mx: %s my: %s".formatted(mx, my));
+    private void processStone(PixelColor stone, int x, int y) {
+        logger.info("OmokGame#processStone> x: %s y: %s".formatted(x, y));
 
-        painter.paintPixel(stone, mx, my);
-        if (checkWin(buildCheckString(mx, my, 1, 0), stone)) win(stone);
-        if (checkWin(buildCheckString(mx, my, 0, 1), stone)) win(stone);
-        if (checkWin(buildCheckString(mx, my, 1, 1), stone)) win(stone);
-        if (checkWin(buildCheckString(mx, my, 1, -1), stone)) win(stone);
+        painter.paintPixel(stone, x, y);
+        if (checkWin(buildCheckString(x, y, 1, 0), stone)) win(stone);
+        if (checkWin(buildCheckString(x, y, 0, 1), stone)) win(stone);
+        if (checkWin(buildCheckString(x, y, 1, 1), stone)) win(stone);
+        if (checkWin(buildCheckString(x, y, 1, -1), stone)) win(stone);
         if (checkDraw()) draw();
     }
 
-    private void validate(int x, int y, PixelColor stone) {
-        logger.info("OmokGame#validate> x: %s y: %s".formatted(x, y));
-        if (!painter.isInBound(x - 1, y - 1))
+    private void checkStone(int x, int y, PixelColor stone) {
+        logger.info("OmokGame#checkStone> x: %s y: %s".formatted(x, y));
+        if (!painter.isInBound(x, y))
             throw new IllegalArgumentException("잘못된 좌표입니다. 입력한 x: " + x + " 입력한 y: " + y);
         if (stone != BLACK && stone != WHITE)
             throw new IllegalArgumentException("잘못된 돌 입니다: " + stone);
-        logger.info("Color: " + painter.getPixel(x, y));
-        if (painter.getPixel(x - 1, y - 1) != BOARD)
+        if (painter.getPixel(x, y) != BOARD)
             throw new KeyAlreadyExistsException("거기엔 이미 돌이 놓여져 있습니다!");
+    }
+
+    private void checkTurn(PixelColor stone) {
+        if (isEnd())
+            throw new IllegalStateException("이미 게임이 끝났습니다. 현재 상태: " + status.getDisplay());
         if (getStone() != stone)
             throw new IllegalStateException("당신의 차례가 아닙니다. 현재 차례: " + (isBlackTurn ? "흑돌" : "백돌"));
     }
 
+    private void checkStatus(OmokStatus... statuses) {
+        if (CommonUtil.anySame(this.status, statuses)) return;
+
+        String[] displays = new String[statuses.length];
+        for (int i = 0; i < statuses.length; i++) {
+            displays[i] = status.getDisplay();
+        }
+        throw new IllegalStateException("게임이 %s 상태가 아닙니다. 현재 상태: %s".formatted(String.join(", ", displays), status.getDisplay()));
+    }
+
     @NotNull
-    private String buildCheckString(int mx, int my, int dx, int dy) {
-        int checkLength = 6;
-        int topY = my - dx * checkLength;
-        int topX = mx - dy * checkLength;
+    private String buildCheckString(int x, int y, int dx, int dy) {
+        int checkLength = painter.getWidth();
+        int topY = y - dx * checkLength;
+        int topX = x - dy * checkLength;
 
         PixelColor[] stones = new PixelColor[13];
-        int count = 0, destY = topY, destX = topX;
+        int count = 0, destX = topX, destY = topY;
         for (int i = 0; i < checkLength * 2 + 1; i++) {
             if (!painter.isInBound(destX, destY)) {
                 destY += dx;
@@ -167,9 +187,9 @@ public class OmokGame {
     }
 
     public void reset() {
-        status = OmokStatus.PROGRESS;
+        status = OmokStatus.WAIT;
         painter.erasePallet();
-        painter.fill(BOARD, 0, 0);
+        painter.fill(BOARD, 1, 1);
         isBlackTurn = true;
     }
 
@@ -183,7 +203,7 @@ public class OmokGame {
     }
 
     public enum OmokStatus {
-        PROGRESS("진행 중"),
+        WAIT("착수 대기 중"),
         WHITE_WIN(OmokGame.WHITE.getEmoji() + " 승리"),
         BLACK_WIN(OmokGame.BLACK.getEmoji() + " 승리"),
         WHITE_RESIGN(OmokGame.WHITE.getEmoji() + " 기권"),

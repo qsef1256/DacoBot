@@ -142,7 +142,7 @@ public class PaintCommand extends SlashCommand {
             try {
                 color = parsePixelColor(optionColor.getAsString()).get(0);
 
-                painter.paintPixel(color, (int) x - 1, (int) y - 1);
+                painter.paintPixel(color, (int) x, (int) y);
             } catch (IllegalArgumentException e) {
                 event.reply("오류 발생: " + e.getMessage()).queue();
                 return;
@@ -201,7 +201,7 @@ public class PaintCommand extends SlashCommand {
             try {
                 List<PixelColor> colorList = parsePixelColor(column);
 
-                painter.paintColumn(colorList, (int) y - 1);
+                painter.paintColumn(colorList, (int) y);
             } catch (IllegalArgumentException e) {
                 event.reply("오류 발생: " + e.getMessage()).queue();
                 return;
@@ -389,7 +389,7 @@ public class PaintCommand extends SlashCommand {
             try {
                 color = parsePixelColor(optionColor.getAsString()).get(0);
 
-                painter.fill(color, (int) x - 1, (int) y - 1);
+                painter.fill(color, (int) x, (int) y);
             } catch (IllegalArgumentException e) {
                 event.reply("오류 발생: " + e.getMessage()).queue();
                 return;
