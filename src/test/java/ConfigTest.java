@@ -1,4 +1,4 @@
-import net.qsef1256.diabot.util.GenericUtil;
+import net.qsef1256.dacobot.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.Yaml;

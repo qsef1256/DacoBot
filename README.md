@@ -1,4 +1,4 @@
-# Diabot
+# Dacobot
 
 Discord bot by qsef1256
 

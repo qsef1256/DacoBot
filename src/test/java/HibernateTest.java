@@ -1,7 +1,7 @@
 import lombok.Getter;
-import net.qsef1256.diabot.database.DaoCommon;
-import net.qsef1256.diabot.database.DaoCommonImpl;
-import net.qsef1256.diabot.system.account.data.AccountEntity;
+import net.qsef1256.dacobot.database.DaoCommon;
+import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static net.qsef1256.diabot.DiaBot.logger;
+import static net.qsef1256.dacobot.DacoBot.logger;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HibernateTest {

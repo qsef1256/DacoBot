@@ -5,12 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.qsef1256</groupId>
-    <artifactId>DiaBot</artifactId>
-    <version>1.0</version>
+    <artifactId>DacoBot</artifactId>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>DiaBot</name>
-    <description>Dia Bot</description>
+    <name>DacoBot</name>
+    <description>Daco Bot</description>
 
     <properties>
         <java.version>16</java.version>
@@ -52,7 +52,7 @@
                             <transformers>
                                 <transformer
                                         implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>net.qsef1256.diabot.DiaBot
+                                    <mainClass>net.qsef1256.dacobot.DacoBot
                                     </mainClass> <!-- You have to replace this with a path to your main class like my.path.Main -->
                                 </transformer>
                                 <transformer

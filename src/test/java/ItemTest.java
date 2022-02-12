@@ -1,5 +1,5 @@
-import net.qsef1256.diabot.game.explosion.data.ItemTypeEntity;
-import net.qsef1256.diabot.game.explosion.model.Item;
+import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
+import net.qsef1256.dacobot.game.explosion.model.Item;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
