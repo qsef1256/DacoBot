@@ -6,14 +6,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.enums.DiaImage;
-import net.qsef1256.diabot.enums.DiaInfo;
+import net.qsef1256.diabot.enums.*;
 import net.qsef1256.diabot.game.explosion.model.Cash;
 import net.qsef1256.diabot.game.explosion.model.UserManager;
 import net.qsef1256.diabot.system.account.data.AccountEntity;
 import net.qsef1256.diabot.system.account.model.Account;
 import net.qsef1256.diabot.system.account.model.AccountManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
@@ -32,8 +31,10 @@ public class AccountCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(final SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(final @NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
     private static class RegisterCommand extends SlashCommand {
@@ -44,7 +45,7 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(final SlashCommandEvent event) {
+        protected void execute(final @NotNull SlashCommandEvent event) {
             final User user = event.getUser();
 
             event.deferReply().queue(callback -> {
@@ -60,12 +61,7 @@ public class AccountCommand extends SlashCommand {
                             .setFooter("/폭발 커맨드로 게임을 시작하세요!")
                             .build()).queue();
                 } catch (RuntimeException e) {
-                    callback.editOriginalEmbeds(new EmbedBuilder()
-                            .setTitle("등록 실패")
-                            .setColor(DiaColor.FAIL)
-                            .setAuthor(user.getAsTag(), null, user.getEffectiveAvatarUrl())
-                            .setDescription(e.getMessage())
-                            .build()).queue();
+                    callback.editOriginalEmbeds(DiaEmbed.error("등록 실패", null, e, user).build()).queue();
 
                     if (e instanceof DuplicateRequestException) return;
                     e.printStackTrace();
@@ -82,7 +78,7 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(final SlashCommandEvent event) {
+        protected void execute(final @NotNull SlashCommandEvent event) {
             final User user = event.getUser();
 
             try {
@@ -106,11 +102,7 @@ public class AccountCommand extends SlashCommand {
                         .build()).queue();
 
             } catch (RuntimeException e) {
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("계정 정보 확인 실패")
-                        .setColor(DiaColor.FAIL)
-                        .setAuthor(user.getAsTag(), null, user.getEffectiveAvatarUrl())
-                        .setDescription(e.getMessage())
+                event.replyEmbeds(DiaEmbed.error("계정 정보 확인 실패", null, e, user)
                         .setFooter("계정 신청은 /계정 등록")
                         .build()).queue();
 
@@ -138,7 +130,7 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(final SlashCommandEvent event) {
+        protected void execute(final @NotNull SlashCommandEvent event) {
             final User user = event.getUser();
 
             event.replyEmbeds(new EmbedBuilder()

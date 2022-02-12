@@ -8,6 +8,7 @@ import net.qsef1256.diabot.enums.DiaInfo;
 import net.qsef1256.diabot.model.CmdStatistic;
 import net.qsef1256.diabot.util.ColorUtil;
 import net.qsef1256.diabot.util.CommonUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 
@@ -19,7 +20,7 @@ public class AsdfCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
+    protected void execute(@NotNull SlashCommandEvent event) {
 
         CmdStatistic statistic = new CmdStatistic(getClass());
 

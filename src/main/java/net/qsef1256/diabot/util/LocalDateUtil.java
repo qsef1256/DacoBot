@@ -1,7 +1,9 @@
 package net.qsef1256.diabot.util;
 
 import lombok.experimental.UtilityClass;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,10 +17,10 @@ public class LocalDateUtil {
      * 첫번째와 두번째 시간이 같은 날짜인지 확인합니다.
      *
      * @param first  first Date
-     * @param second second Data
+     * @param second second Date
      * @return true if same Day
      */
-    public boolean isSameDay(LocalDateTime first, LocalDateTime second) {
+    public boolean isSameDay(@NotNull LocalDateTime first, @NotNull LocalDateTime second) {
         return first.toLocalDate().isEqual(second.toLocalDate());
     }
 
@@ -28,7 +30,7 @@ public class LocalDateUtil {
      * @param time Time to check is today
      * @return true if today
      */
-    public boolean isToday(LocalDateTime time) {
+    public boolean isToday(@NotNull LocalDateTime time) {
         return time.toLocalDate().isEqual(LocalDateTime.now().toLocalDate());
     }
 
@@ -38,8 +40,19 @@ public class LocalDateUtil {
      * @param time Time to convert
      * @return ISO LocalDateTime without space
      */
-    public String getTimeString(LocalDateTime time) {
+    public String getTimeString(@NotNull LocalDateTime time) {
         return time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ');
+    }
+
+    /**
+     * 날짜 차이를 {@link Duration} 으로 반환합니다.
+     *
+     * @param first  first Date
+     * @param second second Date
+     * @return difference between first and second
+     */
+    public Duration getDiff(@NotNull LocalDateTime first, @NotNull LocalDateTime second) {
+        return Duration.between(first, second);
     }
 
 }

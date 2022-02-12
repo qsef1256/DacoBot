@@ -4,11 +4,10 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.diabot.DiaBot;
-import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.enums.DiaImage;
-import net.qsef1256.diabot.enums.DiaInfo;
+import net.qsef1256.diabot.enums.*;
 import net.qsef1256.diabot.util.CommonUtil;
 import org.apache.commons.lang3.time.DurationFormatUtils;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -27,11 +26,13 @@ public class CreditCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(final SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(@NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    public static class MainInfoCommand extends SlashCommand {
+    private static class MainInfoCommand extends SlashCommand {
 
         public MainInfoCommand() {
             name = "보기";
@@ -39,17 +40,12 @@ public class CreditCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             final Properties properties = new Properties();
             try {
                 properties.load(this.getClass().getClassLoader().getResourceAsStream("project.properties"));
             } catch (final IOException | RuntimeException e) {
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("정보 확인 실패")
-                        .setDescription("봇 정보 확인에 실패했습니다.")
-                        .setFooter("문제가 계속 발생할 경우 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
                 return;
             }
@@ -84,7 +80,7 @@ public class CreditCommand extends SlashCommand {
         }
     }
 
-    public static class LibraryCommand extends SlashCommand {
+    private static class LibraryCommand extends SlashCommand {
 
         public LibraryCommand() {
             name = "라이브러리";
@@ -92,7 +88,7 @@ public class CreditCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.MAIN_COLOR)
                     .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)

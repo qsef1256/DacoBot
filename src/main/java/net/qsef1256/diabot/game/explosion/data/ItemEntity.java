@@ -21,14 +21,11 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ItemEntity implements Serializable {
 
-    @ManyToOne
-    private InventoryEntity userInventory;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private ItemTypeEntity itemType;
 
     @Column

@@ -7,6 +7,7 @@ import net.qsef1256.diabot.data.CmdStatisticEntity;
 import net.qsef1256.diabot.database.DaoCommon;
 import net.qsef1256.diabot.database.DaoCommonImpl;
 import net.qsef1256.diabot.util.LocalDateUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -38,7 +39,7 @@ public class CmdStatistic {
         }
     }
 
-    private void createStatistic(Class<? extends SlashCommand> command) {
+    private void createStatistic(@NotNull Class<? extends SlashCommand> command) {
         CmdStatisticEntity data = new CmdStatisticEntity();
         data.setCommandName(command.getSimpleName());
         data.setLastUseTime(LocalDateTime.now());

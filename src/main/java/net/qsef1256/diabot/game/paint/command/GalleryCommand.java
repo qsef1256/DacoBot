@@ -8,13 +8,12 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.enums.DiaImage;
-import net.qsef1256.diabot.enums.DiaInfo;
+import net.qsef1256.diabot.enums.*;
 import net.qsef1256.diabot.game.paint.data.PaintEntity;
 import net.qsef1256.diabot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.diabot.game.paint.model.painter.Painter;
 import net.qsef1256.diabot.game.paint.model.painter.PainterContainer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class GalleryCommand extends SlashCommand {
         };
     }
 
-    private static void printPaint(SlashCommandEvent event, String paintName, Painter painter) {
+    private static void printPaint(@NotNull SlashCommandEvent event, String paintName, @NotNull Painter painter) {
         event.replyEmbeds(new EmbedBuilder()
                 .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
                 .setColor(DiaColor.MAIN_COLOR)
@@ -52,29 +51,23 @@ public class GalleryCommand extends SlashCommand {
 
             printPaint(event, paintName, painter);
         } catch (IllegalArgumentException e) {
-            event.replyEmbeds(new EmbedBuilder()
-                    .setTitle("오류 발생")
-                    .setColor(DiaColor.FAIL)
-                    .setDescription("오류: " + e.getMessage())
+            event.replyEmbeds(DiaEmbed.error(null, null, e, user)
                     .setFooter("그림이 없거나 권한이 없을 수 있어요.")
                     .build()).queue();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(DiaColor.FAIL)
-                    .setTitle("오류 발생")
-                    .setDescription("그림을 저장하던 도중 문제가 발생했습니다.")
-                    .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                    .build()).queue();
+            event.replyEmbeds(DiaEmbed.error(null, "그림을 저장하던 도중 문제가 발생했습니다.", e, user).build()).queue();
         }
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(@NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    public static class ShowCommand extends SlashCommand {
+    private static class ShowCommand extends SlashCommand {
 
         public ShowCommand() {
             name = "보기";
@@ -86,7 +79,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping paintNameOption = event.getOption("이름");
             User user = event.getUser();
 
@@ -102,7 +95,7 @@ public class GalleryCommand extends SlashCommand {
         }
     }
 
-    public static class SaveCommand extends SlashCommand {
+    private static class SaveCommand extends SlashCommand {
 
         public SaveCommand() {
             name = "저장";
@@ -114,7 +107,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping paintNameOption = event.getOption("이름");
             User user = event.getUser();
 
@@ -148,17 +141,12 @@ public class GalleryCommand extends SlashCommand {
                         .queue();
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("오류 발생")
-                        .setDescription("그림을 저장하던 도중 문제가 발생했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "그림을 저장하던 도중 문제가 발생했습니다.", e, user).build()).queue();
             }
         }
     }
 
-    public static class DeleteCommand extends SlashCommand {
+    private static class DeleteCommand extends SlashCommand {
 
         public DeleteCommand() {
             name = "삭제";
@@ -170,7 +158,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping paintNameOption = event.getOption("이름");
             User user = event.getUser();
 
@@ -183,32 +171,21 @@ public class GalleryCommand extends SlashCommand {
             try {
                 new PaintManagerImpl().delete(user.getIdLong(), paintName);
 
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.SUCCESS)
-                        .setTitle("삭제 성공")
-                        .setDescription(paintName + "그림이 성공적으로 삭제 되었습니다.")
+                event.replyEmbeds(DiaEmbed.success("삭제 성공", paintName + "그림이 성공적으로 삭제 되었습니다.", user)
                         .setFooter("하드 용량 절약 성공")
                         .build()).queue();
             } catch (IllegalArgumentException e) {
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("삭제 실패")
-                        .setDescription(paintName + "그림을 삭제 하는데 실패 했습니다: " + e.getMessage())
+                event.replyEmbeds(DiaEmbed.fail("삭제 실패", paintName + "그림을 삭제 하는데 실패 했습니다: " + e.getMessage(), user)
                         .setFooter("하드 용량 절약 실패")
                         .build()).queue();
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("오류 발생")
-                        .setDescription("그림을 삭제하던 도중 문제가 발생했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "그림을 삭제하던 도중 문제가 발생했습니다.", e, user).build()).queue();
             }
         }
     }
 
-    public static class LoadCommand extends SlashCommand {
+    private static class LoadCommand extends SlashCommand {
 
         public LoadCommand() {
             name = "로드";
@@ -220,7 +197,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping paintNameOption = event.getOption("이름");
             User user = event.getUser();
 
@@ -237,7 +214,7 @@ public class GalleryCommand extends SlashCommand {
 
     }
 
-    public static class ListCommand extends SlashCommand {
+    private static class ListCommand extends SlashCommand {
 
         public ListCommand() {
             name = "목록";
@@ -245,7 +222,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             List<String> paintNames = new PaintManagerImpl().getOwnedPaint(user.getIdLong());

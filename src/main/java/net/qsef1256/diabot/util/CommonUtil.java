@@ -13,7 +13,7 @@ public class CommonUtil {
         return ThreadLocalRandom.current().nextInt(min, max + 1);
     }
 
-    public <T> void swap(T[] toSwap, int a, int b) {
+    public <T> void swap(T @NotNull [] toSwap, int a, int b) {
         T temp = toSwap[a];
         toSwap[a] = toSwap[b];
         toSwap[b] = temp;

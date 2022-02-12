@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.diabot.enums.DiaImage;
 import net.qsef1256.diabot.model.CmdStatistic;
 import net.qsef1256.diabot.util.CommonUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
@@ -18,7 +19,7 @@ public class AnvilCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
+    protected void execute(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
         CmdStatistic statistic = new CmdStatistic(getClass());

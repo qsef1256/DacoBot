@@ -6,9 +6,11 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.diabot.enums.DiaColor;
+import net.qsef1256.diabot.enums.DiaEmbed;
 import net.qsef1256.diabot.game.explosion.model.UserManager;
 import net.qsef1256.diabot.system.account.command.AccountCommand;
 import net.qsef1256.diabot.system.account.model.AccountManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.NoSuchElementException;
 
@@ -20,7 +22,7 @@ public class AccountButtonListener extends ListenerAdapter {
      * @see AccountCommand
      */
     @Override
-    public void onButtonClick(final ButtonClickEvent event) {
+    public void onButtonClick(final @NotNull ButtonClickEvent event) {
         switch (event.getComponentId()) {
 
             case "account_reset" -> {
@@ -40,11 +42,7 @@ public class AccountButtonListener extends ListenerAdapter {
                     if (event.getButton() == null) return;
                     event.editButton(event.getButton().asDisabled()).queue();
                 } catch (RuntimeException ex) {
-                    event.replyEmbeds(new EmbedBuilder()
-                            .setTitle("계정 초기화 실패")
-                            .setColor(DiaColor.FAIL)
-                            .setAuthor(user.getAsTag(), null, user.getEffectiveAvatarUrl())
-                            .setDescription(ex.getMessage())
+                    event.replyEmbeds(DiaEmbed.error("계정 초기화 실패", null, ex, user)
                             .setFooter("예술의 끝으로 계정을 대폭발 시키려고 하지만 누군가가 막고 있군요...")
                             .build()
                     ).queue();
@@ -75,11 +73,7 @@ public class AccountButtonListener extends ListenerAdapter {
                     if (event.getButton() == null) return;
                     event.editButton(event.getButton().asDisabled()).queue();
                 } catch (RuntimeException ex) {
-                    event.replyEmbeds(new EmbedBuilder()
-                            .setTitle("계정 삭제 실패")
-                            .setColor(DiaColor.FAIL)
-                            .setAuthor(user.getAsTag(), null, user.getEffectiveAvatarUrl())
-                            .setDescription(ex.getMessage())
+                    event.replyEmbeds(DiaEmbed.error("계정 삭제 실패", null, ex, user)
                             .setFooter("문제가 있을시 관리자를 불러주세요.")
                             .build()
                     ).queue();

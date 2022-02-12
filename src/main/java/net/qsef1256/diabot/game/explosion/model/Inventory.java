@@ -7,18 +7,35 @@ import net.qsef1256.diabot.game.explosion.data.InventoryEntity;
 import net.qsef1256.diabot.game.explosion.data.ItemEntity;
 import net.qsef1256.diabot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.diabot.system.account.data.AccountEntity;
+import net.qsef1256.diabot.system.account.model.AccountManager;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 
 public class Inventory {
 
-    protected final DaoCommon<Long, InventoryEntity> dao = new DaoCommonImpl<>(InventoryEntity.class);
+    protected static final DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
 
     @Getter
     private final InventoryEntity data;
 
     public Inventory(long discord_id) {
-        data = dao.findById(discord_id);
+        AccountEntity account = AccountManager.getAccount(discord_id);
+
+        InventoryEntity inventory = account.getInventory();
+        if (inventory == null) {
+            inventory = new InventoryEntity().setDiscordUser(account);
+
+            account.setInventory(inventory);
+            dao.update(account);
+        }
+        data = inventory;
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull Inventory fromUser(long discord_id) {
+        return new Inventory(discord_id);
     }
 
     public AccountEntity getUser() {
@@ -38,7 +55,7 @@ public class Inventory {
     }
 
     public void setItem(ItemEntity item) {
-        data.setItem(item);
+        data.putItem(item);
     }
 
     public void addItem(int itemId) {
@@ -49,14 +66,28 @@ public class Inventory {
         ItemEntity userItem = data.getItem(itemId);
         Item item = Item.fromId(itemId, amount);
 
+        if (userItem == null) {
+            createItem(itemId, amount);
+            return;
+        }
         int maxAmount = item.getMaxAmount();
         int stock = userItem.getAmount();
-
         int result = stock + amount;
-        if (result < maxAmount)
-            throw new IllegalArgumentException("%s 아이템을 더 보유할 수 없습니다. 최대: %s".formatted(item.getName(), maxAmount));
+        if (result > maxAmount)
+            throw new IllegalArgumentException("%s 아이템을 더 보유할 수 없습니다. 현재: %s, 최대: %s".formatted(item.getName(), result, maxAmount));
 
-        data.setItem(Item.fromId(itemId).getItemEntity());
+        userItem.setAmount(result);
+        data.putItem(userItem);
+        update();
+    }
+
+    private void createItem(int itemId) {
+        createItem(itemId, 1);
+    }
+
+    private void createItem(int itemId, int amount) {
+        ItemEntity itemEntity = Item.fromId(itemId, amount).getItemEntity();
+        data.putItem(itemEntity);
         update();
     }
 
@@ -76,7 +107,7 @@ public class Inventory {
         if (result == 0) clearItem(itemId);
         else {
             userItem.setAmount(result);
-            data.setItem(userItem);
+            data.putItem(userItem);
             update();
         }
     }
@@ -93,7 +124,10 @@ public class Inventory {
     }
 
     private void update() {
-        dao.update(data);
+        AccountEntity account = data.getDiscordUser();
+
+        account.setInventory(data);
+        dao.update(account);
     }
 
 }

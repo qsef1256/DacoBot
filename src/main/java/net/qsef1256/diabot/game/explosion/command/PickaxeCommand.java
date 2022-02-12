@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.diabot.game.explosion.model.Cash;
 import net.qsef1256.diabot.util.CommonUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.NoSuchElementException;
 
@@ -16,12 +17,12 @@ public class PickaxeCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(final SlashCommandEvent event) {
+    protected void execute(@NotNull SlashCommandEvent event) {
         final User user = event.getUser();
 
         event.deferReply().queue(callback -> {
             try {
-                final Cash explosionUser = new Cash(user.getIdLong());
+                final Cash cash = new Cash(user.getIdLong());
 
                 final String status;
                 final int pickaxeCount;
@@ -50,10 +51,10 @@ public class PickaxeCommand extends SlashCommand {
                     }
                 }
 
-                explosionUser.addPickaxeCount(pickaxeCount);
+                cash.addPickaxeCount(pickaxeCount);
 
                 String pickaxeCountDisplay = (pickaxeCount > 0) ? "+" + pickaxeCount : String.valueOf(pickaxeCount);
-                callback.editOriginal(status + "`" + pickaxeCountDisplay + "` 다이아 보유량: `" + explosionUser.getPickaxeCount() + "` 개").queue();
+                callback.editOriginal(status + "`" + pickaxeCountDisplay + "` 다이아 보유량: `" + cash.getPickaxeCount() + "` 개").queue();
             } catch (RuntimeException e) {
                 String message = ":warning: " + user.getAsTag() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
 

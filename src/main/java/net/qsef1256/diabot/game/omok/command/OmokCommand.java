@@ -8,11 +8,9 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.enums.DiaEmbed;
-import net.qsef1256.diabot.enums.DiaImage;
-import net.qsef1256.diabot.enums.DiaInfo;
+import net.qsef1256.diabot.enums.*;
 import net.qsef1256.diabot.game.omok.model.OmokManager;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -34,11 +32,13 @@ public class OmokCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(@NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    public static class GameRuleCommand extends SlashCommand {
+    private static class GameRuleCommand extends SlashCommand {
 
         public GameRuleCommand() {
             name = "규칙";
@@ -46,7 +46,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.MAIN_COLOR)
                     .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
@@ -58,7 +58,7 @@ public class OmokCommand extends SlashCommand {
         }
     }
 
-    public static class StartCommand extends SlashCommand {
+    private static class StartCommand extends SlashCommand {
 
         public StartCommand() {
             name = "시작";
@@ -70,7 +70,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping userOption = event.getOption("상대");
             if (userOption == null) {
                 event.reply("대국을 신청할 유저를 입력해주세요!").queue();
@@ -96,7 +96,7 @@ public class OmokCommand extends SlashCommand {
         }
     }
 
-    public static class PlaceCommand extends SlashCommand {
+    private static class PlaceCommand extends SlashCommand {
 
         public PlaceCommand() {
             name = "놓기";
@@ -109,7 +109,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
@@ -132,7 +132,7 @@ public class OmokCommand extends SlashCommand {
         }
     }
 
-    public static class ResignCommand extends SlashCommand {
+    private static class ResignCommand extends SlashCommand {
 
         public ResignCommand() {
             name = "기권";
@@ -140,7 +140,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -153,7 +153,7 @@ public class OmokCommand extends SlashCommand {
         }
     }
 
-    public static class PullCommand extends SlashCommand {
+    private static class PullCommand extends SlashCommand {
 
         public PullCommand() {
             name = "끌올";
@@ -161,7 +161,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             MessageChannel channel = event.getChannel();
 
@@ -175,7 +175,7 @@ public class OmokCommand extends SlashCommand {
         }
     }
 
-    public static class LogCommand extends SlashCommand {
+    private static class LogCommand extends SlashCommand {
 
         public LogCommand() {
             name = "로그";
@@ -183,7 +183,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

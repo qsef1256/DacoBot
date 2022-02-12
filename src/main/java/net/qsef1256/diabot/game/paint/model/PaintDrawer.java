@@ -114,7 +114,7 @@ public class PaintDrawer {
     }
 
     @NotNull
-    private static MessageEmbed getDrawerEmbed(User user, Painter painter, int x, int y) {
+    private static MessageEmbed getDrawerEmbed(@NotNull User user, @NotNull Painter painter, int x, int y) {
         return new EmbedBuilder()
                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                 .setColor(DiaColor.MAIN_COLOR)
@@ -126,7 +126,7 @@ public class PaintDrawer {
                 .build();
     }
 
-    public static void initDrawer(SlashCommandEvent event) {
+    public static void initDrawer(@NotNull SlashCommandEvent event) {
         User user = event.getUser();
         event.reply("그림판은 비싸니까 많이 띄우지 마세요. 그리고 천천히 그리세요... 디코가 싫대요.").setEphemeral(true).queue();
 

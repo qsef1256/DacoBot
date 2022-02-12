@@ -7,6 +7,7 @@ import net.qsef1256.diabot.game.paint.data.PaintEntity;
 import net.qsef1256.diabot.game.paint.model.painter.Painter;
 import net.qsef1256.diabot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.diabot.util.DiscordUtil;
+import org.jetbrains.annotations.NotNull;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class PaintManagerImpl implements PaintManager {
         dao.deleteById(paintName);
     }
 
-    private PaintEntity findPaint(String paintName, long discord_id) {
+    private @NotNull PaintEntity findPaint(String paintName, long discord_id) {
         PaintEntity paintData;
         if (!dao.isExist(paintName)) throw new IllegalArgumentException(paintName + " 이름의 그림은 없습니다.");
 
@@ -91,7 +92,7 @@ public class PaintManagerImpl implements PaintManager {
         }
     }
 
-    private void setPaintData(PaintEntity paintData, String paintName, Painter painter, long discord_id) {
+    private void setPaintData(@NotNull PaintEntity paintData, String paintName, @NotNull Painter painter, long discord_id) {
         paintData
                 .setPaintName(paintName)
                 .setXSize(painter.getWidth())

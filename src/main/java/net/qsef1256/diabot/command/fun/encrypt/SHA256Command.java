@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.diabot.enums.DiaColor;
+import net.qsef1256.diabot.enums.DiaEmbed;
+import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -24,7 +26,8 @@ public class SHA256Command extends SlashCommand {
         options = Collections.singletonList(new OptionData(OptionType.STRING, "메시지", "시킬 말").setRequired(true));
     }
 
-    public static String toSHA256(String content) throws NoSuchAlgorithmException {
+    @NotNull
+    public static String toSHA256(@NotNull String content) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(content.getBytes(StandardCharsets.UTF_8));
         StringBuilder hexString = new StringBuilder();
@@ -37,7 +40,7 @@ public class SHA256Command extends SlashCommand {
     }
 
     @Override
-    public void execute(final SlashCommandEvent event) {
+    public void execute(final @NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
 
@@ -56,10 +59,7 @@ public class SHA256Command extends SlashCommand {
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {
             logger.warn(e.getMessage());
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(DiaColor.FAIL)
-                    .setTitle("문제 발생")
-                    .setDescription("주어진 문자열을 SHA-256로 변환하던 도중 문제가 생겼습니다.")
+            event.replyEmbeds(DiaEmbed.error(null, "주어진 문자열을 SHA-256로 변환하던 도중 문제가 생겼습니다.", null, null)
                     .setFooter("뭘 넣었길래...")
                     .build()).queue();
         }

@@ -8,9 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.enums.DiaImage;
-import net.qsef1256.diabot.enums.DiaInfo;
+import net.qsef1256.diabot.enums.*;
 import net.qsef1256.diabot.game.paint.enums.PixelColor;
 import net.qsef1256.diabot.game.paint.model.PaintDrawer;
 import net.qsef1256.diabot.game.paint.model.painter.Painter;
@@ -41,7 +39,7 @@ public class PaintCommand extends SlashCommand {
         };
     }
 
-    private static void printPallet(SlashCommandEvent event, Painter paint) {
+    private static void printPallet(@NotNull SlashCommandEvent event, Painter paint) {
         User user = event.getUser();
 
         try {
@@ -85,11 +83,13 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(@NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    public static class ShowCommand extends SlashCommand {
+    private static class ShowCommand extends SlashCommand {
 
         public ShowCommand() {
             name = "보기";
@@ -97,7 +97,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             Painter paint = PainterContainer.getPainter(user.getIdLong());
 
@@ -105,7 +105,7 @@ public class PaintCommand extends SlashCommand {
         }
     }
 
-    public static class PixelCommand extends SlashCommand {
+    private static class PixelCommand extends SlashCommand {
 
         public PixelCommand() {
             name = "찍기";
@@ -119,7 +119,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
             OptionMapping optionColor = event.getOption("색깔");
@@ -148,12 +148,7 @@ public class PaintCommand extends SlashCommand {
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("오류 발생")
-                        .setDescription("그림을 그리던 도중 문제가 발생했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "그림을 그리던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
 
@@ -162,7 +157,7 @@ public class PaintCommand extends SlashCommand {
 
     }
 
-    public static class ColumnCommand extends SlashCommand {
+    private static class ColumnCommand extends SlashCommand {
 
         public ColumnCommand() {
             name = "줄";
@@ -175,7 +170,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping optionY = event.getOption("번호");
             OptionMapping optionColumn = event.getOption("내용");
 
@@ -207,12 +202,7 @@ public class PaintCommand extends SlashCommand {
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("오류 발생")
-                        .setDescription("그림을 그리던 도중 문제가 발생했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "그림을 그리던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
 
@@ -220,7 +210,7 @@ public class PaintCommand extends SlashCommand {
         }
     }
 
-    public static class DrawAllCommand extends SlashCommand {
+    private static class DrawAllCommand extends SlashCommand {
 
         public DrawAllCommand() {
             name = "한줄로";
@@ -232,7 +222,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping optionColumn = event.getOption("내용");
             if (optionColumn == null) {
                 event.reply("내용을 입력해주세요.").queue();
@@ -254,12 +244,7 @@ public class PaintCommand extends SlashCommand {
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("오류 발생")
-                        .setDescription("그림을 그리던 도중 문제가 발생했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "그림을 그리던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
 
@@ -275,7 +260,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             Painter painter = PainterContainer.getPainter(user.getIdLong());
 
@@ -294,7 +279,7 @@ public class PaintCommand extends SlashCommand {
 
     }
 
-    public static class ResizeCommand extends SlashCommand {
+    private static class ResizeCommand extends SlashCommand {
 
         public ResizeCommand() {
             name = "크기";
@@ -307,7 +292,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
 
@@ -337,12 +322,7 @@ public class PaintCommand extends SlashCommand {
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setColor(DiaColor.FAIL)
-                        .setTitle("오류 발생")
-                        .setDescription("사이즈를 바꾸던 도중 문제가 발생했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "크기를 바꾸던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
 
@@ -351,7 +331,7 @@ public class PaintCommand extends SlashCommand {
 
     }
 
-    public static class FillCommand extends SlashCommand {
+    private static class FillCommand extends SlashCommand {
 
         public FillCommand() {
             name = "채우기";
@@ -365,7 +345,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
             OptionMapping optionColor = event.getOption("색깔");
@@ -408,7 +388,7 @@ public class PaintCommand extends SlashCommand {
         }
     }
 
-    public static class DrawerCommand extends SlashCommand {
+    private static class DrawerCommand extends SlashCommand {
 
         public DrawerCommand() {
             name = "그림판";
@@ -421,7 +401,7 @@ public class PaintCommand extends SlashCommand {
         }
     }
 
-    public static class ColorCommand extends SlashCommand {
+    private static class ColorCommand extends SlashCommand {
 
         public ColorCommand() {
             name = "색깔";

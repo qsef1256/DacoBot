@@ -1,11 +1,16 @@
 package net.qsef1256.diabot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.diabot.database.HibernateManager;
+import net.qsef1256.diabot.DiaBot;
+import net.qsef1256.diabot.enums.DiaEmbed;
+import net.qsef1256.diabot.enums.DiaMessage;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
@@ -21,13 +26,17 @@ public class AdminCommand extends SlashCommand {
 
         children = new SlashCommand[]{
                 new StopCommand(),
-                new SayCommand()
+                new SayCommand(),
+                new ClearCommand(),
+                new RestartCommand()
         };
     }
 
     @Override
-    public void execute(final SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    public void execute(final @NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
     private static class StopCommand extends SlashCommand {
@@ -37,12 +46,10 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(final SlashCommandEvent event) {
+        public void execute(final @NotNull SlashCommandEvent event) {
             logger.info("Shutting down with command");
-            event.reply("끄는 중....").setEphemeral(true).queue((msg) -> {
-                event.getJDA().shutdown();
-                HibernateManager.shutdown();
-            });
+            event.reply("끄는 중....").setEphemeral(true).queue((msg) ->
+                    DiaBot.shutdown());
         }
     }
 
@@ -54,7 +61,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(final SlashCommandEvent event) {
+        public void execute(final @NotNull SlashCommandEvent event) {
             final OptionMapping option = event.getOption("메시지");
             if (option == null) {
                 event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
@@ -62,6 +69,53 @@ public class AdminCommand extends SlashCommand {
             }
             event.deferReply().queue(m -> m.deleteOriginal().queue());
             event.getChannel().sendMessage(option.getAsString()).queue();
+        }
+    }
+
+    private static class ClearCommand extends SlashCommand {
+
+        public ClearCommand() {
+            name = "초기화";
+            help = "명령어를 초기화 하고 종료 합니다.";
+        }
+
+        @Override
+        protected void execute(SlashCommandEvent event) {
+            JDA jda = DiaBot.getJda();
+            String forcedGuildId = DiaBot.getCommandClient().forcedGuildId();
+
+            try {
+                jda.awaitReady();
+            } catch (InterruptedException e) {
+                event.replyEmbeds(DiaEmbed.error(null, null, e, null).build()).queue();
+                e.printStackTrace();
+                return;
+            }
+
+            final Guild guild = jda.getGuildById(forcedGuildId);
+            if (guild != null) {
+                logger.info("Cleaning Commands");
+                guild.updateCommands().queue();
+            } else {
+                logger.warn("forced Guild is null");
+            }
+
+            event.reply("초기화가 완료 되었습니다. 길드 ID: " + forcedGuildId).setEphemeral(true).queue();
+            DiaBot.shutdown();
+        }
+    }
+
+    private static class RestartCommand extends SlashCommand {
+
+        public RestartCommand() {
+            name = "재시작";
+            help = "다봇을 재시작 합니다.";
+        }
+
+        @Override
+        protected void execute(@NotNull SlashCommandEvent event) {
+            event.reply("재시작 진행 중... 새 봇은 개발 툴에서 추적되지 않으니 주의하세요.").setEphemeral(true).queue();
+            DiaBot.restart();
         }
     }
 

@@ -2,6 +2,8 @@ package net.qsef1256.diabot.game.explosion.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.qsef1256.diabot.enums.DiaMessage;
+import org.jetbrains.annotations.NotNull;
 
 public class ShopCommand extends SlashCommand {
 
@@ -11,10 +13,8 @@ public class ShopCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-        event.reply(":construction: 공사중...").queue();
-
-
+    protected void execute(@NotNull SlashCommandEvent event) {
+        event.reply(DiaMessage.underConstruction()).queue();
     }
 
 }

@@ -1,19 +1,22 @@
 import net.qsef1256.diabot.game.paint.model.painter.Painter;
 import net.qsef1256.diabot.struct.NestedMap;
 import net.qsef1256.diabot.util.CommonUtil;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CommonUtilTest {
 
-    private void testRandom() {
+    @Test
+    public void testRandom() {
         for (int i = 0; i < 25; i++) {
-            System.out.println(CommonUtil.randomInt(-6, -3));
+            System.out.println(CommonUtil.randomInt(-6, 1));
         }
     }
 
-    private void testDiff() {
+    @Test
+    public void testDiff() {
         assertEquals(2, CommonUtil.getDiff(1, 3));
         assertEquals(3, CommonUtil.getDiff(4, 1));
         assertEquals(2, CommonUtil.getDiff(-1, -3));
@@ -73,14 +76,13 @@ public class CommonUtilTest {
     @Test
     public void testNestedMap() {
         NestedMap<String, String> table = new NestedMap<>();
+        NestedMap<String, String> sameTable = new NestedMap<>();
+        NestedMap<String, String> diffTable = new NestedMap<>();
 
-        table.put("c", "user", "c");
-        table.put("c", "asdf", "c");
-        table.put("a", "painter", new Painter());
-        table.put("a", "user", "a");
-        table.put("a", "asdf", "a");
-        table.put("b", "asdf", "b");
-        table.put("b", "user", "b");
+        putData(table);
+        putData(sameTable);
+        putData(diffTable);
+        diffTable.put("d", "test", "c");
 
         Painter painter = table.get("a", "painter");
         if (painter != null) {
@@ -90,6 +92,26 @@ public class CommonUtilTest {
         System.out.println(table.keySet("a"));
         table.forEach((mainKey, valueMap) ->
                 valueMap.forEach((subKey, value) -> System.out.println(mainKey + " " + subKey + " " + value)));
+
+        System.out.printf("hashCodes: %s %s %s\n", table.hashCode(), sameTable.hashCode(), diffTable.hashCode());
+        System.out.println("sameTable equals: " + table.equals(sameTable));
+        System.out.println("diffTable equals: " + table.equals(diffTable));
+
+        table.remove("c", "asdf");
+        assertFalse(table.contains("c", "asdf"));
+
+        table.replace("asd", "test", "aa");
+        assertFalse(table.contains("asd", "test"));
+    }
+
+    private void putData(@NotNull NestedMap<String, String> table) {
+        table.put("c", "user", "c");
+        table.put("c", "asdf", "c");
+        table.put("a", "painter", new Painter());
+        table.put("a", "user", "a");
+        table.put("a", "asdf", "a");
+        table.put("b", "asdf", "b");
+        table.put("b", "user", "b");
     }
 
 }

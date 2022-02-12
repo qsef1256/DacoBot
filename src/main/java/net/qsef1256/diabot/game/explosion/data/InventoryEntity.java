@@ -2,16 +2,20 @@ package net.qsef1256.diabot.game.explosion.data;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import net.qsef1256.diabot.system.account.data.AccountEntity;
 import org.hibernate.Hibernate;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 @Getter
 @Setter
+@Accessors(chain = true)
 @Entity
 @Table(name = "user_inventory")
 public class InventoryEntity implements Serializable {
@@ -24,18 +28,18 @@ public class InventoryEntity implements Serializable {
     @JoinColumn(name = "discord_id")
     private AccountEntity discordUser;
 
-    @OneToMany
-    private Map<Integer, ItemEntity> items;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Map<Integer, ItemEntity> items = new HashMap<>();
 
     public ItemEntity getItem(int itemId) {
         return items.get(itemId);
     }
 
-    public void setItem(ItemEntity item) {
+    public void putItem(ItemEntity item) {
         items.put(item.getItemId(), item);
     }
 
-    public void removeItem(ItemEntity item) {
+    public void removeItem(@NotNull ItemEntity item) {
         items.remove(item.getItemId());
     }
 

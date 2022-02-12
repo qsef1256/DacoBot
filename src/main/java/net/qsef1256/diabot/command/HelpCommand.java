@@ -3,17 +3,15 @@ package net.qsef1256.diabot.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.diabot.DiaBot;
-import net.qsef1256.diabot.enums.DiaColor;
-import net.qsef1256.diabot.enums.DiaImage;
-import net.qsef1256.diabot.enums.DiaInfo;
+import net.qsef1256.diabot.enums.*;
 import net.qsef1256.diabot.util.CommonUtil;
 import net.qsef1256.diabot.util.GenericUtil;
+import net.qsef1256.diabot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 
@@ -74,27 +72,13 @@ public class HelpCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(@NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    private static boolean canExecute(SlashCommand slashCommand, Member member) {
-        if (slashCommand.isOwnerCommand()) {
-            return DiaBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
-        }
-        if (slashCommand.getEnabledRoles().length != 0) {
-            for (Role role : member.getRoles()) {
-                if (Arrays.asList(slashCommand.getEnabledRoles()).contains(role.getId())) return true;
-            }
-            return false;
-        }
-        if (slashCommand.getEnabledUsers().length != 0) {
-            return Arrays.asList(slashCommand.getEnabledUsers()).contains(member.getId());
-        }
-        return true;
-    }
-
-    public static class MainMenuCommand extends SlashCommand {
+    private static class MainMenuCommand extends SlashCommand {
 
         public MainMenuCommand() {
             name = "전체";
@@ -102,7 +86,7 @@ public class HelpCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             Member member = event.getMember();
             if (member == null) return;
 
@@ -119,18 +103,13 @@ public class HelpCommand extends SlashCommand {
                 event.replyEmbeds(embedBuilder.build())
                         .queue();
             } catch (RuntimeException e) {
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("오류 발생")
-                        .setColor(DiaColor.FAIL)
-                        .setDescription("설정 파일을 로드하는데 실패했습니다.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.error(null, "설정 파일을 로드하는데 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
             }
         }
     }
 
-    public static class FindCommand extends SlashCommand {
+    private static class FindCommand extends SlashCommand {
 
         public FindCommand() {
             name = "찾기";
@@ -140,7 +119,7 @@ public class HelpCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             Member member = event.getMember();
             if (member == null) return;
 
@@ -150,7 +129,7 @@ public class HelpCommand extends SlashCommand {
                 return;
             }
             EmbedBuilder embedBuilder = new EmbedBuilder();
-            embedBuilder.setAuthor(DiaInfo.BOT_NAME,null,DiaImage.MAIN_THUMBNAIL);
+            embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
 
             Map<?, ?> map = categories.get(option.getAsString());
             if (map == null) {
@@ -168,11 +147,7 @@ public class HelpCommand extends SlashCommand {
                 event.replyEmbeds(embedBuilder.build()).queue();
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("오류 발생")
-                        .setColor(DiaColor.FAIL)
-                        .setDescription(option.getAsString() + " 카테고리 로딩중 오류가 발생했어요.")
-                        .setFooter("문제가 계속될 시 관리자를 불러주세요.")
+                event.replyEmbeds(DiaEmbed.error(null, option.getAsString() + " 카테고리 로딩중 오류가 발생했어요.", null, null)
                         .build()).queue();
             }
         }
@@ -192,7 +167,7 @@ public class HelpCommand extends SlashCommand {
                 if (value instanceof Map<?, ?> values) {
                     String subTitle = Optional.ofNullable(values.get("TITLE").toString()).orElse("제목 없음");
                     String subDesc = Optional.ofNullable(values.get("DESC").toString()).orElse("내용 없음");
-                    embedBuilder.addField("-" + subTitle,subDesc,false);
+                    embedBuilder.addField("-" + subTitle, subDesc, false);
                 }
             });
         }
@@ -200,7 +175,7 @@ public class HelpCommand extends SlashCommand {
         ArrayList<?> list = GenericUtil.getArrayList(map.get("LIST"));
         list.forEach(className -> {
             SlashCommand command = slashCommandMap.get(className.toString());
-            if (!canExecute(command, member)) return;
+            if (!JDAUtil.canExecute(command, member)) return;
             String commandName = command.getName();
             String commandHelp = command.getHelp();
             embedBuilder.addField("/" + commandName, commandHelp, false);

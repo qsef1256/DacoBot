@@ -6,6 +6,7 @@ import net.qsef1256.diabot.util.MatrixUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // x and y from 1
@@ -148,6 +149,20 @@ public class Painter {
         if (!isInBound(x, y)) {
             throw new IllegalArgumentException("올바른 숫자를 입력하세요. (1<=x<=" + getWidth() + ") (1<=y<=" + getHeight() + "), 입력된 숫자: " + x + ", " + y);
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Arrays.deepHashCode(pallet);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (this.getClass() != o.getClass()) return false;
+
+        if (o.hashCode() == this.hashCode()) return true;
+        return false;
     }
 
 }

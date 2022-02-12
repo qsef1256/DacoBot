@@ -27,9 +27,29 @@ public class GenericUtil {
         return list;
     }
 
+    /**
+     * 클래스의 인스턴스인지를 체크합니다.
+     *
+     * @param clazz       class
+     * @param targetClass target class
+     * @return true if class is instanceOf target
+     * @see #typeOf(Class, Class)
+     */
     @Contract(value = "_, null -> false", pure = true)
     public static boolean instanceOf(@NotNull Class<?> clazz, Class<?> targetClass) {
         return clazz.isInstance(targetClass);
+    }
+
+    /**
+     * 타입 이름을 비교합니다.
+     *
+     * @param clazz       class
+     * @param targetClass target class
+     * @return true if type name is same
+     * @see #instanceOf(Class, Class)
+     */
+    public static boolean typeOf(@NotNull Class<?> clazz, @NotNull Class<?> targetClass) {
+        return clazz.getTypeName().equals(targetClass.getTypeName());
     }
 
 }

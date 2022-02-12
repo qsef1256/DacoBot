@@ -54,4 +54,8 @@ public class AccountManager {
         }
     }
 
+    public static AccountEntity getAccount(long discord_id) {
+        return dao.findById(discord_id);
+    }
+
 }

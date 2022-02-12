@@ -6,9 +6,11 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.diabot.enums.DiaColor;
 import net.qsef1256.diabot.enums.DiaEmbed;
+import net.qsef1256.diabot.enums.DiaMessage;
 import net.qsef1256.diabot.system.request.model.Request;
 import net.qsef1256.diabot.system.request.model.RequestManager;
 import net.qsef1256.diabot.util.DiscordUtil;
+import org.jetbrains.annotations.NotNull;
 
 public class RequestCommand extends SlashCommand {
 
@@ -25,11 +27,13 @@ public class RequestCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-        event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
+    protected void execute(@NotNull SlashCommandEvent event) {
+        SlashCommand[] children = getChildren();
+
+        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    public static class CheckCommand extends SlashCommand {
+    private static class CheckCommand extends SlashCommand {
 
         public CheckCommand() {
             name = "확인";
@@ -37,7 +41,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -58,7 +62,7 @@ public class RequestCommand extends SlashCommand {
         }
     }
 
-    public static class AcceptCommand extends SlashCommand {
+    private static class AcceptCommand extends SlashCommand {
 
         public AcceptCommand() {
             name = "수락";
@@ -66,7 +70,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -77,7 +81,7 @@ public class RequestCommand extends SlashCommand {
         }
     }
 
-    public static class DenyCommand extends SlashCommand {
+    private static class DenyCommand extends SlashCommand {
 
         public DenyCommand() {
             name = "거절";
@@ -85,7 +89,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -96,7 +100,7 @@ public class RequestCommand extends SlashCommand {
         }
     }
 
-    public static class CancelCommand extends SlashCommand {
+    private static class CancelCommand extends SlashCommand {
 
         public CancelCommand() {
             name = "취소";
@@ -104,7 +108,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

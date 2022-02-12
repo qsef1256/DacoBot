@@ -3,7 +3,7 @@ package net.qsef1256.diabot.struct;
 import java.util.*;
 import java.util.function.BiConsumer;
 
-// TODO: Map 또는 Iterable 구현하기 또는 새로운 인터페이스 만들기, equals && hashCode() 구현하기
+// TODO: Map 또는 Iterable 구현하기 또는 새로운 인터페이스 만들기
 
 /**
  * {@code Map&lt;T, Map&lt;S, ?&gt;&gt;} 꼴의 중첩된 맵입니다.
@@ -17,6 +17,8 @@ import java.util.function.BiConsumer;
  * <p>생성: <pre>{@code
  * NestedMap<String, String> table = new NestedMap<>();
  * }</pre>
+ *
+ * <p><b>Non Thread-Safe</b>
  *
  * @param <T> Type of main Key
  * @param <S> Type of sub Key
@@ -128,18 +130,20 @@ public class NestedMap<T, S> {
      * table.put("b", "asdf", true);
      * }</pre>
      *
+     * @param <V>    Type of value
      * @param key    main Key
      * @param subKey sub Key
      * @param value  value
-     * @param <V>    Type of value
+     * @return put value
      * @see #putAll(T, Map)
      */
-    public <V> void put(T key, S subKey, V value) {
+    public <V> V put(T key, S subKey, V value) {
         Map<S, V> subMap = keyMap.containsKey(key) ? (Map<S, V>) keyMap.get(key) : new HashMap<>();
-        subMap.put(subKey, value);
+        V replaced = subMap.put(subKey, value);
 
         if (keyMap.containsKey(key)) keyMap.replace(key, subMap);
         else keyMap.put(key, subMap);
+        return replaced;
     }
 
     /**
@@ -147,10 +151,11 @@ public class NestedMap<T, S> {
      *
      * @param key    main Key
      * @param subMap subMap with subKey, value
+     * @return put subMap
      * @see #put(T, S, Object)
      */
-    public void putAll(T key, Map<S, ?> subMap) {
-        keyMap.put(key, subMap);
+    public Map<S, ?> putAll(T key, Map<S, ?> subMap) {
+        return keyMap.put(key, subMap);
     }
 
     /**
@@ -193,10 +198,11 @@ public class NestedMap<T, S> {
      *
      * @param key    main Key
      * @param subMap sub Key-value Map
+     * @return replaced subMap
      * @see #replace(T, S, Object)
      */
-    public void replace(T key, Map<S, ?> subMap) {
-        keyMap.replace(key, subMap);
+    public Map<S, ?> replace(T key, Map<S, ?> subMap) {
+        return keyMap.replace(key, subMap);
     }
 
     /**
@@ -206,14 +212,16 @@ public class NestedMap<T, S> {
      * @param subKey sub Key
      * @param value  value
      * @param <V>    Type of value
+     * @return replaced Value
      * @see #replace(T, Map)
      */
-    public <V> void replace(T key, S subKey, V value) {
+    public <V> V replace(T key, S subKey, V value) {
         Map<S, V> subMap = keyMap.containsKey(key) ? (Map<S, V>) keyMap.get(key) : new HashMap<>();
-        subMap.replace(subKey, value);
+        V replaced = subMap.replace(subKey, value);
 
         if (keyMap.containsKey(key)) keyMap.replace(key, subMap);
         else keyMap.put(key, subMap);
+        return replaced;
     }
 
     /**
@@ -304,6 +312,34 @@ public class NestedMap<T, S> {
      */
     public Spliterator<Map.Entry<T, Map<S, ?>>> spliterator() {
         return keyMap.entrySet().spliterator();
+    }
+
+    /**
+     * keyMap 의 hashCode 를 반환합니다.
+     *
+     * @return haseCode
+     * @see #equals(Object)
+     */
+    @Override
+    public int hashCode() {
+        return keyMap.hashCode();
+    }
+
+    /**
+     * 동일성을 비교합니다.
+     * <p><b>주의:</b> 기본적인 {@link #hashCode()} 를 사용하기 때문에, {@link Object#equals(Object)} 를 재정의 하지 않는 객체가 들어온 경우
+     * * (ex: 배열) false 가 반환 될 수 있습니다.</p>
+     *
+     * @param o object to compare
+     * @return true if equal
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == this) return true;
+        if (this.getClass() != o.getClass()) return false;
+
+        if (o.hashCode() == this.hashCode()) return true;
+        return false;
     }
 
 }

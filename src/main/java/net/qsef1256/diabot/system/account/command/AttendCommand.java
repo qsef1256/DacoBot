@@ -10,6 +10,7 @@ import net.qsef1256.diabot.enums.DiaColor;
 import net.qsef1256.diabot.system.account.data.AccountEntity;
 import net.qsef1256.diabot.system.account.model.Account;
 import net.qsef1256.diabot.util.LocalDateUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -22,7 +23,7 @@ public class AttendCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
+    protected void execute(@NotNull SlashCommandEvent event) {
 
         if (event.getMember() == null) return;
         User eventUser = event.getUser();
