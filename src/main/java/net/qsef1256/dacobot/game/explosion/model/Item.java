@@ -16,14 +16,14 @@ import java.util.NoSuchElementException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Item {
 
-    protected static final DaoCommon<Long, InventoryEntity> dao = new DaoCommonImpl<>(InventoryEntity.class);
-    protected static final DaoCommon<Integer, ItemTypeEntity> itemDao = new DaoCommonImpl<>(ItemTypeEntity.class);
+    protected static final DaoCommon<InventoryEntity, Long> dao = new DaoCommonImpl<>(InventoryEntity.class);
+    protected static final DaoCommon<ItemTypeEntity, Integer> itemDao = new DaoCommonImpl<>(ItemTypeEntity.class);
     @Getter
     @Setter
     private ItemEntity itemEntity;
 
     private Item(int itemId) {
-        if (!itemDao.isExist(itemId)) throw new IllegalArgumentException("ID: %s 아이템을 찾을 수 없습니다.".formatted(itemId));
+        if (!itemDao.existsById(itemId)) throw new IllegalArgumentException("ID: %s 아이템을 찾을 수 없습니다.".formatted(itemId));
         itemEntity = new ItemEntity(itemDao.findById(itemId));
         itemEntity.setAmount(1);
     }

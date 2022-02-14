@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.database.HibernateManager;
+import net.qsef1256.dacobot.enums.DiaEmbed;
 import net.qsef1256.dacobot.enums.DiaInfo;
 import net.qsef1256.dacobot.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
@@ -27,6 +28,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
+import java.util.Properties;
 import java.util.Set;
 
 import static org.reflections.scanners.Scanners.SubTypes;
@@ -35,15 +37,19 @@ public class DacoBot {
 
     public static final Logger logger = LoggerFactory.getLogger(DacoBot.class.getSimpleName());
     @Getter
-    private static final Reflections reflections = new Reflections("net.qsef1256.dacobot");
+    private static Reflections reflections;
     @Getter
     private static JDA jda;
     @Getter
     private static CommandClient commandClient;
     private static String[] args;
 
+    static {
+        initSettings();
+    }
+
     public static void main(final String[] args) throws LoginException {
-        if (args == null) {
+        if (args == null || args.length == 0) {
             System.out.println("Please start bot with Discord Bot Token.");
             return;
         }
@@ -93,6 +99,22 @@ public class DacoBot {
         builder.setChunkingFilter(ChunkingFilter.ALL); // 모든 길드의 유저 캐싱하기 (권한 필요)
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS); // 유저 캐싱 권한 얻기 (권한 필요)
         builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
+    }
+
+    private static void initSettings() {
+        Properties properties = null;
+        try {
+            properties = DacoBot.getProperties("project.properties");
+        } catch (final IOException | RuntimeException e) {
+            logger.error("Error on loading properties");
+            e.printStackTrace();
+        }
+
+        assert properties != null;
+
+        String mainPackage = properties.getProperty("mainPackage");
+        logger.info("main Package: " + mainPackage);
+        reflections = new Reflections(mainPackage);
     }
 
     private static void registerCommands(final CommandClientBuilder commandClientBuilder) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
@@ -166,6 +188,14 @@ public class DacoBot {
             e.printStackTrace();
         }
         shutdown();
+    }
+
+    @NotNull
+    public static Properties getProperties(String path) throws IOException {
+        final Properties properties = new Properties();
+        properties.load(DacoBot.class.getClassLoader().getResourceAsStream(path));
+
+        return properties;
     }
 
 }

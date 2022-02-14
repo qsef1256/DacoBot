@@ -11,8 +11,8 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class Cash {
 
-    protected final DaoCommon<Long, AccountEntity> userDao = new DaoCommonImpl<>(AccountEntity.class);
-    protected final DaoCommon<Long, CashEntity> cashDao = new DaoCommonImpl<>(CashEntity.class);
+    protected final DaoCommon<AccountEntity, Long> userDao = new DaoCommonImpl<>(AccountEntity.class);
+    protected final DaoCommon<CashEntity, Long> cashDao = new DaoCommonImpl<>(CashEntity.class);
     @Getter
     private final CashEntity data;
 

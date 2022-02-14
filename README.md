@@ -17,6 +17,8 @@ Discord bot by qsef1256
     * [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
     * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
     * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): `LGPL-2.1-or-later`
+    * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
+    * [Querydsl JPA](https://github.com/querydsl/querydsl/tree/master/querydsl-jpa): `Apache-2.0`
 * 유틸 라이브러리
     * [Lombok](https://projectlombok.org/): `MIT`
     * [Apache Commons Lang3](https://github.com/apache/commons-lang): `Apache-2.0`

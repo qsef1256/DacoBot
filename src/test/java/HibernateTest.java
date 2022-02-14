@@ -2,6 +2,7 @@ import lombok.Getter;
 import net.qsef1256.dacobot.database.DaoCommon;
 import net.qsef1256.dacobot.database.DaoCommonImpl;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import javax.persistence.EntityManager;
@@ -21,7 +22,7 @@ public class HibernateTest {
     @Deprecated
     protected void setUp() {
         try {
-            entityManagerFactory = Persistence.createEntityManagerFactory("net.qsef1256.diabot");
+            entityManagerFactory = Persistence.createEntityManagerFactory("net.qsef1256.dacobot");
         } catch (final Exception e) {
             entityManagerFactory.close();
             throw new RuntimeException(e);
@@ -67,21 +68,21 @@ public class HibernateTest {
     }
 
     public void DaoCheck() {
-        DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
+        DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
 
-        logger.info("qsef1256 is exist?: " + dao.isExist(419761037861060619L));
-        if (!dao.isExist(419761037861060620L))
+        logger.info("qsef1256 is exist?: " + dao.existsById(419761037861060619L));
+        if (!dao.existsById(419761037861060620L))
             create(dao);
         find(dao);
         dao.deleteById(419761037861060620L);
     }
 
-    private void find(DaoCommon<Long, AccountEntity> dao) {
+    private void find(@NotNull DaoCommon<AccountEntity, Long> dao) {
         AccountEntity user = dao.findById(419761037861060620L);
         logger.info(user.getDiscord_id() + " Status: " + user.getStatus() + " Time: " + user.getRegisterTime());
     }
 
-    private void create(DaoCommon<Long, AccountEntity> dao) {
+    private void create(@NotNull DaoCommon<AccountEntity, Long> dao) {
         AccountEntity testUser = new AccountEntity();
         testUser.setDiscord_id(419761037861060620L);
         testUser.setRegisterTime(LocalDateTime.now());

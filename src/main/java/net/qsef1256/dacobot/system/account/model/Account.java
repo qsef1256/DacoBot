@@ -13,14 +13,14 @@ import java.util.NoSuchElementException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
 
-    protected static final DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
 
     @Getter
     private AccountEntity data;
 
     public Account(final long discord_id) {
         try {
-            if (!dao.isExist(discord_id))
+            if (!dao.existsById(discord_id))
                 throw new NoSuchElementException(DiscordUtil.getNameAsTag(discord_id) + " 유저는 등록되지 않았습니다.");
             data = dao.findById(discord_id);
         } catch (NoSuchElementException e) {

@@ -28,7 +28,7 @@ public class InventoryEntity implements Serializable {
     @JoinColumn(name = "discord_id")
     private AccountEntity discordUser;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Map<Integer, ItemEntity> items = new HashMap<>();
 
     public ItemEntity getItem(int itemId) {

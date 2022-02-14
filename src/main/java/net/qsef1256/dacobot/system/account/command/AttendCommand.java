@@ -29,7 +29,7 @@ public class AttendCommand extends SlashCommand {
         User eventUser = event.getUser();
 
         try {
-            DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
+            DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
 
             Account user = new Account(eventUser.getIdLong());
             AccountEntity userData = user.getData();

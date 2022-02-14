@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class Shop {
 
-    protected static final DaoCommon<Integer, ShopEntity> dao = new DaoCommonImpl<>(ShopEntity.class);
+    protected static final DaoCommon<ShopEntity, Integer> dao = new DaoCommonImpl<>(ShopEntity.class);
 
     public static long getPrice(@NotNull Item item) {
         Map<String, Object> constraint = new HashMap<>();

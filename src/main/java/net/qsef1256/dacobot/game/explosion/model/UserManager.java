@@ -11,12 +11,12 @@ import java.util.NoSuchElementException;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class UserManager {
-    protected static final DaoCommon<Long, AccountEntity> mainDao = new DaoCommonImpl<>(AccountEntity.class);
-    protected static final DaoCommon<Long, CashEntity> cashDao = new DaoCommonImpl<>(CashEntity.class);
+    protected static final DaoCommon<AccountEntity, Long> mainDao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommon<CashEntity, Long> cashDao = new DaoCommonImpl<>(CashEntity.class);
 
     public static void register(final long discord_id) {
         try {
-            if (!mainDao.isExist(discord_id))
+            if (!mainDao.existsById(discord_id))
                 throw new NoSuchElementException(DiscordUtil.getNameAsTag(discord_id) + " 유저가 존재하지 않습니다.");
             CashEntity cashData = new CashEntity();
             cashData.setDiscord_user(mainDao.findById(discord_id));
@@ -43,7 +43,7 @@ public class UserManager {
     }
 
     public static boolean isExist(long discord_id) {
-        return cashDao.isExist(discord_id);
+        return cashDao.existsById(discord_id);
     }
 
 }

@@ -11,7 +11,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
-// ax = x - 1, ay = y - 1
 public class OmokGame {
 
     public static final PixelColor BOARD = PixelColor.BROWN;

@@ -19,7 +19,7 @@ public class CmdStatistic {
 
     private CmdStatisticEntity statistic;
 
-    final DaoCommon<String, CmdStatisticEntity> dao = new DaoCommonImpl<>(CmdStatisticEntity.class);
+    final DaoCommon<CmdStatisticEntity, String> dao = new DaoCommonImpl<>(CmdStatisticEntity.class);
 
     public CmdStatistic(Class<? extends SlashCommand> command) {
         try {

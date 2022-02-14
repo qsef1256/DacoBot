@@ -10,17 +10,28 @@ import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import net.qsef1256.dacobot.system.account.model.AccountManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
 public class Inventory {
 
-    protected static final DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
 
     @Getter
-    private final InventoryEntity data;
+    private InventoryEntity data;
 
     public Inventory(long discord_id) {
+        init(discord_id);
+    }
+
+    @Contract("_ -> new")
+    public static @NotNull Inventory fromUser(long discord_id) {
+        return new Inventory(discord_id);
+    }
+
+    @Transactional
+    public void init(long discord_id) {
         AccountEntity account = AccountManager.getAccount(discord_id);
 
         InventoryEntity inventory = account.getInventory();
@@ -31,11 +42,6 @@ public class Inventory {
             dao.update(account);
         }
         data = inventory;
-    }
-
-    @Contract("_ -> new")
-    public static @NotNull Inventory fromUser(long discord_id) {
-        return new Inventory(discord_id);
     }
 
     public AccountEntity getUser() {

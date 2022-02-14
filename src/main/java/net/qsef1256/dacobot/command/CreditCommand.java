@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.Properties;
 
 public class CreditCommand extends SlashCommand {
+
     public CreditCommand() {
         name = "정보";
         help = "다이아 덩어리의 구성 성분";
@@ -41,14 +42,16 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            final Properties properties = new Properties();
+            Properties properties = null;
+
             try {
-                properties.load(this.getClass().getClassLoader().getResourceAsStream("project.properties"));
+                properties = DacoBot.getProperties("project.properties");
             } catch (final IOException | RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
-                return;
             }
+
+            if (properties == null) return;
 
             final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
             final String message = CommonUtil.getRandomElement(
@@ -78,6 +81,7 @@ public class CreditCommand extends SlashCommand {
                     .setFooter("provided by JDA v4.4.0_350")
                     .build()).queue();
         }
+
     }
 
     private static class LibraryCommand extends SlashCommand {
@@ -101,6 +105,8 @@ public class CreditCommand extends SlashCommand {
                             [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
                             [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
                             [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): `LGPL-2.1-or-later`
+                            [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
+                            [Querydsl JPA](https://github.com/querydsl/querydsl/tree/master/querydsl-jpa): `Apache-2.0`
                             """, false)
                     .addField("유틸 라이브러리", """
                             [Lombok](https://projectlombok.org/): `MIT`

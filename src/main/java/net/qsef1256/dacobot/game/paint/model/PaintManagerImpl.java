@@ -8,6 +8,7 @@ import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.util.DiscordUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.ArrayList;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 public class PaintManagerImpl implements PaintManager {
 
-    private static final DaoCommon<String, PaintEntity> dao = new DaoCommonImpl<>(PaintEntity.class);
+    private static final DaoCommon<PaintEntity, String> dao = new DaoCommonImpl<>(PaintEntity.class);
 
     @Override
     public List<String> getOwnedPaint(long discord_id) {
@@ -39,9 +40,11 @@ public class PaintManagerImpl implements PaintManager {
         dao.deleteById(paintName);
     }
 
-    private @NotNull PaintEntity findPaint(String paintName, long discord_id) {
+    @Transactional
+    @NotNull
+    protected PaintEntity findPaint(String paintName, long discord_id) {
         PaintEntity paintData;
-        if (!dao.isExist(paintName)) throw new IllegalArgumentException(paintName + " 이름의 그림은 없습니다.");
+        if (!dao.existsById(paintName)) throw new IllegalArgumentException(paintName + " 이름의 그림은 없습니다.");
 
         paintData = dao.findById(paintName);
         checkPermission(discord_id, paintData.getOwnerId());
@@ -63,7 +66,7 @@ public class PaintManagerImpl implements PaintManager {
     public void save(long discord_id, String paintName) {
         PaintEntity paintData = new PaintEntity();
 
-        if (dao.isExist(paintName))
+        if (dao.existsById(paintName))
             throw new KeyAlreadyExistsException(paintName + " 이름의 그림은 이미 있습니다.");
         Painter painter = PainterContainer.getPainter(discord_id);
 
@@ -85,7 +88,7 @@ public class PaintManagerImpl implements PaintManager {
         try {
             setPaintData(paintData, paintName, painter, discord_id);
 
-            dao.createOrUpdate(paintData);
+            dao.save(paintData);
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw e;

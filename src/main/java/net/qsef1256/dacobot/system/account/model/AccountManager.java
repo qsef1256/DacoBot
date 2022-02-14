@@ -12,7 +12,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class AccountManager {
 
-    protected static final DaoCommon<Long, AccountEntity> dao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
 
     /**
      * 다양한 기능을 사용하기 위해 유저 등록을 시도합니다.
@@ -21,7 +21,7 @@ public class AccountManager {
      */
     public static void register(final long discord_id) {
         try {
-            if (dao.isExist(discord_id))
+            if (dao.existsById(discord_id))
                 throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 유저는 이미 등록 되어 있습니다.");
             AccountEntity userData = new AccountEntity();
             userData.setDiscord_id(discord_id);
@@ -43,7 +43,7 @@ public class AccountManager {
      */
     public static void delete(final long discord_id) {
         try {
-            if (!dao.isExist(discord_id))
+            if (!dao.existsById(discord_id))
                 throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 계정은 이미 삭제 되었습니다.");
             dao.deleteById(discord_id);
         } catch (DuplicateRequestException e) {

@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
@@ -17,7 +19,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T> {
+public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<T, K> {
 
     private SessionFactory factory;
     private Class<T> clazz;
@@ -33,6 +35,23 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     @Override
     public Session getCurrentSession() {
         return factory.getCurrentSession();
+    }
+
+    public long count() {
+        final Session session = factory.getCurrentSession();
+        try {
+            session.beginTransaction();
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+            criteria.select(builder.count(criteria.from(clazz)));
+
+            Long result = session.createQuery(criteria).getSingleResult();
+            session.getTransaction().commit();
+            return result;
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -76,12 +95,12 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     }
 
     @Override
-    public void createOrUpdate(final T entity) {
-        createOrUpdate(List.of(entity));
+    public void save(final T entity) {
+        saveAll(List.of(entity));
     }
 
     @Override
-    public void createOrUpdate(List<T> entities) {
+    public void saveAll(List<T> entities) {
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
@@ -137,7 +156,7 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<K, T>
     }
 
     @Override
-    public boolean isExist(K id) {
+    public boolean existsById(K id) {
         try {
             final T entity = findById(id);
             return entity != null;
