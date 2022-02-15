@@ -27,7 +27,7 @@ public class AccountManager {
             userData.setDiscord_id(discord_id);
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
-            dao.create(userData);
+            dao.save(userData);
         } catch (DuplicateRequestException e) {
             throw e;
         } catch (final RuntimeException e) {

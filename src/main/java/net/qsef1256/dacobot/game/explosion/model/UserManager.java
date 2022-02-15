@@ -23,7 +23,7 @@ public class UserManager {
             cashData.setCash(0L);
             cashData.setPickaxeCount(0);
             cashData.setPrestigeCount(0);
-            cashDao.create(cashData);
+            cashDao.save(cashData);
         } catch (NoSuchElementException e) {
             throw e;
         } catch (final RuntimeException e) {

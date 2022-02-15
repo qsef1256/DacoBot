@@ -34,7 +34,7 @@ public class Cash {
         if (data.getCash() < 0) {
             data.setCash(0L);
         }
-        cashDao.update(data);
+        cashDao.save(data);
     }
 
     public int getPickaxeCount() {
@@ -46,7 +46,7 @@ public class Cash {
         if (data.getPickaxeCount() < 0) {
             data.setPickaxeCount(0);
         }
-        cashDao.update(data);
+        cashDao.save(data);
     }
 
     public void addPickaxeCount() {

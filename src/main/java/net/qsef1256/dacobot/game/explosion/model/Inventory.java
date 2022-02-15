@@ -39,7 +39,7 @@ public class Inventory {
             inventory = new InventoryEntity().setDiscordUser(account);
 
             account.setInventory(inventory);
-            dao.update(account);
+            dao.save(account);
         }
         data = inventory;
     }
@@ -84,7 +84,7 @@ public class Inventory {
 
         userItem.setAmount(result);
         data.putItem(userItem);
-        update();
+        save();
     }
 
     private void createItem(int itemId) {
@@ -94,7 +94,7 @@ public class Inventory {
     private void createItem(int itemId, int amount) {
         ItemEntity itemEntity = Item.fromId(itemId, amount).getItemEntity();
         data.putItem(itemEntity);
-        update();
+        save();
     }
 
     public void removeItem(int itemId) {
@@ -114,7 +114,7 @@ public class Inventory {
         else {
             userItem.setAmount(result);
             data.putItem(userItem);
-            update();
+            save();
         }
     }
 
@@ -122,18 +122,18 @@ public class Inventory {
         Item userItem = Item.fromUser(getUserId(), itemId);
 
         data.removeItem(userItem.getItemEntity());
-        update();
+        save();
     }
 
     private ItemTypeEntity getItemType(Integer itemId) {
         return Item.fromId(itemId).getItemType();
     }
 
-    private void update() {
+    private void save() {
         AccountEntity account = data.getDiscordUser();
 
         account.setInventory(data);
-        dao.update(account);
+        dao.save(account);
     }
 
 }

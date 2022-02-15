@@ -9,16 +9,21 @@ import java.util.Map;
 
 public interface DaoCommon<T, ID extends Serializable> {
 
+    @Deprecated
     Session getCurrentSession();
 
     long count();
 
+    @Deprecated
     void create(T entity);
 
+    @Deprecated
     void create(List<T> entity);
 
+    @Deprecated
     void update(T entity);
 
+    @Deprecated
     void update(List<T> entity);
 
     /**

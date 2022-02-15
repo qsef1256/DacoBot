@@ -45,7 +45,7 @@ public class AttendCommand extends SlashCommand {
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
-                dao.update(userData);
+                dao.save(userData);
 
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("출석 체크!")

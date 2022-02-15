@@ -8,7 +8,6 @@ import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.util.DiscordUtil;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.ArrayList;
@@ -40,7 +39,6 @@ public class PaintManagerImpl implements PaintManager {
         dao.deleteById(paintName);
     }
 
-    @Transactional
     @NotNull
     protected PaintEntity findPaint(String paintName, long discord_id) {
         PaintEntity paintData;
@@ -73,7 +71,7 @@ public class PaintManagerImpl implements PaintManager {
         try {
             setPaintData(paintData, paintName, painter, discord_id);
 
-            dao.create(paintData);
+            dao.save(paintData);
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw e;

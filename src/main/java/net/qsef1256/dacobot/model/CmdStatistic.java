@@ -30,7 +30,7 @@ public class CmdStatistic {
             statistic.setUseCount(getUseCount() + 1);
             statistic.setTodayUsed(getTodayUsed() + 1);
             statistic.setLastUseTime(LocalDateTime.now());
-            dao.update(statistic);
+            dao.save(statistic);
         } catch (NoSuchElementException e) {
             createStatistic(command);
         } catch (RuntimeException e) {
@@ -47,7 +47,7 @@ public class CmdStatistic {
         data.setTodayUsed(1);
         logger.info("Creating " + command.getSimpleName() + "'s statistics");
         statistic = data;
-        dao.create(data);
+        dao.save(data);
     }
 
     public int getUseCount() {
