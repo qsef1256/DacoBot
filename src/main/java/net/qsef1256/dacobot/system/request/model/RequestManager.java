@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.Button;
 import net.qsef1256.dacobot.enums.DiaColor;
 import net.qsef1256.dacobot.util.CommonUtil;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.jetbrains.annotations.NotNull;
@@ -46,8 +46,8 @@ public class RequestManager {
             }
         });
 
-        User requester = DiscordUtil.getUserFromId(requesterId);
-        User receiver = DiscordUtil.getUserFromId(receiverId);
+        User requester = JDAUtil.getUserFromId(requesterId);
+        User receiver = JDAUtil.getUserFromId(receiverId);
 
         channel.sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -77,7 +77,7 @@ public class RequestManager {
     public static void cancel(long userId) {
         Long messageId = getMessageId(userId);
         if (messageId == null)
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
 
         cancel(userId, messageId);
     }
@@ -85,11 +85,11 @@ public class RequestManager {
     private static void cancel(long userId, long messageId) {
         logger.info("RequestManager#cancel> messageId: " + messageId + " userId: " + userId);
         Request request = getRequest(messageId, userId);
-        User requester = DiscordUtil.getUserFromId(request.getRequesterId());
-        User receiver = DiscordUtil.getUserFromId(request.getReceiverId());
+        User requester = JDAUtil.getUserFromId(request.getRequesterId());
+        User receiver = JDAUtil.getUserFromId(request.getReceiverId());
 
         if (request.getRequesterId() != userId)
-            throw new IllegalCallerException(DiscordUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
+            throw new IllegalCallerException(JDAUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
         request.getChannel().deleteMessageById(messageId).queue();
         request.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -102,18 +102,18 @@ public class RequestManager {
 
     public static void accept(long userId) {
         Long messageId = getMessageId(userId);
-        if (messageId == null) throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
+        if (messageId == null) throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
         accept(messageId, userId);
     }
 
     public static void accept(long messageId, long userId) {
         logger.info("RequestManager#accept> messageId: " + messageId + " userId: " + userId);
         Request request = getRequest(messageId, userId);
-        User requester = DiscordUtil.getUserFromId(request.getRequesterId());
-        User receiver = DiscordUtil.getUserFromId(request.getReceiverId());
+        User requester = JDAUtil.getUserFromId(request.getRequesterId());
+        User receiver = JDAUtil.getUserFromId(request.getReceiverId());
 
         if (request.getReceiverId() != userId)
-            throw new IllegalCallerException(DiscordUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
+            throw new IllegalCallerException(JDAUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
         request.getChannel().deleteMessageById(messageId).queue();
         request.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -128,7 +128,7 @@ public class RequestManager {
     public static void deny(long userId) {
         Long messageId = getMessageId(userId);
         if (messageId == null)
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 신청을 찾을 수 없습니다.");
 
         deny(messageId, userId);
     }
@@ -136,11 +136,11 @@ public class RequestManager {
     public static void deny(long messageId, long userId) {
         logger.info("RequestManager#deny> messageId: " + messageId + " userId: " + userId);
         Request request = getRequest(messageId, userId);
-        User requester = DiscordUtil.getUserFromId(request.getRequesterId());
-        User receiver = DiscordUtil.getUserFromId(request.getReceiverId());
+        User requester = JDAUtil.getUserFromId(request.getRequesterId());
+        User receiver = JDAUtil.getUserFromId(request.getReceiverId());
 
         if (request.getReceiverId() != userId)
-            throw new IllegalCallerException(DiscordUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
+            throw new IllegalCallerException(JDAUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
         request.getChannel().deleteMessageById(messageId).queue();
         request.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -160,17 +160,17 @@ public class RequestManager {
             }
         });
         if (messageId.get() == null)
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 님의 요청을 찾지 못했습니다.");
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 님의 요청을 찾지 못했습니다.");
         return messageId.get();
     }
 
     private static @NotNull Request getRequest(long messageId, long userId) {
         if (!requestMap.containsKey(messageId))
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 님의 요청을 찾지 못했습니다.");
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 님의 요청을 찾지 못했습니다.");
 
         Request request = requestMap.get(messageId);
         if (!CommonUtil.anySame(userId, request.getRequesterId(), request.getReceiverId()))
-            throw new IllegalCallerException(DiscordUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
+            throw new IllegalCallerException(JDAUtil.getNameAsTag(userId) + " 님, 당신의 메시지가 아닌 것 같은데요...");
         return request;
     }
 

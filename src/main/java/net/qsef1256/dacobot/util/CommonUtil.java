@@ -9,8 +9,14 @@ import java.util.concurrent.ThreadLocalRandom;
 @UtilityClass
 public class CommonUtil {
 
+    /**
+     * min 과 max 사이의 정수를 랜덤하게 뽑습니다. <b>max를 포함합니다.</b>
+     * @param min min value
+     * @param max max value
+     * @return random Integer between min and max
+     */
     public int randomInt(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
+        return new Random().nextInt(min, max + 1);
     }
 
     public <T> void swap(T @NotNull [] toSwap, int a, int b) {
@@ -29,6 +35,10 @@ public class CommonUtil {
         if (val < min) val = min;
         else if (val > max) val = max;
         return val;
+    }
+
+    public boolean randomBool() {
+        return randomInt(0,1) == 0;
     }
 
     public int getDiff(int a, int b) {

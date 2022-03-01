@@ -52,9 +52,7 @@ public class SHA256Command extends SlashCommand {
 
         try {
             String MD5 = toSHA256(option.getAsString());
-            event.replyEmbeds(new EmbedBuilder()
-                    .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
-                    .setColor(DiaColor.INFO)
+            event.replyEmbeds(DiaEmbed.info(null, null, user)
                     .addField("SHA-256 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + MD5 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {

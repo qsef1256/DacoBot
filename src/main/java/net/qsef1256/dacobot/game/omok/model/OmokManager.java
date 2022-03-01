@@ -11,7 +11,7 @@ import net.qsef1256.dacobot.game.paint.enums.PixelColor;
 import net.qsef1256.dacobot.struct.NestedMap;
 import net.qsef1256.dacobot.system.request.model.RequestManager;
 import net.qsef1256.dacobot.util.CommonUtil;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,9 +37,9 @@ public class OmokManager {
         long requesterId = request.getRequesterId();
         long receiverId = request.getReceiverId();
         if (getMessageId(requesterId) != null)
-            throw new KeyAlreadyExistsException(DiscordUtil.getNameAsTag(requesterId) + " 는 이미 진행 중인 오목 대국이 있습니다.");
+            throw new KeyAlreadyExistsException(JDAUtil.getNameAsTag(requesterId) + " 는 이미 진행 중인 오목 대국이 있습니다.");
         if (getMessageId(receiverId) != null)
-            throw new KeyAlreadyExistsException(DiscordUtil.getNameAsTag(receiverId) + " 는 이미 진행 중인 오목 대국이 있습니다.");
+            throw new KeyAlreadyExistsException(JDAUtil.getNameAsTag(receiverId) + " 는 이미 진행 중인 오목 대국이 있습니다.");
 
         OmokGame game = new OmokGame();
         request.getChannel().sendMessageEmbeds(getGameEmbed(receiverId, requesterId, game)
@@ -86,12 +86,12 @@ public class OmokManager {
     public static void pullBoard(long userId, MessageChannel channel) {
         Long oldMessageId = getMessageId(userId);
         if (oldMessageId == null)
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
         OmokGame game = omokMap.get(oldMessageId, "game");
         Long blackId = omokMap.get(oldMessageId, "blackId");
         Long whiteId = omokMap.get(oldMessageId, "whiteId");
         if (!CommonUtil.anySame(blackId, whiteId, userId))
-            throw new IllegalCallerException(DiscordUtil.getNameAsTag(userId) + " 님, 당신의 게임이 아닌 것 같은데요...");
+            throw new IllegalCallerException(JDAUtil.getNameAsTag(userId) + " 님, 당신의 게임이 아닌 것 같은데요...");
 
         omokMap.replace(oldMessageId, "channel", channel);
         channel.sendMessageEmbeds(getGameEmbed(blackId, whiteId, game).build()).queue(callback -> {
@@ -104,7 +104,7 @@ public class OmokManager {
         Long messageId = getMessageId(userId);
         logger.info("ID: %s process: %s, x: %s y: %s".formatted(messageId, process, x, y));
         if (messageId == null)
-            throw new NoSuchElementException(DiscordUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
 
         OmokGame game = omokMap.get(messageId, "game");
         Long blackId = omokMap.get(messageId, "blackId");
@@ -112,10 +112,10 @@ public class OmokManager {
         MessageChannel channel = omokMap.get(messageId, "channel");
         if (CommonUtil.anyNull(game, blackId, whiteId, channel)) {
             logger.warn("omokMap: " + Objects.requireNonNull(omokMap.get(messageId)).values());
-            throw new IllegalStateException(DiscordUtil.getNameAsTag(userId) + " 의 오목 게임을 로드하는 중 문제가 발생했습니다.");
+            throw new IllegalStateException(JDAUtil.getNameAsTag(userId) + " 의 오목 게임을 로드하는 중 문제가 발생했습니다.");
         }
         if (!CommonUtil.anySame(blackId, whiteId, userId))
-            throw new IllegalCallerException(DiscordUtil.getNameAsTag(userId) + " 님, 당신의 게임이 아닌 것 같은데요...");
+            throw new IllegalCallerException(JDAUtil.getNameAsTag(userId) + " 님, 당신의 게임이 아닌 것 같은데요...");
 
         PixelColor stone = getStone(userId, blackId, whiteId);
 
@@ -153,8 +153,8 @@ public class OmokManager {
                 .setColor(OmokGame.BOARD.getColor())
                 .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
                 .addField("오목 게임", game.printBoard(), false)
-                .addField(OmokGame.BLACK.getEmoji() + " 흑돌", DiscordUtil.getNameAsTag(blackId), true)
-                .addField(OmokGame.WHITE.getEmoji() + " 백돌", DiscordUtil.getNameAsTag(whiteId), true)
+                .addField(OmokGame.BLACK.getEmoji() + " 흑돌", JDAUtil.getNameAsTag(blackId), true)
+                .addField(OmokGame.WHITE.getEmoji() + " 백돌", JDAUtil.getNameAsTag(whiteId), true)
                 .addField("차례", game.isBlackTurn() ? OmokGame.BLACK.getEmoji() : OmokGame.WHITE.getEmoji(), true)
                 .setFooter("경기 중에 채팅은 스크롤이 올라가니 적당히.");
         if (game.isEnd()) embedBuilder.addField(game.getStatus().getDisplay(), "게임 종료", false);

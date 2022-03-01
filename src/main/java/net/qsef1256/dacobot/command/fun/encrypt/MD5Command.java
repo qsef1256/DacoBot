@@ -50,9 +50,7 @@ public class MD5Command extends SlashCommand {
 
         try {
             String MD5 = toMD5(option.getAsString());
-            event.replyEmbeds(new EmbedBuilder()
-                    .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
-                    .setColor(DiaColor.INFO)
+            event.replyEmbeds(DiaEmbed.info(null, null, user)
                     .addField("MD5 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + MD5 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {

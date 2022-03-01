@@ -22,7 +22,8 @@ public class CreditCommand extends SlashCommand {
 
         children = new SlashCommand[]{
                 new MainInfoCommand(),
-                new LibraryCommand()
+                new LibraryCommand(),
+                new APICommand()
         };
     }
 
@@ -52,7 +53,6 @@ public class CreditCommand extends SlashCommand {
             }
 
             if (properties == null) return;
-
             final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
             final String message = CommonUtil.getRandomElement(
                     Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM", "나는 댕청하다, /댕청"));
@@ -93,10 +93,7 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(DiaColor.MAIN_COLOR)
-                    .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
-                    .setTitle("라이브러리")
+            event.replyEmbeds(DiaEmbed.main("라이브러리", "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.", null)
                     .addField("코어 라이브러리", """
                             [JDA](https://github.com/DV8FromTheWorld/JDA): `Apache-2.0`
                             [Chewtils](https://github.com/Chew/JDA-Chewtils): `Apache-2.0`
@@ -107,6 +104,9 @@ public class CreditCommand extends SlashCommand {
                             [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): `LGPL-2.1-or-later`
                             [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
                             [Querydsl JPA](https://github.com/querydsl/querydsl/tree/master/querydsl-jpa): `Apache-2.0`
+                            """, false)
+                    .addField("기능 라이브러리", """
+                            [mXParser](https://mathparser.org/): `BSD-2-Clause`
                             """, false)
                     .addField("유틸 라이브러리", """
                             [Lombok](https://projectlombok.org/): `MIT`
@@ -119,9 +119,29 @@ public class CreditCommand extends SlashCommand {
                     .addField("테스트/로깅 라이브러리", """
                             [JUnit 5](https://junit.org/junit5/): `EPL-2.0`
                             [SLF4J](https://www.slf4j.org/): `MIT`
-                            [Logback](https://logback.qos.ch/): `EPL-1.0 & LGPL-2.1`
+                            [Logback](https://logback.qos.ch/): `EPL-1.0 AND LGPL-2.1`
                             """, false)
-                    .setFooter("다이아 덩어리를 굴러가게 만드는 코드 덩어리들")
+                    .setFooter("SPDX (https://spdx.org/licenses/) 의 표기를 따릅니다.")
+                    .build()).queue();
+        }
+    }
+
+    private static class APICommand extends SlashCommand {
+
+        public APICommand() {
+            name = "api";
+            help = "사용중인 API 정보를 확인합니다.";
+        }
+
+        @Override
+        protected void execute(@NotNull SlashCommandEvent event) {
+            event.replyEmbeds(DiaEmbed.main("외부 API", "다이아 덩어리를 굴러가게 만드는 서비스들", null)
+                    .addField("기상청 단기예보 조회서비스",
+                            "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084) 제공 `기상청`", false)
+                    .addField("기상청 중기예보 조회서비스",
+                            "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15059468) 제공 `기상청`", false)
+                    .addField("Geocoder API 2.0",
+                            "[Link](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do) 제공 `국토교통부`", false)
                     .build()).queue();
         }
     }

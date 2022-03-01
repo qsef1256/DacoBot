@@ -9,7 +9,7 @@ import net.qsef1256.dacobot.enums.DiaEmbed;
 import net.qsef1256.dacobot.enums.DiaMessage;
 import net.qsef1256.dacobot.system.request.model.Request;
 import net.qsef1256.dacobot.system.request.model.RequestManager;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class RequestCommand extends SlashCommand {
@@ -51,8 +51,8 @@ public class RequestCommand extends SlashCommand {
                         .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                         .setColor(DiaColor.INFO)
                         .setDescription("진행 중인 요청 정보")
-                        .addField("신청자", DiscordUtil.getNameAsTag(request.getRequesterId()), true)
-                        .addField("상대자", DiscordUtil.getNameAsTag(request.getReceiverId()), true)
+                        .addField("신청자", JDAUtil.getNameAsTag(request.getRequesterId()), true)
+                        .addField("상대자", JDAUtil.getNameAsTag(request.getReceiverId()), true)
                         .addField("채널", request.getChannel().getName(), true)
                         .addField("종류", request.getTitle(), true)
                         .build()).queue();

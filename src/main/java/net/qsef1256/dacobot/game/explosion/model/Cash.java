@@ -5,7 +5,7 @@ import net.qsef1256.dacobot.database.DaoCommon;
 import net.qsef1256.dacobot.database.DaoCommonImpl;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
@@ -21,7 +21,7 @@ public class Cash {
             data = userDao.findById(discord_id).getExplosionCash();
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
-            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + "님의 계정 캐시를 로드하는데 실패했습니다.");
+            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + "님의 계정 캐시를 로드하는데 실패했습니다.");
         }
     }
 

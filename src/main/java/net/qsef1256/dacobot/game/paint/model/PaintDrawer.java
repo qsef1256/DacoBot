@@ -16,7 +16,7 @@ import net.qsef1256.dacobot.game.paint.enums.PixelColor;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.util.CommonUtil;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,6 +31,11 @@ public class PaintDrawer {
     private static final Map<Long, Long> messageMap = new HashMap<>();
     private static final Map<Long, PixelColor> selectedColor = new HashMap<>();
 
+    @Nullable
+    public static Long getDrawerId(long discord_id) {
+        return messageMap.get(discord_id);
+    }
+
     public static void setDrawerId(long discord_id, long messageId) {
         if (messageMap.containsKey(discord_id))
             messageMap.replace(discord_id, messageId);
@@ -39,8 +44,8 @@ public class PaintDrawer {
     }
 
     @Nullable
-    public static Long getDrawerId(long discord_id) {
-        return messageMap.get(discord_id);
+    public static PixelColor getColor(long discord_id) {
+        return selectedColor.get(discord_id);
     }
 
     public static void setColor(long discord_id, PixelColor color) {
@@ -48,11 +53,6 @@ public class PaintDrawer {
             selectedColor.replace(discord_id, color);
         } else
             selectedColor.put(discord_id, color);
-    }
-
-    @Nullable
-    public static PixelColor getColor(long discord_id) {
-        return selectedColor.get(discord_id);
     }
 
     public static void clearColor(long discord_id) {
@@ -66,7 +66,7 @@ public class PaintDrawer {
         DataArray fields = embedData.getArray("fields");
 
         String userTag = fields.getObject(1).getString("value");
-        User user = DiscordUtil.getUserFromTag(userTag);
+        User user = JDAUtil.getUserFromTag(userTag);
         User eventUser = event.getUser();
 
         Long drawerId = getDrawerId(eventUser.getIdLong());

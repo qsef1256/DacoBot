@@ -4,7 +4,7 @@ import com.sun.jdi.request.DuplicateRequestException;
 import net.qsef1256.dacobot.database.DaoCommon;
 import net.qsef1256.dacobot.database.DaoCommonImpl;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +22,7 @@ public class AccountManager {
     public static void register(final long discord_id) {
         try {
             if (dao.existsById(discord_id))
-                throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 유저는 이미 등록 되어 있습니다.");
+                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discord_id) + " 유저는 이미 등록 되어 있습니다.");
             AccountEntity userData = new AccountEntity();
             userData.setDiscord_id(discord_id);
             userData.setRegisterTime(LocalDateTime.now());
@@ -32,7 +32,7 @@ public class AccountManager {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 유저 등록에 실패했습니다");
+            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + " 유저 등록에 실패했습니다");
         }
     }
 
@@ -44,13 +44,13 @@ public class AccountManager {
     public static void delete(final long discord_id) {
         try {
             if (!dao.existsById(discord_id))
-                throw new DuplicateRequestException(DiscordUtil.getNameAsTag(discord_id) + " 계정은 이미 삭제 되었습니다.");
+                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discord_id) + " 계정은 이미 삭제 되었습니다.");
             dao.deleteById(discord_id);
         } catch (DuplicateRequestException e) {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + " 계정 삭제에 실패했습니다.");
+            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + " 계정 삭제에 실패했습니다.");
         }
     }
 

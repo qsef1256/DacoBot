@@ -9,7 +9,7 @@ import net.qsef1256.dacobot.database.DaoCommonImpl;
 import net.qsef1256.dacobot.enums.DiaColor;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import net.qsef1256.dacobot.system.account.model.Account;
-import net.qsef1256.dacobot.util.LocalDateUtil;
+import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -35,12 +35,12 @@ public class AttendCommand extends SlashCommand {
             AccountEntity userData = user.getData();
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
-            if (lastAttendTime != null && LocalDateUtil.isToday(lastAttendTime)) {
+            if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("이미 출석했습니다.")
                         .setAuthor(eventUser.getName(), null, eventUser.getEffectiveAvatarUrl())
                         .setColor(DiaColor.FAIL)
-                        .setDescription("출석 시간: " + LocalDateUtil.getTimeString(lastAttendTime))
+                        .setDescription("출석 시간: " + LocalDateTimeUtil.getTimeString(lastAttendTime))
                         .build()).queue();
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());

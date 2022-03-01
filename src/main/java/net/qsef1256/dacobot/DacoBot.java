@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.database.HibernateManager;
-import net.qsef1256.dacobot.enums.DiaEmbed;
 import net.qsef1256.dacobot.enums.DiaInfo;
 import net.qsef1256.dacobot.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +25,6 @@ import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
 import java.util.Properties;
 import java.util.Set;
@@ -94,7 +92,7 @@ public class DacoBot {
         HibernateManager.getSessionFactoryFromJPA().openSession();
     }
 
-    public static void configureMemoryUsage(final @NotNull JDABuilder builder) {
+    private static void configureMemoryUsage(final @NotNull JDABuilder builder) {
         builder.disableCache(CacheFlag.VOICE_STATE);
         builder.setChunkingFilter(ChunkingFilter.ALL); // 모든 길드의 유저 캐싱하기 (권한 필요)
         builder.enableIntents(GatewayIntent.GUILD_MEMBERS); // 유저 캐싱 권한 얻기 (권한 필요)
@@ -117,7 +115,7 @@ public class DacoBot {
         reflections = new Reflections(mainPackage);
     }
 
-    private static void registerCommands(final CommandClientBuilder commandClientBuilder) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private static void registerCommands(final CommandClientBuilder commandClientBuilder) throws ReflectiveOperationException {
         logger.info("Loading Commands");
         final Set<Class<?>> commands = reflections.get(SubTypes.of(Command.class).asClass());
 
@@ -144,7 +142,7 @@ public class DacoBot {
         }
     }
 
-    private static void registerListeners(final JDABuilder builder) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    private static void registerListeners(final JDABuilder builder) throws ReflectiveOperationException {
         logger.info("Loading Listeners");
         final Set<Class<?>> listeners = reflections.get(SubTypes.of(ListenerAdapter.class).asClass());
 
@@ -162,7 +160,7 @@ public class DacoBot {
         HibernateManager.shutdown();
     }
 
-    // Warn: 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
+    // 주의: 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
     public static void restart() {
         StringBuilder cmd = new StringBuilder();
         cmd.append(System.getProperty("java.home"))

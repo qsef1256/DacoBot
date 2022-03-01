@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import net.qsef1256.dacobot.data.CmdStatisticEntity;
 import net.qsef1256.dacobot.database.DaoCommon;
 import net.qsef1256.dacobot.database.DaoCommonImpl;
-import net.qsef1256.dacobot.util.LocalDateUtil;
+import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -24,7 +24,7 @@ public class CmdStatistic {
     public CmdStatistic(Class<? extends SlashCommand> command) {
         try {
             statistic = dao.findById(command.getSimpleName());
-            if (!LocalDateUtil.isToday(getLastUseTime())) {
+            if (!LocalDateTimeUtil.isToday(getLastUseTime())) {
                 statistic.setTodayUsed(0);
             }
             statistic.setUseCount(getUseCount() + 1);

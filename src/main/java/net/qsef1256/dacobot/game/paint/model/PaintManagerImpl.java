@@ -6,7 +6,7 @@ import net.qsef1256.dacobot.database.DaoCommonImpl;
 import net.qsef1256.dacobot.game.paint.data.PaintEntity;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
@@ -52,7 +52,7 @@ public class PaintManagerImpl implements PaintManager {
 
     private void checkPermission(long discord_id, Long ownerId) {
         if (ownerId != discord_id && DacoBot.getCommandClient().getOwnerIdLong() != discord_id)
-            throw new IllegalArgumentException("그림을 편집할 권한이 없습니다. 소유자: " + DiscordUtil.getNameAsTag(ownerId));
+            throw new IllegalArgumentException("그림을 편집할 권한이 없습니다. 소유자: " + JDAUtil.getNameAsTag(ownerId));
     }
 
     @Override
