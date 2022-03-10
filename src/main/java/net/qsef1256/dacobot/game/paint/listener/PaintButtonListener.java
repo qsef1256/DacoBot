@@ -9,7 +9,7 @@ import net.qsef1256.dacobot.game.paint.command.PaintCommand;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
 import net.qsef1256.dacobot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
-import net.qsef1256.dacobot.model.CmdStatistic;
+import net.qsef1256.dacobot.system.cmdstat.CmdStatistic;
 import org.jetbrains.annotations.NotNull;
 
 import static net.qsef1256.dacobot.DacoBot.logger;

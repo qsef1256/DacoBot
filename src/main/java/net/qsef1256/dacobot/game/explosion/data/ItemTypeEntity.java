@@ -19,6 +19,9 @@ public class ItemTypeEntity {
     private String itemName;
 
     @Column(columnDefinition = "TEXT")
+    private String itemImage;
+    
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Enumerated(EnumType.STRING)

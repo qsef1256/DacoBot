@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import net.qsef1256.dacobot.util.JDAUtil;
 
@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
 
-    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonHibernateImpl<>(AccountEntity.class);
 
     @Getter
     private AccountEntity data;

@@ -1,38 +1,42 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
 import lombok.Getter;
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+import net.qsef1256.dacobot.database.JPAManager;
 import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
-import net.qsef1256.dacobot.system.account.model.AccountManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 
+import static net.qsef1256.dacobot.DacoBot.logger;
+
 public class Inventory {
 
-    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class);
 
     @Getter
     private InventoryEntity data;
 
-    public Inventory(long discord_id) {
-        init(discord_id);
+    public Inventory(long discordId) {
+        init(discordId);
     }
 
     @Contract("_ -> new")
-    public static @NotNull Inventory fromUser(long discord_id) {
-        return new Inventory(discord_id);
+    public static @NotNull Inventory fromUser(long discordId) {
+        return new Inventory(discordId);
     }
 
-    @Transactional
-    public void init(long discord_id) {
-        AccountEntity account = AccountManager.getAccount(discord_id);
+    public void init(long discordId) {
+        dao.open();
+        AccountEntity account = (AccountEntity) JPAManager.getEntityManager()
+                .createQuery("select m from AccountEntity m join fetch m.inventory where m.discord_id = :discordId")
+                .setParameter("discordId", discordId)
+                .getSingleResult();
 
         InventoryEntity inventory = account.getInventory();
         if (inventory == null) {
@@ -42,6 +46,7 @@ public class Inventory {
             dao.save(account);
         }
         data = inventory;
+        dao.commit();
     }
 
     public AccountEntity getUser() {
@@ -53,6 +58,7 @@ public class Inventory {
     }
 
     public Map<Integer, ItemEntity> getItems() {
+        logger.info(dao.toString());
         return data.getItems();
     }
 
@@ -84,7 +90,7 @@ public class Inventory {
 
         userItem.setAmount(result);
         data.putItem(userItem);
-        save();
+        saveAndClose();
     }
 
     private void createItem(int itemId) {
@@ -94,7 +100,7 @@ public class Inventory {
     private void createItem(int itemId, int amount) {
         ItemEntity itemEntity = Item.fromId(itemId, amount).getItemEntity();
         data.putItem(itemEntity);
-        save();
+        saveAndClose();
     }
 
     public void removeItem(int itemId) {
@@ -114,7 +120,7 @@ public class Inventory {
         else {
             userItem.setAmount(result);
             data.putItem(userItem);
-            save();
+            saveAndClose();
         }
     }
 
@@ -122,18 +128,18 @@ public class Inventory {
         Item userItem = Item.fromUser(getUserId(), itemId);
 
         data.removeItem(userItem.getItemEntity());
-        save();
+        saveAndClose();
     }
 
     private ItemTypeEntity getItemType(Integer itemId) {
         return Item.fromId(itemId).getItemType();
     }
 
-    private void save() {
+    private void saveAndClose() {
         AccountEntity account = data.getDiscordUser();
 
         account.setInventory(data);
-        dao.save(account);
+        dao.saveAndClose(account);
     }
 
 }

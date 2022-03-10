@@ -25,7 +25,7 @@ public class ItemEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private ItemTypeEntity itemType;
 
     @Column

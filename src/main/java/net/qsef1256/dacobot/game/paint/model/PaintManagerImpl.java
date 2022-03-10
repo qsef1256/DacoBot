@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.game.paint.model;
 
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
 import net.qsef1256.dacobot.game.paint.data.PaintEntity;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class PaintManagerImpl implements PaintManager {
 
-    private static final DaoCommon<PaintEntity, String> dao = new DaoCommonImpl<>(PaintEntity.class);
+    private static final DaoCommon<PaintEntity, String> dao = new DaoCommonHibernateImpl<>(PaintEntity.class);
 
     @Override
     public List<String> getOwnedPaint(long discord_id) {

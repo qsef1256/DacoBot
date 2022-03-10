@@ -328,7 +328,7 @@ public class NestedMap<T, S> {
     /**
      * 동일성을 비교합니다.
      * <p><b>주의:</b> 기본적인 {@link #hashCode()} 를 사용하기 때문에, {@link Object#equals(Object)} 를 재정의 하지 않는 객체가 들어온 경우
-     * * (ex: 배열) false 가 반환 될 수 있습니다.</p>
+     * (ex: 배열) false 가 반환 될 수 있습니다.</p>
      *
      * @param o object to compare
      * @return true if equal
@@ -338,8 +338,7 @@ public class NestedMap<T, S> {
         if (o == this) return true;
         if (this.getClass() != o.getClass()) return false;
 
-        if (o.hashCode() == this.hashCode()) return true;
-        return false;
+        return o.hashCode() == this.hashCode();
     }
 
 }

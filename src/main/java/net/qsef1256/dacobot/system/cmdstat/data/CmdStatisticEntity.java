@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.data;
+package net.qsef1256.dacobot.system.cmdstat.data;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -17,8 +17,10 @@ public class CmdStatisticEntity {
 
     @Id
     private String commandName;
+
     @ColumnDefault(value = "0")
     private int useCount = 0;
+
     @ColumnDefault(value = "0")
     private int todayUsed = 0;
     private LocalDateTime lastUseTime;

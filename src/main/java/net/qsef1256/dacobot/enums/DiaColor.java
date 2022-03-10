@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.enums;
 
 import java.awt.*;
 
+// TODO: to enum
 public final class DiaColor {
 
     public static final Color MAIN_COLOR = new Color(75, 237, 230);

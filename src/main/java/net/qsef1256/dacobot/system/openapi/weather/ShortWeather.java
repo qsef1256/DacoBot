@@ -3,6 +3,7 @@ package net.qsef1256.dacobot.system.openapi.weather;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.experimental.UtilityClass;
+import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.system.openapi.enums.APICode;
 import net.qsef1256.dacobot.util.GsonUtil;
 
@@ -18,15 +19,16 @@ import static net.qsef1256.dacobot.system.openapi.APIConnector.getResult;
 @UtilityClass
 public class ShortWeather {
 
-    private static final String token = "NrujZMw6l7dlL2w8djMgjBardqo7G2Qleml6ud8VzUzftbjpGvBCSJWEqK%2Fa4fIyj5lQvPvWrvIbQsQgXtZ9tA%3D%3D";
+    private static final String token = DiaSetting.getKey().getProperty("weather.token");
 
     /**
      * 기상청으로부터 데이터를 받습니다.
+     *
      * @param x x (예보 지점)
      * @param y y (예보 지점)
      * @return forecast data
-     * @throws IOException can't connect to api server
-     * @throws IllegalArgumentException Failed retrieve normal data
+     * @throws IOException                      can't connect to api server
+     * @throws IllegalArgumentException         Failed retrieve normal data
      * @throws java.util.NoSuchElementException parse failed
      */
     public WeatherContainer getWeather(int x, int y) throws IOException {

@@ -13,11 +13,11 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
-import net.qsef1256.dacobot.database.HibernateManager;
+import net.qsef1256.dacobot.database.JPAManager;
 import net.qsef1256.dacobot.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.reflect.Modifier;
-import java.util.Properties;
 import java.util.Set;
 
 import static org.reflections.scanners.Scanners.SubTypes;
@@ -35,22 +34,14 @@ public class DacoBot {
 
     public static final Logger logger = LoggerFactory.getLogger(DacoBot.class.getSimpleName());
     @Getter
-    private static Reflections reflections;
-    @Getter
     private static JDA jda;
     @Getter
     private static CommandClient commandClient;
     private static String[] args;
 
-    static {
-        initSettings();
-    }
-
     public static void main(final String[] args) throws LoginException {
-        if (args == null || args.length == 0) {
-            System.out.println("Please start bot with Discord Bot Token.");
-            return;
-        }
+        String token = DiaSetting.getKey().getProperty("discord.token");
+
         DacoBot.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
@@ -66,30 +57,32 @@ public class DacoBot {
         try {
             registerCommands(commandClientBuilder);
         } catch (final ReflectiveOperationException e) {
-            logger.error("Error on loading commands");
-            e.printStackTrace();
-            System.exit(1);
+            exit("Error on loading commands", e);
         }
 
         commandClient = commandClientBuilder.build();
         logger.info(DiaInfo.BOT_NAME + " Prefix: '" + commandClient.getPrefix() + "'");
 
-        final JDABuilder builder = JDABuilder.createDefault(args[0]);
+        final JDABuilder builder = JDABuilder.createDefault(token);
         configureMemoryUsage(builder);
         builder.addEventListeners(commandClient);
 
         try {
             registerListeners(builder);
         } catch (final ReflectiveOperationException e) {
-            logger.error("Error on loading listeners");
-            e.printStackTrace();
-            System.exit(1);
+            exit("Error on loading listeners", e);
         }
 
         jda = builder.build();
 
         HelpCommand.initCommands();
-        HibernateManager.getSessionFactoryFromJPA().openSession();
+        JPAManager.getSessionFactoryFromJPA().openSession();
+    }
+
+    private static void exit(String message, @NotNull Exception e) {
+        logger.error(message);
+        e.printStackTrace();
+        System.exit(1);
     }
 
     private static void configureMemoryUsage(final @NotNull JDABuilder builder) {
@@ -99,25 +92,9 @@ public class DacoBot {
         builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
     }
 
-    private static void initSettings() {
-        Properties properties = null;
-        try {
-            properties = DacoBot.getProperties("project.properties");
-        } catch (final IOException | RuntimeException e) {
-            logger.error("Error on loading properties");
-            e.printStackTrace();
-        }
-
-        assert properties != null;
-
-        String mainPackage = properties.getProperty("mainPackage");
-        logger.info("main Package: " + mainPackage);
-        reflections = new Reflections(mainPackage);
-    }
-
     private static void registerCommands(final CommandClientBuilder commandClientBuilder) throws ReflectiveOperationException {
         logger.info("Loading Commands");
-        final Set<Class<?>> commands = reflections.get(SubTypes.of(Command.class).asClass());
+        final Set<Class<?>> commands = DiaSetting.getReflections().get(SubTypes.of(Command.class).asClass());
 
         if (commands.size() == 0)
             logger.warn("There is no command in the registered package. No commands were loaded.");
@@ -144,7 +121,7 @@ public class DacoBot {
 
     private static void registerListeners(final JDABuilder builder) throws ReflectiveOperationException {
         logger.info("Loading Listeners");
-        final Set<Class<?>> listeners = reflections.get(SubTypes.of(ListenerAdapter.class).asClass());
+        final Set<Class<?>> listeners = DiaSetting.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
 
         if (listeners.size() == 0)
             logger.warn("There is no listener in the registered package. No listeners were loaded.");
@@ -157,7 +134,7 @@ public class DacoBot {
 
     public static void shutdown() {
         jda.shutdown();
-        HibernateManager.shutdown();
+        JPAManager.shutdown();
     }
 
     // 주의: 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
@@ -186,14 +163,6 @@ public class DacoBot {
             e.printStackTrace();
         }
         shutdown();
-    }
-
-    @NotNull
-    public static Properties getProperties(String path) throws IOException {
-        final Properties properties = new Properties();
-        properties.load(DacoBot.class.getClassLoader().getResourceAsStream(path));
-
-        return properties;
     }
 
 }

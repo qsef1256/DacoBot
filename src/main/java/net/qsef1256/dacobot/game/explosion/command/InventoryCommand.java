@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static net.qsef1256.dacobot.DacoBot.logger;
+
 public class InventoryCommand extends SlashCommand {
 
     public InventoryCommand() {
@@ -54,6 +56,8 @@ public class InventoryCommand extends SlashCommand {
             try {
                 event.replyEmbeds(getInventoryEmbed(user).build()).queue();
             } catch (RuntimeException e) {
+                logger.warn(e.getMessage());
+                e.printStackTrace();
                 event.replyEmbeds(DiaEmbed.error("인벤토리 로드 실패", null, e, user).build()).queue();
             }
         }

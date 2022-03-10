@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Accessors(chain = true)
 @Table(name = "discord_user")
 public class AccountEntity {
+
     @Id
     @Column(name = "discord_id", nullable = false)
     private Long discord_id;
@@ -32,11 +33,11 @@ public class AccountEntity {
     @ColumnDefault(value = "0")
     private Integer attendCount = 0;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cash_id")
     private CashEntity explosionCash;
 

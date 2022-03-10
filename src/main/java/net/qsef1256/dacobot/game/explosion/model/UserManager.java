@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import net.qsef1256.dacobot.util.JDAUtil;
@@ -11,8 +11,8 @@ import java.util.NoSuchElementException;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class UserManager {
-    protected static final DaoCommon<AccountEntity, Long> mainDao = new DaoCommonImpl<>(AccountEntity.class);
-    protected static final DaoCommon<CashEntity, Long> cashDao = new DaoCommonImpl<>(CashEntity.class);
+    protected static final DaoCommonJpa<AccountEntity, Long> mainDao = new DaoCommonJpaImpl<>(AccountEntity.class);
+    protected static final DaoCommonJpa<CashEntity, Long> cashDao = new DaoCommonJpaImpl<>(CashEntity.class);
 
     public static void register(final long discord_id) {
         try {
@@ -23,7 +23,7 @@ public class UserManager {
             cashData.setCash(0L);
             cashData.setPickaxeCount(0);
             cashData.setPrestigeCount(0);
-            cashDao.save(cashData);
+            cashDao.saveAndClose(cashData);
         } catch (NoSuchElementException e) {
             throw e;
         } catch (final RuntimeException e) {

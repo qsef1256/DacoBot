@@ -1,30 +1,20 @@
 package net.qsef1256.dacobot.database;
 
-import org.hibernate.Session;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+// TODO: replace to CrudRepository
+
+/**
+ * CRUD 를 포함하는 일반 Dao Interface 입니다.
+ *
+ * @param <T>  Entity
+ * @param <ID> Entity's Key
+ */
 public interface DaoCommon<T, ID extends Serializable> {
 
-    @Deprecated
-    Session getCurrentSession();
-
     long count();
-
-    @Deprecated
-    void create(T entity);
-
-    @Deprecated
-    void create(List<T> entity);
-
-    @Deprecated
-    void update(T entity);
-
-    @Deprecated
-    void update(List<T> entity);
 
     /**
      * 제약 조건들로 엔티티 들을 찾습니다. 결과는 여러개 일 수 있습니다.
@@ -38,7 +28,7 @@ public interface DaoCommon<T, ID extends Serializable> {
      * }</pre>
      *
      * @param constraint constraint Map
-     * @return T
+     * @return List of T
      * @see #findById(ID)
      */
     List<T> findBy(Map<String, Object> constraint);
@@ -51,7 +41,7 @@ public interface DaoCommon<T, ID extends Serializable> {
 
     void save(T entity);
 
-    void saveAll(List<T> entity);
+    void saveAll(Iterable<T> entity);
 
     void delete(T entity);
 

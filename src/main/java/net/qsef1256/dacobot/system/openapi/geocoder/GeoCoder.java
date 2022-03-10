@@ -1,5 +1,7 @@
 package net.qsef1256.dacobot.system.openapi.geocoder;
 
+import net.qsef1256.dacobot.setting.DiaSetting;
+
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +14,7 @@ public class GeoCoder {
     public static void main(String[] args) throws IOException {
 
         String address = "동편로 80";
-        String token = "E92A1432-F51A-3224-A4E7-10633FEAF1DD";
+        String token = DiaSetting.getKey().getProperty("geocoder.token");
         String urlString = "http://api.vworld.kr/req/address" +
                 "?" + URLEncoder.encode("service", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("address", StandardCharsets.UTF_8) +
                 "&" + URLEncoder.encode("request", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("getcoord", StandardCharsets.UTF_8) +

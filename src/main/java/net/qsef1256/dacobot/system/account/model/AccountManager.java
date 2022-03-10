@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.system.account.model;
 
 import com.sun.jdi.request.DuplicateRequestException;
 import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import net.qsef1256.dacobot.util.JDAUtil;
 
@@ -12,7 +12,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class AccountManager {
 
-    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
+    protected static final DaoCommon<AccountEntity, Long> dao = new DaoCommonHibernateImpl<>(AccountEntity.class);
 
     /**
      * 다양한 기능을 사용하기 위해 유저 등록을 시도합니다.

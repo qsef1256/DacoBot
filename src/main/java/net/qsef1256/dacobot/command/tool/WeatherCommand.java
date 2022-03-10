@@ -4,10 +4,11 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.enums.DiaEmbed;
-import net.qsef1256.dacobot.system.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.system.openapi.weather.ShortWeather;
 import net.qsef1256.dacobot.system.openapi.weather.WeatherContainer;
+import net.qsef1256.dacobot.system.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.util.LocalDateTimeUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,8 +23,7 @@ public class WeatherCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
-
+    protected void execute(@NotNull SlashCommandEvent event) {
         event.deferReply().queue(message -> {
             WeatherContainer weather;
 
@@ -51,6 +51,5 @@ public class WeatherCommand extends SlashCommand {
             embedBuilder.setFooter("provided by 기상청");
             message.editOriginalEmbeds(embedBuilder.build()).queue();
         });
-
     }
 }

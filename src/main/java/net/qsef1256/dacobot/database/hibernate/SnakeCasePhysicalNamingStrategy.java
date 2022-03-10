@@ -1,8 +1,10 @@
 package net.qsef1256.dacobot.database.hibernate;
 
+import net.qsef1256.dacobot.util.NamingUtil;
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
+import org.jetbrains.annotations.NotNull;
 
 public class SnakeCasePhysicalNamingStrategy implements PhysicalNamingStrategy {
 
@@ -46,12 +48,8 @@ public class SnakeCasePhysicalNamingStrategy implements PhysicalNamingStrategy {
         return convertToSnakeCase(identifier);
     }
 
-    private Identifier convertToSnakeCase(final Identifier identifier) {
-        final String regex = "([a-z])([A-Z])";
-        final String replacement = "$1_$2";
-        final String newName = identifier.getText()
-                .replaceAll(regex, replacement)
-                .toLowerCase();
-        return Identifier.toIdentifier(newName);
+    private Identifier convertToSnakeCase(final @NotNull Identifier identifier) {
+        return Identifier.toIdentifier(NamingUtil.toSnakeCase(identifier.getText()));
     }
+
 }

@@ -19,7 +19,7 @@ public class CashEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cashId;
 
-    @OneToOne(mappedBy = "explosionCash")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "explosionCash")
     private AccountEntity discord_user;
 
     @Column(name = "cash", nullable = false)

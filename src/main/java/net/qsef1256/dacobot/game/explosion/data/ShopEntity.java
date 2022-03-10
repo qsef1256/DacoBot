@@ -17,7 +17,7 @@ public class ShopEntity {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_type")
     private ItemTypeEntity itemType;
 

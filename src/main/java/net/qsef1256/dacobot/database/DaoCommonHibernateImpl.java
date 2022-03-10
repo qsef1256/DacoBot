@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.hibernate.query.Query;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.ParameterExpression;
 import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
@@ -19,24 +17,24 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<T, K> {
+public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCommonOld<T, K> {
 
     private SessionFactory factory;
     private Class<T> clazz;
     @Getter
     private String clazzName;
 
-    public DaoCommonImpl(final @NotNull Class<T> clazz) {
+    public DaoCommonHibernateImpl(final @NotNull Class<T> clazz) {
         this.clazz = clazz;
         this.clazzName = clazz.getSimpleName();
-        this.factory = HibernateManager.getSessionFactoryFromJPA();
+        this.factory = JPAManager.getSessionFactoryFromJPA();
     }
 
-    @Override
     public Session getCurrentSession() {
         return factory.getCurrentSession();
     }
 
+    @Override
     public long count() {
         final Session session = factory.getCurrentSession();
         try {
@@ -100,7 +98,7 @@ public class DaoCommonImpl<K extends Serializable, T> implements DaoCommon<T, K>
     }
 
     @Override
-    public void saveAll(List<T> entities) {
+    public void saveAll(Iterable<T> entities) {
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();

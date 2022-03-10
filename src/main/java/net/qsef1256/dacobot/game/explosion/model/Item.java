@@ -5,7 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
@@ -16,8 +18,8 @@ import java.util.NoSuchElementException;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Item {
 
-    protected static final DaoCommon<InventoryEntity, Long> dao = new DaoCommonImpl<>(InventoryEntity.class);
-    protected static final DaoCommon<ItemTypeEntity, Integer> itemDao = new DaoCommonImpl<>(ItemTypeEntity.class);
+    protected static final DaoCommonJpa<InventoryEntity, Long> dao = new DaoCommonJpaImpl<>(InventoryEntity.class);
+    protected static final DaoCommonJpa<ItemTypeEntity, Integer> itemDao = new DaoCommonJpaImpl<>(ItemTypeEntity.class);
     @Getter
     @Setter
     private ItemEntity itemEntity;

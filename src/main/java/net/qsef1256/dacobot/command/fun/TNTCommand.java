@@ -93,7 +93,8 @@ public class TNTCommand extends SlashCommand {
             embedBuilder.addField("2도 화상(km)", String.valueOf(df.format(r_thermal_2nd)), true);
             embedBuilder.addField("3도 화상(km)", String.valueOf(df.format(r_thermal_3rd)), true);
         }
-        embedBuilder.addField("출처", "[Link](https://www.youtube.com/watch?v=FwFKiRsYTLs), [Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette", false);
+        embedBuilder.addField("출처", "[Link](https://www.youtube.com/watch?v=FwFKiRsYTLs), " +
+                "[Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette", false);
         embedBuilder.setFooter("계산 결과는 정확하지 않습니다.");
 
         event.replyEmbeds(embedBuilder.build()).queue();

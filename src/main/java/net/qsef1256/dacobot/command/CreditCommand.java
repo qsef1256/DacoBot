@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.enums.*;
+import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.util.CommonUtil;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.jetbrains.annotations.NotNull;
@@ -46,7 +47,7 @@ public class CreditCommand extends SlashCommand {
             Properties properties = null;
 
             try {
-                properties = DacoBot.getProperties("project.properties");
+                properties = DiaSetting.getProperties("project.properties");
             } catch (final IOException | RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();

@@ -1,38 +1,41 @@
-package net.qsef1256.dacobot.model;
+package net.qsef1256.dacobot.system.cmdstat;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.qsef1256.dacobot.data.CmdStatisticEntity;
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+import net.qsef1256.dacobot.system.cmdstat.data.CmdStatisticEntity;
 import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CmdStatistic {
 
-    private CmdStatisticEntity statistic;
+    DaoCommonJpa<CmdStatisticEntity, String> dao = new DaoCommonJpaImpl<>(CmdStatisticEntity.class);
 
-    final DaoCommon<CmdStatisticEntity, String> dao = new DaoCommonImpl<>(CmdStatisticEntity.class);
+    private CmdStatisticEntity statistic;
 
     public CmdStatistic(Class<? extends SlashCommand> command) {
         try {
-            statistic = dao.findById(command.getSimpleName());
+            CmdStatisticEntity data = dao.findById(command.getSimpleName());
+            if (data == null) {
+                createStatistic(command);
+                return;
+            }
+
+            statistic = data;
             if (!LocalDateTimeUtil.isToday(getLastUseTime())) {
                 statistic.setTodayUsed(0);
             }
             statistic.setUseCount(getUseCount() + 1);
             statistic.setTodayUsed(getTodayUsed() + 1);
             statistic.setLastUseTime(LocalDateTime.now());
-            dao.save(statistic);
-        } catch (NoSuchElementException e) {
-            createStatistic(command);
+            dao.saveAndClose(statistic);
         } catch (RuntimeException e) {
             logger.warn(e.getMessage());
             throw new RuntimeException("Error when handling " + command.getSimpleName() + "'s statistics");
@@ -47,7 +50,7 @@ public class CmdStatistic {
         data.setTodayUsed(1);
         logger.info("Creating " + command.getSimpleName() + "'s statistics");
         statistic = data;
-        dao.save(data);
+        dao.saveAndClose(data);
     }
 
     public int getUseCount() {

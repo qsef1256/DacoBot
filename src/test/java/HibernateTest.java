@@ -1,6 +1,6 @@
 import lombok.Getter;
 import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
@@ -56,6 +56,7 @@ public class HibernateTest {
 
     // Uses JDA native entityManager
     @Deprecated
+    @SuppressWarnings("unchecked")
     public void get() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
@@ -68,7 +69,7 @@ public class HibernateTest {
     }
 
     public void DaoCheck() {
-        DaoCommon<AccountEntity, Long> dao = new DaoCommonImpl<>(AccountEntity.class);
+        DaoCommon<AccountEntity, Long> dao = new DaoCommonHibernateImpl<>(AccountEntity.class);
 
         logger.info("qsef1256 is exist?: " + dao.existsById(419761037861060619L));
         if (!dao.existsById(419761037861060620L))
