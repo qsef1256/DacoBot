@@ -4,4 +4,4 @@
 /lib/
 /DacoBot.jar
 /.jpb/
-key.properties
+resources/key.properties
