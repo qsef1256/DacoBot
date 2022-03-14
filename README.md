@@ -19,6 +19,8 @@
       Team `Apache-2.0`
 * 기능 라이브러리
     * [mXParser](https://mathparser.org/): Copyright 2010 - 2020 Mariusz Gromada. All rights reserved. `BSD-2-Clause`
+    * [Program AB](https://code.google.com/archive/p/program-ab/): Copyright (C) 2013 ALICE A.I.
+      Foundation `LGPL-2.0-or-later`
 * 유틸 라이브러리
     * [Lombok](https://projectlombok.org/): Copyright © 2009-2021 The Project Lombok Authors `MIT`
     * [Apache Commons Lang3](https://github.com/apache/commons-lang): Copyright 2001-2022 The Apache Software

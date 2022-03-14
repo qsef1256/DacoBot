@@ -109,6 +109,7 @@
     </build>
 
     <repositories>
+
         <repository>
             <id>dv8tion</id>
             <name>m2-dv8tion</name>
@@ -120,6 +121,12 @@
             <name>m2-chew</name>
             <url>https://m2.chew.pro/releases</url>
         </repository>
+
+        <repository>
+            <id>JCenter</id>
+            <url>https://jcenter.bintray.com</url>
+        </repository>
+
     </repositories>
 
     <dependencyManagement>
@@ -240,6 +247,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.goldrenard</groupId>
+            <artifactId>ab</artifactId>
+            <version>1.0.7</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.30</version>
@@ -254,7 +267,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>31.0.1-jre</version>
+            <version>31.1-jre</version>
         </dependency>
 
         <dependency>

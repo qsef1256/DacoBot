@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.database.JPAManager;
 import net.qsef1256.dacobot.enums.DiaInfo;
+import net.qsef1256.dacobot.game.talk.listener.TalkListener;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
@@ -61,6 +62,7 @@ public class DacoBot {
         }
 
         commandClient = commandClientBuilder.build();
+        commandClient.setListener(new TalkListener());
         logger.info(DiaInfo.BOT_NAME + " Prefix: '" + commandClient.getPrefix() + "'");
 
         final JDABuilder builder = JDABuilder.createDefault(token);
