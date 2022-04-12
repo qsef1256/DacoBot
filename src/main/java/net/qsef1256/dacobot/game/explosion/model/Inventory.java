@@ -8,9 +8,11 @@ import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.dacobot.system.account.data.AccountEntity;
+import net.qsef1256.dacobot.system.account.model.AccountManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import javax.persistence.NoResultException;
 import java.util.Map;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
@@ -33,20 +35,37 @@ public class Inventory {
 
     public void init(long discordId) {
         dao.open();
-        AccountEntity account = (AccountEntity) JPAManager.getEntityManager()
-                .createQuery("select m from AccountEntity m join fetch m.inventory where m.discord_id = :discordId")
-                .setParameter("discordId", discordId)
-                .getSingleResult();
+        data = new InventoryEntity();
 
-        InventoryEntity inventory = account.getInventory();
-        if (inventory == null) {
-            inventory = new InventoryEntity().setDiscordUser(account);
+        // TODO: fix inventory creating bug
+        // TODO: https://stackoverflow.com/questions/30088649/how-to-use-multiple-join-fetch-in-one-jpql-query
 
-            account.setInventory(inventory);
-            dao.save(account);
+        AccountEntity account;
+        try {
+            account = (AccountEntity) JPAManager.getEntityManager()
+                    .createQuery("select m from AccountEntity m join fetch m.inventory where m.discord_id = :discordId")
+                    .setParameter("discordId", discordId)
+                    .getSingleResult();
+            data.setDiscordUser(account);
+        } catch (NoResultException e) {
+            logger.info("creating Inventory for " + discordId);
+
+            account = AccountManager.getAccount(discordId);
+            account.setInventory(new InventoryEntity().setDiscordUser(account));
+            dao.saveAndClose(account);
+            return;
         }
-        data = inventory;
-        dao.commit();
+
+        try {
+            data = (InventoryEntity) JPAManager.getEntityManager()
+                    .createQuery("select m from InventoryEntity m join fetch m.items where m.discordUser = :discordUser")
+                    .setParameter("discordUser", account)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            logger.info("can't find item for " + discordId);
+        }
+
+        dao.close();
     }
 
     public AccountEntity getUser() {
@@ -58,7 +77,6 @@ public class Inventory {
     }
 
     public Map<Integer, ItemEntity> getItems() {
-        logger.info(dao.toString());
         return data.getItems();
     }
 
@@ -75,6 +93,7 @@ public class Inventory {
     }
 
     public void addItem(int itemId, int amount) {
+        dao.open();
         ItemEntity userItem = data.getItem(itemId);
         Item item = Item.fromId(itemId, amount);
 
@@ -98,6 +117,7 @@ public class Inventory {
     }
 
     private void createItem(int itemId, int amount) {
+        dao.open();
         ItemEntity itemEntity = Item.fromId(itemId, amount).getItemEntity();
         data.putItem(itemEntity);
         saveAndClose();
@@ -108,6 +128,7 @@ public class Inventory {
     }
 
     public void removeItem(int itemId, int amount) {
+        dao.open();
         ItemEntity userItem = data.getItem(itemId);
         Item item = Item.fromId(itemId, amount);
 
@@ -125,6 +146,7 @@ public class Inventory {
     }
 
     public void clearItem(int itemId) {
+        dao.open();
         Item userItem = Item.fromUser(getUserId(), itemId);
 
         data.removeItem(userItem.getItemEntity());

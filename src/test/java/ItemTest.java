@@ -13,6 +13,7 @@ public class ItemTest {
         ItemTypeEntity itemType = item.getItemType();
         if (itemType == null) throw new NoSuchElementException("아이템 없어요");
         System.out.println("Item name: " + itemType.getItemName());
+        System.out.println("Item icon: " + itemType.getItemIcon());
         System.out.println("Item desc: " + itemType.getDescription());
         System.out.println("Item rank: " + itemType.getItemRank().getTitle());
     }

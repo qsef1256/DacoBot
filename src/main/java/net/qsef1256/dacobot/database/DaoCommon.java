@@ -11,10 +11,15 @@ import java.util.Map;
  *
  * @param <T>  Entity
  * @param <ID> Entity's Key
+ * @see org.springframework.data.repository.CrudRepository
  */
 public interface DaoCommon<T, ID extends Serializable> {
 
-    long count();
+    void save(T entity);
+
+    void saveAll(Iterable<T> entity);
+
+    boolean existsById(ID id);
 
     /**
      * 제약 조건들로 엔티티 들을 찾습니다. 결과는 여러개 일 수 있습니다.
@@ -33,15 +38,11 @@ public interface DaoCommon<T, ID extends Serializable> {
      */
     List<T> findBy(Map<String, Object> constraint);
 
-    boolean existsById(ID id);
-
     T findById(ID id);
 
     List<T> findAll();
 
-    void save(T entity);
-
-    void saveAll(Iterable<T> entity);
+    long count();
 
     void delete(T entity);
 

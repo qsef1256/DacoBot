@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.game.omok.listener;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.enums.DiaEmbed;
 import net.qsef1256.dacobot.game.omok.model.OmokManager;
@@ -20,6 +21,7 @@ public class OmokButtonListener extends ListenerAdapter {
                     OmokManager.confirmStone(user.getIdLong());
                     event.deferEdit().queue();
                     event.getMessage().delete().queue();
+                } catch (ErrorResponseException ignored) {
                 } catch (RuntimeException e) {
                     event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
                 }
@@ -32,6 +34,7 @@ public class OmokButtonListener extends ListenerAdapter {
                     OmokManager.cancelStone(user.getIdLong());
                     event.deferEdit().queue();
                     event.getMessage().delete().queue();
+                } catch (ErrorResponseException ignored) {
                 } catch (RuntimeException e) {
                     event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
                 }

@@ -33,7 +33,6 @@ public class OmokManager {
     }
 
     public static void createGame(@NotNull OmokRequest request) {
-        logger.info("OmokManager#createGame> " + request.getTitle() + " " + request.getRequesterId() + " " + request.getReceiverId());
         long requesterId = request.getRequesterId();
         long receiverId = request.getReceiverId();
         if (getMessageId(requesterId) != null)
@@ -85,8 +84,8 @@ public class OmokManager {
 
     public static void pullBoard(long userId, MessageChannel channel) {
         Long oldMessageId = getMessageId(userId);
-        if (oldMessageId == null)
-            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
+        checkMessageId(oldMessageId, userId);
+
         OmokGame game = omokMap.get(oldMessageId, "game");
         Long blackId = omokMap.get(oldMessageId, "blackId");
         Long whiteId = omokMap.get(oldMessageId, "whiteId");
@@ -102,9 +101,7 @@ public class OmokManager {
 
     private static void processGame(long userId, int x, int y, String process) {
         Long messageId = getMessageId(userId);
-        logger.info("ID: %s process: %s, x: %s y: %s".formatted(messageId, process, x, y));
-        if (messageId == null)
-            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
+        checkMessageId(messageId, userId);
 
         OmokGame game = omokMap.get(messageId, "game");
         Long blackId = omokMap.get(messageId, "blackId");
@@ -137,6 +134,11 @@ public class OmokManager {
 
         if (game.isEnd()) endGame(messageId);
         channel.editMessageEmbedsById(messageId, getGameEmbed(blackId, whiteId, game).build()).queue();
+    }
+
+    private static void checkMessageId(Long messageId, long userId) {
+        if (messageId == null)
+            throw new NoSuchElementException(JDAUtil.getNameAsTag(userId) + " 의 오목 대국을 찾을 수 없습니다.");
     }
 
     @NotNull

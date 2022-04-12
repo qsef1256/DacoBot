@@ -4,13 +4,13 @@ import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 @UtilityClass
 public class CommonUtil {
 
     /**
      * min 과 max 사이의 정수를 랜덤하게 뽑습니다. <b>max를 포함합니다.</b>
+     *
      * @param min min value
      * @param max max value
      * @return random Integer between min and max
@@ -38,7 +38,7 @@ public class CommonUtil {
     }
 
     public boolean randomBool() {
-        return randomInt(0,1) == 0;
+        return randomInt(0, 1) == 0;
     }
 
     public int getDiff(int a, int b) {
@@ -80,4 +80,8 @@ public class CommonUtil {
         return checkSet.contains(target);
     }
 
+    public <T> boolean linearIn(T[] outer, T[] inner) {
+        return Arrays.asList(outer).containsAll(Arrays.asList(inner));
+    }
+    
 }

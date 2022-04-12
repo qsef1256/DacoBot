@@ -19,7 +19,7 @@ public class ItemTypeEntity {
     private String itemName;
 
     @Column(columnDefinition = "TEXT")
-    private String itemImage;
+    private String itemIcon;
     
     @Column(columnDefinition = "TEXT")
     private String description;

@@ -16,6 +16,7 @@ import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
 import net.qsef1256.dacobot.game.explosion.model.Inventory;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @NotNull
+        @Transactional
         private EmbedBuilder getInventoryEmbed(@NotNull User user) {
             final Cash cash = new Cash(user.getIdLong());
 
@@ -72,10 +74,14 @@ public class InventoryCommand extends SlashCommand {
                     .setTitle("%s의 인벤토리".formatted(user.getName()));
 
             StringBuilder items = new StringBuilder();
-            Inventory.fromUser(user.getIdLong()).getItems().forEach((id, item) -> {
+            Inventory inventory = Inventory.fromUser(user.getIdLong());
+            logger.info("User Id: " + inventory.getUserId());
+
+            inventory.getItems().forEach((id, item) -> {
                 ItemTypeEntity itemType = item.getItemType();
 
-                String itemInfo = "%s : %s > %s개".formatted(itemType.getItemName(), itemType.getItemRank(), item.getAmount());
+                String itemInfo = "%s%s : %s > %s개".formatted(
+                        itemType.getItemIcon() + " ", itemType.getItemName(), itemType.getItemRank(), item.getAmount());
                 items.append(itemInfo);
                 items.append("\n");
             });
@@ -93,6 +99,7 @@ public class InventoryCommand extends SlashCommand {
         public ItemCommandGroup() {
             super("아이템", "아이템의 정보를 확인하거나 사용합니다.");
 
+            // TODO: fix command Data
             addSubcommands(SubcommandData.fromData(new ItemInfoCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemAddCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemRemoveCommand().getData()));
@@ -155,7 +162,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.enums;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.Command;
 import net.dv8tion.jda.api.entities.Member;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
@@ -15,11 +15,11 @@ public class DiaMessage {
      * @return 추가 명령어를 입력하세요! : 추가, 삭제
      */
     @NotNull
-    public static String needSubCommand(SlashCommand @NotNull [] children, Member member) {
+    public static String needSubCommand(Command @NotNull [] children, Member member) {
         String[] childNames = new String[children.length];
 
         int i = 0;
-        for (SlashCommand child : children) {
+        for (Command child : children) {
             if (JDAUtil.canExecute(child, member)) childNames[i] = child.getName();
             i++;
         }

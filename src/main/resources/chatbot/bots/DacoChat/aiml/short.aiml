@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<aiml>
+<!--  -->
+<category><pattern>멍멍</pattern>
+<template><random>
+                <li>왈! 왈!</li>
+                <li>댕댕</li>
+                <li>:dog:</li>
+            </random></template>
+</category>
+</aiml>

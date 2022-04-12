@@ -17,14 +17,14 @@ public class AccountManager {
     /**
      * 다양한 기능을 사용하기 위해 유저 등록을 시도합니다.
      *
-     * @param discord_id User's snowflake id
+     * @param discordId User's snowflake id
      */
-    public static void register(final long discord_id) {
+    public static void register(final long discordId) {
         try {
-            if (dao.existsById(discord_id))
-                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discord_id) + " 유저는 이미 등록 되어 있습니다.");
+            if (dao.existsById(discordId))
+                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
             AccountEntity userData = new AccountEntity();
-            userData.setDiscord_id(discord_id);
+            userData.setDiscord_id(discordId);
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
             dao.save(userData);
@@ -32,30 +32,30 @@ public class AccountManager {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + " 유저 등록에 실패했습니다");
+            throw new RuntimeException(JDAUtil.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
         }
     }
 
     /**
      * 계정을 삭제합니다.
      *
-     * @param discord_id User's snowflake id
+     * @param discordId User's snowflake id
      */
-    public static void delete(final long discord_id) {
+    public static void delete(final long discordId) {
         try {
-            if (!dao.existsById(discord_id))
-                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discord_id) + " 계정은 이미 삭제 되었습니다.");
-            dao.deleteById(discord_id);
+            if (!dao.existsById(discordId))
+                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
+            dao.deleteById(discordId);
         } catch (DuplicateRequestException e) {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
-            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + " 계정 삭제에 실패했습니다.");
+            throw new RuntimeException(JDAUtil.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");
         }
     }
 
-    public static AccountEntity getAccount(long discord_id) {
-        return dao.findById(discord_id);
+    public static AccountEntity getAccount(long discordId) {
+        return dao.findById(discordId);
     }
 
 }

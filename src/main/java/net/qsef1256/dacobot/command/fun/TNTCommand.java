@@ -88,7 +88,7 @@ public class TNTCommand extends SlashCommand {
         embedBuilder.addField("폭발 범위(km)", String.valueOf(df.format(r_blast)), true);
         embedBuilder.addField("방사선 범위(km)", String.valueOf(df.format(r_radiation)), true);
 
-        if (1 <= kt || Mt <= 20) {
+        if (1 <= kt && Mt <= 20) {
             embedBuilder.addField("1도 화상(km)", String.valueOf(df.format(r_thermal_1st)), true);
             embedBuilder.addField("2도 화상(km)", String.valueOf(df.format(r_thermal_2nd)), true);
             embedBuilder.addField("3도 화상(km)", String.valueOf(df.format(r_thermal_3rd)), true);

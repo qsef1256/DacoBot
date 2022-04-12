@@ -1,7 +1,9 @@
 package net.qsef1256.dacobot.util;
 
+import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.experimental.UtilityClass;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
@@ -18,11 +20,11 @@ public class JDAUtil {
 
     /**
      * 해당 멤버가 해당 슬래시 명령어를 실행할 수 있는지 확인합니다.
+     *
      * @param slashCommand slash command to check
-     * @param member executing member
+     * @param member       executing member
      * @return true when member can execute
      */
-    // TODO: for normal Command
     public static boolean canExecute(@NotNull SlashCommand slashCommand, Member member) {
         if (slashCommand.isOwnerCommand()) {
             return DacoBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
@@ -37,6 +39,14 @@ public class JDAUtil {
             return Arrays.asList(slashCommand.getEnabledUsers()).contains(member.getId());
         }
         return true;
+    }
+
+    public static boolean canExecute(@NotNull Command command, Member member) {
+        if (command.isOwnerCommand()) {
+            return DacoBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
+        }
+
+        return CommonUtil.linearIn(command.getUserPermissions(), member.getPermissions().toArray(new Permission[0]));
     }
 
     /**

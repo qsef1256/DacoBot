@@ -9,8 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
 public class OmokGame {
 
     public static final PixelColor BOARD = PixelColor.BROWN;
@@ -93,8 +91,6 @@ public class OmokGame {
     }
 
     private void processStone(PixelColor stone, int x, int y) {
-        logger.info("OmokGame#processStone> x: %s y: %s".formatted(x, y));
-
         painter.paintPixel(stone, x, y);
         if (checkWin(buildCheckString(x, y, 1, 0), stone)) win(stone);
         if (checkWin(buildCheckString(x, y, 0, 1), stone)) win(stone);
@@ -104,7 +100,6 @@ public class OmokGame {
     }
 
     private void checkStone(int x, int y, PixelColor stone) {
-        logger.info("OmokGame#checkStone> x: %s y: %s".formatted(x, y));
         if (!painter.isInBound(x, y))
             throw new IllegalArgumentException("잘못된 좌표입니다. 입력한 x: " + x + " 입력한 y: " + y);
         if (stone != BLACK && stone != WHITE)
@@ -155,9 +150,7 @@ public class OmokGame {
             sb.append(pixelColor != null ? pixelColor.getEmoji() : "");
         }
 
-        String checkString = sb.toString();
-        System.out.println("check: " + checkString);
-        return checkString;
+        return sb.toString();
     }
 
     private boolean checkWin(@NotNull String checkString, PixelColor stone) {

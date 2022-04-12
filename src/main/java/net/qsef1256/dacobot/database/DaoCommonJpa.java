@@ -14,13 +14,13 @@ import java.io.Serializable;
  *
  * @param <T>  Entity
  * @param <ID> Entity's Key
+ * @see org.springframework.data.jpa.repository.JpaRepository
  */
 public interface DaoCommonJpa<T, ID extends Serializable> extends DaoCommon<T, ID>, AutoCloseable {
 
-    void saveAndClose(T entity);
-
-    void saveAllAndClose(@NotNull Iterable<T> entities);
-
+    /**
+     * 트랜젝션을 엽니다.
+     */
     void open();
 
     /**
@@ -29,6 +29,16 @@ public interface DaoCommonJpa<T, ID extends Serializable> extends DaoCommon<T, I
     void commit();
 
     void rollback();
+
+    /**
+     * 트랜젝션을 닫습니다.
+     */
+    @Override
+    void close();
+
+    void saveAndClose(T entity);
+
+    void saveAllAndClose(@NotNull Iterable<T> entities);
 
     Query createQuery(String s);
 
