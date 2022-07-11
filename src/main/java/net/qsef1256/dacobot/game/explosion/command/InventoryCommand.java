@@ -9,15 +9,17 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.qsef1256.dacobot.enums.DiaColor;
-import net.qsef1256.dacobot.enums.DiaEmbed;
-import net.qsef1256.dacobot.enums.DiaMessage;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
 import net.qsef1256.dacobot.game.explosion.model.Inventory;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaMessage;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+
+import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class InventoryCommand extends SlashCommand {
 
@@ -54,6 +56,8 @@ public class InventoryCommand extends SlashCommand {
             try {
                 event.replyEmbeds(getInventoryEmbed(user).build()).queue();
             } catch (RuntimeException e) {
+                logger.warn(e.getMessage());
+                e.printStackTrace();
                 event.replyEmbeds(DiaEmbed.error("인벤토리 로드 실패", null, e, user).build()).queue();
             }
         }
@@ -68,10 +72,13 @@ public class InventoryCommand extends SlashCommand {
                     .setTitle("%s의 인벤토리".formatted(user.getName()));
 
             StringBuilder items = new StringBuilder();
-            Inventory.fromUser(user.getIdLong()).getItems().forEach((id, item) -> {
+            Inventory inventory = Inventory.fromUser(user.getIdLong());
+
+            inventory.getItems().forEach((id, item) -> {
                 ItemTypeEntity itemType = item.getItemType();
 
-                String itemInfo = "%s : %s > %s개".formatted(itemType.getItemName(), itemType.getItemRank(), item.getAmount());
+                String itemInfo = "%s%s : %s > %s개".formatted(
+                        itemType.getItemIcon() + " ", itemType.getItemName(), itemType.getItemRank(), item.getAmount());
                 items.append(itemInfo);
                 items.append("\n");
             });
@@ -89,6 +96,7 @@ public class InventoryCommand extends SlashCommand {
         public ItemCommandGroup() {
             super("아이템", "아이템의 정보를 확인하거나 사용합니다.");
 
+            // FIXME: fix command Data
             addSubcommands(SubcommandData.fromData(new ItemInfoCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemAddCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemRemoveCommand().getData()));
@@ -151,7 +159,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

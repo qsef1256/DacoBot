@@ -4,8 +4,8 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.enums.DiaImage;
-import net.qsef1256.dacobot.model.CmdStatistic;
+import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.setting.enums.DiaImage;
 import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ public class AnvilCommand extends SlashCommand {
         User user = event.getUser();
         CmdStatistic statistic = new CmdStatistic(getClass());
 
-        int random = CommonUtil.randomInt(1, 3);
+        int random = CommonUtil.randomInt(1, 4);
         switch (random) {
             case 1 -> event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
@@ -53,6 +53,11 @@ public class AnvilCommand extends SlashCommand {
                             ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
                             """)
                     .setFooter(statistic.getUseInfo())
+                    .build()).queue();
+            case 4 -> event.replyEmbeds(new EmbedBuilder()
+                    .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
+                    .setColor(Color.WHITE)
+                    .addField("Molar", ":tooth:", false)
                     .build()).queue();
         }
 

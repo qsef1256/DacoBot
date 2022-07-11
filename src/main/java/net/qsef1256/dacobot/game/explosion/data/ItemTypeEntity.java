@@ -1,10 +1,9 @@
 package net.qsef1256.dacobot.game.explosion.data;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import net.qsef1256.dacobot.game.explosion.enums.ItemRank;
 import org.hibernate.annotations.ColumnDefault;
-
-import javax.persistence.*;
 
 @Getter
 @Entity
@@ -17,6 +16,9 @@ public class ItemTypeEntity {
 
     @Column(nullable = false)
     private String itemName;
+
+    @Column(columnDefinition = "TEXT")
+    private String itemIcon;
 
     @Column(columnDefinition = "TEXT")
     private String description;

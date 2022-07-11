@@ -1,28 +1,47 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
+import jakarta.persistence.NoResultException;
 import lombok.Getter;
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonImpl;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+import net.qsef1256.dacobot.database.JpaManager;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.system.account.data.AccountEntity;
-import net.qsef1256.dacobot.util.DiscordUtil;
+import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.model.AccountManager;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class Cash {
 
-    protected final DaoCommon<Long, AccountEntity> userDao = new DaoCommonImpl<>(AccountEntity.class);
-    protected final DaoCommon<Long, CashEntity> cashDao = new DaoCommonImpl<>(CashEntity.class);
+    protected static final DaoCommonJpa<CashEntity, Long> dao = new DaoCommonJpaImpl<>(CashEntity.class);
     @Getter
-    private final CashEntity data;
+    private CashEntity data;
 
-    public Cash(final long discord_id) {
+    // FIXME: fix lazy initialization like Inventory
+    // FIXME: fix cash cached problem (update required)
+    // TODO: find where cached data exists (1st? 2st? or else?) > 1st로 추정
+    // TODO: https://stackoverflow.com/questions/13258976/how-to-refresh-jpa-entities-when-backend-database-changes-asynchronously
+    // TODO: http://ldg.pe.kr/framework_reference/hibernate/ver3.x/html/transactions.html
+    public Cash(final long discordId) {
+        dao.open();
+
+        AccountEntity account;
         try {
-            data = userDao.findById(discord_id).getExplosionCash();
-        } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
-            throw new RuntimeException(DiscordUtil.getNameAsTag(discord_id) + "님의 계정 캐시를 로드하는데 실패했습니다.");
+            account = (AccountEntity) JpaManager.getEntityManager()
+                    .createQuery("select m from AccountEntity m join fetch m.explosionCash where m.discordId = :discordId")
+                    .setParameter("discordId", discordId)
+                    .getSingleResult();
+            data = account.getExplosionCash();
+        } catch (NoResultException e) {
+            logger.info("creating Cash for %s".formatted(discordId));
+
+            account = AccountManager.getAccount(discordId);
+            data = new CashEntity().setDiscordUser(account);
+            dao.saveAndClose(data);
+            return;
         }
+
+        dao.close();
     }
 
     public long getCash() {
@@ -34,7 +53,7 @@ public class Cash {
         if (data.getCash() < 0) {
             data.setCash(0L);
         }
-        cashDao.update(data);
+        saveAndClose();
     }
 
     public int getPickaxeCount() {
@@ -43,14 +62,18 @@ public class Cash {
 
     public void addPickaxeCount(final int count) {
         data.setPickaxeCount(getPickaxeCount() + count);
-        if (data.getPickaxeCount() < 0) {
+        if (data.getPickaxeCount() < 0)
             data.setPickaxeCount(0);
-        }
-        cashDao.update(data);
+
+        saveAndClose();
     }
 
     public void addPickaxeCount() {
         addPickaxeCount(1);
+    }
+
+    private void saveAndClose() {
+        dao.saveAndClose(data);
     }
 
 }

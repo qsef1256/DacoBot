@@ -26,6 +26,7 @@ CATEGORIES:
       - MD5Command
       - SHA256Command
       - CreeperCommand
+      - TNTCommand
 
   GAME:
     TITLE: "게임"
@@ -55,6 +56,19 @@ CATEGORIES:
         DESC: "육목 무시"
         LIST:
           - OmokCommand
+      SUDOKU:
+        TITLE: "스도쿠"
+        DESC: "이모지 너무 많이 씀"
+        LIST:
+          - SudokuCommand
+
+  TOOL:
+    TITLE: "도구"
+    DESC: "조금 더 쓸모 있는 것들 입니다. 사실 검색하는게 더 나아요."
+    LIST:
+      - CalculateCommand
+      - WeatherCommand
+      - CoronaCommand
 
   MISC:
     TITLE: "기타"

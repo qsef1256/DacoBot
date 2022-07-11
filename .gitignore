@@ -1,6 +1,9 @@
 /.idea/
-/DiaBot.jar
+/.jpb/
 /target/
 /lib/
+/backup/
 /DacoBot.jar
-/.jpb/
+src/main/resources/key.properties
+src/main/resources/chatbot/bots/DacoChat/aiml/user.aiml
+src/main/resources/chatbot/bots/DacoChat/aimlif/user.aiml.csv

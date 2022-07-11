@@ -3,6 +3,9 @@ package net.qsef1256.dacobot.util;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
 
 public class MatrixUtil<T> {
 
@@ -57,6 +60,68 @@ public class MatrixUtil<T> {
                 System.arraycopy(matrix[y], 0, result[y], 0, Math.min(width, getWidth(matrix)));
         }
         return result;
+    }
+
+    /**
+     * 2차원 배열을 1차원 리스트로 만듭니다.
+     *
+     * @param matrix matrix
+     * @return list
+     * @see #flatMap(Object[][])
+     */
+    public List<T> toList(T[][] matrix) {
+        return flatMap(matrix).toList();
+    }
+
+    /**
+     * 2차원 배열을 1차원 배열로 만듭니다.
+     *
+     * @param matrix Matrix to 1d array
+     * @return 1d array
+     */
+    @NotNull
+    private Stream<T> flatMap(T[][] matrix) {
+        return Arrays.stream(matrix).flatMap(Arrays::stream);
+    }
+
+    /**
+     * 2차원 배열이 특정 값을 포함하고 있는지 확인합니다.
+     *
+     * @param matrix matrix
+     * @param value  value for check
+     * @return true when matrix contains value
+     */
+    public boolean anyMatch(T[][] matrix, T value) {
+        return flatMap(matrix).anyMatch(v -> v == value);
+    }
+
+    /**
+     * 2차원 배열이 특정 값으로 이루어져 있는지 확인합니다.
+     *
+     * @param matrix matrix
+     * @param value  value for check
+     * @return true when matrix all element is value
+     */
+    public boolean allMatch(T[][] matrix, T value) {
+        return flatMap(matrix).allMatch(v -> v == value);
+    }
+
+    /**
+     * 깊은 복사를 수행합니다.
+     *
+     * @param matrix matrix to copy
+     * @return deep copy matrix
+     */
+    @SuppressWarnings("unchecked")
+    public T[][] deepCopy(T[][] matrix) {
+        T[][] copy = (T[][]) Array.newInstance(clazz, matrix.length, matrix[0].length);
+
+        for (int i = 0; i < matrix.length; i++) {
+            copy[i] = (T[]) Array.newInstance(clazz, matrix[i].length);
+
+            System.arraycopy(matrix[i], 0, copy[i], 0, matrix[i].length);
+        }
+        return copy;
     }
 
 }

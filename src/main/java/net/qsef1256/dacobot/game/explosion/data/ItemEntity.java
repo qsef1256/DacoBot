@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.data;
 
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,8 +9,6 @@ import lombok.experimental.Accessors;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -19,13 +18,13 @@ import java.util.Objects;
 @Accessors(chain = true)
 @Table(name = "explosion_item")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ItemEntity implements Serializable {
+public class ItemEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     private ItemTypeEntity itemType;
 
     @Column

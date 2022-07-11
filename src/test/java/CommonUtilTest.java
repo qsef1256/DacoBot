@@ -1,4 +1,5 @@
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
+import net.qsef1256.dacobot.game.paint.model.painter.PixelPainter;
 import net.qsef1256.dacobot.struct.NestedMap;
 import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
@@ -6,17 +7,21 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CommonUtilTest {
+class CommonUtilTest {
 
     @Test
-    public void testRandom() {
+    void testRandom() {
+        int lowest = -6;
+        int highest = 1;
+
         for (int i = 0; i < 25; i++) {
-            System.out.println(CommonUtil.randomInt(-6, 1));
+            int random = CommonUtil.randomInt(lowest, highest);
+            assertTrue(lowest <= random && random <= highest);
         }
     }
 
     @Test
-    public void testDiff() {
+    void testDiff() {
         assertEquals(2, CommonUtil.getDiff(1, 3));
         assertEquals(3, CommonUtil.getDiff(4, 1));
         assertEquals(2, CommonUtil.getDiff(-1, -3));
@@ -29,39 +34,42 @@ public class CommonUtilTest {
     }
 
     @Test
-    public void testBetween() {
-        assertFalse(CommonUtil.isBetween(5, 2, 3));
-        assertTrue(CommonUtil.isBetween(5, 2, 5));
-        assertTrue(CommonUtil.isBetween(5, 2, 10));
-        assertFalse(CommonUtil.isBetween(-5, 2, 3));
-        assertFalse(CommonUtil.isBetween(-5, -4, 3));
+    void testBetween() {
+        assertFalse(CommonUtil.isBetween(2, 5, 3));
+        assertTrue(CommonUtil.isBetween(2, 5, 5));
+        assertTrue(CommonUtil.isBetween(2, 5, 10));
+        assertFalse(CommonUtil.isBetween(2, -5, 3));
+        assertFalse(CommonUtil.isBetween(-4, -5, 3));
         assertTrue(CommonUtil.isBetween(-5, -5, 3));
         assertTrue(CommonUtil.isBetween(0, 0, 3));
-        assertThrows(IllegalArgumentException.class, () -> CommonUtil.isBetween(-2, -1, -3));
+        assertThrows(IllegalArgumentException.class, () -> CommonUtil.isBetween(-1, -2, -3));
     }
 
     @Test
-    public void testToBetween() {
-        assertEquals(1, CommonUtil.toBetween(0, 1, 3));
-        assertThrows(IllegalArgumentException.class, () -> CommonUtil.toBetween(0, 4, 1));
-        assertThrows(IllegalArgumentException.class, () -> CommonUtil.toBetween(3, -1, -3));
-        assertEquals(-2, CommonUtil.toBetween(-2, -3, -1));
-        assertEquals(2, CommonUtil.toBetween(2, -3, 3));
-        assertEquals(0, CommonUtil.toBetween(0, -3, 0));
+    void testToBetween() {
+        assertEquals(1, CommonUtil.toBetween(1, 0, 3));
+        assertThrows(IllegalArgumentException.class, () -> CommonUtil.toBetween(4, 0, 1));
+        assertThrows(IllegalArgumentException.class, () -> CommonUtil.toBetween(-1, 3, -3));
+        assertEquals(-2, CommonUtil.toBetween(-3, -2, -1));
+        assertEquals(2, CommonUtil.toBetween(-3, 2, 3));
+        assertEquals(0, CommonUtil.toBetween(-3, 0, 0));
         assertEquals(0, CommonUtil.toBetween(0, 0, 0));
-        assertEquals(-3, CommonUtil.toBetween(-1, -3, -3));
-        assertEquals(5, CommonUtil.toBetween(10, 5, 5));
+        assertEquals(-3, CommonUtil.toBetween(-3, -1, -3));
+        assertEquals(5, CommonUtil.toBetween(5, 10, 5));
     }
 
     @Test
-    public void testMatch() {
+    void testMatch() {
         String a = "a";
+        String b = "b";
 
         assertTrue(CommonUtil.allSame(a, a, a, a));
+        assertFalse(CommonUtil.allSame(a, b, a, a));
         assertFalse(CommonUtil.allSame("a", "a", "a", "b"));
         assertTrue(CommonUtil.allSame(null, null, null, null));
         assertFalse(CommonUtil.allSame(null, null, "a", null));
         assertTrue(CommonUtil.anySame(a, a, a, a));
+        assertTrue(CommonUtil.anySame(a, b, b, a));
         assertFalse(CommonUtil.anySame("b", "c", "d", "e"));
         assertTrue(CommonUtil.anySame("b", "c", "c", "e"));
         assertTrue(CommonUtil.anySame(null, null, "a", "b"));
@@ -74,7 +82,7 @@ public class CommonUtilTest {
     }
 
     @Test
-    public void testNestedMap() {
+    void testNestedMap() {
         NestedMap<String, String> table = new NestedMap<>();
         NestedMap<String, String> sameTable = new NestedMap<>();
         NestedMap<String, String> diffTable = new NestedMap<>();
@@ -86,7 +94,7 @@ public class CommonUtilTest {
 
         Painter painter = table.get("a", "painter");
         if (painter != null) {
-            System.out.println(painter.printToString());
+            System.out.println(painter.printPallet());
         }
         System.out.println(table.get("a", "asdf") + "");
         System.out.println(table.keySet("a"));
@@ -107,7 +115,7 @@ public class CommonUtilTest {
     private void putData(@NotNull NestedMap<String, String> table) {
         table.put("c", "user", "c");
         table.put("c", "asdf", "c");
-        table.put("a", "painter", new Painter());
+        table.put("a", "painter", new PixelPainter());
         table.put("a", "user", "a");
         table.put("a", "asdf", "a");
         table.put("b", "asdf", "b");

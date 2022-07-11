@@ -1,11 +1,13 @@
 package net.qsef1256.dacobot.game.paint.model;
 
-import net.qsef1256.dacobot.game.omok.model.OmokGame;
-import net.qsef1256.dacobot.game.paint.enums.PixelColor;
+import net.qsef1256.dacobot.game.board.omok.model.OmokGame;
+import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Scanner;
+
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 public class OmokTest {
 
@@ -17,10 +19,10 @@ public class OmokTest {
     }
 
     @Test
-    public void testOmok() {
-        omok.placeStone(6, 7, OmokGame.BLACK);
+    void testOmok() {
+        omok.place(6, 7, OmokGame.BLACK);
 
-        printBoard();
+        assertDoesNotThrow(this::printBoard);
     }
 
     private void printBoard() {
@@ -45,9 +47,9 @@ public class OmokTest {
             if ("exit".equals(input)) break;
             try {
                 String[] tokens = input.split(" ");
-                PixelColor stone = (isBlackTurn) ? OmokGame.BLACK : OmokGame.WHITE;
+                ColorEmoji stone = (isBlackTurn) ? OmokGame.BLACK : OmokGame.WHITE;
 
-                omok.placeStone(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), stone);
+                omok.place(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), stone);
                 isBlackTurn = !isBlackTurn;
             } catch (RuntimeException e) {
                 System.out.println(e.getMessage());

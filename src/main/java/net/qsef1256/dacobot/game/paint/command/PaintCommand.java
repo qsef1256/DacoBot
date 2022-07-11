@@ -8,11 +8,16 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.dacobot.enums.*;
-import net.qsef1256.dacobot.game.paint.enums.PixelColor;
+import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
+import net.qsef1256.dacobot.game.paint.enums.Emoji;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaMessage;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.enums.DiaImage;
+import net.qsef1256.dacobot.setting.enums.DiaInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -46,7 +51,7 @@ public class PaintCommand extends SlashCommand {
             event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
                     .setColor(DiaColor.MAIN_COLOR)
-                    .addField(user.getName() + "의 팔레트", paint.printToString(), false)
+                    .addField(user.getName() + "의 팔레트", paint.printPallet(), false)
                     .setFooter("/갤러리 저장 으로 그림을 저장하세요.")
                     .build()).queue();
         } catch (RuntimeException e) {
@@ -61,22 +66,22 @@ public class PaintCommand extends SlashCommand {
     }
 
     @NotNull
-    public static List<PixelColor> parsePixelColor(@NotNull String colorString) {
-        List<PixelColor> colorList = new ArrayList<>();
+    public static List<ColorEmoji> parsePixelColor(@NotNull String colorString) {
+        List<ColorEmoji> colorList = new ArrayList<>();
 
         if (colorString.length() == 0) throw new IllegalArgumentException("빈 문자열은 색깔 이모지로 변환할 수 없습니다.");
 
         try {
-            colorList.add(PixelColor.valueOf(colorString.toUpperCase()));
+            colorList.add(ColorEmoji.valueOf(colorString.toUpperCase()));
             return colorList;
         } catch (IllegalArgumentException ignored) {
         }
 
         for (char character : colorString.toCharArray()) {
             if (character == ' ') continue;
-            if (PixelColor.findById(character) == null)
+            if (ColorEmoji.findById(String.valueOf(character)) == null)
                 throw new IllegalArgumentException("알 수 없는 색깔 키 입니다: " + character);
-            colorList.add(PixelColor.findById(character));
+            colorList.add(ColorEmoji.findById(String.valueOf(character)));
         }
 
         return colorList;
@@ -137,14 +142,14 @@ public class PaintCommand extends SlashCommand {
             }
             long x = optionX.getAsLong();
             long y = optionY.getAsLong();
-            PixelColor color;
+            Emoji color;
 
             try {
                 color = parsePixelColor(optionColor.getAsString()).get(0);
 
                 painter.paintPixel(color, (int) x, (int) y);
             } catch (IllegalArgumentException e) {
-                event.reply("오류 발생: " + e.getMessage()).queue();
+                event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
@@ -194,11 +199,11 @@ public class PaintCommand extends SlashCommand {
             }
 
             try {
-                List<PixelColor> colorList = parsePixelColor(column);
+                List<Emoji> colorList = new ArrayList<>(parsePixelColor(column));
 
                 painter.paintColumn(colorList, (int) y);
             } catch (IllegalArgumentException e) {
-                event.reply("오류 발생: " + e.getMessage()).queue();
+                event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
@@ -235,12 +240,12 @@ public class PaintCommand extends SlashCommand {
             String column = optionColumn.getAsString();
 
             try {
-                List<PixelColor> colorList;
-                colorList = parsePixelColor(column);
+                List<Emoji> colorList;
+                colorList = new ArrayList<>(parsePixelColor(column));
 
                 painter.paintAll(colorList);
             } catch (IllegalArgumentException e) {
-                event.reply("오류 발생: " + e.getMessage()).queue();
+                event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
@@ -268,7 +273,7 @@ public class PaintCommand extends SlashCommand {
                     .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
                     .setColor(DiaColor.WARNING)
                     .setTitle("아까운데...")
-                    .addField("지울 그림", painter.printToString() + "\n정말 지우실 껀가요? 복구할 수 없어요.", false)
+                    .addField("지울 그림", painter.printPallet() + "\n정말 지우실 껀가요? 복구할 수 없어요.", false)
                     .setFooter("지우고 나면 이거보다 멋진 그림을 그려주세요.");
 
             event.replyEmbeds(embedBuilder.build())
@@ -318,7 +323,7 @@ public class PaintCommand extends SlashCommand {
             try {
                 painter.resize((int) x, (int) y);
             } catch (IllegalArgumentException e) {
-                event.reply("오류 발생: " + e.getMessage()).queue();
+                event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
                 logger.warn(e.getMessage());
@@ -364,7 +369,7 @@ public class PaintCommand extends SlashCommand {
 
             long x = optionX.getAsLong();
             long y = optionY.getAsLong();
-            PixelColor color;
+            Emoji color;
 
             try {
                 color = parsePixelColor(optionColor.getAsString()).get(0);
@@ -411,7 +416,7 @@ public class PaintCommand extends SlashCommand {
         @Override
         protected void execute(SlashCommandEvent event) {
             StringBuilder stringBuilder = new StringBuilder();
-            for (PixelColor color : PixelColor.values()) {
+            for (ColorEmoji color : ColorEmoji.values()) {
                 stringBuilder.append(
                         String.format("%s %s(**%s**)\n", color.getEmoji(), color.name().toLowerCase(), color.getId()));
             }

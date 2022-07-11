@@ -52,4 +52,15 @@ public class GenericUtil {
         return clazz.getTypeName().equals(targetClass.getTypeName());
     }
 
+    /**
+     * 서브 클래스인지 체크합니다.
+     *
+     * @param clazz       class
+     * @param targetClass target class
+     * @return true if class is subclass of target
+     */
+    public static boolean isSubClassOnly(Object clazz, Class<?> targetClass) {
+        return clazz != null && targetClass.isAssignableFrom((Class<?>) clazz) && clazz.getClass() != targetClass;
+    }
+
 }

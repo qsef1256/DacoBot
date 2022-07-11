@@ -1,14 +1,13 @@
 package net.qsef1256.dacobot.game.explosion.data;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.system.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.*;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -18,7 +17,7 @@ import java.util.Objects;
 @Accessors(chain = true)
 @Entity
 @Table(name = "user_inventory")
-public class InventoryEntity implements Serializable {
+public class InventoryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +27,7 @@ public class InventoryEntity implements Serializable {
     @JoinColumn(name = "discord_id")
     private AccountEntity discordUser;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Map<Integer, ItemEntity> items = new HashMap<>();
 
     public ItemEntity getItem(int itemId) {

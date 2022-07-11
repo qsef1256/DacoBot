@@ -1,14 +1,12 @@
 package net.qsef1256.dacobot.command.fun.encrypt;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.enums.DiaColor;
-import net.qsef1256.dacobot.enums.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.MessageDigest;
@@ -49,11 +47,9 @@ public class MD5Command extends SlashCommand {
         }
 
         try {
-            String MD5 = toMD5(option.getAsString());
-            event.replyEmbeds(new EmbedBuilder()
-                    .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
-                    .setColor(DiaColor.INFO)
-                    .addField("MD5 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + MD5 + "`", false)
+            String md5 = toMD5(option.getAsString());
+            event.replyEmbeds(DiaEmbed.info(null, null, user)
+                    .addField("MD5 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + md5 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {
             logger.warn(e.getMessage());

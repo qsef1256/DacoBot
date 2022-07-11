@@ -6,7 +6,7 @@ import java.util.function.BiConsumer;
 // TODO: Map 또는 Iterable 구현하기 또는 새로운 인터페이스 만들기
 
 /**
- * {@code Map&lt;T, Map&lt;S, ?&gt;&gt;} 꼴의 중첩된 맵입니다.
+ * {@code Map<T, Map<S, ?>>} 꼴의 중첩된 맵입니다.
  *
  * <p>
  * 제네릭 파라미터는 키의 타입입니다.<br>
@@ -22,6 +22,7 @@ import java.util.function.BiConsumer;
  *
  * @param <T> Type of main Key
  * @param <S> Type of sub Key
+ * @implNote 이 자료 구조는 Type Safe 를 보장하지 않습니다. 캡슐화에 위반될 여지가 있으니 신중히 사용하세요.
  * @see Map
  * @see com.google.common.collect.Table
  */
@@ -328,7 +329,7 @@ public class NestedMap<T, S> {
     /**
      * 동일성을 비교합니다.
      * <p><b>주의:</b> 기본적인 {@link #hashCode()} 를 사용하기 때문에, {@link Object#equals(Object)} 를 재정의 하지 않는 객체가 들어온 경우
-     * * (ex: 배열) false 가 반환 될 수 있습니다.</p>
+     * (ex: 배열) false 가 반환 될 수 있습니다.</p>
      *
      * @param o object to compare
      * @return true if equal
@@ -336,10 +337,10 @@ public class NestedMap<T, S> {
     @Override
     public boolean equals(Object o) {
         if (o == this) return true;
+        if (o == null) return false;
         if (this.getClass() != o.getClass()) return false;
 
-        if (o.hashCode() == this.hashCode()) return true;
-        return false;
+        return o.hashCode() == this.hashCode();
     }
 
 }
