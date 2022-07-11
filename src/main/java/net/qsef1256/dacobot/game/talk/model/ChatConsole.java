@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot.game.talk.model;
 
-import net.qsef1256.dacobot.setting.DiaSetting;
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
 import org.alicebot.ab.configuration.Constants;
@@ -12,15 +11,12 @@ class ChatConsole {
 
     public static void main(String[] args) {
         try {
-            String resourcesPath = DiaSetting.getResourcesPath();
-            System.out.println(resourcesPath);
-
             Bot bot = DacoChat.getInstance().getChatBot();
             Chat chatSession = new Chat(bot);
             bot.getBrain().nodeStats();
 
             while (true) {
-                System.out.print("Human : ");
+                DacoChat.logger.info("Human : ");
                 String textLine = IOUtils.readInputTextLine();
                 if ((textLine == null) || (textLine.length() < 1))
                     textLine = Constants.null_input;
@@ -31,7 +27,7 @@ class ChatConsole {
                     System.exit(0);
                 } else {
                     if (TRACE_MODE)
-                        System.out.println("STATE=" + textLine +
+                        DacoChat.logger.info("STATE=" + textLine +
                                 ":THAT=" + chatSession.getThatHistory().get(0).get(0) +
                                 ":TOPIC=" + chatSession.getPredicates().get("topic"));
                     String response = chatSession.multisentenceRespond(textLine);
@@ -39,7 +35,7 @@ class ChatConsole {
                         response = response.replace("&lt;", "<");
                     while (response.contains("&gt;"))
                         response = response.replace("&gt;", ">");
-                    System.out.println("Robot : " + response);
+                    DacoChat.logger.info("Robot : " + response);
                 }
             }
         } catch (Exception e) {

@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.enums.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
 import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,8 +16,8 @@ import java.util.List;
 
 public class TNTCommand extends SlashCommand {
 
-    private static final double gramTntToJ = 4184;
-    private static final double mcToReal = 0.36; // https://www.youtube.com/watch?v=FwFKiRsYTLs
+    private static final double GRAM_TNT_TO_J = 4184;
+    private static final double MC_TO_REAL = 0.36; // https://www.youtube.com/watch?v=FwFKiRsYTLs
 
     public TNTCommand() {
         name = "tnt";
@@ -64,34 +64,35 @@ public class TNTCommand extends SlashCommand {
             result = boom;
         }
 
-        double ton = tntCount * mcToReal;
+        double ton = tntCount * MC_TO_REAL;
         double kt = ton / 1000;
         double Mt = kt / 1000;
-        double J = kt * gramTntToJ * 1000;
+        double J = kt * GRAM_TNT_TO_J * 1000;
 
         // https://en.wikipedia.org/wiki/Effects_of_nuclear_explosions
         // https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1
 
-        double constant_bl = 0.71, constant_rad = 0.7;
-        double r_blast = Math.pow(kt, 0.33) * constant_bl;
-        double r_radiation = Math.pow(kt, 0.19) * constant_rad;
+        double constantBlast = 0.71;
+        double constantRad = 0.7;
+        double radBlast = Math.pow(kt, 0.33) * constantBlast;
+        double radRadiation = Math.pow(kt, 0.19) * constantRad;
 
-        double r_thermal_1st = Math.pow(kt, 0.38) * 1.20;
-        double r_thermal_2nd = Math.pow(kt, 0.40) * 0.87;
-        double r_thermal_3rd = Math.pow(kt, 0.41) * 0.67;
+        double radThermal1st = Math.pow(kt, 0.38) * 1.20;
+        double radThermal2nd = Math.pow(kt, 0.40) * 0.87;
+        double radThermal3rd = Math.pow(kt, 0.41) * 0.67;
 
         EmbedBuilder embedBuilder = DiaEmbed.info("폭발 계산기", result, null);
         DecimalFormat df = new DecimalFormat("0.00000");
 
         String displayTon = (Mt > 1) ? "%s Mt".formatted(df.format(Mt)) : "%s kt".formatted(df.format(kt));
         embedBuilder.addField("예상 폭발력", displayTon + "\n%s J".formatted(Math.round(J)), true);
-        embedBuilder.addField("폭발 범위(km)", String.valueOf(df.format(r_blast)), true);
-        embedBuilder.addField("방사선 범위(km)", String.valueOf(df.format(r_radiation)), true);
+        embedBuilder.addField("폭발 범위(km)", String.valueOf(df.format(radBlast)), true);
+        embedBuilder.addField("방사선 범위(km)", String.valueOf(df.format(radRadiation)), true);
 
         if (1 <= kt && Mt <= 20) {
-            embedBuilder.addField("1도 화상(km)", String.valueOf(df.format(r_thermal_1st)), true);
-            embedBuilder.addField("2도 화상(km)", String.valueOf(df.format(r_thermal_2nd)), true);
-            embedBuilder.addField("3도 화상(km)", String.valueOf(df.format(r_thermal_3rd)), true);
+            embedBuilder.addField("1도 화상(km)", String.valueOf(df.format(radThermal1st)), true);
+            embedBuilder.addField("2도 화상(km)", String.valueOf(df.format(radThermal2nd)), true);
+            embedBuilder.addField("3도 화상(km)", String.valueOf(df.format(radThermal3rd)), true);
         }
         embedBuilder.addField("출처", "[Link](https://www.youtube.com/watch?v=FwFKiRsYTLs), " +
                 "[Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette", false);

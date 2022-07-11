@@ -1,12 +1,11 @@
 package net.qsef1256.dacobot.game.explosion.data;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.system.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import org.hibernate.annotations.ColumnDefault;
-
-import javax.persistence.*;
 
 @Getter
 @Setter
@@ -20,7 +19,7 @@ public class CashEntity {
     private Long cashId;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "explosionCash")
-    private AccountEntity discord_user;
+    private AccountEntity discordUser;
 
     @Column(name = "cash", nullable = false)
     @ColumnDefault(value = "0")

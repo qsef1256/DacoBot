@@ -9,14 +9,13 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.qsef1256.dacobot.enums.DiaColor;
-import net.qsef1256.dacobot.enums.DiaEmbed;
-import net.qsef1256.dacobot.enums.DiaMessage;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
 import net.qsef1256.dacobot.game.explosion.model.Inventory;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaMessage;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -64,7 +63,6 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @NotNull
-        @Transactional
         private EmbedBuilder getInventoryEmbed(@NotNull User user) {
             final Cash cash = new Cash(user.getIdLong());
 
@@ -75,7 +73,6 @@ public class InventoryCommand extends SlashCommand {
 
             StringBuilder items = new StringBuilder();
             Inventory inventory = Inventory.fromUser(user.getIdLong());
-            logger.info("User Id: " + inventory.getUserId());
 
             inventory.getItems().forEach((id, item) -> {
                 ItemTypeEntity itemType = item.getItemType();
@@ -99,7 +96,7 @@ public class InventoryCommand extends SlashCommand {
         public ItemCommandGroup() {
             super("아이템", "아이템의 정보를 확인하거나 사용합니다.");
 
-            // TODO: fix command Data
+            // FIXME: fix command Data
             addSubcommands(SubcommandData.fromData(new ItemInfoCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemAddCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemRemoveCommand().getData()));

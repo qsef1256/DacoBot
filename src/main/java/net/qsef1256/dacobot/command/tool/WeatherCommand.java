@@ -3,10 +3,10 @@ package net.qsef1256.dacobot.command.tool;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.enums.DiaEmbed;
-import net.qsef1256.dacobot.system.openapi.weather.ShortWeather;
-import net.qsef1256.dacobot.system.openapi.weather.WeatherContainer;
-import net.qsef1256.dacobot.system.openapi.weather.enums.WeatherCode;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
+import net.qsef1256.dacobot.service.openapi.weather.ShortWeatherAPI;
+import net.qsef1256.dacobot.service.openapi.weather.enums.WeatherCode;
+import net.qsef1256.dacobot.service.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,10 +25,10 @@ public class WeatherCommand extends SlashCommand {
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
         event.deferReply().queue(message -> {
-            WeatherContainer weather;
+            Forecast weather;
 
             try {
-                weather = ShortWeather.getWeather(60, 123);
+                weather = ShortWeatherAPI.getWeather(60, 123);
             } catch (IOException | RuntimeException e) {
                 message.editOriginalEmbeds(DiaEmbed.error("날씨 불러오기 실패", "기상청이 일을 안하는 것 같네요...", null, null).build()).queue();
                 logger.warn(e.getMessage());
@@ -42,7 +42,7 @@ public class WeatherCommand extends SlashCommand {
                     WeatherCode.RAIN_TYPE, WeatherCode.RAIN_HOUR, WeatherCode.HUMIDITY,
                     WeatherCode.WIND_DIRECT, WeatherCode.WIND_SPEED, WeatherCode.TEMP);
 
-            codeList.forEach((code) -> {
+            codeList.forEach(code -> {
                 if (code == WeatherCode.EW_WIND_SPEED || code == WeatherCode.NS_WIND_SPEED) return;
 
                 embedBuilder.addField(code.getEmoji() + code.getDesc(), code.getDisplay(weather.getValue(code)), true);

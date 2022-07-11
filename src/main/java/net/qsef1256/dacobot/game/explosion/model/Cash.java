@@ -1,39 +1,47 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
+import jakarta.persistence.NoResultException;
 import lombok.Getter;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+import net.qsef1256.dacobot.database.JpaManager;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.system.account.data.AccountEntity;
-import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.model.AccountManager;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class Cash {
 
-    protected static final DaoCommonJpa<AccountEntity, Long> userDao = new DaoCommonJpaImpl<>(AccountEntity.class);
-    protected static final DaoCommonJpa<CashEntity, Long> cashDao = new DaoCommonJpaImpl<>(CashEntity.class);
+    protected static final DaoCommonJpa<CashEntity, Long> dao = new DaoCommonJpaImpl<>(CashEntity.class);
     @Getter
-    private final CashEntity data;
+    private CashEntity data;
 
-    // TODO: fix lazy initialization like Inventory
-    // TODO: fix cash cached problem (update required)
+    // FIXME: fix lazy initialization like Inventory
+    // FIXME: fix cash cached problem (update required)
     // TODO: find where cached data exists (1st? 2st? or else?) > 1st로 추정
     // TODO: https://stackoverflow.com/questions/13258976/how-to-refresh-jpa-entities-when-backend-database-changes-asynchronously
     // TODO: http://ldg.pe.kr/framework_reference/hibernate/ver3.x/html/transactions.html
     public Cash(final long discordId) {
-        userDao.open();
-        cashDao.open();
+        dao.open();
 
+        AccountEntity account;
         try {
-            data = userDao.findById(discordId).getExplosionCash();
-        } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
-            throw new RuntimeException(JDAUtil.getNameAsTag(discordId) + "님의 계정 캐시를 로드하는데 실패했습니다.");
+            account = (AccountEntity) JpaManager.getEntityManager()
+                    .createQuery("select m from AccountEntity m join fetch m.explosionCash where m.discordId = :discordId")
+                    .setParameter("discordId", discordId)
+                    .getSingleResult();
+            data = account.getExplosionCash();
+        } catch (NoResultException e) {
+            logger.info("creating Cash for %s".formatted(discordId));
+
+            account = AccountManager.getAccount(discordId);
+            data = new CashEntity().setDiscordUser(account);
+            dao.saveAndClose(data);
+            return;
         }
 
-        userDao.close();
-        cashDao.close();
+        dao.close();
     }
 
     public long getCash() {
@@ -45,7 +53,7 @@ public class Cash {
         if (data.getCash() < 0) {
             data.setCash(0L);
         }
-        cashDao.saveAndClose(data);
+        saveAndClose();
     }
 
     public int getPickaxeCount() {
@@ -57,11 +65,15 @@ public class Cash {
         if (data.getPickaxeCount() < 0)
             data.setPickaxeCount(0);
 
-        cashDao.saveAndClose(data);
+        saveAndClose();
     }
 
     public void addPickaxeCount() {
         addPickaxeCount(1);
+    }
+
+    private void saveAndClose() {
+        dao.saveAndClose(data);
     }
 
 }

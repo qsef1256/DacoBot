@@ -4,12 +4,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.qsef1256.dacobot.enums.DiaColor;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
 import net.qsef1256.dacobot.game.paint.command.PaintCommand;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
 import net.qsef1256.dacobot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
-import net.qsef1256.dacobot.system.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import org.jetbrains.annotations.NotNull;
 
 import static net.qsef1256.dacobot.DacoBot.logger;

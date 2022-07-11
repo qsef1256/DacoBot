@@ -4,8 +4,8 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.enums.DiaColor;
-import net.qsef1256.dacobot.system.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 

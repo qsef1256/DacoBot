@@ -3,9 +3,9 @@ package net.qsef1256.dacobot.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.enums.DiaColor;
-import net.qsef1256.dacobot.enums.DiaImage;
-import net.qsef1256.dacobot.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.enums.DiaImage;
+import net.qsef1256.dacobot.setting.enums.DiaInfo;
 import org.jetbrains.annotations.NotNull;
 
 public class RuleCommand extends SlashCommand {

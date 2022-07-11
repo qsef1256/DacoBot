@@ -1,11 +1,10 @@
 package net.qsef1256.dacobot.game.paint.data;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.game.paint.enums.PixelColor;
-
-import javax.persistence.*;
+import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 
 @Getter
 @Setter
@@ -22,6 +21,6 @@ public class PixelEntity {
     private int y;
 
     @Enumerated(EnumType.STRING)
-    private PixelColor pixelColor;
+    private ColorEmoji pixelColor;
 
 }

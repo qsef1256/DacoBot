@@ -8,7 +8,11 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.enums.*;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaMessage;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.enums.DiaImage;
+import net.qsef1256.dacobot.setting.enums.DiaInfo;
 import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.util.GenericUtil;
 import net.qsef1256.dacobot.util.JDAUtil;
@@ -39,7 +43,7 @@ public class HelpCommand extends SlashCommand {
 
     public static void initCommands() {
         for (SlashCommand command : DacoBot.getCommandClient().getSlashCommands()) {
-            logger.debug("Loading command name: " + command.getClass().getSimpleName());
+            logger.debug("Loading command name: %s".formatted(command.getClass().getSimpleName()));
             slashCommandMap.put(command.getClass().getSimpleName(), command);
         }
     }
@@ -60,7 +64,7 @@ public class HelpCommand extends SlashCommand {
             category.forEach((key, valueMap) -> {
                 if (valueMap instanceof Map<?, ?> values) {
                     String title = Optional.ofNullable(values.get("TITLE").toString()).orElse("제목 없음");
-                    logger.debug("Putting category: " + title);
+                    logger.debug("Putting category: %s".formatted(title));
                     categories.put(title, values);
 
                     if (values.get("CATEGORIES") instanceof Map<?, ?>) {

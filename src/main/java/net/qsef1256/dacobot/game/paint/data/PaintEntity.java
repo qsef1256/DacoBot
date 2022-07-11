@@ -1,11 +1,11 @@
 package net.qsef1256.dacobot.game.paint.data;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @Accessors(chain = true)
 @Entity
-public class PaintEntity {
+public class PaintEntity { // TODO: stop using pixel entity and make it serializable
 
     @Id
     private String paintName;

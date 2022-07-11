@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface PaintManager {
 
-    List<String> getOwnedPaint(long discord_id);
+    List<String> getOwnedPaint(long discordId);
 
-    void delete(long discord_id, String paintName);
+    void delete(long discordId, String paintName);
 
-    PaintEntity getPaint(long discord_id, String paintName);
+    PaintEntity getPaint(long discordId, String paintName);
 
-    void save(long discord_id, String paintName);
+    void save(long discordId, String paintName);
 
-    void overwrite(long discord_id, String paintName);
+    void overwrite(long discordId, String paintName);
 
 }

@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.database;
 
+import jakarta.persistence.Query;
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.Query;
 import java.io.Serializable;
 
 /**

@@ -8,11 +8,16 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.dacobot.enums.*;
 import net.qsef1256.dacobot.game.paint.data.PaintEntity;
 import net.qsef1256.dacobot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
+import net.qsef1256.dacobot.game.paint.model.painter.PixelPainter;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaMessage;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.enums.DiaImage;
+import net.qsef1256.dacobot.setting.enums.DiaInfo;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -38,16 +43,16 @@ public class GalleryCommand extends SlashCommand {
         event.replyEmbeds(new EmbedBuilder()
                 .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
                 .setColor(DiaColor.MAIN_COLOR)
-                .addField(paintName, painter.printToString(), false)
+                .addField(paintName, painter.printPallet(), false)
                 .setFooter("/갤러리 에서 확인하세요")
                 .build()).queue();
     }
 
-    private static void applyPainter(SlashCommandEvent event, User user, String paintName, Painter painter) {
+    private static void applyPainter(SlashCommandEvent event, User user, String paintName, PixelPainter painter) {
         try {
             PaintEntity paint = new PaintManagerImpl().getPaint(user.getIdLong(), paintName);
             painter.resize(paint.getXSize(), paint.getYSize());
-            painter.setPixels(paint.getPixels());
+            painter.setPixelEntities(paint.getPixels());
 
             printPaint(event, paintName, painter);
         } catch (IllegalArgumentException e) {
@@ -89,7 +94,7 @@ public class GalleryCommand extends SlashCommand {
             }
 
             String paintName = paintNameOption.getAsString();
-            Painter painter = new Painter();
+            PixelPainter painter = new PixelPainter();
 
             applyPainter(event, user, paintName, painter);
         }
@@ -207,7 +212,7 @@ public class GalleryCommand extends SlashCommand {
             }
 
             String paintName = paintNameOption.getAsString();
-            Painter painter = PainterContainer.getPainter(user.getIdLong());
+            PixelPainter painter = (PixelPainter) PainterContainer.getPainter(user.getIdLong());
 
             applyPainter(event, user, paintName, painter);
         }

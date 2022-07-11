@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.explosion.enums;
 
 import lombok.Getter;
-import net.qsef1256.dacobot.enums.DiaColor;
+import net.qsef1256.dacobot.setting.enums.DiaColor;
 
 import java.awt.*;
 

@@ -1,14 +1,12 @@
 package net.qsef1256.dacobot.command.fun.encrypt;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.enums.DiaColor;
-import net.qsef1256.dacobot.enums.DiaEmbed;
+import net.qsef1256.dacobot.service.notification.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import java.nio.charset.StandardCharsets;
@@ -51,9 +49,9 @@ public class SHA256Command extends SlashCommand {
         }
 
         try {
-            String MD5 = toSHA256(option.getAsString());
+            String sha256 = toSHA256(option.getAsString());
             event.replyEmbeds(DiaEmbed.info(null, null, user)
-                    .addField("SHA-256 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + MD5 + "`", false)
+                    .addField("SHA-256 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + sha256 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {
             logger.warn(e.getMessage());

@@ -1,15 +1,15 @@
 package net.qsef1256.dacobot.database;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -34,8 +34,8 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
         open();
 
         AtomicLong count = new AtomicLong();
-        execute(entityManager -> count.set(
-                (long) entityManager.createQuery("SELECT count(t) FROM " + clazz.getSimpleName() + " t").getSingleResult()));
+        execute(manager -> count.set(
+                (long) manager.createQuery("SELECT count(t) FROM " + clazz.getSimpleName() + " t").getSingleResult()));
         return count.get();
     }
 
@@ -68,13 +68,13 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     public List<T> findAll() {
         open();
         Query query = entityManager.createQuery("SELECT e FROM " + clazz.getSimpleName() + " e");
-        return (List<T>) query.getResultList();
+        return query.getResultList();
     }
 
     @Override
     public void save(T entity) {
         open();
-        execute(entityManager -> entityManager.merge(entity));
+        execute(manager -> manager.merge(entity));
     }
 
     @Override
@@ -100,7 +100,7 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     @Override
     public void delete(T entity) {
         open();
-        execute(entityManager -> entityManager.remove(entity));
+        execute(manager -> manager.remove(entity));
     }
 
     @Override
@@ -111,12 +111,12 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     @Override
     public void deleteAll() {
         open();
-        Query query = entityManager.createQuery("DELETE * FROM " + clazz.getSimpleName());
-        execute(entityManager -> query.executeUpdate());
+        Query query = entityManager.createQuery("DELETE FROM " + clazz.getSimpleName());
+        execute(manager -> query.executeUpdate());
     }
 
     private void initEntityManager() {
-        entityManager = JPAManager.getEntityManager();
+        entityManager = JpaManager.getEntityManager();
     }
 
     @Override
@@ -133,12 +133,12 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     @Override
     public void close() {
         commit();
-        JPAManager.close();
+        JpaManager.close();
     }
 
     @Override
     public void commit() {
-        execute(entityManager -> entityManager.getTransaction().commit());
+        execute(manager -> manager.getTransaction().commit());
     }
 
     @Override
@@ -155,7 +155,7 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
         try {
             action.accept(entityManager);
         } catch (RuntimeException e) {
-            logger.error("Error when execute action: " + this);
+            logger.error("Error when execute action: %s".formatted(this));
             rollback();
             throw e;
         }

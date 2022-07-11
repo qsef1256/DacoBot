@@ -8,16 +8,21 @@ import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
-import net.qsef1256.dacobot.database.JPAManager;
-import net.qsef1256.dacobot.enums.DiaInfo;
+import net.qsef1256.dacobot.database.JpaManager;
 import net.qsef1256.dacobot.game.talk.listener.TalkListener;
+import net.qsef1256.dacobot.schedule.DiaScheduler;
+import net.qsef1256.dacobot.service.openapi.corona.CoronaAPI;
 import net.qsef1256.dacobot.setting.DiaSetting;
+import net.qsef1256.dacobot.setting.enums.DiaInfo;
 import net.qsef1256.dacobot.util.GenericUtil;
+import net.qsef1256.dacobot.util.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +31,7 @@ import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.lang.reflect.Modifier;
+import java.util.List;
 import java.util.Set;
 
 import static org.reflections.scanners.Scanners.SubTypes;
@@ -40,20 +45,23 @@ public class DacoBot {
     private static CommandClient commandClient;
     private static String[] args;
 
-    public static void main(final String[] args) throws LoginException {
+    public static void main(final String[] args) throws LoginException, InterruptedException {
         String token = DiaSetting.getKey().getProperty("discord.token");
 
         DacoBot.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
+        Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
+
         final CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
-        commandClientBuilder.setOwnerId("419761037861060619");
-        commandClientBuilder.forceGuildOnly("889451044445224970");
+        commandClientBuilder.setOwnerId(DiaSetting.getSetting().getProperty("bot.ownerId"));
         commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
+        commandClientBuilder.forceGuildOnly(DiaSetting.getSetting().getProperty("bot.guildId"));
         commandClientBuilder.useHelpBuilder(true);
         commandClientBuilder.setHelpWord("도움말");
-        commandClientBuilder.setHelpConsumer((event) -> event.reply("/도움말을 입력해주세요."));
+        commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
         commandClientBuilder.setPrefix("다코야 ");
+        commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
 
         try {
             registerCommands(commandClientBuilder);
@@ -63,7 +71,7 @@ public class DacoBot {
 
         commandClient = commandClientBuilder.build();
         commandClient.setListener(new TalkListener());
-        logger.info(DiaInfo.BOT_NAME + " Prefix: '" + commandClient.getPrefix() + "'");
+        logger.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
 
         final JDABuilder builder = JDABuilder.createDefault(token);
         configureMemoryUsage(builder);
@@ -75,10 +83,19 @@ public class DacoBot {
             exit("Error on loading listeners", e);
         }
 
-        jda = builder.build();
-
         HelpCommand.initCommands();
-        JPAManager.getSessionFactoryFromJPA().openSession();
+        JpaManager.getSessionFactoryFromJPA().openSession();
+
+        jda = builder.build();
+        jda.awaitReady();
+
+        Guild mainGuild = jda.getGuildById(DiaSetting.getSetting().getProperty("bot.guildId"));
+
+        upsertGuildCommands(mainGuild); // TODO: global command
+
+        DiaScheduler.executePerTime(() -> new CoronaAPI().update(), 12, 0, 0);
+
+        logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
     }
 
     private static void exit(String message, @NotNull Exception e) {
@@ -96,14 +113,12 @@ public class DacoBot {
 
     private static void registerCommands(final CommandClientBuilder commandClientBuilder) throws ReflectiveOperationException {
         logger.info("Loading Commands");
-        final Set<Class<?>> commands = DiaSetting.getReflections().get(SubTypes.of(Command.class).asClass());
+        final Set<Class<?>> commands = ReflectionUtil.getReflections().get(SubTypes.of(Command.class).asClass());
 
-        if (commands.size() == 0)
+        if (commands.isEmpty())
             logger.warn("There is no command in the registered package. No commands were loaded.");
         for (final Class<?> command : commands) {
-            if (command.isMemberClass()) continue;
-            if (command.isInterface()) continue;
-            if (Modifier.isAbstract(command.getModifiers())) continue;
+            if (!ReflectionUtil.isPlain(command)) continue;
 
             String typeDisplay = "Unknown";
             if (GenericUtil.typeOf(command.getSuperclass(), Command.class)) {
@@ -123,20 +138,37 @@ public class DacoBot {
 
     private static void registerListeners(final JDABuilder builder) throws ReflectiveOperationException {
         logger.info("Loading Listeners");
-        final Set<Class<?>> listeners = DiaSetting.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
+        final Set<Class<?>> listeners = ReflectionUtil.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
 
-        if (listeners.size() == 0)
+        if (listeners.isEmpty())
             logger.warn("There is no listener in the registered package. No listeners were loaded.");
         for (final Class<?> listener : listeners) {
+            if (!ReflectionUtil.isConcrete(listener)) continue;
+
             ListenerAdapter slashCommand = (ListenerAdapter) listener.getConstructor().newInstance();
             builder.addEventListeners(slashCommand);
-            logger.info("Loaded " + listener.getSimpleName() + " successfully");
+            logger.info("Loaded %s successfully".formatted(listener.getSimpleName()));
+        }
+    }
+
+    // FIXME: upsert admin command
+    private static void upsertGuildCommands(Guild mainGuild) {
+        if (mainGuild != null) {
+            logger.info("Upsert commands for Guild id %s".formatted(mainGuild.getId()));
+            List<CommandData> commandDataList = commandClient.getSlashCommands()
+                    .stream()
+                    .map(SlashCommand::buildCommandData)
+                    .toList();
+            mainGuild.updateCommands().addCommands(commandDataList).queue();
+        } else {
+            logger.warn("Cannot find main Guild");
         }
     }
 
     public static void shutdown() {
+        DiaScheduler.shutdown();
         jda.shutdown();
-        JPAManager.shutdown();
+        JpaManager.shutdown();
     }
 
     // 주의: 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
@@ -161,7 +193,7 @@ public class DacoBot {
         try {
             Runtime.getRuntime().exec(cmd.toString());
         } catch (IOException e) {
-            logger.error("Failed to start bot: " + e.getMessage());
+            logger.error("Failed to start bot: %s".formatted(e.getMessage()));
             e.printStackTrace();
         }
         shutdown();

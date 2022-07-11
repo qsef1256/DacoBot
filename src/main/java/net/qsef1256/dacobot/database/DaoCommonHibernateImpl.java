@@ -6,11 +6,11 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
+import org.hibernate.query.criteria.JpaCriteriaQuery;
+import org.hibernate.query.criteria.JpaRoot;
 import org.jetbrains.annotations.NotNull;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
     public DaoCommonHibernateImpl(final @NotNull Class<T> clazz) {
         this.clazz = clazz;
         this.clazzName = clazz.getSimpleName();
-        this.factory = JPAManager.getSessionFactoryFromJPA();
+        this.factory = JpaManager.getSessionFactoryFromJPA();
     }
 
     public Session getCurrentSession() {
@@ -39,8 +39,8 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+            HibernateCriteriaBuilder builder = session.getCriteriaBuilder();
+            JpaCriteriaQuery<Long> criteria = builder.createQuery(Long.class);
             criteria.select(builder.count(criteria.from(clazz)));
 
             Long result = session.createQuery(criteria).getSingleResult();
@@ -63,7 +63,7 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
         try {
             session.beginTransaction();
             for (T entity : entities) {
-                session.save(entity);
+                session.persist(entity);
             }
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -79,17 +79,7 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
 
     @Override
     public void update(List<T> entities) {
-        final Session session = factory.getCurrentSession();
-        try {
-            session.beginTransaction();
-            for (T entity : entities) {
-                session.update(entity);
-            }
-            session.getTransaction().commit();
-        } catch (Exception e) {
-            session.getTransaction().rollback();
-            throw new RuntimeException(e);
-        }
+        saveAll(entities);
     }
 
     @Override
@@ -103,7 +93,7 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
         try {
             session.beginTransaction();
             for (T entity : entities) {
-                session.saveOrUpdate(entity);
+                session.merge(entity);
             }
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -136,9 +126,9 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<T> criteria = builder.createQuery(clazz);
-            Root<T> root = criteria.from(clazz);
+            HibernateCriteriaBuilder builder = session.getCriteriaBuilder();
+            JpaCriteriaQuery<T> criteria = builder.createQuery(clazz);
+            JpaRoot<T> root = criteria.from(clazz);
             constraint.forEach((key, value) -> criteria.where(builder.equal(root.get(key), value)));
 
             List<T> result = session.createQuery(criteria).getResultList();
@@ -179,8 +169,8 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
     }
 
     private List<T> getAllList(@NotNull Session session) {
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<T> criteria = builder.createQuery(clazz);
+        HibernateCriteriaBuilder builder = session.getCriteriaBuilder();
+        JpaCriteriaQuery<T> criteria = builder.createQuery(clazz);
         criteria.from(clazz);
 
         return session.createQuery(criteria).getResultList();
@@ -193,7 +183,7 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
             session.beginTransaction();
 
             for (T entity : getAllList(session)) { // TODO: this is not effective
-                session.delete(entity);
+                session.remove(entity);
             }
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -228,11 +218,11 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
         final Session session = factory.getCurrentSession();
         try {
             session.beginTransaction();
-            T entity = session.load(clazz, id);
+            T entity = session.getReference(clazz, id);
             if (entity == null) {
                 throw new NoSuchElementException("Can't find " + clazzName + " with Id: " + id + " to delete");
             }
-            session.delete(entity);
+            session.remove(entity);
             session.getTransaction().commit();
         } catch (NoSuchElementException e) {
             session.getTransaction().rollback();

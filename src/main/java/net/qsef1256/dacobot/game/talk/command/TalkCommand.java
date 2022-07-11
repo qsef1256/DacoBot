@@ -2,8 +2,8 @@ package net.qsef1256.dacobot.game.talk.command;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import net.qsef1256.dacobot.enums.DiaMessage;
 import net.qsef1256.dacobot.game.talk.model.DacoChat;
+import net.qsef1256.dacobot.service.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 // TODO Add talk

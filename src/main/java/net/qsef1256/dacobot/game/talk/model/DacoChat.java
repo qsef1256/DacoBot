@@ -9,10 +9,10 @@ import org.alicebot.ab.configuration.Constants;
 import org.alicebot.ab.configuration.LanguageConfiguration;
 import org.alicebot.ab.model.Category;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
-
-import static net.qsef1256.dacobot.DacoBot.logger;
 
 // TODO: https://github.com/open-korean-text/open-korean-text ** CONSIDERING **
 // TODO: https://howtodoinjava.com/java/library/java-aiml-chatbot-example/ ** CHOSEN THIS **
@@ -21,6 +21,8 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 // TODO: https://code.google.com/archive/p/program-ab/
 public class DacoChat {
 
+    public static final Logger logger = LoggerFactory.getLogger("DacoChat");
+    
     @Getter
     private Bot chatBot;
     private Chat chat;
