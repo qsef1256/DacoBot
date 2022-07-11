@@ -9,7 +9,6 @@ import net.qsef1256.dacobot.localization.TimeLocalizer;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.key.UserKey;
 import net.qsef1256.dacobot.service.message.data.MessageData;
-import net.qsef1256.dacobot.service.message.type.Timed;
 import net.qsef1256.dacobot.service.notification.DiaNotification;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,7 +36,7 @@ public class MessageRemovalListener implements RemovalListener<ManagedKey, Messa
 
                 assert notification.getValue() != null;
 
-                ((Timed) notification.getValue()).onTimeout();
+                notification.getValue().getOnRemove().run();
 
                 MessageBuilder messageBuilder = new MessageBuilder();
                 messageBuilder.append(key.getType());

@@ -10,5 +10,11 @@ public class MessageData {
 
     private Long messageId;
     private MessageChannel channel;
+    private Runnable onRemove;
+
+    public MessageData(Long messageId, MessageChannel channel) {
+        this.messageId = messageId;
+        this.channel = channel;
+    }
 
 }

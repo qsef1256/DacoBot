@@ -88,7 +88,7 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
 
     @Override
     public void onTimeout() {
-        if (onRemove != null) onRemove.run();
+        MessageAPI.get(key).getOnRemove().run();
     }
 
 }
