@@ -63,6 +63,11 @@ class MessageAPITest {
     }
 
     @Test
+    void same() {
+        assertEquals(key1, key2);
+    }
+
+    @Test
     void add() {
         channel = Mockito.mock(MessageChannel.class);
 
