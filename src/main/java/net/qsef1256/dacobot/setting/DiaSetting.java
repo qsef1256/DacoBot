@@ -13,7 +13,6 @@ import java.io.File;
 import java.time.ZoneId;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
-import java.util.TimeZone;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
@@ -22,11 +21,13 @@ public class DiaSetting {
 
     public static final String SETTING_NAME = "setting";
     public static final String KEY_NAME = "key";
-    public static TimeZone zone;
+
     @Getter
     private static Properties setting;
     @Getter
     private static Properties key;
+    @Getter
+    private static ZoneId zoneId;
 
     static {
         try {
@@ -49,7 +50,7 @@ public class DiaSetting {
         if (CommonUtil.anyNull(setting, key))
             throw new InvalidPropertiesFormatException("bot properties is null");
 
-        zone = TimeZone.getTimeZone(ZoneId.of(getSetting().getProperty("bot.timer.zone")));
+        zoneId = ZoneId.of(getSetting().getProperty("bot.timer.zone"));
 
         logger.info("main Package: %s".formatted(setting.getProperty("main.package")));
     }

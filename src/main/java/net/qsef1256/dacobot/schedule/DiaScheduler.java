@@ -18,7 +18,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 /**
  * 스케줄러, 종료시 수동으로 정지 시켜야 합니다.
  *
- * <p>내부 시간은 한국 시간 (Asia/Seoul) 을 기준으로 합니다.</p>
+ * <p>내부 시간은 DiaSetting 에 설정된 시간 (기본값 Asia/Seoul) 을 기준으로 합니다.</p>
  *
  * @implNote call shutdown() at stop
  * @see <a href=https://alwayspr.tistory.com/32>See Reference</a>
@@ -26,7 +26,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @UtilityClass
 public class DiaScheduler {
 
-    private static final ZonedDateTime now = ZonedDateTime.now(DiaSetting.zone.toZoneId());
+    private static final ZonedDateTime now = ZonedDateTime.now(DiaSetting.getZoneId());
 
     @Getter
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

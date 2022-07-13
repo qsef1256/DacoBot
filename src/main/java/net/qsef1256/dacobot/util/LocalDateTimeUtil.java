@@ -1,10 +1,13 @@
 package net.qsef1256.dacobot.util;
 
 import lombok.experimental.UtilityClass;
+import net.qsef1256.dacobot.setting.DiaSetting;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -12,6 +15,10 @@ import java.time.format.DateTimeFormatter;
  */
 @UtilityClass
 public class LocalDateTimeUtil {
+
+    private static final ZoneId SYSTEM_ZONE = ZoneId.systemDefault();
+    private static final ZoneId ZONE_ID = DiaSetting.getZoneId();
+    private static final ZonedDateTime NOW = ZonedDateTime.now(ZONE_ID);
 
     /**
      * 첫번째와 두번째 시간이 같은 날짜인지 확인합니다.
@@ -31,7 +38,18 @@ public class LocalDateTimeUtil {
      * @return true if today
      */
     public boolean isToday(@NotNull LocalDateTime time) {
-        return time.toLocalDate().isEqual(LocalDateTime.now().toLocalDate());
+        return getZonedDateTime(time).toLocalDate().isEqual(NOW.toLocalDate());
+    }
+
+    /**
+     * LocalDateTime 을 설정에 지정된 ZonedDateTime 으로 변환합니다.
+     *
+     * @param time fixed time
+     * @return zoned date time with setting zone id
+     */
+    @NotNull
+    public ZonedDateTime getZonedDateTime(@NotNull LocalDateTime time) {
+        return ZonedDateTime.of(time, SYSTEM_ZONE).withZoneSameInstant(ZONE_ID);
     }
 
     /**
