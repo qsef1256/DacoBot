@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.service.notification;
+package net.qsef1256.dacobot.util.notification;
 
 import com.jagrosh.jdautilities.command.Command;
 import lombok.experimental.UtilityClass;

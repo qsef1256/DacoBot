@@ -16,9 +16,10 @@ import java.time.format.DateTimeFormatter;
 @UtilityClass
 public class LocalDateTimeUtil {
 
+    // TODO: Time Zone problem
+    
     private static final ZoneId SYSTEM_ZONE = ZoneId.systemDefault();
     private static final ZoneId ZONE_ID = DiaSetting.getZoneId();
-    private static final ZonedDateTime NOW = ZonedDateTime.now(ZONE_ID);
 
     /**
      * 첫번째와 두번째 시간이 같은 날짜인지 확인합니다.
@@ -38,7 +39,15 @@ public class LocalDateTimeUtil {
      * @return true if today
      */
     public boolean isToday(@NotNull LocalDateTime time) {
-        return getZonedDateTime(time).toLocalDate().isEqual(NOW.toLocalDate());
+        return getZonedDateTime(time).toLocalDate().isEqual(getZonedNow().toLocalDate());
+    }
+
+    public LocalDateTime getNow() {
+        return ZonedDateTime.now(ZONE_ID).toLocalDateTime();
+    }
+
+    public ZonedDateTime getZonedNow() {
+        return ZonedDateTime.now(ZONE_ID);
     }
 
     /**

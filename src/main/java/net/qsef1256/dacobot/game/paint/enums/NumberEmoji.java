@@ -1,13 +1,10 @@
 package net.qsef1256.dacobot.game.paint.enums;
 
 import lombok.Getter;
+import net.qsef1256.dacobot.util.EnumUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum NumberEmoji implements Emoji {
 
@@ -44,10 +41,8 @@ public enum NumberEmoji implements Emoji {
     BLACK_EIGHT("black8", "<:black8:967331133253627924>"),
     BLACK_NINE("black9", "<:black9:967331133262032916>");
 
-    private static final Map<String, NumberEmoji> emojiMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(NumberEmoji::getEmoji, Function.identity())));
-    private static final Map<String, NumberEmoji> idMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(NumberEmoji::getId, Function.identity())));
+    private static final Map<String, NumberEmoji> emojiMap = EnumUtil.toMap(NumberEmoji::getEmoji, NumberEmoji.class);
+    private static final Map<String, NumberEmoji> idMap = EnumUtil.toMap(NumberEmoji::getId, NumberEmoji.class);
 
     @Getter
     private final String emoji;

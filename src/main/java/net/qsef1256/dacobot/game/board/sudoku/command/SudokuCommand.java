@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.game.board.GameAPI;
 import net.qsef1256.dacobot.game.board.sudoku.model.SudokuHost;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
-import net.qsef1256.dacobot.service.notification.DiaMessage;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

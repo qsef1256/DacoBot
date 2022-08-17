@@ -2,14 +2,11 @@ package net.qsef1256.dacobot.service.openapi.weather.enums;
 
 import lombok.Getter;
 import net.qsef1256.dacobot.service.openapi.weather.util.WeatherUtil;
+import net.qsef1256.dacobot.util.EnumUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum WeatherCode {
 
@@ -22,8 +19,7 @@ public enum WeatherCode {
     WIND_DIRECT("VEC", "풍향", "°", 10, "\uD83D\uDCA8"),
     WIND_SPEED("WSD", "풍속", "m/s", 10, "\uD83D\uDCA8");
 
-    private static final Map<String, WeatherCode> codeMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(WeatherCode::getCode, Function.identity())));
+    private static final Map<String, WeatherCode> codeMap = EnumUtil.toMap(WeatherCode::getCode, WeatherCode.class);
 
     @Getter
     private final String code;

@@ -51,7 +51,6 @@ public class ReflectionUtil {
      */
     public static boolean isNested(@NotNull Class<?> clazz) {
         return (clazz.isLocalClass() || clazz.isMemberClass());
-
     }
 
 }

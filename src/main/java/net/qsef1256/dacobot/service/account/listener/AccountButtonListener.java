@@ -8,8 +8,8 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.explosion.model.UserManager;
 import net.qsef1256.dacobot.service.account.command.AccountCommand;
 import net.qsef1256.dacobot.service.account.model.AccountManager;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.NoSuchElementException;

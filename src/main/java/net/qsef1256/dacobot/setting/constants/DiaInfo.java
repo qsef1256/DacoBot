@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.setting.enums;
+package net.qsef1256.dacobot.setting.constants;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

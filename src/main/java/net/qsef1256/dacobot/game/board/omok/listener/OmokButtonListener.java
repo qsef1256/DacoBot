@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
 import net.qsef1256.dacobot.game.board.omok.model.OmokManager;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 public class OmokButtonListener extends ListenerAdapter {

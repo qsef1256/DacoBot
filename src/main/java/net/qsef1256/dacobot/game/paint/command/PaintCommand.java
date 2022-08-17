@@ -13,11 +13,11 @@ import net.qsef1256.dacobot.game.paint.enums.Emoji;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
-import net.qsef1256.dacobot.service.notification.DiaMessage;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
-import net.qsef1256.dacobot.setting.enums.DiaImage;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;

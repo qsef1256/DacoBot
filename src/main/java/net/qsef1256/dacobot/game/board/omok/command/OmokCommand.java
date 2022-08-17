@@ -9,11 +9,11 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.game.board.omok.model.OmokManager;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
-import net.qsef1256.dacobot.service.notification.DiaMessage;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
-import net.qsef1256.dacobot.setting.enums.DiaImage;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

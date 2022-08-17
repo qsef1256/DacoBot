@@ -1,10 +1,10 @@
-package net.qsef1256.dacobot.service.notification;
+package net.qsef1256.dacobot.util.notification;
 
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.setting.DiaSetting;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import org.jetbrains.annotations.NotNull;
 
 @UtilityClass

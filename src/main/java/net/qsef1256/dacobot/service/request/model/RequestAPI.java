@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.Button;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.apache.commons.collections4.BidiMap;

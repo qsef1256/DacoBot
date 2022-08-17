@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
-import net.qsef1256.dacobot.setting.enums.DiaImage;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 

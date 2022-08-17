@@ -6,9 +6,9 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.database.DaoCommon;
 import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import net.qsef1256.dacobot.service.account.model.Account;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 

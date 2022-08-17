@@ -5,13 +5,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.localization.TimeLocalizer;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
-import net.qsef1256.dacobot.service.notification.DiaMessage;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
-import net.qsef1256.dacobot.setting.enums.DiaImage;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.util.PropertiesUtil;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.management.ManagementFactory;

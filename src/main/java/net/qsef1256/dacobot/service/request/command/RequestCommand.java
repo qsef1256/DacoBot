@@ -4,12 +4,12 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
-import net.qsef1256.dacobot.service.notification.DiaMessage;
 import net.qsef1256.dacobot.service.request.model.Request;
 import net.qsef1256.dacobot.service.request.model.RequestAPI;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 public class RequestCommand extends SlashCommand {

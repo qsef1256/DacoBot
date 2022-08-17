@@ -1,14 +1,11 @@
 package net.qsef1256.dacobot.game.paint.enums;
 
 import lombok.Getter;
+import net.qsef1256.dacobot.util.EnumUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum EtcEmoji implements Emoji {
 
@@ -25,10 +22,8 @@ public enum EtcEmoji implements Emoji {
     QUESTION("?", "❓"),
     EXCLAMATION("!", "❗");
 
-    private static final Map<String, EtcEmoji> emojiMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(EtcEmoji::getEmoji, Function.identity())));
-    private static final Map<String, EtcEmoji> idMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(EtcEmoji::getId, Function.identity())));
+    private static final Map<String, EtcEmoji> emojiMap = EnumUtil.toMap(EtcEmoji::getEmoji, EtcEmoji.class);
+    private static final Map<String, EtcEmoji> idMap = EnumUtil.toMap(EtcEmoji::getId, EtcEmoji.class);
 
     @Getter
     private final String emoji;

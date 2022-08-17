@@ -23,7 +23,6 @@ public class GsonUtil {
     @NotNull
     private GsonBuilder getGsonBuilder() {
         return new GsonBuilder()
-                .disableHtmlEscaping()
                 .setPrettyPrinting()
                 .registerTypeAdapter(LocalDateTime.class, new GsonLocalDateTime())
                 .registerTypeAdapter(LocalDate.class, new GsonLocalDate())

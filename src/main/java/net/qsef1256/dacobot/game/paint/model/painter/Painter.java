@@ -11,6 +11,7 @@ import java.util.List;
 
 public class Painter {
 
+    // NOT TESTED
     public static final int X_START = 1;
     public static final int Y_START = 1;
     @Getter

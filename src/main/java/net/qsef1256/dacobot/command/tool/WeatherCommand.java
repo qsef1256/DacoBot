@@ -3,11 +3,11 @@ package net.qsef1256.dacobot.command.tool;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.service.notification.DiaEmbed;
 import net.qsef1256.dacobot.service.openapi.weather.ShortWeatherAPI;
 import net.qsef1256.dacobot.service.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.service.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.util.LocalDateTimeUtil;
+import net.qsef1256.dacobot.util.notification.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

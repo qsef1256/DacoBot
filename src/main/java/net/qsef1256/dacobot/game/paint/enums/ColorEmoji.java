@@ -1,15 +1,12 @@
 package net.qsef1256.dacobot.game.paint.enums;
 
 import lombok.Getter;
+import net.qsef1256.dacobot.util.EnumUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.util.Collections;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public enum ColorEmoji implements Emoji {
 
@@ -23,12 +20,10 @@ public enum ColorEmoji implements Emoji {
     BLACK("k", "⬛", Color.BLACK),
     WHITE("w", "⬜", Color.WHITE);
 
-    private static final Map<String, ColorEmoji> emojiMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(ColorEmoji::getEmoji, Function.identity())));
-    private static final Map<String, ColorEmoji> idMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(ColorEmoji::getId, Function.identity())));
-    private static final Map<Color, ColorEmoji> colorMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(ColorEmoji::getColor, Function.identity())));
+    private static final Map<String, ColorEmoji> emojiMap = EnumUtil.toMap(ColorEmoji::getEmoji, ColorEmoji.class);
+    private static final Map<String, ColorEmoji> idMap = EnumUtil.toMap(ColorEmoji::getId, ColorEmoji.class);
+    private static final Map<Color, ColorEmoji> colorMap = EnumUtil.toMap(ColorEmoji::getColor, ColorEmoji.class);
+
     @Getter
     private final String emoji;
     @Getter

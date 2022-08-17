@@ -6,8 +6,8 @@ import net.dv8tion.jda.api.MessageBuilder;
 import net.qsef1256.dacobot.game.boardv2.api.ui.MessageUI;
 import net.qsef1256.dacobot.game.boardv2.api.ui.TextUI;
 import net.qsef1256.dacobot.game.boardv2.impl.board.GridBoard;
-import net.qsef1256.dacobot.setting.enums.DiaImage;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.JDAUtil;
 
 import static net.qsef1256.dacobot.game.boardv2.omok.OmokTurn.BLACK;

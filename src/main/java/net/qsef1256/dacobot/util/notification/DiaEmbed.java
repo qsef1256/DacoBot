@@ -1,11 +1,11 @@
-package net.qsef1256.dacobot.service.notification;
+package net.qsef1256.dacobot.util.notification;
 
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.setting.enums.DiaColor;
-import net.qsef1256.dacobot.setting.enums.DiaImage;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

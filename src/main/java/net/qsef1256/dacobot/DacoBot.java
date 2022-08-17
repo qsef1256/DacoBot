@@ -20,7 +20,7 @@ import net.qsef1256.dacobot.game.talk.listener.TalkListener;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaAPI;
 import net.qsef1256.dacobot.setting.DiaSetting;
-import net.qsef1256.dacobot.setting.enums.DiaInfo;
+import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.GenericUtil;
 import net.qsef1256.dacobot.util.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;

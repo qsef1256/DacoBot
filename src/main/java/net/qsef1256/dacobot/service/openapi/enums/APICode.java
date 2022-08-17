@@ -1,13 +1,10 @@
 package net.qsef1256.dacobot.service.openapi.enums;
 
 import lombok.Getter;
+import net.qsef1256.dacobot.util.EnumUtil;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Open API 에러 코드를 나타냅니다.
@@ -31,8 +28,7 @@ public enum APICode {
     UNSIGNED_CALL_ERROR("33", "서명되지 않은 호출"),
     UNKNOWN_ERROR("99", "알 수 없는 오류");
 
-    private static final Map<String, APICode> codeMap =
-            Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(APICode::getCode, Function.identity())));
+    private static final Map<String, APICode> codeMap = EnumUtil.toMap(APICode::getCode, APICode.class);
 
     @Getter
     private final String code;
