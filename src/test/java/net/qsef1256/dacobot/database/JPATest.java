@@ -1,5 +1,5 @@
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+package net.qsef1256.dacobot.database;
+
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import org.junit.jupiter.api.Test;
 

@@ -1,5 +1,5 @@
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
+package net.qsef1256.dacobot.database;
+
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;

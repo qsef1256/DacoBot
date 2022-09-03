@@ -1,4 +1,5 @@
-import net.qsef1256.dacobot.game.talk.model.DacoChat;
+package net.qsef1256.dacobot.game.talk.model;
+
 import org.junit.jupiter.api.Test;
 
 import javax.management.openmbean.KeyAlreadyExistsException;

@@ -1,7 +1,8 @@
+package net.qsef1256.dacobot.util;
+
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PixelPainter;
 import net.qsef1256.dacobot.struct.NestedMap;
-import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 

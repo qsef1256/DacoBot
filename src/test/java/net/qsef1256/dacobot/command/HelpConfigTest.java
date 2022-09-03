@@ -1,3 +1,5 @@
+package net.qsef1256.dacobot.command;
+
 import net.qsef1256.dacobot.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
@@ -10,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class ConfigTest {
+public class HelpConfigTest {
 
     public static Map<String, Map<?, ?>> categories = new HashMap<>();
 

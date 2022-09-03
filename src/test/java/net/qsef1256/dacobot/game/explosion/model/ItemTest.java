@@ -1,5 +1,6 @@
+package net.qsef1256.dacobot.game.explosion.model;
+
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
-import net.qsef1256.dacobot.game.explosion.model.Item;
 import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
