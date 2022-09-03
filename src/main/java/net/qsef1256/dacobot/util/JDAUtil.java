@@ -13,10 +13,8 @@ import net.qsef1256.dacobot.setting.DiaSetting;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.naming.NoPermissionException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 @UtilityClass
@@ -125,32 +123,5 @@ public class JDAUtil {
     public Member getMemberFromId(long userId) {
         return getMemberFromUser(User.fromId(userId));
     }
-
-    /**
-     * 유저에게 Direct Message 를 보냅니다. 유저가 DM을 끈 경우 실패할 수 있습니다.
-     *
-     * @param user    user
-     * @param message message to send
-     */
-    public void directMessage(@NotNull User user, @NotNull String message) throws NoPermissionException {
-        AtomicBoolean fail = new AtomicBoolean(false);
-
-        user.openPrivateChannel().flatMap(channel -> channel.sendMessage(message)).queue(success -> {
-        }, failure -> fail.set(true));
-
-        if (fail.get())
-            throw new NoPermissionException("DM Failed: " + user.getAsTag() + " Message: " + message);
-    }
-
-    /**
-     * 등록된 메인 채널에 유저를 Mention 하는 메시지를 보냅니다.
-     *
-     * @param user    user
-     * @param message message to send
-     */
-    public void noticeUser(@NotNull User user, @NotNull String message) {
-        DiaSetting.getMainChannel().sendMessage(user.getAsMention() + " " + message).queue();
-    }
-
-
+    
 }
