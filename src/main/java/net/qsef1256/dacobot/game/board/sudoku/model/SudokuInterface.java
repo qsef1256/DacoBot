@@ -20,21 +20,6 @@ public class SudokuInterface implements Game {
         sudokuGame = new SudokuGame(35);
     }
 
-    public @NotNull MessageBuilder getUIMessage() {
-        return new MessageBuilder()
-                .append("""
-                        **:checkered_flag: 스도쿠**
-                                        
-                        """)
-                .append(sudokuGame.printBoard())
-                .append("사용자: ")
-                .append(user.getName());
-    }
-
-    public @NotNull String getUIString() {
-        return "스도쿠 게임\n" + sudokuGame.getBoard().printSudoku();
-    }
-
     @Override
     public boolean playerExist(long userId) {
         return user.getIdLong() == userId;
@@ -58,13 +43,35 @@ public class SudokuInterface implements Game {
 
     @Override
     public GameUI getUI() {
-        return null;
+        return new SudokuUI();
     }
 
     public void place(int x, int y, Byte piece) {
         sudokuGame.place(x, y, piece);
 
         if (sudokuGame.isEnd()) win(user.getIdLong());
+    }
+
+    private class SudokuUI implements GameUI {
+
+        @NotNull
+        @Override
+        public MessageBuilder getUIMessage() {
+            return new MessageBuilder()
+                    .append("""
+                            **:checkered_flag: 스도쿠**
+                                            
+                            """)
+                    .append(sudokuGame.printBoard())
+                    .append("사용자: ")
+                    .append(user.getName());
+        }
+
+        @NotNull
+        @Override
+        public String getUIString() {
+            return "스도쿠 게임\n" + sudokuGame.getBoard().printSudoku();
+        }
     }
 
 }

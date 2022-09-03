@@ -69,6 +69,7 @@ CATEGORIES:
       - CalculateCommand
       - WeatherCommand
       - CoronaCommand
+      - PeriodicTableCommand
 
   MISC:
     TITLE: "기타"

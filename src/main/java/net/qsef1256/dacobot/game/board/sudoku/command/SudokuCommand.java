@@ -13,7 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-// TODO: 시작, 포기, 입력 등 sub command
 public class SudokuCommand extends SlashCommand {
 
     public SudokuCommand() {
@@ -85,7 +84,7 @@ public class SudokuCommand extends SlashCommand {
                 SudokuHost game = GameAPI.getGame(new SudokuHost(event.getUser()));
                 game.getGame().place((int) x, (int) y, (byte) number);
 
-                event.reply(game.getGame().getUIMessage().build()).queue();
+                event.reply(game.getGame().getUI().getUIMessage().build()).queue();
             } catch (RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
@@ -104,7 +103,7 @@ public class SudokuCommand extends SlashCommand {
             try {
                 SudokuHost game = GameAPI.getGame(new SudokuHost(event.getUser()));
 
-                event.reply(game.getGame().getUIMessage().build()).queue();
+                event.reply(game.getGame().getUI().getUIMessage().build()).queue();
             } catch (RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
@@ -147,7 +146,7 @@ public class SudokuCommand extends SlashCommand {
                 if (!solved)
                     event.reply("이 스도쿠는 해결 불가능 합니다.").queue();
                 else
-                    event.reply(game.getGame().getUIMessage().build()).queue();
+                    event.reply(game.getGame().getUI().getUIMessage().build()).queue();
             } catch (RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }

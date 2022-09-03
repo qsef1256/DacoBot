@@ -23,12 +23,12 @@ public class SudokuHost extends GameHost<SudokuInterface> {
 
     @Override
     public boolean isEnd() {
-        return false;
+        return getGame().isEnd();
     }
 
     @Override
     public GameUI getUI() {
-        return null;
+        return getGame().getUI();
     }
 
     public Set<User> getUsers() {

@@ -7,7 +7,8 @@ import java.util.Random;
 
 @UtilityClass
 public class ColorUtil {
-    final Random random = new Random();
+
+    private static final Random random = CommonUtil.getRandom();
 
     /**
      * 랜덤한 파스텔 컬러를 얻습니다.

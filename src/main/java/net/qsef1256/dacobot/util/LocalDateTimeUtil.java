@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 public class LocalDateTimeUtil {
 
     // TODO: Time Zone problem
-    
+
     private static final ZoneId SYSTEM_ZONE = ZoneId.systemDefault();
     private static final ZoneId ZONE_ID = DiaSetting.getZoneId();
 
@@ -68,7 +68,7 @@ public class LocalDateTimeUtil {
      * @return ISO LocalDateTime without space
      */
     public String getTimeString(@NotNull LocalDateTime time) {
-        return time.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ');
+        return getZonedDateTime(time).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME).replace('T', ' ');
     }
 
     /**
