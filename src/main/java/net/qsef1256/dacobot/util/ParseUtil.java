@@ -70,7 +70,7 @@ public class ParseUtil {
         return (T) input;
     }
 
-    public boolean noException(Runnable runnable) {
+    private boolean noException(Runnable runnable) {
         try {
             runnable.run();
 

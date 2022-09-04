@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+@Deprecated(since = "DaoCommonOld")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCommonOld<T, K> {
 

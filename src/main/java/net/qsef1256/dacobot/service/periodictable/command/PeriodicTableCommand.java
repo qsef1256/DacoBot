@@ -9,9 +9,9 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.service.periodictable.entity.Element;
+import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.ParseUtil;
-import net.qsef1256.dacobot.util.notification.DiaEmbed;
-import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

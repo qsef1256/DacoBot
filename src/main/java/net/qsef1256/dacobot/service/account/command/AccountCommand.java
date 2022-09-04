@@ -14,8 +14,8 @@ import net.qsef1256.dacobot.service.account.model.AccountManager;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
-import net.qsef1256.dacobot.util.notification.DiaEmbed;
-import net.qsef1256.dacobot.util.notification.DiaMessage;
+import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.format.DateTimeFormatter;

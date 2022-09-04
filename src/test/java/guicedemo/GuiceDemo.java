@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 import javax.inject.Qualifier;
@@ -12,6 +14,7 @@ import java.lang.annotation.Retention;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 public class GuiceDemo {
+
     @Qualifier
     @Retention(RUNTIME)
     @interface Message {
@@ -27,21 +30,19 @@ public class GuiceDemo {
      * {@link Greeter}.
      */
     static class DemoModule extends AbstractModule {
+        @Contract(pure = true)
         @Provides
         @Count
-        static Integer provideCount() {
+        static @NotNull Integer provideCount() {
             return 3;
         }
 
+        @Contract(pure = true)
         @Provides
         @Message
-        static String provideMessage() {
+        static @NotNull String provideMessage() {
             return "hello world";
         }
-    }
-
-    static class StupudModule extends AbstractModule {
-
     }
 
     static class Greeter {
@@ -73,13 +74,10 @@ public class GuiceDemo {
          */
         Injector injector = Guice.createInjector(new DemoModule());
 
-        /*
-         * Now that we've got the injector, we can build objects.
-         */
         Greeter greeter = injector.getInstance(Greeter.class);
 
         // Prints "hello world" 3 times to the console.
         greeter.sayHello();
-
     }
+
 }

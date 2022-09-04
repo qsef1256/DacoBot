@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaAPI;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaEntity;
 import net.qsef1256.dacobot.util.LocalDateTimeUtil;
-import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.ui.DiaEmbed;
 
 public class CoronaCommand extends SlashCommand {
 

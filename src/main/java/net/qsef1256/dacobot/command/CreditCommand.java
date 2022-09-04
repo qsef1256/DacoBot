@@ -8,10 +8,10 @@ import net.qsef1256.dacobot.localization.TimeLocalizer;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
+import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.util.PropertiesUtil;
-import net.qsef1256.dacobot.util.notification.DiaEmbed;
-import net.qsef1256.dacobot.util.notification.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.management.ManagementFactory;

@@ -9,7 +9,7 @@ import net.qsef1256.dacobot.localization.TimeLocalizer;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.key.UserKey;
 import net.qsef1256.dacobot.service.message.data.MessageData;
-import net.qsef1256.dacobot.util.notification.DiaNotification;
+import net.qsef1256.dacobot.ui.DiaNotification;
 import org.jetbrains.annotations.NotNull;
 
 @Slf4j

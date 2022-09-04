@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.util.notification;
+package net.qsef1256.dacobot.ui;
 
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.EmbedBuilder;

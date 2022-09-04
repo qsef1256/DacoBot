@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.game.talk.model.DacoChat;
-import net.qsef1256.dacobot.util.notification.DiaEmbed;
+import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 @Slf4j

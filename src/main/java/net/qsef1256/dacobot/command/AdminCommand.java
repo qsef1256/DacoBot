@@ -9,8 +9,8 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.setting.DiaSetting;
-import net.qsef1256.dacobot.util.notification.DiaEmbed;
-import net.qsef1256.dacobot.util.notification.DiaMessage;
+import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
