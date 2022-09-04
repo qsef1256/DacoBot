@@ -72,7 +72,6 @@ public class AccountCommand extends SlashCommand {
                 }
             });
         }
-
     }
 
     private static class StatusCommand extends SlashCommand {
@@ -151,6 +150,5 @@ public class AccountCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
         }
-
     }
 }

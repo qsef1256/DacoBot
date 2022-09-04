@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot.service.message;
 
-
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +33,9 @@ public class MessageRemovalListener implements RemovalListener<ManagedKey, Messa
                     }
                 }
 
-                assert notification.getValue() != null;
+                if (notification.getValue() == null) return;
 
                 notification.getValue().getOnRemove().run();
-
                 MessageBuilder messageBuilder = new MessageBuilder();
                 messageBuilder.append(key.getType());
                 messageBuilder.append(" 메시지가 %s로 삭제 되었습니다.".formatted(removeCause));

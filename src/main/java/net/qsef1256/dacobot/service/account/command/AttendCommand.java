@@ -68,6 +68,5 @@ public class AttendCommand extends SlashCommand {
             if (e instanceof NoSuchElementException) return;
             e.printStackTrace();
         }
-
     }
 }

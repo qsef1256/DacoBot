@@ -29,10 +29,6 @@ public class PickaxeCommand extends SlashCommand {
                 final int random = CommonUtil.randomInt(1, 100);
 
                 switch (random) {
-                    default -> {
-                        pickaxeCount = 1;
-                        status = ":gem: ";
-                    }
                     case 87, 88, 89 -> {
                         pickaxeCount = CommonUtil.randomInt(-5, -1);
                         status = ":crescent_moon: 어이쿠 손이 미끄러졌네!! 다이아가 박살났습니다. ";
@@ -48,6 +44,10 @@ public class PickaxeCommand extends SlashCommand {
                     case 100 -> {
                         pickaxeCount = CommonUtil.randomInt(15, 25);
                         status = ":boom: **폭발!!** ";
+                    }
+                    default -> {
+                        pickaxeCount = 1;
+                        status = ":gem: ";
                     }
                 }
 

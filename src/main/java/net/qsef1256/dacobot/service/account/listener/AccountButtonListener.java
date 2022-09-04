@@ -84,6 +84,9 @@ public class AccountButtonListener extends ListenerAdapter {
                 event.editButton(event.getButton().asDisabled()).queue();
             }
 
+            default -> {
+            }
         }
+
     }
 }

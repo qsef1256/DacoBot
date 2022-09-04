@@ -40,7 +40,7 @@ public class SudokuGame implements BoardGame<Byte>, Solvable {
 
     public SudokuGame(int toRemove) {
         board = new SudokuBoard(toRemove);
-        userBoard = board.clone();
+        userBoard = board.copy();
 
         initPainter(painter, board.getGrid());
     }
@@ -374,8 +374,7 @@ public class SudokuGame implements BoardGame<Byte>, Solvable {
             return !new MatrixUtil<>(Byte.class).anyMatch(PrimitiveUtil.toObject(grid), (byte) 0);
         }
 
-        @Override
-        public SudokuBoard clone() {
+        public SudokuBoard copy() {
             try {
                 SudokuBoard clone = (SudokuBoard) super.clone();
                 MatrixUtil<Byte> util = new MatrixUtil<>(Byte.class);

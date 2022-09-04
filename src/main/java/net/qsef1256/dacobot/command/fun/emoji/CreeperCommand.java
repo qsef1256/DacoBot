@@ -13,7 +13,6 @@ public class CreeperCommand extends SlashCommand {
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-
         String creeperArt = """
                 🟩✳️🟩🟩⬜🟩🟩⬛
                 🟩🟩🟩🟩🟩🟩🟩⬜
@@ -26,6 +25,5 @@ public class CreeperCommand extends SlashCommand {
                 """;
 
         event.reply(creeperArt).queue();
-
     }
 }

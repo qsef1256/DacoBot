@@ -21,21 +21,22 @@ class ChatConsole {
                 if ((textLine == null) || (textLine.length() < 1))
                     textLine = Constants.null_input;
                 if (textLine.equals("q")) {
-                    System.exit(0);
+                    break;
                 } else if (textLine.equals("wq")) {
                     bot.writeQuit();
-                    System.exit(0);
+                    break;
                 } else {
-                    if (TRACE_MODE)
-                        DacoChat.logger.info("STATE=" + textLine +
-                                ":THAT=" + chatSession.getThatHistory().get(0).get(0) +
-                                ":TOPIC=" + chatSession.getPredicates().get("topic"));
+                    if (TRACE_MODE) {
+                        DacoChat.logger.info("STATE=%s, THAT=%s, TOPIC= %s".formatted(textLine,
+                                chatSession.getThatHistory().get(0).get(0),
+                                chatSession.getPredicates().get("topic")));
+                    }
                     String response = chatSession.multisentenceRespond(textLine);
                     while (response.contains("&lt;"))
                         response = response.replace("&lt;", "<");
                     while (response.contains("&gt;"))
                         response = response.replace("&gt;", ">");
-                    DacoChat.logger.info("Robot : " + response);
+                    DacoChat.logger.info("Robot : %s".formatted(response));
                 }
             }
         } catch (Exception e) {

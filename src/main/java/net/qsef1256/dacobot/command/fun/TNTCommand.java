@@ -7,8 +7,8 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -85,7 +85,7 @@ public class TNTCommand extends SlashCommand {
         DecimalFormat df = new DecimalFormat("0.00000");
 
         String displayTon = (Mt > 1) ? "%s Mt".formatted(df.format(Mt)) : "%s kt".formatted(df.format(kt));
-        embedBuilder.addField("예상 폭발력", displayTon + "\n%s J".formatted(Math.round(J)), true);
+        embedBuilder.addField("예상 폭발력", displayTon + "%n%s J".formatted(Math.round(J)), true);
         embedBuilder.addField("폭발 범위(km)", String.valueOf(df.format(radBlast)), true);
         embedBuilder.addField("방사선 범위(km)", String.valueOf(df.format(radRadiation)), true);
 

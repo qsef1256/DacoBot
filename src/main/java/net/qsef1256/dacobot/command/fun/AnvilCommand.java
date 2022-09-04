@@ -59,6 +59,7 @@ public class AnvilCommand extends SlashCommand {
                     .setColor(Color.WHITE)
                     .addField("Molar", ":tooth:", false)
                     .build()).queue();
+            default -> event.reply("ㅁㄹ").queue();
         }
 
     }

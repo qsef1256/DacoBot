@@ -12,6 +12,8 @@ import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.NoSuchElementException;
+
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class PaintButtonListener extends ListenerAdapter {
@@ -57,7 +59,7 @@ public class PaintButtonListener extends ListenerAdapter {
                     try {
                         String paintName = event.getMessage().getEmbeds().get(0).getFields().get(0).getValue();
                         if (paintName == null)
-                            throw new RuntimeException("그림 이름을 받아오는데 실패했습니다.");
+                            throw new NoSuchElementException("그림 이름을 받아오는데 실패했습니다.");
 
                         new PaintManagerImpl().overwrite(user.getIdLong(), paintName);
                         callback.editOriginalEmbeds(new EmbedBuilder()
@@ -86,6 +88,8 @@ public class PaintButtonListener extends ListenerAdapter {
             case "paint_drawer_left" -> PaintDrawer.setDrawer(event, -1, 0, false);
             case "paint_drawer_right" -> PaintDrawer.setDrawer(event, 1, 0, false);
             case "paint_drawer_center" -> PaintDrawer.setDrawer(event, 0, 0, true);
+            default -> {
+            }
         }
     }
 

@@ -35,7 +35,10 @@ public class RequestButtonListener extends ListenerAdapter {
                     event.replyEmbeds(DiaEmbed.error("요청 실패", null, e, eventUser).build()).queue();
                 }
             }
-
+            
+            default -> {
+            }
         }
     }
+
 }
