@@ -195,6 +195,7 @@ public class DacoBot {
         } catch (IOException e) {
             logger.error("Failed to start bot: %s".formatted(e.getMessage()));
             e.printStackTrace();
+            return;
         }
         shutdown();
     }
