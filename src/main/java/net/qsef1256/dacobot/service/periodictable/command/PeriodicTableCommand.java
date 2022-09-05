@@ -85,12 +85,12 @@ public class PeriodicTableCommand extends SlashCommand {
             } else {
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("%s(%s)".formatted(result.getName(), result.getEngName()))
-                        .setColor(result.getSeries().getColor())
-                        .appendDescription("%s족 %s주기 ".formatted(result.getGroup(), result.getPeriod()))
-                        .appendDescription(result.getDesc())
+                        .setColor(result.getElementSeries().getColor())
+                        .appendDescription("%s족 %s주기 ".formatted(result.getElementGroup(), result.getElementPeriod()))
+                        .appendDescription(result.getDescription() != null ? result.getDescription() : "")
                         .addField("원자 번호", String.valueOf(result.getNumber()), true)
                         .addField("원소 기호", result.getSymbol(), true)
-                        .addField("계열", result.getSeries().getName(), true)
+                        .addField("계열", result.getElementSeries().getName(), true)
                         .addField("원자량", String.valueOf(result.getWeight()), true)
                         .addField("밀도", String.valueOf(result.getDensity()), true)
                         .addField("녹는점", String.valueOf(result.getMelting()), true)
@@ -110,4 +110,5 @@ public class PeriodicTableCommand extends SlashCommand {
             return result;
         }
     }
+
 }

@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
@@ -23,10 +22,6 @@ public class AdminCommand extends SlashCommand {
         name = "다코야";
         help = "다이아 전용 관리용 명령어, 다이아만 접근 가능..?";
         ownerCommand = true;
-        defaultEnabled = false;
-        enabledUsers = new String[]{
-                DiaSetting.getSetting().getProperty("bot.ownerId")
-        };
 
         children = new SlashCommand[]{
                 new StopCommand(),

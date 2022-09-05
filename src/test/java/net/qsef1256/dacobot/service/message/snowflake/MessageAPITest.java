@@ -10,9 +10,7 @@ import net.qsef1256.dacobot.service.message.MessageAPI;
 import net.qsef1256.dacobot.service.message.data.MessageData;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 
 import java.util.NoSuchElementException;
@@ -22,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @Slf4j
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class MessageAPITest {
 
     private static MultiUserKey key1, key2, key3, key4, key5, key6;
@@ -63,11 +62,13 @@ class MessageAPITest {
     }
 
     @Test
+    @Order(1)
     void same() {
         assertEquals(key1, key2);
     }
 
     @Test
+    @Order(2)
     void add() {
         channel = Mockito.mock(MessageChannel.class);
 
@@ -86,6 +87,7 @@ class MessageAPITest {
     }
 
     @Test
+    @Order(3)
     void get() {
         MessageAPI.add(key1, createData(1L));
         assertEquals(createData(1L), MessageAPI.get(key2));
