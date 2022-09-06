@@ -42,6 +42,8 @@ public class AdminCommand extends SlashCommand {
         public StopCommand() {
             name = "자자";
             help = "장비를 정지합니다.";
+
+            ownerCommand = true;
         }
 
         @Override
@@ -56,6 +58,8 @@ public class AdminCommand extends SlashCommand {
         public SayCommand() {
             name = "말해";
             help = "메시지 보내기";
+            ownerCommand = true;
+
             options = Collections.singletonList(new OptionData(OptionType.STRING, "메시지", "시킬 말").setRequired(true));
         }
 
@@ -76,6 +80,7 @@ public class AdminCommand extends SlashCommand {
         public ClearCommand() {
             name = "초기화";
             help = "명령어를 초기화 하고 종료 합니다.";
+            ownerCommand = true;
         }
 
         @Override
@@ -109,6 +114,7 @@ public class AdminCommand extends SlashCommand {
         public RestartCommand() {
             name = "재시작";
             help = "다봇을 재시작 합니다.";
+            ownerCommand = true;
         }
 
         @Override
