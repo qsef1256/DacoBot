@@ -105,6 +105,7 @@ public class CreditCommand extends SlashCommand {
                             """, false)
                     .addField("DB 라이브러리", """
                             [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
+                            [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
                             [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
                             [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): `LGPL-2.1-or-later`
                             [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
@@ -112,6 +113,7 @@ public class CreditCommand extends SlashCommand {
                     .addField("기술 라이브러리", """
                             [Guice](https://github.com/google/guice): `Apache-2.0`
                             [AspectJ](https://projects.eclipse.org/projects/tools.aspectj): `EPL-1.0`
+                            [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
                             """, false)
                     .addField("기능 라이브러리", """
                             [mXParser](https://mathparser.org/): `BSD-2-Clause`

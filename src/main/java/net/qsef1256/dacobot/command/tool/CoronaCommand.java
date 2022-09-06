@@ -4,8 +4,8 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaAPI;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaEntity;
-import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 
 public class CoronaCommand extends SlashCommand {
 
@@ -18,12 +18,12 @@ public class CoronaCommand extends SlashCommand {
     protected void execute(SlashCommandEvent event) {
         try {
             CoronaEntity coronaData = CoronaAPI.getData();
-            if (coronaData == null) throw new RuntimeException("코로나 데이터가 null 입니다.");
+            if (coronaData == null) throw new IllegalArgumentException("코로나 데이터가 null 입니다.");
 
             event.replyEmbeds(DiaEmbed.info("코로나 현황", null, null)
                     .addField("총 확진자", String.valueOf(coronaData.getDecideCnt()), true)
                     .addField("총 사망자", String.valueOf(coronaData.getDeathCnt()), true)
-                    .addField("오늘 확진자", String.valueOf(coronaData.getAddDecide()), true)
+                    .addField("오늘 확진자", String.valueOf(coronaData.getAddDecide()), false)
                     .addField("오늘 사망자", String.valueOf(coronaData.getAddDeath()), true)
                     .addField("업데이트 시간", LocalDateTimeUtil.getTimeString(coronaData.getUpdateTime()), false)
                     .setFooter("provided by 보건복지부")
@@ -32,4 +32,5 @@ public class CoronaCommand extends SlashCommand {
             event.replyEmbeds(DiaEmbed.error(null, "코로나 API에 접속하던 중 문제가 발생했습니다.", e, null).build()).queue();
         }
     }
+
 }

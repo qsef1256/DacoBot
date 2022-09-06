@@ -23,12 +23,14 @@ https://discord.gg/uDEVbvJ55q
     * [Chewtils](https://github.com/Chew/JDA-Chewtils): Copyright 2016-2018 John Grosh (jagrosh) & Kaidan Gustave (TheMonitorLizard) `Apache-2.0`
 * DB 라이브러리
     * [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
+    * [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
     * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
     * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
     * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * 기술 라이브러리
     * [Guice](https://github.com/google/guice): Copyright (C) 2006 Google Inc. `Apache-2.0`
     * [AspectJ](https://projects.eclipse.org/projects/tools.aspectj): Copyright © 2012-2021 Eclipse Foundation. All Rights Reserved. `EPL-1.0`
+    * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리
     * [mXParser](https://mathparser.org/): Copyright 2010 - 2020 Mariusz Gromada. All rights reserved. `BSD-2-Clause`
     * [Program AB](https://code.google.com/archive/p/program-ab/): Copyright (C) 2013 ALICE A.I. Foundation `LGPL-2.0-or-later`
@@ -48,9 +50,11 @@ https://discord.gg/uDEVbvJ55q
     * [JUnit 5](https://junit.org/junit5/): Copyright © 2022 The JUnit Team `EPL-2.0`
     * [Mockito](https://site.mockito.org/): Copyright (c) 2007 Mockito contributors `MIT`
     * [SLF4J](https://www.slf4j.org/): Copyright © 2004-2021 QOS.ch `MIT`
-    * [Logback](https://logback.qos.ch/): Copyright © 2021 QOS.ch `EPL-1.0 & LGPL-2.1`
+    * [Logback](https://logback.qos.ch/): Copyright © 2021 QOS.ch `EPL-1.0` `LGPL-2.1`
 * 기타 라이센스
     * [Twemoji](https://twemoji.twitter.com/): Copyright 2020 Twitter, Inc and other contributors / 색상 수정됨 `MIT`, `CC-BY-4.0`
+
+라이선스 코드는 [SPDX](https://spdx.org/licenses/) 를 기준으로 합니다.
 
 ## License
 
