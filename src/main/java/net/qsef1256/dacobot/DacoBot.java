@@ -98,12 +98,6 @@ public class DacoBot {
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
     }
 
-    private static void exit(String message, @NotNull Exception e) {
-        logger.error(message);
-        e.printStackTrace();
-        System.exit(1);
-    }
-
     private static void configureMemoryUsage(final @NotNull JDABuilder builder) {
         builder.disableCache(CacheFlag.VOICE_STATE);
         builder.setChunkingFilter(ChunkingFilter.ALL); // 모든 길드의 유저 캐싱하기 (권한 필요)
@@ -151,7 +145,6 @@ public class DacoBot {
         }
     }
 
-    // FIXME: upsert admin command
     private static void upsertGuildCommands(Guild mainGuild) {
         if (mainGuild != null) {
             logger.info("Upsert commands for Guild id %s".formatted(mainGuild.getId()));
@@ -169,6 +162,12 @@ public class DacoBot {
         DiaScheduler.shutdown();
         jda.shutdown();
         JpaManager.shutdown();
+    }
+
+    private static void exit(String message, @NotNull Exception e) {
+        logger.error(message);
+        e.printStackTrace();
+        System.exit(1);
     }
 
     // 주의: 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)

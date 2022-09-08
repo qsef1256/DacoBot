@@ -59,12 +59,12 @@ public class PeriodicTableCommand extends SlashCommand {
             name = "검색";
             help = "원소를 찾습니다.";
 
-            options = Collections.singletonList(new OptionData(OptionType.STRING, "검색", "번호/기호/이름"));
+            options = Collections.singletonList(new OptionData(OptionType.STRING, "검색어", "번호/기호/이름"));
         }
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            final OptionMapping option = event.getOption("검색");
+            final OptionMapping option = event.getOption("검색어");
             if (option == null) {
                 event.reply("검색어를 입력하세요.").setEphemeral(true).queue();
                 return;
@@ -76,12 +76,12 @@ public class PeriodicTableCommand extends SlashCommand {
 
             if (ParseUtil.canInteger(searchText)) result = search(Map.of("number", Integer.valueOf(searchText)));
             if (result == null) result = search(Map.of("symbol", searchText));
-            if (result == null) search(Map.of("name", searchText));
-            if (result == null) search(Map.of("alias", searchText));
+            if (result == null) result = search(Map.of("name", searchText));
+            if (result == null) result = search(Map.of("alias", searchText));
             elementDao.close();
 
             if (result == null) {
-                event.replyEmbeds(DiaEmbed.fail("검색 실패", "%s (번) 원소를 찾지 못했어요.", null).build()).queue();
+                event.replyEmbeds(DiaEmbed.fail("검색 실패", "%s (번) 원소를 찾지 못했어요.".formatted(searchText), null).build()).queue();
             } else {
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("%s(%s)".formatted(result.getName(), result.getEngName()))

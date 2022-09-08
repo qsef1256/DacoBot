@@ -129,14 +129,14 @@ public class CreditCommand extends SlashCommand {
                             """, false)
                     .addField("Apache 라이브러리", """
                             [Apache Commons Lang3](https://github.com/apache/commons-lang): `Apache-2.0`
-                            [Apache Commons DBCP](https://commons.apache.org/proper/commons-dbcp/):`Apache-2.0`
-                            [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/):`Apache-2.0`
-                            [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/):`Apache-2.0`
+                            [Apache Commons DBCP](https://commons.apache.org/proper/commons-dbcp/): `Apache-2.0`
+                            [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/): `Apache-2.0`
+                            [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/): `Apache-2.0`
                             """, false)
                     .addField("테스트/로깅 라이브러리", """
                             [JUnit 5](https://junit.org/junit5/): `EPL-2.0`
                             [SLF4J](https://www.slf4j.org/): `MIT`
-                            [Logback](https://logback.qos.ch/): `EPL-1.0 AND LGPL-2.1`
+                            [Logback](https://logback.qos.ch/): `EPL-1.0` `LGPL-2.1`
                             """, false)
                     .addField("기타 라이센스", """
                             [Twemoji](https://twemoji.twitter.com/): `MIT`, `CC-BY-4.0`

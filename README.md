@@ -38,7 +38,7 @@ https://discord.gg/uDEVbvJ55q
     * [Lombok](https://projectlombok.org/): Copyright © 2009-2021 The Project Lombok Authors `MIT`
     * [Guava](https://github.com/google/guava): Copyright (C) 2012 The Guava Authors `Apache-2.0`
     * [Gson](https://github.com/google/gson): Copyright 2008 Google Inc. `Apache-2.0`
-    * [SnakeYAML](https://bitbucket.org/snakeyaml/snakeyaml/src/master/): The SnakeYAML library is developed by the team of developers and it is based on PyYAML module written by Kirill Simonov. `Apache-2.0`
+    * [SnakeYAML](https://bitbucket.org/snakeyaml/snakeyaml/src/master/): The SnakeYAML library is developed by the team of developers, and it is based on PyYAML module written by Kirill Simonov. `Apache-2.0`
     * [dom4j](https://dom4j.github.io/): Copyright 2001-2016 (C) MetaStuff, Ltd. and DOM4J contributors. All Rights Reserved. `Plexus`
     * [Reflections](https://github.com/ronmamo/reflections): Copyright (C) 2004 Sam Hocevar `WTFPL`
 * Apache 라이브러리
