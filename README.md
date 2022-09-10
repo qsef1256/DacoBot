@@ -46,6 +46,7 @@ https://discord.gg/uDEVbvJ55q
     * [Apache Commons DBCP](https://commons.apache.org/proper/commons-dbcp/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
     * [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
     * [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
+    * [Apache Maven Model](https://maven.apache.org/ref/3.8.6/maven-model/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
 * 테스트/로깅 라이브러리
     * [JUnit 5](https://junit.org/junit5/): Copyright © 2022 The JUnit Team `EPL-2.0`
     * [Mockito](https://site.mockito.org/): Copyright (c) 2007 Mockito contributors `MIT`

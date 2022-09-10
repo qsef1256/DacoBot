@@ -323,6 +323,12 @@
             <version>4.5.13</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-model</artifactId>
+            <version>3.8.5</version>
+        </dependency>
+
         <!-- Logging Library -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
