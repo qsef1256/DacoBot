@@ -22,8 +22,8 @@ public class CoronaCommand extends SlashCommand {
 
             event.replyEmbeds(DiaEmbed.info("코로나 현황", null, null)
                     .addField("총 확진자", String.valueOf(coronaData.getDecideCnt()), true)
-                    .addField("총 사망자", String.valueOf(coronaData.getDeathCnt()), true)
-                    .addField("오늘 확진자", String.valueOf(coronaData.getAddDecide()), false)
+                    .addField("총 사망자", String.valueOf(coronaData.getDeathCnt()), false)
+                    .addField("오늘 확진자", String.valueOf(coronaData.getAddDecide()), true)
                     .addField("오늘 사망자", String.valueOf(coronaData.getAddDeath()), true)
                     .addField("업데이트 시간", LocalDateTimeUtil.getTimeString(coronaData.getUpdateTime()), false)
                     .setFooter("provided by 보건복지부")
