@@ -11,6 +11,7 @@ import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.util.MatrixUtil;
 import net.qsef1256.dacobot.util.PrimitiveUtil;
+import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -276,7 +277,7 @@ public class SudokuGame implements BoardGame<Byte>, Solvable {
             for (int rowY = 0; rowY < BLOCK_SIZE; rowY++) {
                 for (int colX = 0; colX < BLOCK_SIZE; colX++) {
                     do {
-                        num = CommonUtil.randomInt(1, GRID_SIZE);
+                        num = RandomUtil.randomInt(1, GRID_SIZE);
                     } while (!checkBlock(y, x, num));
 
                     grid[y + rowY][x + colX] = (byte) num;
@@ -346,7 +347,7 @@ public class SudokuGame implements BoardGame<Byte>, Solvable {
         private void removeDigits(int toRemove) {
             int count = toRemove;
             while (count != 0) {
-                int cellId = CommonUtil.randomInt(1, GRID_SIZE * GRID_SIZE) - 1;
+                int cellId = RandomUtil.randomInt(1, GRID_SIZE * GRID_SIZE) - 1;
 
                 int y = (cellId / GRID_SIZE);
                 int x = cellId % 9;

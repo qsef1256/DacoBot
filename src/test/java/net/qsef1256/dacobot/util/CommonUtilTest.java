@@ -1,25 +1,10 @@
 package net.qsef1256.dacobot.util;
 
-import net.qsef1256.dacobot.game.paint.model.painter.Painter;
-import net.qsef1256.dacobot.game.paint.model.painter.PixelPainter;
-import net.qsef1256.dacobot.struct.NestedMap;
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class CommonUtilTest {
-
-    @Test
-    void testRandom() {
-        int lowest = -6;
-        int highest = 1;
-
-        for (int i = 0; i < 25; i++) {
-            int random = CommonUtil.randomInt(lowest, highest);
-            assertTrue(lowest <= random && random <= highest);
-        }
-    }
 
     @Test
     void testDiff() {
@@ -80,47 +65,6 @@ class CommonUtilTest {
         assertFalse(CommonUtil.anyNull("a", "a", "a", "a"));
         assertTrue(CommonUtil.anyNull(null, null, null, null));
         assertTrue(CommonUtil.anyNull("a", "b", "c", null));
-    }
-
-    @Test
-    void testNestedMap() {
-        NestedMap<String, String> table = new NestedMap<>();
-        NestedMap<String, String> sameTable = new NestedMap<>();
-        NestedMap<String, String> diffTable = new NestedMap<>();
-
-        putData(table);
-        putData(sameTable);
-        putData(diffTable);
-        diffTable.put("d", "test", "c");
-
-        Painter painter = table.get("a", "painter");
-        if (painter != null) {
-            System.out.println(painter.printPallet());
-        }
-        System.out.println(table.get("a", "asdf") + "");
-        System.out.println(table.keySet("a"));
-        table.forEach((mainKey, valueMap) ->
-                valueMap.forEach((subKey, value) -> System.out.println(mainKey + " " + subKey + " " + value)));
-
-        System.out.printf("hashCodes: %s %s %s\n", table.hashCode(), sameTable.hashCode(), diffTable.hashCode());
-        System.out.println("sameTable equals: " + table.equals(sameTable));
-        System.out.println("diffTable equals: " + table.equals(diffTable));
-
-        table.remove("c", "asdf");
-        assertFalse(table.contains("c", "asdf"));
-
-        table.replace("asd", "test", "aa");
-        assertFalse(table.contains("asd", "test"));
-    }
-
-    private void putData(@NotNull NestedMap<String, String> table) {
-        table.put("c", "user", "c");
-        table.put("c", "asdf", "c");
-        table.put("a", "painter", new PixelPainter());
-        table.put("a", "user", "a");
-        table.put("a", "asdf", "a");
-        table.put("b", "asdf", "b");
-        table.put("b", "user", "b");
     }
 
 }

@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.CommonUtil;
+import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
@@ -52,12 +52,12 @@ public class TNTCommand extends SlashCommand {
         } else if (tntCount == 0) {
             result = boom + " :dash: 아무 일도 일어나지 않았습니다.";
         } else if (tntCount == 1) {
-            result = boom + " 블록 %d개가 날아갔습니다!".formatted(CommonUtil.randomInt(16, 29));
+            result = boom + " 블록 %d개가 날아갔습니다!".formatted(RandomUtil.randomInt(16, 29));
         } else if (tntCount < 10) {
-            result = boom + " 블록 %d개가 날아갔습니다!".formatted(Math.round(tntCount * CommonUtil.randomInt(14, 25)));
+            result = boom + " 블록 %d개가 날아갔습니다!".formatted(Math.round(tntCount * RandomUtil.randomInt(14, 25)));
         } else if (tntCount < 250) {
-            result = boom + " 블록 %d개가 날아갔습니다! ".formatted(Math.round(tntCount * CommonUtil.randomInt(10, 19)))
-                    + (CommonUtil.randomBool() ? "%s 도 잘못해서 휩쓸리고 말았습니다!".formatted(user.getName()) : "");
+            result = boom + " 블록 %d개가 날아갔습니다! ".formatted(Math.round(tntCount * RandomUtil.randomInt(10, 19)))
+                    + (RandomUtil.randomBool() ? "%s 도 잘못해서 휩쓸리고 말았습니다!".formatted(user.getName()) : "");
         } else if (tntCount < 25000) {
             result = boom + " 블록 몇개가 날아갔는진 모?루겠어요. %s는 폭사했습니다!".formatted(user.getName());
         } else {

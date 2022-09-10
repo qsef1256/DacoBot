@@ -11,11 +11,11 @@ import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
-import net.qsef1256.dacobot.util.CommonUtil;
-import net.qsef1256.dacobot.util.GenericUtil;
-import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.GenericUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 
@@ -99,7 +99,7 @@ public class HelpCommand extends SlashCommand {
 
             try {
                 embedBuilder.setColor(DiaColor.MAIN_COLOR);
-                String footer = CommonUtil.getRandomElement(
+                String footer = RandomUtil.getRandomElement(
                         Arrays.asList("카테고리 만드는 거 힘들어 죽겠네...", "설명하기 귀차나. 일 안해", "정 모르겠으면 본체를 두들겨 보세요.... 잘하면 알려줄지도?"));
                 embedBuilder.setFooter(footer);
 

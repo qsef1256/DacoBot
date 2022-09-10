@@ -1,27 +1,15 @@
 package net.qsef1256.dacobot.util;
 
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Objects;
 
 @UtilityClass
 public class CommonUtil {
-
-    @Getter
-    private static final Random random = new Random();
-
-    /**
-     * min 과 max 사이의 정수를 랜덤하게 뽑습니다. <b>max를 포함합니다.</b>
-     *
-     * @param min min value
-     * @param max max value
-     * @return min <= value <= max
-     */
-    public int randomInt(int min, int max) {
-        return random.nextInt(min, max + 1);
-    }
 
     public <T> void swap(T @NotNull [] toSwap, int a, int b) {
         T temp = toSwap[a];
@@ -41,18 +29,10 @@ public class CommonUtil {
         return val;
     }
 
-    public boolean randomBool() {
-        return randomInt(0, 1) == 0;
-    }
-
     public int getDiff(int a, int b) {
         if (a > b) return a - b;
         else if (a < b) return b - a;
         return 0;
-    }
-
-    public <T> T getRandomElement(@NotNull List<T> list) {
-        return list.get(random.nextInt(list.size()));
     }
 
     @SafeVarargs

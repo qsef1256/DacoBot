@@ -10,8 +10,8 @@ import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
-import net.qsef1256.dacobot.util.CommonUtil;
 import net.qsef1256.dacobot.util.PropertiesUtil;
+import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.management.ManagementFactory;
@@ -59,7 +59,7 @@ public class CreditCommand extends SlashCommand {
 
             if (properties == null) return;
             final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-            final String message = CommonUtil.getRandomElement(
+            final String message = RandomUtil.getRandomElement(
                     Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM", "나는 댕청하다, /댕청"));
 
             final String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));

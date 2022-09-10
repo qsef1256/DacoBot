@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.CommonUtil;
+import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -24,7 +24,7 @@ public class StupudCommand extends SlashCommand {
         User user = event.getUser();
         CmdStatistic statistic = new CmdStatistic(getClass());
 
-        final String message = CommonUtil.getRandomElement(
+        final String message = RandomUtil.getRandomElement(
                 Arrays.asList("I'm stupud", "나는 바보다", "I'M STUPUD", "멍멍", "하하하ㅏ하", "**나는 댕청하다**"));
 
         event.replyEmbeds(new EmbedBuilder()

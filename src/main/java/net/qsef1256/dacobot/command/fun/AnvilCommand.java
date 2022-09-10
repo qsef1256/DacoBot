@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
-import net.qsef1256.dacobot.util.CommonUtil;
+import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
@@ -24,7 +24,7 @@ public class AnvilCommand extends SlashCommand {
         User user = event.getUser();
         CmdStatistic statistic = new CmdStatistic(getClass());
 
-        int random = CommonUtil.randomInt(1, 4);
+        int random = RandomUtil.randomInt(1, 4);
         switch (random) {
             case 1 -> event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
