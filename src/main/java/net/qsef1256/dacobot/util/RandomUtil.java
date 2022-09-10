@@ -30,6 +30,8 @@ public class RandomUtil {
     }
 
     public <T> T getRandomElement(@NotNull List<T> list) {
+        if (list.isEmpty()) return null;
+
         return list.get(random.nextInt(list.size()));
     }
 
