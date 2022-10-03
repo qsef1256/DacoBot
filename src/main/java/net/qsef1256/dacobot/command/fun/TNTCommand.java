@@ -72,14 +72,19 @@ public class TNTCommand extends SlashCommand {
         // https://en.wikipedia.org/wiki/Effects_of_nuclear_explosions
         // https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1
 
-        double constantBlast = 0.71;
-        double constantRad = 0.7;
+        final double constantBlast = 0.71;
+        final double constantRad = 0.7;
         double radBlast = Math.pow(kt, 0.33) * constantBlast;
         double radRadiation = Math.pow(kt, 0.19) * constantRad;
 
         double radThermal1st = Math.pow(kt, 0.38) * 1.20;
         double radThermal2nd = Math.pow(kt, 0.40) * 0.87;
         double radThermal3rd = Math.pow(kt, 0.41) * 0.67;
+
+        // https://www.atomicarchive.com/resources/documents/effects/glasstone-dolan/chapter6.html#%C2%A76.72
+
+        double blastCraterFeet = 30 * Math.pow(kt, 0.3);
+        double blastCrater = blastCraterFeet / 3.281;
 
         EmbedBuilder embedBuilder = DiaEmbed.info("폭발 계산기", result, null);
         DecimalFormat df = new DecimalFormat("0.00000");
@@ -94,8 +99,10 @@ public class TNTCommand extends SlashCommand {
             embedBuilder.addField("2도 화상(km)", String.valueOf(df.format(radThermal2nd)), true);
             embedBuilder.addField("3도 화상(km)", String.valueOf(df.format(radThermal3rd)), true);
         }
+        embedBuilder.addField("크레이터 크기(m)", String.valueOf(blastCrater), true);
         embedBuilder.addField("출처", "[Link](https://www.youtube.com/watch?v=FwFKiRsYTLs), " +
-                "[Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette", false);
+                "[Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette" +
+                "[Link](https://www.atomicarchive.com/resources/documents/effects/glasstone-dolan/chapter6.html#%C2%A76.72)", false);
         embedBuilder.setFooter("계산 결과는 정확하지 않습니다.");
 
         event.replyEmbeds(embedBuilder.build()).queue();

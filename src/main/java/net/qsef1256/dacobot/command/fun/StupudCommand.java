@@ -35,4 +35,5 @@ public class StupudCommand extends SlashCommand {
                 .setFooter("바보 스택을 쌓은 횟수: " + statistic.getUseCount() + " 금일: " + statistic.getTodayUsed())
                 .build()).queue();
     }
+
 }

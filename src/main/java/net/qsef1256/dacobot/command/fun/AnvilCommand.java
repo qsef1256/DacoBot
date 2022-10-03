@@ -58,9 +58,10 @@ public class AnvilCommand extends SlashCommand {
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                     .setColor(Color.WHITE)
                     .addField("Molar", ":tooth:", false)
+                    .setFooter(statistic.getUseInfo())
                     .build()).queue();
             default -> event.reply("ㅁㄹ").queue();
         }
-
     }
+
 }
