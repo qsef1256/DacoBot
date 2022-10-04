@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.qsef1256.dacobot.service.key.ManagedKey;
-import net.qsef1256.dacobot.service.message.MessageAPI;
+import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.data.MessageData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +41,7 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
             throw new DuplicateRequestException("이미 메시지가 있습니다: " + key);
         else
             channel.sendMessage(message.build()).queue(result -> {
-                MessageAPI.add(key, new MessageData(result.getIdLong(), channel));
+                getMessageApi().add(key, new MessageData(result.getIdLong(), channel));
                 log.info("result");
             });
     }
@@ -54,7 +54,7 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
 
     @Override
     public boolean exists() {
-        return MessageAPI.has(key);
+        return getMessageApi().has(key);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
 
     @Override
     public void invalidate() {
-        MessageAPI.remove(key);
+        getMessageApi().remove(key);
     }
 
     @Override
@@ -78,17 +78,21 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
     }
 
     protected MessageData getMessageData() {
-        return MessageAPI.get(key);
+        return getMessageApi().get(key);
     }
 
     @Override
     public void refresh() {
-        MessageAPI.refresh(key);
+        getMessageApi().refresh(key);
     }
 
     @Override
     public void onTimeout() {
-        MessageAPI.get(key).getOnRemove().run();
+        getMessageApi().get(key).getOnRemove().run();
+    }
+
+    private static MessageApiImpl getMessageApi() {
+        return MessageApiImpl.getInstance();
     }
 
 }

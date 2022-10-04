@@ -4,7 +4,7 @@ import jakarta.persistence.NoResultException;
 import lombok.Getter;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
-import net.qsef1256.dacobot.database.JpaManager;
+import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import net.qsef1256.dacobot.service.account.model.AccountManager;
@@ -27,7 +27,7 @@ public class Cash {
 
         AccountEntity account;
         try {
-            account = (AccountEntity) JpaManager.getEntityManager()
+            account = (AccountEntity) JpaController.getEntityManager()
                     .createQuery("select m from AccountEntity m join fetch m.explosionCash where m.discordId = :discordId")
                     .setParameter("discordId", discordId)
                     .getSingleResult();

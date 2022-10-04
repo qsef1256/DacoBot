@@ -28,7 +28,7 @@ public class DaoCommonHibernateImpl<K extends Serializable, T> implements DaoCom
     public DaoCommonHibernateImpl(final @NotNull Class<T> clazz) {
         this.clazz = clazz;
         this.clazzName = clazz.getSimpleName();
-        this.factory = JpaManager.getSessionFactoryFromJPA();
+        this.factory = JpaController.getSessionFactoryFromJPA();
     }
 
     public Session getCurrentSession() {

@@ -15,10 +15,10 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
-import net.qsef1256.dacobot.database.JpaManager;
+import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.talk.listener.TalkListener;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
-import net.qsef1256.dacobot.service.openapi.corona.CoronaAPI;
+import net.qsef1256.dacobot.service.openapi.corona.CoronaApi;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.GenericUtil;
@@ -84,7 +84,7 @@ public class DacoBot {
         }
 
         HelpCommand.initCommands();
-        JpaManager.getSessionFactoryFromJPA().openSession();
+        JpaController.getSessionFactoryFromJPA().openSession();
 
         jda = builder.build();
         jda.awaitReady();
@@ -93,7 +93,7 @@ public class DacoBot {
 
         upsertGuildCommands(mainGuild); // TODO: global command
 
-        DiaScheduler.executePerTime(() -> new CoronaAPI().update(), 12, 0, 0);
+        DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);
 
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
     }
@@ -161,7 +161,7 @@ public class DacoBot {
     public static void shutdown() {
         DiaScheduler.shutdown();
         jda.shutdown();
-        JpaManager.shutdown();
+        JpaController.shutdown();
     }
 
     private static void exit(String message, @NotNull Exception e) {

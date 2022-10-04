@@ -23,8 +23,8 @@ public class MessageRemovalListener implements RemovalListener<ManagedKey, Messa
                 if (!notification.wasEvicted()) return;
                 switch (notification.getCause()) {
                     case EXPIRED ->
-                            removeCause = "제한 시간 초과 (%s)".formatted(TimeLocalizer.format(MessageAPI.getExpireAfterWrite()));
-                    case SIZE -> removeCause = "너무 많은 요청 (%s)".formatted(MessageAPI.getCacheSize());
+                            removeCause = "제한 시간 초과 (%s)".formatted(TimeLocalizer.format(MessageApiImpl.getEXPIRE_AFTER_WRITE()));
+                    case SIZE -> removeCause = "너무 많은 요청 (%s)".formatted(MessageApiImpl.getCACHE_SIZE());
                     case COLLECTED -> removeCause = "GC 수집으";
                     default -> {
                         log.info("message removed for unknown reason: %s, key: %s"

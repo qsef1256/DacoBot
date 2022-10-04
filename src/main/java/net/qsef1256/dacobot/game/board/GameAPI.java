@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.Interaction;
 import net.qsef1256.dacobot.game.board.model.GameHost;
 import net.qsef1256.dacobot.service.key.ManagedKey;
-import net.qsef1256.dacobot.service.message.MessageAPI;
+import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.type.TrackedEventMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
@@ -41,7 +41,7 @@ public class GameAPI {
     }
 
     public void removeGame(ManagedKey message) {
-        if (!MessageAPI.has(message))
+        if (!MessageApiImpl.getInstance().has(message))
             throw new NoSuchElementException(message.getType() + " 게임을 찾지 못했습니다.");
 
         gameMap.remove(message);

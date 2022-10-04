@@ -61,6 +61,11 @@ CATEGORIES:
         DESC: "이모지 너무 많이 씀"
         LIST:
           - SudokuCommand
+      HANGMAN:
+        TITLE: "행맨"
+        DESC: "데롱데롱"
+        LIST:
+          - HangManCommand
 
   TOOL:
     TITLE: "도구"

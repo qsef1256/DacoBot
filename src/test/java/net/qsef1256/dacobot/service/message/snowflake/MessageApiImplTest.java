@@ -1,13 +1,14 @@
 package net.qsef1256.dacobot.service.message.snowflake;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.service.key.MultiUserKey;
 import net.qsef1256.dacobot.service.key.SingleUserKey;
-import net.qsef1256.dacobot.service.message.MessageAPI;
+import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.data.MessageData;
+import net.qsef1256.dacobot.service.message.exception.MessageApiException;
+import net.qsef1256.dacobot.util.ToStringUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
@@ -21,7 +22,7 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class MessageAPITest {
+class MessageApiImplTest {
 
     private static MultiUserKey key1, key2, key3, key4, key5, key6;
     private static SingleUserKey key7, key8, key9, key10;
@@ -56,15 +57,30 @@ class MessageAPITest {
         key10 = new SingleUserKey("testDiff", user1);
     }
 
+    private static MessageApiImpl getInstance() {
+        return MessageApiImpl.getInstance();
+    }
+
     @BeforeEach
     public void clear() {
-        MessageAPI.clear();
+        getInstance().remove(key1);
+        getInstance().remove(key2);
+        getInstance().remove(key3);
+        getInstance().remove(key4);
+        getInstance().remove(key5);
+        getInstance().remove(key6);
+        getInstance().remove(key7);
+        getInstance().remove(key8);
+        getInstance().remove(key9);
+        getInstance().remove(key10);
     }
 
     @Test
     @Order(1)
     void same() {
         assertEquals(key1, key2);
+        assertEquals(key1, key3);
+        assertNotEquals(key1, key4);
     }
 
     @Test
@@ -72,30 +88,33 @@ class MessageAPITest {
     void add() {
         channel = Mockito.mock(MessageChannel.class);
 
-        MessageAPI.add(key1, createData(1L));
+        getInstance().add(key1, createData(1L));
 
-        assertThrows(DuplicateRequestException.class, () -> MessageAPI.add(key2, createData(2L)));
-        assertThrows(DuplicateRequestException.class, () -> MessageAPI.add(key3, createData(3L)));
-        assertDoesNotThrow(() -> MessageAPI.add(key4, createData(4L)));
-        assertDoesNotThrow(() -> MessageAPI.add(key5, createData(5L)));
-        assertDoesNotThrow(() -> MessageAPI.add(key6, createData(6L)));
+        log.info(key1.toString());
+        log.info(key2.toString());
+        log.info(ToStringUtil.mapToString(getInstance().getAsMap()));
+        assertThrows(MessageApiException.class, () -> getInstance().add(key2, createData(2L)));
+        assertThrows(MessageApiException.class, () -> getInstance().add(key3, createData(3L)));
+        assertDoesNotThrow(() -> getInstance().add(key4, createData(4L)));
+        assertDoesNotThrow(() -> getInstance().add(key5, createData(5L)));
+        assertDoesNotThrow(() -> getInstance().add(key6, createData(6L)));
 
-        MessageAPI.add(key7, createData(7L));
-        assertThrows(DuplicateRequestException.class, () -> MessageAPI.add(key8, createData(8L)));
-        assertDoesNotThrow(() -> MessageAPI.add(key9, createData(9L)));
-        assertDoesNotThrow(() -> MessageAPI.add(key10, createData(10L)));
+        getInstance().add(key7, createData(7L));
+        assertThrows(MessageApiException.class, () -> getInstance().add(key8, createData(8L)));
+        assertDoesNotThrow(() -> getInstance().add(key9, createData(9L)));
+        assertDoesNotThrow(() -> getInstance().add(key10, createData(10L)));
     }
 
     @Test
     @Order(3)
     void get() {
-        MessageAPI.add(key1, createData(1L));
-        assertEquals(createData(1L), MessageAPI.get(key2));
+        getInstance().add(key1, createData(1L));
+        assertEquals(createData(1L), getInstance().get(key2));
 
-        MessageAPI.add(key7, createData(7L));
-        assertEquals(createData(7L), MessageAPI.get(key8));
-        assertThrows(NoSuchElementException.class, () -> MessageAPI.get(key9));
-        assertThrows(NoSuchElementException.class, () -> MessageAPI.get(key10));
+        getInstance().add(key7, createData(7L));
+        assertEquals(createData(7L), getInstance().get(key8));
+        assertThrows(NoSuchElementException.class, () -> getInstance().get(key9));
+        assertThrows(NoSuchElementException.class, () -> getInstance().get(key10));
     }
 
     @Contract("_ -> new")

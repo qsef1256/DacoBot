@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.interactions.Interaction;
 import net.qsef1256.dacobot.service.key.ManagedKey;
-import net.qsef1256.dacobot.service.message.MessageAPI;
+import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.data.MessageData;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,13 +34,13 @@ public class TrackedEventMessage extends TrackedMessage implements Timed {
         if (exists()) throw new DuplicateRequestException("이미 메시지가 있습니다: " + key);
 
         event.reply(message.build()).queue(result -> result.retrieveOriginal().queue(
-                original -> MessageAPI.add(key, new MessageData(original.getIdLong(), event.getMessageChannel()))));
+                original -> getMessageApi().add(key, new MessageData(original.getIdLong(), event.getMessageChannel()))));
     }
 
     public void edit(@NotNull ReplyMessage replyMessage, @NotNull MessageBuilder content) {
         MessageData messageData = getMessageData();
 
-        messageData.getChannel().editMessageById(MessageAPI.get(key).getMessageId(), content.build()).queue();
+        messageData.getChannel().editMessageById(getMessageApi().get(key).getMessageId(), content.build()).queue();
         replyMessage.send();
     }
 
@@ -79,6 +79,10 @@ public class TrackedEventMessage extends TrackedMessage implements Timed {
         removeWithoutNotice();
 
         new TrackedEventMessage(key, messageBuilder, event).send();
+    }
+
+    private static MessageApiImpl getMessageApi() {
+        return MessageApiImpl.getInstance();
     }
 
 }

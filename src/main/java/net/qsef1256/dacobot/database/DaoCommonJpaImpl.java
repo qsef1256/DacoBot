@@ -116,7 +116,7 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     }
 
     private void initEntityManager() {
-        entityManager = JpaManager.getEntityManager();
+        entityManager = JpaController.getEntityManager();
     }
 
     @Override
@@ -133,7 +133,7 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     @Override
     public void close() {
         commit();
-        JpaManager.close();
+        JpaController.close();
     }
 
     @Override

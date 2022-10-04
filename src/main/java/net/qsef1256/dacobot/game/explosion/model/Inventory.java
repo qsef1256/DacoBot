@@ -4,7 +4,7 @@ import jakarta.persistence.NoResultException;
 import lombok.Getter;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
-import net.qsef1256.dacobot.database.JpaManager;
+import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
@@ -42,7 +42,7 @@ public class Inventory {
 
         AccountEntity account;
         try {
-            account = (AccountEntity) JpaManager.getEntityManager()
+            account = (AccountEntity) JpaController.getEntityManager()
                     .createQuery("select m from AccountEntity m join fetch m.inventory where m.discordId = :discordId")
                     .setParameter("discordId", discordId)
                     .getSingleResult();
@@ -57,7 +57,7 @@ public class Inventory {
         }
 
         try {
-            data = (InventoryEntity) JpaManager.getEntityManager()
+            data = (InventoryEntity) JpaController.getEntityManager()
                     .createQuery("select m from InventoryEntity m join fetch m.items where m.discordUser = :discordUser")
                     .setParameter("discordUser", account)
                     .getSingleResult();

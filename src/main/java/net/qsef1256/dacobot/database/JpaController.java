@@ -11,7 +11,7 @@ import org.hibernate.SessionFactory;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class JpaManager {
+public class JpaController {
 
     private static final ThreadLocal<EntityManager> threadLocal;
     @Getter

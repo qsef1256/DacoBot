@@ -1,15 +1,15 @@
 package net.qsef1256.dacobot.service.key;
 
 import lombok.Getter;
-import net.dv8tion.jda.api.entities.ISnowflake;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.util.CollectionUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
+@Slf4j
 public class MultiUserKey extends ManagedKeyImpl implements UserKey {
 
     @Getter
@@ -17,6 +17,7 @@ public class MultiUserKey extends ManagedKeyImpl implements UserKey {
 
     public MultiUserKey(@NotNull String type, Set<User> users) {
         super(type);
+
         this.users = users;
     }
 
@@ -32,17 +33,28 @@ public class MultiUserKey extends ManagedKeyImpl implements UserKey {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getType(), Arrays.hashCode(users.stream().map(ISnowflake::getIdLong).toArray()));
+        Object[] users = this.users.stream().map(Objects::hashCode).toArray();
+
+        int usersHashCode = 7079;
+        for (Object user : users) {
+            usersHashCode = usersHashCode ^ user.hashCode();
+        }
+
+        return Objects.hash(getType(), usersHashCode);
     }
 
     @Override
     public String toString() {
         StringBuilder userNames = new StringBuilder();
         for (User user : getUsers()) {
-            userNames.append(user.getAsTag()).append(", ");
+            userNames.append("[")
+                    .append(user.getIdLong())
+                    .append(", ")
+                    .append(user.getAsTag())
+                    .append("]");
         }
 
-        return "%s@%s [type = %s, users = %s".formatted(getClass().getSimpleName(), hashCode(), getType(), userNames);
+        return "%s@%s [type = %s, users = %s]".formatted(getClass().getSimpleName(), hashCode(), getType(), userNames);
     }
 
 }

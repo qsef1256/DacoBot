@@ -23,12 +23,12 @@ import java.util.Objects;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @Slf4j
-public class CoronaAPI {
+public class CoronaApi {
 
     public static final DaoCommonJpaImpl<CoronaEntity, Long> dao = new DaoCommonJpaImpl<>(CoronaEntity.class);
 
     static {
-        new CoronaAPI().update();
+        new CoronaApi().update();
     }
 
     /**
@@ -90,11 +90,11 @@ public class CoronaAPI {
                 dao.deleteAll();
                 dao.saveAllAndClose(Collections.singleton(new CoronaEntity(endDeathCnt, endDecideCnt, addDeath, addDecide, updateTime)));
             } else {
-                log.warn("Failed to get Today's COVID-19 data");
+                log.warn("Failed to get Today's COVID-19 data: items size exceed 2");
             }
         } catch (IOException | DocumentException | RuntimeException e) {
             e.printStackTrace();
-            throw new RuntimeException("Failed to update COVID-19 data");
+            throw new CoronaApiException("Failed to update COVID-19 data: " + e.getMessage());
         }
 
     }
@@ -110,9 +110,9 @@ public class CoronaAPI {
     }
 
     public static void main(String[] args) {
-        new CoronaAPI().update();
+        new CoronaApi().update();
 
-        logger.info(Objects.requireNonNull(CoronaAPI.getData()).toString());
+        logger.info(Objects.requireNonNull(CoronaApi.getData()).toString());
     }
 
 }
