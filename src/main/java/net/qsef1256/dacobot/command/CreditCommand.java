@@ -116,7 +116,6 @@ public class CreditCommand extends SlashCommand {
                             """, false)
                     .addField("기술 라이브러리", """
                             [Guice](https://github.com/google/guice): `Apache-2.0`
-                            [AspectJ](https://projects.eclipse.org/projects/tools.aspectj): `EPL-1.0`
                             [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
                             """, false)
                     .addField("기능 라이브러리", """
@@ -126,6 +125,7 @@ public class CreditCommand extends SlashCommand {
                     .addField("유틸 라이브러리", """
                             [Lombok](https://projectlombok.org/): `MIT`
                             [Guava](https://github.com/google/guava): `Apache-2.0`
+                            [Caffeine](https://github.com/ben-manes/caffeine): `Apache-2.0`
                             [Gson](https://github.com/google/gson): `Apache-2.0`
                             [SnakeYAML](https://bitbucket.org/snakeyaml/snakeyaml/src/master/): `Apache-2.0`
                             [dom4j](https://dom4j.github.io/): `Plexus`

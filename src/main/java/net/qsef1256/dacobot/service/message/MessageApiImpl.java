@@ -1,9 +1,9 @@
 package net.qsef1256.dacobot.service.message;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.CacheStats;
-import com.google.common.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.CacheLoader;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import com.github.benmanes.caffeine.cache.stats.CacheStats;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,13 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.message.data.MessageData;
 import net.qsef1256.dacobot.service.message.exception.MessageApiException;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
 
 import java.time.Duration;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.concurrent.ExecutionException;
 
 /**
  * 특정한 Key 에 따라 관리되는 메시지를 저장하고 가져옵니다.
@@ -32,18 +31,16 @@ public class MessageApiImpl implements MessageApi {
     private static final int CACHE_SIZE = 10000;
     @Getter
     private static final Duration EXPIRE_AFTER_WRITE = Duration.ofDays(1);
-
     @Getter
     private static final MessageApiImpl instance = new MessageApiImpl();
 
-    private final LoadingCache<ManagedKey, MessageData> keyCache = CacheBuilder.newBuilder()
+    private final LoadingCache<ManagedKey, MessageData> keyCache = Caffeine.newBuilder()
             .maximumSize(CACHE_SIZE)
             .expireAfterWrite(EXPIRE_AFTER_WRITE)
-            .removalListener(new MessageRemovalListener())
+            .removalListener(new MessageRemovalListener<>())
             .build(new CacheLoader<>() {
                 @Override
-                @NotNull
-                public MessageData load(@NotNull ManagedKey key) throws ExecutionException {
+                public @Nullable MessageData load(ManagedKey key) {
                     return keyCache.get(key);
                 }
             });
@@ -61,7 +58,7 @@ public class MessageApiImpl implements MessageApi {
 
         try {
             return keyCache.get(key);
-        } catch (ExecutionException e) {
+        } catch (RuntimeException e) {
             throw new MessageApiException(e);
         }
     }
