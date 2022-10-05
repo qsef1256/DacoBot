@@ -21,8 +21,8 @@ public class HangMan {
     private final Set<Character> inputtedChar = new HashSet<>();
 
     public HangMan(@NotBlank @NotNull String word) {
-        if (!word.chars().allMatch(value -> isAlphabet(String.valueOf(value))))
-            throw new IllegalArgumentException("Parameter word is not letter: " + word);
+        if (!word.chars().allMatch(value -> isAlphabet(String.valueOf((char) value))))
+            throw new IllegalArgumentException("Parameter word is not english: " + word);
 
         this.originWord = word.toLowerCase();
         this.charMatches = new boolean[word.length()];
@@ -48,7 +48,7 @@ public class HangMan {
      */
     public boolean inputWord(char input) {
         if (!isAlphabet(String.valueOf(input)))
-            throw new IllegalArgumentException("Input word is not letter: %s".formatted(input));
+            throw new IllegalArgumentException("Input word is not alphabet: %s".formatted(input));
         if (isEnd())
             throw new IllegalStateException("Hangman game already ended!");
         if (isInputted(input))

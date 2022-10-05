@@ -55,5 +55,5 @@ class HangManTest {
         assertTrue(hangman.isInputted('w'));
         assertFalse(hangman.isInputted('r'));
     }
-
+    
 }
