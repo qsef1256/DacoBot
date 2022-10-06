@@ -101,7 +101,7 @@ public class TNTCommand extends SlashCommand {
         }
         embedBuilder.addField("크레이터 크기(m)", String.valueOf(blastCrater), true);
         embedBuilder.addField("출처", "[Link](https://www.youtube.com/watch?v=FwFKiRsYTLs), " +
-                "[Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette" +
+                "[Link](https://nuclearweaponarchive.org/Nwfaq/Nfaq5.html#nfaq5.1) Copyright 1997. Carey Sublette, " +
                 "[Link](https://www.atomicarchive.com/resources/documents/effects/glasstone-dolan/chapter6.html#%C2%A76.72)", false);
         embedBuilder.setFooter("계산 결과는 정확하지 않습니다.");
 
