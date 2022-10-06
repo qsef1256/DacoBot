@@ -7,9 +7,9 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.request.model.Request;
 import net.qsef1256.dacobot.service.request.model.RequestAPI;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 public class RequestCommand extends SlashCommand {
@@ -60,6 +60,7 @@ public class RequestCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
             }
         }
+
     }
 
     private static class AcceptCommand extends SlashCommand {
@@ -79,6 +80,7 @@ public class RequestCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
             }
         }
+
     }
 
     private static class DenyCommand extends SlashCommand {
@@ -98,6 +100,7 @@ public class RequestCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
             }
         }
+
     }
 
     private static class CancelCommand extends SlashCommand {
@@ -117,5 +120,7 @@ public class RequestCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
             }
         }
+
     }
+
 }

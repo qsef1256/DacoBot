@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.security.MessageDigest;
@@ -40,11 +41,8 @@ public class MD5Command extends SlashCommand {
         if (event.getMember() == null) return;
         User user = event.getUser();
 
-        final OptionMapping option = event.getOption("메시지");
-        if (option == null) {
-            event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
-            return;
-        }
+        final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
+        if (option == null) return;
 
         try {
             String md5 = toMD5(option.getAsString());
@@ -58,4 +56,5 @@ public class MD5Command extends SlashCommand {
                     .build()).queue();
         }
     }
+
 }

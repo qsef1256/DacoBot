@@ -8,6 +8,8 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import org.jetbrains.annotations.NotNull;
@@ -122,6 +124,16 @@ public class JDAUtil {
 
     public Member getMemberFromId(long userId) {
         return getMemberFromUser(User.fromId(userId));
+    }
+
+    @Nullable
+    public static OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
+        final OptionMapping option = event.getOption(optionName);
+        if (option == null) {
+            event.reply("%s를 입력해주세요.".formatted(optionName)).setEphemeral(true).queue();
+            return null;
+        }
+        return option;
     }
     
 }

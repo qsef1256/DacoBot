@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.mariuszgromada.math.mxparser.Expression;
 
@@ -29,11 +30,8 @@ public class CalculateCommand extends SlashCommand {
     protected void execute(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
 
-        final OptionMapping option = event.getOption("수식");
-        if (option == null) {
-            event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
-            return;
-        }
+        OptionMapping option = JDAUtil.getOptionMapping(event, "수식");
+        if (option == null) return;
 
         User user = event.getUser();
         String formula = option.getAsString();

@@ -5,7 +5,7 @@ import net.qsef1256.dacobot.schedule.DiaScheduler;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class GameTimer {
+public class GameTimer { // TODO: use
 
     private final int timeLimit;
     private final Runnable stopTask;

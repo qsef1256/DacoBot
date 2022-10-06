@@ -66,6 +66,7 @@ public class PickaxeCommand extends SlashCommand {
                 callback.editOriginal(message).queue();
             }
         });
-
+        
     }
+
 }

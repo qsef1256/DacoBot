@@ -8,8 +8,8 @@ import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
+import net.qsef1256.dacobot.service.account.controller.AccountController;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
-import net.qsef1256.dacobot.service.account.model.AccountManager;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,7 +50,7 @@ public class Inventory {
         } catch (NoResultException e) {
             logger.info("creating Inventory for %s".formatted(discordId));
 
-            account = AccountManager.getAccount(discordId);
+            account = AccountController.getAccount(discordId);
             account.setInventory(new InventoryEntity().setDiscordUser(account));
             dao.saveAndClose(account);
             return;

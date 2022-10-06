@@ -127,11 +127,9 @@ public class HelpCommand extends SlashCommand {
             Member member = event.getMember();
             if (member == null) return;
 
-            final OptionMapping option = event.getOption("카테고리");
-            if (option == null) {
-                event.reply("카테고리를 입력해주세요.").setEphemeral(true).queue();
-                return;
-            }
+            final OptionMapping option = JDAUtil.getOptionMapping(event, "카테고리");
+            if (option == null) return;
+
             EmbedBuilder embedBuilder = new EmbedBuilder();
             embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
 

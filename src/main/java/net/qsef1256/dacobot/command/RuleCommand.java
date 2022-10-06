@@ -31,4 +31,5 @@ public class RuleCommand extends SlashCommand {
                 .setFooter("사실 규칙은 반쯤 장식이에요.")
                 .build()).queue();
     }
+
 }

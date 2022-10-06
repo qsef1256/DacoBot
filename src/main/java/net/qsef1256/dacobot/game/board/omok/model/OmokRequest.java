@@ -12,7 +12,7 @@ public class OmokRequest extends Request {
 
     @Override
     public void accept() {
-        OmokManager.createGame(this);
+        OmokController.createGame(this);
     }
 
     @Override

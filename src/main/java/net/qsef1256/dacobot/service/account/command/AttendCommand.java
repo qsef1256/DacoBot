@@ -24,7 +24,6 @@ public class AttendCommand extends SlashCommand {
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-
         if (event.getMember() == null) return;
         User eventUser = event.getUser();
 
@@ -69,4 +68,5 @@ public class AttendCommand extends SlashCommand {
             e.printStackTrace();
         }
     }
+
 }

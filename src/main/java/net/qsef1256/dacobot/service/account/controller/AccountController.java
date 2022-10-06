@@ -1,10 +1,10 @@
-package net.qsef1256.dacobot.service.account.model;
+package net.qsef1256.dacobot.service.account.controller;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import lombok.experimental.UtilityClass;
 import net.qsef1256.dacobot.database.DaoCommon;
 import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.util.JDAUtil;
 
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @UtilityClass
-public class AccountManager {
+public class AccountController {
 
     private static final DaoCommon<AccountEntity, Long> dao = new DaoCommonHibernateImpl<>(AccountEntity.class);
 
@@ -24,13 +24,13 @@ public class AccountManager {
     public static void register(final long discordId) {
         try {
             if (dao.existsById(discordId))
-                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
+                throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
             AccountEntity userData = new AccountEntity();
             userData.setDiscordId(discordId);
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
             dao.save(userData);
-        } catch (DuplicateRequestException e) {
+        } catch (DacoAccountException e) {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
@@ -46,9 +46,9 @@ public class AccountManager {
     public static void delete(final long discordId) {
         try {
             if (!dao.existsById(discordId))
-                throw new DuplicateRequestException(JDAUtil.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
+                throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
             dao.deleteById(discordId);
-        } catch (DuplicateRequestException e) {
+        } catch (DacoAccountException e) {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());

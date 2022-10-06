@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dacobot.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,20 +29,17 @@ public class TNTCommand extends SlashCommand {
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-        OptionMapping option = event.getOption("갯수");
-        if (option == null) {
-            event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
-            return;
-        }
+        OptionMapping option = JDAUtil.getOptionMapping(event, "갯수");
+        if (option == null) return;
 
         User user = event.getUser();
         String result;
-
         double tntCount;
         try {
             tntCount = option.getAsDouble();
         } catch (NumberFormatException e) {
-            event.replyEmbeds(DiaEmbed.error("폭발 실패", "올바른 정수를 입력하세요: %s".formatted(option.getAsString()), null, null).build()).queue();
+            event.replyEmbeds(DiaEmbed.error("폭발 실패", "올바른 정수를 입력하세요: %s".formatted(option.getAsString()),
+                    null, null).build()).queue();
             return;
         }
 

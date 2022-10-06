@@ -12,6 +12,7 @@ import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.CommonUtil;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -69,11 +70,8 @@ public class HangManCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            OptionMapping option = event.getOption("단어");
-            if (option == null) {
-                event.reply("단어를 입력해주세요.").setEphemeral(true).queue();
-                return;
-            }
+            OptionMapping option = JDAUtil.getOptionMapping(event, "단어");
+            if (option == null) return;
 
             String word = option.getAsString();
             if (!CommonUtil.isBetween(3, word.length(), 15)) {

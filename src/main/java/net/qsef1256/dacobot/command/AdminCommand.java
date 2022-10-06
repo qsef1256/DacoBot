@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
@@ -65,11 +66,9 @@ public class AdminCommand extends SlashCommand {
 
         @Override
         public void execute(final @NotNull SlashCommandEvent event) {
-            final OptionMapping option = event.getOption("메시지");
-            if (option == null) {
-                event.reply("메시지를 입력해주세요.").setEphemeral(true).queue();
-                return;
-            }
+            final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
+            if (option == null) return;
+
             event.deferReply().queue(m -> m.deleteOriginal().queue());
             event.getChannel().sendMessage(option.getAsString()).queue();
         }

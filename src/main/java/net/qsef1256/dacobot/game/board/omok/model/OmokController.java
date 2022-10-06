@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @UtilityClass
-public class OmokManager {
+public class OmokController { // TODO: cleanup or use another api
 
     private static final NestedMap<Long, String> omokMap = new NestedMap<>();
 

@@ -1,16 +1,16 @@
 package net.qsef1256.dacobot.service.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import com.sun.jdi.request.DuplicateRequestException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.components.Button;
+import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
-import net.qsef1256.dacobot.game.explosion.model.UserManager;
+import net.qsef1256.dacobot.service.account.controller.AccountController;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.service.account.model.Account;
-import net.qsef1256.dacobot.service.account.model.AccountManager;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -54,8 +54,8 @@ public class AccountCommand extends SlashCommand {
 
             event.deferReply().queue(callback -> {
                 try {
-                    AccountManager.register(user.getIdLong());
-                    UserManager.register(user.getIdLong());
+                    AccountController.register(user.getIdLong());
+                    UserController.register(user.getIdLong());
                     callback.editOriginalEmbeds(new EmbedBuilder()
                             .setTitle("등록 성공")
                             .setColor(DiaColor.SUCCESS)
@@ -67,11 +67,12 @@ public class AccountCommand extends SlashCommand {
                 } catch (RuntimeException e) {
                     callback.editOriginalEmbeds(DiaEmbed.error("등록 실패", null, e, user).build()).queue();
 
-                    if (e instanceof DuplicateRequestException) return;
+                    if (e instanceof DacoAccountException) return;
                     e.printStackTrace();
                 }
             });
         }
+
     }
 
     private static class StatusCommand extends SlashCommand {
@@ -151,4 +152,5 @@ public class AccountCommand extends SlashCommand {
                     .queue();
         }
     }
+
 }

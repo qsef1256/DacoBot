@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.model;
+package net.qsef1256.dacobot.game.explosion.controller;
 
 import lombok.experimental.UtilityClass;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
@@ -12,7 +12,8 @@ import java.util.NoSuchElementException;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @UtilityClass
-public class UserManager {
+public class UserController {
+
     private static final DaoCommonJpa<AccountEntity, Long> mainDao = new DaoCommonJpaImpl<>(AccountEntity.class);
     private static final DaoCommonJpa<CashEntity, Long> cashDao = new DaoCommonJpaImpl<>(CashEntity.class);
 

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.service.key.SingleUserKey;
 import net.qsef1256.dacobot.service.message.type.TrackedEventMessage;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -47,15 +48,11 @@ public class MessageCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            OptionMapping messageOptions = event.getOption("메시지");
-
-            if (messageOptions == null) {
-                event.reply("보낼 메시지를 입력하세요.").queue();
-                return;
-            }
+            OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
+            if (option == null) return;
 
             SingleUserKey key = new SingleUserKey("test", event.getUser());
-            MessageBuilder message = new MessageBuilder().append(messageOptions.getAsString());
+            MessageBuilder message = new MessageBuilder().append(option.getAsString());
 
             new TrackedEventMessage(key, message, event).send();
         }

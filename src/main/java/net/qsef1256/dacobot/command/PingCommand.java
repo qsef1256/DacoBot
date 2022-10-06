@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class PingCommand extends SlashCommand {
+
     public PingCommand() {
         name = "핑";
         help = "퐁!";
@@ -13,7 +14,8 @@ public class PingCommand extends SlashCommand {
     @Override
     public void execute(@NotNull SlashCommandEvent event) {
         long time = System.currentTimeMillis();
-        event.deferReply()
-                .queue(response -> response.editOriginal(String.format("퐁! `%d ms`", System.currentTimeMillis() - time)).queue());
+        event.deferReply().queue(response ->
+                response.editOriginal(String.format("퐁! `%d ms`", System.currentTimeMillis() - time)).queue());
     }
+
 }

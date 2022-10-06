@@ -11,6 +11,7 @@ import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.service.periodictable.entity.Element;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dacobot.util.ParseUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -64,11 +65,9 @@ public class PeriodicTableCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            final OptionMapping option = event.getOption("검색어");
-            if (option == null) {
-                event.reply("검색어를 입력하세요.").setEphemeral(true).queue();
-                return;
-            }
+            OptionMapping option = JDAUtil.getOptionMapping(event, "검색어");
+            if (option == null) return;
+
             String searchText = option.getAsString();
 
             elementDao.open();

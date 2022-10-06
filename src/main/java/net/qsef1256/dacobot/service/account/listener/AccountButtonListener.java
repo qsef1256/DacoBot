@@ -1,13 +1,13 @@
 package net.qsef1256.dacobot.service.account.listener;
 
-import com.sun.jdi.request.DuplicateRequestException;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.qsef1256.dacobot.game.explosion.model.UserManager;
+import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.service.account.command.AccountCommand;
-import net.qsef1256.dacobot.service.account.model.AccountManager;
+import net.qsef1256.dacobot.service.account.controller.AccountController;
+import net.qsef1256.dacobot.service.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
@@ -28,7 +28,7 @@ public class AccountButtonListener extends ListenerAdapter {
                 final User user = event.getUser();
 
                 try {
-                    UserManager.reset(user.getIdLong());
+                    UserController.reset(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 초기화 됨")
                             .setColor(DiaColor.SUCCESS)
@@ -58,7 +58,7 @@ public class AccountButtonListener extends ListenerAdapter {
                 final User user = event.getUser();
 
                 try {
-                    AccountManager.delete(user.getIdLong());
+                    AccountController.delete(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 삭제 됨")
                             .setColor(DiaColor.SUCCESS)
@@ -76,7 +76,7 @@ public class AccountButtonListener extends ListenerAdapter {
                             .build()
                     ).queue();
 
-                    if (ex instanceof NoSuchElementException || ex instanceof DuplicateRequestException) return;
+                    if (ex instanceof NoSuchElementException || ex instanceof DacoAccountException) return;
                     ex.printStackTrace();
                 }
 

@@ -6,8 +6,8 @@ import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
+import net.qsef1256.dacobot.service.account.controller.AccountController;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
-import net.qsef1256.dacobot.service.account.model.AccountManager;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
@@ -35,7 +35,7 @@ public class Cash {
         } catch (NoResultException e) {
             logger.info("creating Cash for %s".formatted(discordId));
 
-            account = AccountManager.getAccount(discordId);
+            account = AccountController.getAccount(discordId);
             data = new CashEntity().setDiscordUser(account);
             dao.saveAndClose(data);
             return;

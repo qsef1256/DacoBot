@@ -8,12 +8,13 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.game.board.omok.model.OmokManager;
+import net.qsef1256.dacobot.game.board.omok.model.OmokController;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -73,11 +74,8 @@ public class OmokCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            OptionMapping userOption = event.getOption("상대");
-            if (userOption == null) {
-                event.reply("대국을 신청할 유저를 입력해주세요!").queue();
-                return;
-            }
+            OptionMapping userOption = JDAUtil.getOptionMapping(event, "상대");
+            if (userOption == null) return;
 
             User user = event.getUser();
             User oppositeUser;
@@ -89,7 +87,7 @@ public class OmokCommand extends SlashCommand {
             }
 
             try {
-                OmokManager.requestGame(event.getChannel(), user, oppositeUser);
+                OmokController.requestGame(event.getChannel(), user, oppositeUser);
 
                 event.reply(oppositeUser.getName() + " 에게 오목 요청을 보냈습니다.").setEphemeral(true).queue();
             } catch (RuntimeException e) {
@@ -124,7 +122,7 @@ public class OmokCommand extends SlashCommand {
             long x = optionX.getAsLong();
             long y = optionY.getAsLong();
             try {
-                OmokManager.previewStone(user.getIdLong(), (int) x, (int) y);
+                OmokController.previewStone(user.getIdLong(), (int) x, (int) y);
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {
@@ -146,7 +144,7 @@ public class OmokCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                OmokManager.resign(user.getIdLong());
+                OmokController.resign(user.getIdLong());
 
                 event.reply("오목을 기권했습니다.").queue();
             } catch (RuntimeException e) {
@@ -168,7 +166,7 @@ public class OmokCommand extends SlashCommand {
             MessageChannel channel = event.getChannel();
 
             try {
-                OmokManager.pullBoard(user.getIdLong(), channel);
+                OmokController.pullBoard(user.getIdLong(), channel);
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {
@@ -189,7 +187,7 @@ public class OmokCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                OmokManager.prevStone(user.getIdLong());
+                OmokController.prevStone(user.getIdLong());
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {

@@ -6,8 +6,8 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.service.openapi.weather.ShortWeatherAPI;
 import net.qsef1256.dacobot.service.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.service.openapi.weather.model.Forecast;
-import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dacobot.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -37,19 +37,23 @@ public class WeatherCommand extends SlashCommand {
 
             EmbedBuilder embedBuilder = DiaEmbed.info("현재 날씨", null, null);
             embedBuilder.setDescription(LocalDateTimeUtil.getTimeString(weather.getDateTime()) + " 기준");
-
-            List<WeatherCode> codeList = List.of(
-                    WeatherCode.RAIN_TYPE, WeatherCode.RAIN_HOUR, WeatherCode.HUMIDITY,
-                    WeatherCode.WIND_DIRECT, WeatherCode.WIND_SPEED, WeatherCode.TEMP);
-
-            codeList.forEach(code -> {
-                if (code == WeatherCode.EW_WIND_SPEED || code == WeatherCode.NS_WIND_SPEED) return;
-
-                embedBuilder.addField(code.getEmoji() + code.getDesc(), code.getDisplay(weather.getValue(code)), true);
-            });
-
+            addWeatherInfo(weather, embedBuilder);
             embedBuilder.setFooter("provided by 기상청");
+
             message.editOriginalEmbeds(embedBuilder.build()).queue();
         });
     }
+
+    private static void addWeatherInfo(Forecast weather, EmbedBuilder embedBuilder) {
+        List<WeatherCode> codeList = List.of(
+                WeatherCode.RAIN_TYPE, WeatherCode.RAIN_HOUR, WeatherCode.HUMIDITY,
+                WeatherCode.WIND_DIRECT, WeatherCode.WIND_SPEED, WeatherCode.TEMP);
+
+        codeList.forEach(code -> {
+            if (code == WeatherCode.EW_WIND_SPEED || code == WeatherCode.NS_WIND_SPEED) return;
+
+            embedBuilder.addField(code.getEmoji() + code.getDesc(), code.getDisplay(weather.getValue(code)), true);
+        });
+    }
+
 }

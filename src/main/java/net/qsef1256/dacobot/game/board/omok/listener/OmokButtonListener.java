@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.qsef1256.dacobot.game.board.omok.model.OmokManager;
+import net.qsef1256.dacobot.game.board.omok.model.OmokController;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,7 +18,7 @@ public class OmokButtonListener extends ListenerAdapter {
                 User user = event.getUser();
 
                 try {
-                    OmokManager.confirmStone(user.getIdLong());
+                    OmokController.confirmStone(user.getIdLong());
                     event.deferEdit().queue();
                     event.getMessage().delete().queue();
                 } catch (ErrorResponseException ignored) {
@@ -31,7 +31,7 @@ public class OmokButtonListener extends ListenerAdapter {
                 User user = event.getUser();
 
                 try {
-                    OmokManager.cancelStone(user.getIdLong());
+                    OmokController.cancelStone(user.getIdLong());
                     event.deferEdit().queue();
                     event.getMessage().delete().queue();
                 } catch (ErrorResponseException ignored) {
