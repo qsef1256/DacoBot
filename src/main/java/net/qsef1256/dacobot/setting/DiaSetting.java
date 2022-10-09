@@ -19,6 +19,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @UtilityClass
 public class DiaSetting {
 
+    public static final String PROJECT_NAME = "project";
     public static final String SETTING_NAME = "setting";
     public static final String KEY_NAME = "key";
 
@@ -26,6 +27,8 @@ public class DiaSetting {
     private static Properties setting;
     @Getter
     private static Properties key;
+    @Getter
+    private static Properties project;
     @Getter
     private static ZoneId zoneId;
 
@@ -42,6 +45,7 @@ public class DiaSetting {
         try {
             setting = PropertiesUtil.loadFile(SETTING_NAME);
             key = PropertiesUtil.loadFile(KEY_NAME);
+            project = PropertiesUtil.loadFile(PROJECT_NAME);
         } catch (final RuntimeException e) {
             logger.error("Error on loading properties");
             e.printStackTrace();

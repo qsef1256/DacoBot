@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import jakarta.persistence.EntityTransaction;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -74,6 +75,8 @@ public class DacoBot {
         commandClient.setListener(new TalkListener());
         logger.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
 
+        initJpa();
+
         final JDABuilder builder = JDABuilder.createDefault(token);
         configureMemoryUsage(builder);
         builder.addEventListeners(commandClient);
@@ -96,6 +99,12 @@ public class DacoBot {
         DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);
 
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
+    }
+
+    private static void initJpa() {
+        EntityTransaction transaction = JpaController.getEntityManager().getTransaction();
+        transaction.begin();
+        transaction.commit();
     }
 
     private static void configureMemoryUsage(final @NotNull JDABuilder builder) {

@@ -5,19 +5,17 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.localization.TimeLocalizer;
+import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.util.MavenUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.apache.maven.model.Model;
-import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
-import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.FileReader;
-import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.Arrays;
@@ -51,17 +49,18 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            MavenXpp3Reader reader = new MavenXpp3Reader();
-            Model model = null;
+            Model model;
 
             try {
-                model = reader.read(new FileReader("pom.xml"));
-            } catch (final IOException | XmlPullParserException e) {
+                model = MavenUtil.getMavenModel(
+                        DiaSetting.getProject().getProperty("groupId"),
+                        DiaSetting.getProject().getProperty("artifactId"));
+            } catch (final RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
+                return;
             }
 
-            if (model == null) return;
             final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
             final String message = RandomUtil.getRandomElement(
                     Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM", "나는 댕청하다, /댕청"));
