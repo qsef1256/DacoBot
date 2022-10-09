@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.service.key;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.util.CollectionUtil;
+import net.qsef1256.dialib.util.CollectionUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;

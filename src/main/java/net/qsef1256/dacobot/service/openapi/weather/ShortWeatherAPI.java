@@ -7,7 +7,7 @@ import net.qsef1256.dacobot.service.openapi.APIConnector;
 import net.qsef1256.dacobot.service.openapi.enums.APICode;
 import net.qsef1256.dacobot.service.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.setting.DiaSetting;
-import net.qsef1256.dacobot.util.gson.GsonUtil;
+import net.qsef1256.dialib.util.gson.GsonUtil;
 
 import java.io.IOException;
 import java.io.SyncFailedException;

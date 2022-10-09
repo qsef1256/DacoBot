@@ -8,7 +8,7 @@ import net.qsef1256.dacobot.service.key.SingleUserKey;
 import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.data.MessageData;
 import net.qsef1256.dacobot.service.message.exception.MessageApiException;
-import net.qsef1256.dacobot.util.ToStringUtil;
+import net.qsef1256.dialib.util.ToStringUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;

@@ -8,10 +8,10 @@ import net.qsef1256.dacobot.game.board.model.BoardGame;
 import net.qsef1256.dacobot.game.paint.enums.Emoji;
 import net.qsef1256.dacobot.game.paint.enums.NumberEmoji;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
-import net.qsef1256.dacobot.util.CommonUtil;
-import net.qsef1256.dacobot.util.MatrixUtil;
-import net.qsef1256.dacobot.util.PrimitiveUtil;
-import net.qsef1256.dacobot.util.RandomUtil;
+import net.qsef1256.dialib.util.CommonUtil;
+import net.qsef1256.dialib.util.MatrixUtil;
+import net.qsef1256.dialib.util.PrimitiveUtil;
+import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -144,7 +144,7 @@ public class SudokuGame implements BoardGame<Byte>, Solvable {
      * @see <a href="https://www.geeksforgeeks.org/program-sudoku-generator/">https://www.geeksforgeeks.org/program-sudoku-generator/</a>
      * @see SudokuGame
      */
-    public static class SudokuBoard implements Cloneable {
+    public static class SudokuBoard {
 
         public static final int X_START = 1;
         public static final int Y_START = 1;

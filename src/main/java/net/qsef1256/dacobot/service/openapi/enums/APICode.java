@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.service.openapi.enums;
 
 import lombok.Getter;
-import net.qsef1256.dacobot.util.EnumUtil;
+import net.qsef1256.dialib.util.EnumUtil;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;

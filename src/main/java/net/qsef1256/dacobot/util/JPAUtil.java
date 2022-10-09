@@ -3,6 +3,7 @@ package net.qsef1256.dacobot.util;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import lombok.experimental.UtilityClass;
+import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 @UtilityClass

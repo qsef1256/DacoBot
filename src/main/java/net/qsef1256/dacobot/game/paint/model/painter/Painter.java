@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.game.paint.model.painter;
 import lombok.Getter;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.enums.Emoji;
-import net.qsef1256.dacobot.util.MatrixUtil;
+import net.qsef1256.dialib.util.MatrixUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.service.periodictable.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import net.qsef1256.dacobot.util.EnumUtil;
+import net.qsef1256.dialib.util.EnumUtil;
 
 import java.awt.*;
 import java.util.Map;

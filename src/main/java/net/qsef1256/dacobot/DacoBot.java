@@ -21,8 +21,9 @@ import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaApi;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
-import net.qsef1256.dacobot.util.GenericUtil;
 import net.qsef1256.dacobot.util.ReflectionUtil;
+import net.qsef1256.dialib.util.GenericUtil;
+import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -84,8 +85,6 @@ public class DacoBot {
         }
 
         HelpCommand.initCommands();
-        JpaController.getSessionFactoryFromJPA().openSession();
-
         jda = builder.build();
         jda.awaitReady();
 
@@ -93,6 +92,7 @@ public class DacoBot {
 
         upsertGuildCommands(mainGuild); // TODO: global command
 
+        LocalDateTimeUtil.setZoneId(DiaSetting.getZoneId());
         DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);
 
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
@@ -147,7 +147,9 @@ public class DacoBot {
 
     private static void upsertGuildCommands(Guild mainGuild) {
         if (mainGuild != null) {
-            logger.info("Upsert commands for Guild id %s".formatted(mainGuild.getId()));
+            String formatted = "Upsert commands for Guild id %s".formatted(mainGuild.getId());
+
+            logger.info(formatted);
             List<CommandData> commandDataList = commandClient.getSlashCommands()
                     .stream()
                     .map(SlashCommand::buildCommandData)

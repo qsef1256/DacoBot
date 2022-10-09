@@ -7,7 +7,7 @@ import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.ColorUtil;
-import net.qsef1256.dacobot.util.RandomUtil;
+import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

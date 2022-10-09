@@ -1,11 +1,12 @@
 package net.qsef1256.dacobot.database.hibernate;
 
-import net.qsef1256.dacobot.util.NamingUtil;
+import net.qsef1256.dialib.util.NamingUtil;
 import org.hibernate.boot.model.naming.Identifier;
 import org.hibernate.boot.model.naming.PhysicalNamingStrategy;
 import org.hibernate.engine.jdbc.env.spi.JdbcEnvironment;
 import org.jetbrains.annotations.NotNull;
 
+@SuppressWarnings("squid:S4144")
 public class SnakeCasePhysicalNamingStrategy implements PhysicalNamingStrategy {
 
     @Override

@@ -7,7 +7,7 @@ import net.qsef1256.dacobot.game.boardv2.api.board.GameBoard;
 import net.qsef1256.dacobot.game.boardv2.api.lifecycle.GameCycle;
 import net.qsef1256.dacobot.game.boardv2.api.lifecycle.GameStatus;
 import net.qsef1256.dacobot.game.boardv2.api.lifecycle.GameTurn;
-import net.qsef1256.dacobot.util.CommonUtil;
+import net.qsef1256.dialib.util.CommonUtil;
 
 public abstract class GameAction {
 

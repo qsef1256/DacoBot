@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.setting.DiaSetting;
+import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -135,5 +136,5 @@ public class JDAUtil {
         }
         return option;
     }
-    
+
 }

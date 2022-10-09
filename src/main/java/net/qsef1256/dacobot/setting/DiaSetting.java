@@ -5,8 +5,8 @@ import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.util.CommonUtil;
-import net.qsef1256.dacobot.util.PropertiesUtil;
+import net.qsef1256.dialib.util.CommonUtil;
+import net.qsef1256.dialib.util.PropertiesUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

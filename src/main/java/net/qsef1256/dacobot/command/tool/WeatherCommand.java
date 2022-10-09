@@ -7,7 +7,7 @@ import net.qsef1256.dacobot.service.openapi.weather.ShortWeatherAPI;
 import net.qsef1256.dacobot.service.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.service.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.LocalDateTimeUtil;
+import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;

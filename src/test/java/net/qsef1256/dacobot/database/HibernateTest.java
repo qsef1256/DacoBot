@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class HibernateTest {
 
     public void DaoCheck() {
-        DaoCommon<AccountEntity, Long> dao = new DaoCommonHibernateImpl<>(AccountEntity.class);
+        DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class);
 
         logger.info("qsef1256 is exist?: " + dao.existsById(419761037861060619L));
         if (!dao.existsById(419761037861060620L))

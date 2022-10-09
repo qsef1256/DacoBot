@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.util;
 
+import net.qsef1256.dialib.util.CommonUtil;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

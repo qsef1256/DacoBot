@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.util;
 
+import net.qsef1256.dialib.util.RandomUtil;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

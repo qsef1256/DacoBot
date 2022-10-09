@@ -1,7 +1,5 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.game.explosion.data.ShopEntity;
@@ -22,12 +20,12 @@ public class Shop {
         return shopEntity.getPrice();
     }
 
-    public void buy(long discord_id, Item item) {
-
+    public void buy(long discordId, Item item) {
+        // TODO
     }
 
-    public void sell(long discord_id, Item item) {
-
+    public void sell(long discordId, Item item) {
+        // TODO
     }
 
 }

@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot.util;
 
 import lombok.experimental.UtilityClass;
+import net.qsef1256.dialib.util.RandomUtil;
 
 import java.awt.*;
 import java.util.Random;

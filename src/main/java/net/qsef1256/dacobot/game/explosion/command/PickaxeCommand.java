@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
-import net.qsef1256.dacobot.util.RandomUtil;
+import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.NoSuchElementException;
@@ -66,7 +66,7 @@ public class PickaxeCommand extends SlashCommand {
                 callback.editOriginal(message).queue();
             }
         });
-        
+
     }
 
 }

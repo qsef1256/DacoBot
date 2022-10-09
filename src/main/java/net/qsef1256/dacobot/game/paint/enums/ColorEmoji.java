@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.paint.enums;
 
 import lombok.Getter;
-import net.qsef1256.dacobot.util.EnumUtil;
+import net.qsef1256.dialib.util.EnumUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

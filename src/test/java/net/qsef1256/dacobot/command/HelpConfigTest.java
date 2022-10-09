@@ -1,22 +1,23 @@
 package net.qsef1256.dacobot.command;
 
-import net.qsef1256.dacobot.util.GenericUtil;
+import net.qsef1256.dialib.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.yaml.snakeyaml.Yaml;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class HelpConfigTest {
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+class HelpConfigTest {
 
     public static Map<String, Map<?, ?>> categories = new HashMap<>();
 
-    private static void printMapRecursive(final Map<?, ?> data) {
+    private static void printMapRecursive(final @NotNull Map<?, ?> data) {
         for (Object key : data.keySet()) {
             final Object value = data.get(key);
             if (value instanceof Map) {
@@ -29,23 +30,25 @@ public class HelpConfigTest {
     }
 
     @Test
-    public void testConfigFile() throws IOException {
-        Yaml yaml = new Yaml();
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("commands.yml")) {
-            // printMapRecursive(yaml.load(in));
-            Map<String, Object> categories = yaml.load(in);
+    void testConfigFile() {
+        assertDoesNotThrow(() -> {
+            Yaml yaml = new Yaml();
+            try (InputStream in = getClass().getClassLoader().getResourceAsStream("commands.yml")) {
+                // printMapRecursive(yaml.load(in));
+                Map<String, Object> categories = yaml.load(in);
 
-            displayHelp(categories);
-        }
+                displayHelp(categories);
+            }
 
-        categories.forEach((key, category) -> {
-            System.out.println(key);
-            System.out.println(category);
+            categories.forEach((key, category) -> {
+                System.out.println(key);
+                System.out.println(category);
+            });
         });
     }
 
     // ??
-    private void displayHelp(Map<?, ?> map) {
+    private void displayHelp(@NotNull Map<?, ?> map) {
         if (map.containsKey("CATEGORIES")) {
             Map<?, ?> category = (Map<?, ?>) map.get("CATEGORIES");
             category.forEach((key, value) -> {

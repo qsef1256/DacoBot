@@ -10,7 +10,7 @@ import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
-import net.qsef1256.dacobot.util.RandomUtil;
+import net.qsef1256.dialib.util.RandomUtil;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -115,7 +115,8 @@ public class CreditCommand extends SlashCommand {
                             [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
                             """, false)
                     .addField("기술 라이브러리", """
-                            [Guice](https://github.com/google/guice): `Apache-2.0`
+                            [Weld](https://github.com/weld/core): `Apache-2.0`
+                            [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
                             [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
                             """, false)
                     .addField("기능 라이브러리", """

@@ -4,12 +4,12 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.qsef1256.dacobot.database.DaoCommon;
-import net.qsef1256.dacobot.database.DaoCommonHibernateImpl;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import net.qsef1256.dacobot.service.account.model.Account;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.LocalDateTimeUtil;
+import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -27,8 +27,7 @@ public class AttendCommand extends SlashCommand {
         if (event.getMember() == null) return;
         User eventUser = event.getUser();
 
-        try {
-            DaoCommon<AccountEntity, Long> dao = new DaoCommonHibernateImpl<>(AccountEntity.class);
+        try (DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class)) {
 
             Account user = new Account(eventUser.getIdLong());
             AccountEntity userData = user.getData();

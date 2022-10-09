@@ -4,6 +4,13 @@
 
 https://discord.gg/uDEVbvJ55q
 
+## Environment
+
+* JDA 4.4.0_350
+* Jakarta EE 10
+* JPA 3.0
+* CDI 4.0
+
 ## Usage
 
 * /도움말
@@ -13,8 +20,6 @@ https://discord.gg/uDEVbvJ55q
 * /밴 : 사용 금지 (운영자 명령어)
 * /깃허브: 오류 보고!
 * JAspect 사용
-* `Dacobot.Logger` 를 `@Slf4j` 로 대체
-* GCP or AWS (hosting)
 
 ## Library
 
@@ -28,7 +33,8 @@ https://discord.gg/uDEVbvJ55q
     * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
     * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * 기술 라이브러리
-    * [Guice](https://github.com/google/guice): Copyright (C) 2006 Google Inc. `Apache-2.0`
+    * [Weld](https://github.com/weld/core): `Apache-2.0`
+    * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
     * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리
     * [mXParser](https://mathparser.org/): Copyright 2010 - 2020 Mariusz Gromada. All rights reserved. `BSD-2-Clause`

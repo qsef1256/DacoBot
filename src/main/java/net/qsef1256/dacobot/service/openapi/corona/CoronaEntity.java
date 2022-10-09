@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.service.openapi.corona;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
-import net.qsef1256.dacobot.util.gson.GsonExclude;
+import net.qsef1256.dialib.util.gson.GsonExclude;
 
 import java.time.LocalDateTime;
 

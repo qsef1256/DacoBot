@@ -5,7 +5,7 @@ import net.qsef1256.dacobot.game.board.model.BoardGame;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.enums.Emoji;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
-import net.qsef1256.dacobot.util.CommonUtil;
+import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
