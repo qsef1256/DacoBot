@@ -1,8 +1,10 @@
 package net.qsef1256.dacobot.game.paint.model;
 
 import net.qsef1256.dacobot.game.board.sudoku.model.SudokuGame;
+import net.qsef1256.dacobot.game.board.sudoku.model.board.SudokuBoard;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -58,7 +60,7 @@ class SudokuTest {
 
     @Test
     void canSet() {
-        SudokuGame.SudokuBoard sudoku = new SudokuGame.SudokuBoard(25); // TODO: private
+        SudokuBoard sudoku = new SudokuBoard(25); // TODO: private
 
         sudoku.setGrid(new byte[][]{
                 {1, 2, 3, 0, 0, 0, 0, 0, 0},
@@ -92,6 +94,18 @@ class SudokuTest {
             if (i == 8) continue;
             assertFalse(sudoku.canSet(3, 5, i));
         }
+    }
+
+    @Test
+    void copy() {
+        SudokuBoard originBoard = new SudokuBoard(7);
+
+        SudokuBoard copyBoard = originBoard.copy();
+        assertEquals(Arrays.deepToString(originBoard.getGrid()), Arrays.deepToString(copyBoard.getGrid()));
+
+        originBoard.setNumber(1, 1, (byte) 0);
+        copyBoard.setNumber(1, 1, (byte) 2);
+        assertNotEquals(Arrays.deepToString(originBoard.getGrid()), Arrays.deepToString(copyBoard.getGrid()));
     }
 
 }
