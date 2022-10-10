@@ -163,11 +163,18 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
 
     @Override
     public String toString() {
-        return "%s@%s [clazz = %s, isOpen = %s, isActive = %s]".formatted(
+        String toString = "%s@%s [clazz = %s".formatted(
                 getClass().getSimpleName(),
-                Integer.toHexString(hashCode()), clazz.getSimpleName(),
-                entityManager.isOpen(),
-                entityManager.getTransaction().isActive());
+                Integer.toHexString(hashCode()),
+                clazz.getSimpleName());
+
+        if (entityManager == null) {
+            return toString + ", entityManager = null]"; // is call open() before transaction?
+        } else {
+            return toString + ", isOpen = %s, isActive = %s]".formatted(
+                    entityManager.isOpen(),
+                    entityManager.getTransaction().isActive());
+        }
     }
 
 }

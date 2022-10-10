@@ -22,6 +22,8 @@ public class CmdStatistic {
 
     public CmdStatistic(Class<? extends SlashCommand> command) {
         try {
+            dao.open();
+
             CmdStatisticEntity data = dao.findById(command.getSimpleName());
             if (data == null) {
                 createStatistic(command);

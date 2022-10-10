@@ -19,6 +19,9 @@ public class UserController {
 
     public static void register(final long discord_id) {
         try {
+            mainDao.open();
+            cashDao.open();
+
             if (!mainDao.existsById(discord_id))
                 throw new NoSuchElementException(JDAUtil.getNameAsTag(discord_id) + " 유저가 존재하지 않습니다.");
             CashEntity cashData = new CashEntity();
@@ -27,6 +30,7 @@ public class UserController {
             cashData.setPickaxeCount(0);
             cashData.setPrestigeCount(0);
             cashDao.saveAndClose(cashData);
+            mainDao.close();
         } catch (NoSuchElementException e) {
             throw e;
         } catch (final RuntimeException e) {
@@ -37,7 +41,9 @@ public class UserController {
 
     public static void reset(final long discord_id) {
         try {
+            cashDao.open();
             cashDao.deleteById(discord_id);
+            cashDao.close();
             register(discord_id);
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());

@@ -37,11 +37,10 @@ public class Cash {
 
             account = AccountController.getAccount(discordId);
             data = new CashEntity().setDiscordUser(account);
-            dao.saveAndClose(data);
-            return;
+            dao.save(data);
+        } finally {
+            dao.close();
         }
-
-        dao.close();
     }
 
     public long getCash() {
@@ -64,7 +63,6 @@ public class Cash {
         data.setPickaxeCount(getPickaxeCount() + count);
         if (data.getPickaxeCount() < 0)
             data.setPickaxeCount(0);
-
         saveAndClose();
     }
 
@@ -72,7 +70,8 @@ public class Cash {
         addPickaxeCount(1);
     }
 
-    private void saveAndClose() {
+    private void saveAndClose() { // TODO: is good?
+        dao.open();
         dao.saveAndClose(data);
     }
 

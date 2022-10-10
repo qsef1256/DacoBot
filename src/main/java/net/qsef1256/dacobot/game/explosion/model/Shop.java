@@ -13,10 +13,12 @@ public class Shop {
     protected static final DaoCommonJpa<ShopEntity, Integer> dao = new DaoCommonJpaImpl<>(ShopEntity.class);
 
     public static long getPrice(@NotNull Item item) {
+        dao.open();
         Map<String, Object> constraint = new HashMap<>();
         constraint.put("ownerId", item.getItemId());
         ShopEntity shopEntity = dao.findBy(constraint).get(0);
 
+        dao.close();
         return shopEntity.getPrice();
     }
 

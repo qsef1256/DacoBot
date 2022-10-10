@@ -21,8 +21,10 @@ public class AccountController {
      *
      * @param discordId User's snowflake id
      */
-    public static void register(final long discordId) {
+    public static void register(final long discordId) { // TODO: use try-with-resource ?
         try {
+            dao.open();
+            
             if (dao.existsById(discordId))
                 throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
             AccountEntity userData = new AccountEntity();
@@ -35,6 +37,8 @@ public class AccountController {
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
             throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
+        } finally {
+            dao.close();
         }
     }
 
@@ -45,6 +49,8 @@ public class AccountController {
      */
     public static void delete(final long discordId) {
         try {
+            dao.open();
+
             if (!dao.existsById(discordId))
                 throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
             dao.deleteById(discordId);
@@ -53,11 +59,17 @@ public class AccountController {
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
             throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");
+        } finally {
+            dao.close();
         }
     }
 
     public static AccountEntity getAccount(long discordId) {
-        return dao.findById(discordId);
+        dao.open();
+        AccountEntity entity = dao.findById(discordId);
+        dao.close();
+
+        return entity;
     }
 
 }

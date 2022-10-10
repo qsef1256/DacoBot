@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.paint.model;
 
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.database.DaoCommon;
+import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.game.paint.data.PaintEntity;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class PaintManagerImpl implements PaintManager {
 
-    private static final DaoCommon<PaintEntity, String> dao = new DaoCommonJpaImpl<>(PaintEntity.class);
+    private static final DaoCommonJpa<PaintEntity, String> dao = new DaoCommonJpaImpl<>(PaintEntity.class);
 
     @Override
     public List<String> getOwnedPaint(long discordId) {
@@ -36,17 +36,21 @@ public class PaintManagerImpl implements PaintManager {
     public void delete(long discordId, String paintName) {
         findPaint(paintName, discordId);
 
+        dao.open();
         dao.deleteById(paintName);
+        dao.close();
     }
 
     @NotNull
     protected PaintEntity findPaint(String paintName, long discordId) {
-        PaintEntity paintData;
+        dao.open();
+
         if (!dao.existsById(paintName)) throw new IllegalArgumentException(paintName + " 이름의 그림은 없습니다.");
 
-        paintData = dao.findById(paintName);
+        PaintEntity paintData = dao.findById(paintName);
         checkPermission(discordId, paintData.getOwnerId());
 
+        dao.close();
         return paintData;
     }
 
@@ -64,6 +68,7 @@ public class PaintManagerImpl implements PaintManager {
     public void save(long discordId, String paintName) {
         PaintEntity paintData = new PaintEntity();
 
+        dao.open();
         if (dao.existsById(paintName))
             throw new KeyAlreadyExistsException(paintName + " 이름의 그림은 이미 있습니다.");
         PixelPainter painter = (PixelPainter) PainterContainer.getPainter(discordId);
@@ -75,6 +80,8 @@ public class PaintManagerImpl implements PaintManager {
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw e;
+        } finally {
+            dao.close();
         }
     }
 
@@ -83,6 +90,7 @@ public class PaintManagerImpl implements PaintManager {
         PaintEntity paintData = new PaintEntity();
         PixelPainter painter = (PixelPainter) PainterContainer.getPainter(discordId);
 
+        dao.open();
         try {
             setPaintData(paintData, paintName, painter, discordId);
 
@@ -90,6 +98,8 @@ public class PaintManagerImpl implements PaintManager {
         } catch (RuntimeException e) {
             e.printStackTrace();
             throw e;
+        } finally {
+            dao.close();
         }
     }
 

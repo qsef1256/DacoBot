@@ -28,6 +28,7 @@ public class AttendCommand extends SlashCommand {
         User eventUser = event.getUser();
 
         try (DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class)) {
+            dao.open();
 
             Account user = new Account(eventUser.getIdLong());
             AccountEntity userData = user.getData();
