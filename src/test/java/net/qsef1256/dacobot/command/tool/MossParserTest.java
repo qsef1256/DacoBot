@@ -8,13 +8,14 @@ class MossParserTest {
 
     @Test
     void read() {
-        assertEquals("sos", MossParser.read("... ___ ..."));
-        assertEquals("diamond", MossParser.read("_.. .. ._ __ ___ _. _.."));
+        assertEquals("sos", MossParser.read("... --- ..."));
+        assertEquals("diamond", MossParser.read("-.. .. .- -- --- -. -.."));
     }
 
     @Test
     void write() {
-        assertEquals("... ___ ...", MossParser.write("sos"));
+        assertEquals("... --- ...", MossParser.write("sos"));
+        assertEquals(".... . .-.. .-.. --- .-- --- .-. .-.. -..", MossParser.write("Hello world"));
     }
 
 }

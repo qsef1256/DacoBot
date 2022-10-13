@@ -24,7 +24,9 @@ public class MossParser {
     public static @NotNull String write(@NotNull String input) {
         StringBuilder result = new StringBuilder();
 
-        for (char character : input.toCharArray()) {
+        for (char character : input.toLowerCase().toCharArray()) {
+            if (character == ' ') continue;
+
             Moss moss = Moss.getFromChar(character);
             if (moss == null)
                 throw new IllegalArgumentException("%s is invalid character".formatted(character));
