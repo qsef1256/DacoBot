@@ -1,14 +1,13 @@
 package net.qsef1256.dacobot.service.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;
 import net.qsef1256.dacobot.service.account.model.Account;
-import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,32 +34,21 @@ public class AttendCommand extends SlashCommand {
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("이미 출석했습니다.")
-                        .setAuthor(eventUser.getName(), null, eventUser.getEffectiveAvatarUrl())
-                        .setColor(DiaColor.FAIL)
-                        .setDescription("출석 시간: " + LocalDateTimeUtil.getTimeString(lastAttendTime))
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.fail("이미 출석했습니다.",
+                        "출석 시간: " + LocalDateTimeUtil.getTimeString(lastAttendTime),
+                        eventUser).build()).queue();
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
                 dao.save(userData);
 
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("출석 체크!")
-                        .setAuthor(eventUser.getName(), null, eventUser.getEffectiveAvatarUrl())
-                        .setColor(DiaColor.SUCCESS)
-                        .appendDescription("정상적으로 출석 체크 되었습니다.\n\n")
-                        .appendDescription("출석 횟수: " + userData.getAttendCount())
-                        .build()).queue();
+                event.replyEmbeds(DiaEmbed.success("출석 체크!",
+                        "정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount(),
+                        eventUser).build()).queue();
             }
 
         } catch (RuntimeException e) {
-            event.replyEmbeds(new EmbedBuilder()
-                    .setTitle("오류 발생")
-                    .setAuthor(eventUser.getName(), null, eventUser.getEffectiveAvatarUrl())
-                    .setColor(DiaColor.FAIL)
-                    .setDescription(e.getMessage())
+            event.replyEmbeds(DiaEmbed.fail("오류 발생", e.getMessage(), eventUser)
                     .setFooter("계정 신청은 /계정 등록")
                     .build()).queue();
 

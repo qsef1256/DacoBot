@@ -59,7 +59,7 @@ public class Cash {
         return data.getPickaxeCount();
     }
 
-    public void addPickaxeCount(final int count) {
+    public void changePickaxeCount(final int count) {
         data.setPickaxeCount(getPickaxeCount() + count);
         if (data.getPickaxeCount() < 0)
             data.setPickaxeCount(0);
@@ -67,7 +67,7 @@ public class Cash {
     }
 
     public void addPickaxeCount() {
-        addPickaxeCount(1);
+        changePickaxeCount(1);
     }
 
     private void saveAndClose() { // TODO: is good?

@@ -20,16 +20,16 @@ public class Account {
     @Getter
     private AccountEntity data;
 
-    public Account(final long discord_id) {
+    public Account(final long discordId) {
         try {
-            if (!dao.existsById(discord_id))
-                throw new NoSuchElementException(JDAUtil.getNameAsTag(discord_id) + " 유저는 등록되지 않았습니다.");
-            data = dao.findById(discord_id);
+            if (!dao.existsById(discordId))
+                throw new NoSuchElementException(JDAUtil.getNameAsTag(discordId) + " 유저는 등록되지 않았습니다.");
+            data = dao.findById(discordId);
         } catch (NoSuchElementException e) {
             throw e;
         } catch (final RuntimeException e) {
             e.printStackTrace();
-            throw new DacoAccountException(JDAUtil.getNameAsTag(discord_id) + " 의 정보를 로드하는데 실패했습니다");
+            throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 의 정보를 로드하는데 실패했습니다");
         }
     }
 

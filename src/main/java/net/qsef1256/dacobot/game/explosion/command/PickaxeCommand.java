@@ -51,7 +51,7 @@ public class PickaxeCommand extends SlashCommand {
                     }
                 }
 
-                cash.addPickaxeCount(pickaxeCount);
+                cash.changePickaxeCount(pickaxeCount);
 
                 String pickaxeCountDisplay = (pickaxeCount > 0) ? "+" + pickaxeCount : String.valueOf(pickaxeCount);
                 callback.editOriginal(status + "`" + pickaxeCountDisplay + "` 다이아 보유량: `" + cash.getPickaxeCount() + "` 개").queue();

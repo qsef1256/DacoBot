@@ -39,6 +39,10 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
         return count.get();
     }
 
+    /**
+     * @param constraint constraint Map
+     * @return list of entity that matches constraint
+     */
     @Override
     public List<T> findBy(@NotNull Map<String, Object> constraint) {
         open();
@@ -97,6 +101,12 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
         }
     }
 
+    /**
+     * 엔티티를 삭제합니다. 엔티티는 관리되고 있어야 합니다.
+     *
+     * @param entity managed Entity
+     * @throws IllegalArgumentException when entity is detached
+     */
     @Override
     public void delete(T entity) {
         open();
@@ -119,6 +129,10 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
         entityManager = JpaController.getEntityManager();
     }
 
+    /**
+     * 트랜잭션을 엽니다.
+     * <p>트랜잭션이 필요한 작업은 명시적인 open() 호출이 없어도 open() 을 자동으로 호출 합니다.</p>
+     */
     @Override
     public void open() {
         initEntityManager();
