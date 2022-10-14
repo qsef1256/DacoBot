@@ -11,8 +11,8 @@ import net.qsef1256.dacobot.game.hangman.domain.HangMan;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
-import net.qsef1256.dialib.util.CommonUtil;
 import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -149,16 +149,10 @@ public class HangManCommand extends SlashCommand {
         HangMan hangman = HangManContainer.getHangman();
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        embedBuilder.setTitle("행맨 게임");
         embedBuilder.setColor(DiaColor.MAIN_COLOR);
-
-        if (hangman.isFail()) {
-            embedBuilder.setDescription(HANGMAN_DISPLAY[0]);
-            embedBuilder.addField("단어", hangman.getOriginWord(), true);
-        } else {
-            embedBuilder.setDescription(HANGMAN_DISPLAY[hangman.getRemainLife() - 1]);
-            embedBuilder.addField("단어", hangman.getDisplayWord('?'), true);
-        }
+        embedBuilder.setTitle("행맨 게임");
+        embedBuilder.setDescription(HANGMAN_DISPLAY[hangman.getRemainLife()]);
+        embedBuilder.addField("단어", hangman.getDisplayWord('?'), true);
 
         embedBuilder.addField("남은 목숨", String.valueOf(hangman.getRemainLife()), true);
         return embedBuilder;
@@ -228,6 +222,16 @@ public class HangManCommand extends SlashCommand {
             ```
               +---+
               |   |
+              |
+              |
+              |
+              |
+            =========
+            ```
+            """, """
+            ```
+              +---+
+              |
               |
               |
               |
