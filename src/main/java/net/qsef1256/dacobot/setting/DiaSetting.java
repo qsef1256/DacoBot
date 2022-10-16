@@ -11,7 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.InvalidPropertiesFormatException;
+import java.util.List;
 import java.util.Properties;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
@@ -59,16 +61,26 @@ public class DiaSetting {
         logger.info("main Package: %s".formatted(setting.getProperty("main.package")));
     }
 
-    public static Guild getGuild() {
-        return DacoBot.getJda().getGuildById(getGuildID());
+    public static @NotNull List<Guild> getAllGuilds() {
+        List<Guild> guilds = new ArrayList<>();
+
+        guilds.add(getMainGuild());
+        for (String subGuildId : DiaSetting.getSetting().getProperty("bot.subGuildIds").split(",\\s*")) {
+            guilds.add(DacoBot.getJda().getGuildById(subGuildId));
+        }
+        return guilds;
     }
 
-    public static @NotNull Long getGuildID() {
-        return Long.parseLong(DiaSetting.getSetting().getProperty("bot.guildId"));
+    public static Guild getMainGuild() {
+        return DacoBot.getJda().getGuildById(getMainGuildID());
+    }
+
+    public static @NotNull Long getMainGuildID() {
+        return Long.parseLong(DiaSetting.getSetting().getProperty("bot.mainGuildId"));
     }
 
     public static MessageChannel getMainChannel() {
-        return getGuild().getTextChannelById(getMainChannelId());
+        return getMainGuild().getTextChannelById(getMainChannelId());
     }
 
     public static @NotNull Long getMainChannelId() {

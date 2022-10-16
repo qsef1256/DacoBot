@@ -17,6 +17,7 @@ https://discord.gg/uDEVbvJ55q
 
 ## TODO
 
+* 이용 약관, 개인정보 처리방침
 * /밴 : 사용 금지 (운영자 명령어)
 * /깃허브: 오류 보고!
 * JAspect 사용

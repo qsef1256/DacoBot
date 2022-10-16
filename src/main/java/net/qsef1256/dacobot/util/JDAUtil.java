@@ -117,7 +117,7 @@ public class JDAUtil {
     }
 
     public Member getMemberFromUser(User user) {
-        Guild guild = DacoBot.getJda().getGuildById(DiaSetting.getSetting().getProperty("bot.guildId"));
+        Guild guild = DacoBot.getJda().getGuildById(DiaSetting.getSetting().getProperty("bot.mainGuildId"));
 
         if (guild == null) return null;
         return guild.getMember(user);

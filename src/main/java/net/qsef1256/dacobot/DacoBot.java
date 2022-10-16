@@ -58,7 +58,7 @@ public class DacoBot {
         final CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
         commandClientBuilder.setOwnerId(DiaSetting.getSetting().getProperty("bot.ownerId"));
         commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
-        commandClientBuilder.forceGuildOnly(DiaSetting.getSetting().getProperty("bot.guildId"));
+        commandClientBuilder.forceGuildOnly(DiaSetting.getSetting().getProperty("bot.mainGuildId"));
         commandClientBuilder.useHelpBuilder(true);
         commandClientBuilder.setHelpWord("도움말");
         commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
@@ -91,9 +91,8 @@ public class DacoBot {
         jda = builder.build();
         jda.awaitReady();
 
-        Guild mainGuild = jda.getGuildById(DiaSetting.getSetting().getProperty("bot.guildId"));
-
-        upsertGuildCommands(mainGuild); // TODO: global command
+        // TODO: global command
+        DiaSetting.getAllGuilds().forEach(DacoBot::upsertGuildCommands);
 
         LocalDateTimeUtil.setZoneId(DiaSetting.getZoneId());
         DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);

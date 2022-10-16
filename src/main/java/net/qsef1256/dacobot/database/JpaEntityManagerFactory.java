@@ -82,6 +82,9 @@ public class JpaEntityManagerFactory {
 
         config.put("hibernate.hbm2ddl.auto", setting.getString("hibernate.hbm2ddl.auto"));
 
+        config.put("hibernate.hikari.minimumIdle", setting.getString("hibernate.hikari.minimumIdle"));
+        config.put("hibernate.hikari.maximumPoolSize", setting.getString("hibernate.hikari.maximumPoolSize"));
+        config.put("hibernate.hikari.idleTimeout", setting.getString("hibernate.hikari.idleTimeout"));
         config.put("hibernate.hikari.driverClassName", setting.getString("hibernate.hikari.driverClassName"));
         config.put("hibernate.hikari.jdbcUrl", setting.getString("hibernate.hikari.jdbcUrl"));
         config.put("hibernate.hikari.dataSource.user", setting.getString("hibernate.hikari.dataSource.user"));

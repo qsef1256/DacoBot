@@ -26,7 +26,7 @@ public class RuleCommand extends SlashCommand {
                 .appendDescription(":three: 언제든지 데이터는 손실/초기화/삭제 될 수 있어요.\n")
                 .appendDescription(":four: 곡괭이 자꾸 들이대면 폭탄 터트릴꺼에요.\n")
                 .appendDescription(":five: 본체는 아무 생각이 없어요.\n")
-                .appendDescription(":six: 사용자 식별을 위해 디코 ID를 저장하고 있습니다.") // TODO: 개인정보 처리방침
+                .appendDescription(":six: 사용자 식별을 위해 디코 ID를 저장하고 있습니다.\n")
                 .appendDescription(":seven: 재밌게 노세요!\n")
                 .setFooter("사실 규칙은 반쯤 장식이에요.")
                 .build()).queue();
