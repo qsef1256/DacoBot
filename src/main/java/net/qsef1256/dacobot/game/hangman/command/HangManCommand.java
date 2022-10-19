@@ -152,7 +152,9 @@ public class HangManCommand extends SlashCommand {
         embedBuilder.setColor(DiaColor.MAIN_COLOR);
         embedBuilder.setTitle("행맨 게임");
         embedBuilder.setDescription(HANGMAN_DISPLAY[hangman.getRemainLife()]);
-        embedBuilder.addField("단어", hangman.getDisplayWord('?'), true);
+        embedBuilder.addField("단어", hangman.isEnd() ?
+                hangman.getOriginWord() :
+                hangman.getDisplayWord('?'), true);
 
         embedBuilder.addField("남은 목숨", String.valueOf(hangman.getRemainLife()), true);
         return embedBuilder;
