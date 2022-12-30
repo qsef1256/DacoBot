@@ -29,12 +29,14 @@ public class SHA256Command extends SlashCommand {
     public static String toSHA256(@NotNull String content) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(content.getBytes(StandardCharsets.UTF_8));
+
         StringBuilder hexString = new StringBuilder();
         for (byte b : hash) {
             String hex = Integer.toHexString(0xff & b);
             if (hex.length() == 1) hexString.append('0');
             hexString.append(hex);
         }
+
         return hexString.toString();
     }
 

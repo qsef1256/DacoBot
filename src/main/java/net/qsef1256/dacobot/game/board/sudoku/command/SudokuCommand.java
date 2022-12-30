@@ -50,6 +50,7 @@ public class SudokuCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
         }
+
     }
 
     public static class PlaceCommand extends SlashCommand {
@@ -89,6 +90,7 @@ public class SudokuCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
         }
+
     }
 
     public static class SeeCommand extends SlashCommand {
@@ -108,6 +110,7 @@ public class SudokuCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
         }
+
     }
 
     public static class ResetCommand extends SlashCommand {
@@ -128,6 +131,7 @@ public class SudokuCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
         }
+
     }
 
     public static class SolveCommand extends SlashCommand {
@@ -151,6 +155,7 @@ public class SudokuCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, e.getMessage(), null, event.getUser()).build()).queue();
             }
         }
+
     }
 
 }

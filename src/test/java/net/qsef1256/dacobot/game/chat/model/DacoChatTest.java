@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.talk.model;
+package net.qsef1256.dacobot.game.chat.model;
 
 import org.junit.jupiter.api.Test;
 

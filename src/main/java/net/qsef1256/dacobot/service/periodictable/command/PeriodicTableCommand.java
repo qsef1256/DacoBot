@@ -52,6 +52,7 @@ public class PeriodicTableCommand extends SlashCommand {
         protected void execute(@NotNull SlashCommandEvent event) {
             event.reply("https://ko.wikipedia.org/wiki/%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C#/media/%ED%8C%8C%EC%9D%BC:Simple_Periodic_Table_Chart-en.svg").queue();
         }
+
     }
 
     public static class SearchCommand extends SlashCommand {
@@ -108,6 +109,7 @@ public class PeriodicTableCommand extends SlashCommand {
             if (!results.isEmpty()) result = results.get(0);
             return result;
         }
+
     }
 
 }

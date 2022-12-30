@@ -1,8 +1,8 @@
-package net.qsef1256.dacobot.game.talk.command;
+package net.qsef1256.dacobot.game.chat.command;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import net.qsef1256.dacobot.game.talk.model.DacoChat;
+import net.qsef1256.dacobot.game.chat.model.DacoChat;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,5 +38,7 @@ public class TalkCommand extends Command {
 
             event.reply("다코챗 재시작 중...");
         }
+
     }
+
 }

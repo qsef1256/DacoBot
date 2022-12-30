@@ -98,6 +98,7 @@ public class GalleryCommand extends SlashCommand {
 
             applyPainter(event, user, paintName, painter);
         }
+
     }
 
     private static class SaveCommand extends SlashCommand {
@@ -149,6 +150,7 @@ public class GalleryCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, "그림을 저장하던 도중 문제가 발생했습니다.", e, user).build()).queue();
             }
         }
+
     }
 
     private static class DeleteCommand extends SlashCommand {
@@ -188,6 +190,7 @@ public class GalleryCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error(null, "그림을 삭제하던 도중 문제가 발생했습니다.", e, user).build()).queue();
             }
         }
+
     }
 
     private static class LoadCommand extends SlashCommand {
@@ -239,5 +242,7 @@ public class GalleryCommand extends SlashCommand {
                     .setDescription(String.join(", ", paintNames))
                     .build()).queue();
         }
+
     }
+
 }

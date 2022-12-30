@@ -28,8 +28,10 @@ public class MD5Command extends SlashCommand {
     public static String toMD5(@NotNull String content) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(content.getBytes());
+
         byte[] byteData = md.digest();
         StringBuilder sb = new StringBuilder();
+
         for (byte byteDatum : byteData) {
             sb.append(Integer.toString((byteDatum & 0xff) + 0x100, 16).substring(1));
         }

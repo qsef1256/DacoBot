@@ -19,7 +19,6 @@ public class MessageCommand extends SlashCommand {
     public MessageCommand() {
         name = "메시지";
         help = "메시지 서비스 테스트 명령어";
-
         ownerCommand = true;
 
         children = new SlashCommand[]{
@@ -56,6 +55,7 @@ public class MessageCommand extends SlashCommand {
 
             new TrackedEventMessage(key, message, event).send();
         }
+
     }
 
     public static class EditCommand extends SlashCommand {
@@ -83,6 +83,7 @@ public class MessageCommand extends SlashCommand {
 
             new TrackedEventMessage(key, message, event).edit(message);
         }
+
     }
 
     public static class RemoveCommand extends SlashCommand {
@@ -98,9 +99,9 @@ public class MessageCommand extends SlashCommand {
 
             new TrackedEventMessage(key, new MessageBuilder(), event).remove();
         }
+
     }
-
-
+    
     public static class MoveCommand extends SlashCommand {
 
         public MoveCommand() {
@@ -114,6 +115,7 @@ public class MessageCommand extends SlashCommand {
 
             new TrackedEventMessage(key, new MessageBuilder(), event).move(event.getChannel());
         }
+
     }
 
 }

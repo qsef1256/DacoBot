@@ -59,6 +59,7 @@ public class OmokCommand extends SlashCommand {
                     .setFooter("렌주룰 등은 알고리즘 가져오면 고려해보겠...")
                     .build()).queue();
         }
+
     }
 
     private static class StartCommand extends SlashCommand {
@@ -94,6 +95,7 @@ public class OmokCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
             }
         }
+
     }
 
     private static class PlaceCommand extends SlashCommand {
@@ -130,6 +132,7 @@ public class OmokCommand extends SlashCommand {
                         callback.deleteOriginal().queueAfter(5, TimeUnit.SECONDS));
             }
         }
+
     }
 
     private static class ResignCommand extends SlashCommand {
@@ -151,6 +154,7 @@ public class OmokCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
             }
         }
+
     }
 
     private static class PullCommand extends SlashCommand {
@@ -173,6 +177,7 @@ public class OmokCommand extends SlashCommand {
                 event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
             }
         }
+
     }
 
     private static class LogCommand extends SlashCommand {
@@ -195,6 +200,7 @@ public class OmokCommand extends SlashCommand {
                         callback.deleteOriginal().queueAfter(5, TimeUnit.SECONDS));
             }
         }
+
     }
 
 }

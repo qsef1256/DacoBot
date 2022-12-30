@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.talk.listener;
+package net.qsef1256.dacobot.game.chat.listener;
 
 import com.jagrosh.jdautilities.command.CommandListener;
 import com.jagrosh.jdautilities.command.SlashCommand;
@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.game.talk.model.DacoChat;
+import net.qsef1256.dacobot.game.chat.model.DacoChat;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 

@@ -22,7 +22,6 @@ import java.util.NoSuchElementException;
  * 특정한 Key 에 따라 관리되는 메시지를 저장하고 가져옵니다.
  * <p>제한 시간이 지정되어 있으며, 지날시 자동 삭제됩니다.</p>
  */
-
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class MessageApiImpl implements MessageApi {

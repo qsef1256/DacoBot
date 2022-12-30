@@ -143,6 +143,7 @@ public class HangManCommand extends SlashCommand {
                     .sendMessageEmbeds(getHangmanStatus().build())
                     .queue();
         }
+
     }
 
     private static @NotNull EmbedBuilder getHangmanStatus() {

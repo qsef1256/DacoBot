@@ -149,6 +149,7 @@ public class CreditCommand extends SlashCommand {
                     .setFooter("SPDX (https://spdx.org/licenses/) 의 표기를 따릅니다.")
                     .build()).queue();
         }
+
     }
 
     private static class APICommand extends SlashCommand {
@@ -171,6 +172,7 @@ public class CreditCommand extends SlashCommand {
                             "[Link](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do) 제공 `국토교통부`", false)
                     .build()).queue();
         }
+
     }
 
 }

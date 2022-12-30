@@ -111,6 +111,7 @@ public class HelpCommand extends SlashCommand {
                 e.printStackTrace();
             }
         }
+
     }
 
     private static class FindCommand extends SlashCommand {
@@ -153,6 +154,7 @@ public class HelpCommand extends SlashCommand {
                         .build()).queue();
             }
         }
+
     }
 
     private static void buildEmbed(@NotNull EmbedBuilder embedBuilder, @NotNull Map<?, ?> map, Member member) {

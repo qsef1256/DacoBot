@@ -89,6 +89,7 @@ public class InventoryCommand extends SlashCommand {
 
             return embedBuilder;
         }
+
     }
 
     private static class ItemCommandGroup extends SubcommandGroupData {
@@ -101,9 +102,11 @@ public class InventoryCommand extends SlashCommand {
             addSubcommands(SubcommandData.fromData(new ItemAddCommand().getData()));
             addSubcommands(SubcommandData.fromData(new ItemRemoveCommand().getData()));
         }
+
     }
 
     private static class ItemInfoCommand extends SlashCommand {
+
         public ItemInfoCommand() {
             name = "정보";
             help = "아이템 정보를 확인합니다.";
@@ -122,6 +125,7 @@ public class InventoryCommand extends SlashCommand {
         public DataObject getData() {
             return buildCommandData().toData();
         }
+
     }
 
     private static class ItemAddCommand extends SlashCommand {
@@ -148,6 +152,7 @@ public class InventoryCommand extends SlashCommand {
         public DataObject getData() {
             return buildCommandData().toData();
         }
+
     }
 
     private static class ItemRemoveCommand extends SlashCommand {
@@ -175,5 +180,7 @@ public class InventoryCommand extends SlashCommand {
         public DataObject getData() {
             return buildCommandData().toData();
         }
+
     }
+
 }

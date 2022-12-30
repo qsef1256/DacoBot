@@ -46,7 +46,6 @@ public class AttendCommand extends SlashCommand {
                         "정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount(),
                         eventUser).build()).queue();
             }
-
         } catch (RuntimeException e) {
             event.replyEmbeds(DiaEmbed.fail("오류 발생", e.getMessage(), eventUser)
                     .setFooter("계정 신청은 /계정 등록")

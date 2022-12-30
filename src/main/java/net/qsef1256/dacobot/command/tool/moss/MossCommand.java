@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.command.tool;
+package net.qsef1256.dacobot.command.tool.moss;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;

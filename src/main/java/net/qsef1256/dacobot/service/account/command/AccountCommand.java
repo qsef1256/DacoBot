@@ -124,6 +124,7 @@ public class AccountCommand extends SlashCommand {
             if (cash > 50000) footer = "돈 많아요!";
             return footer;
         }
+
     }
 
     private static class ResetCommand extends SlashCommand {
@@ -151,6 +152,7 @@ public class AccountCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
         }
+        
     }
 
 }

@@ -17,7 +17,7 @@ import net.dv8tion.jda.api.utils.ChunkingFilter;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.database.JpaController;
-import net.qsef1256.dacobot.game.talk.listener.TalkListener;
+import net.qsef1256.dacobot.game.chat.listener.TalkListener;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.service.openapi.corona.CoronaApi;
 import net.qsef1256.dacobot.setting.DiaSetting;

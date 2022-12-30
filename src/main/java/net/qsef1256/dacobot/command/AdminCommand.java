@@ -40,6 +40,7 @@ public class AdminCommand extends SlashCommand {
     }
 
     private static class StopCommand extends SlashCommand {
+
         public StopCommand() {
             name = "자자";
             help = "장비를 정지합니다.";
@@ -53,9 +54,11 @@ public class AdminCommand extends SlashCommand {
             event.reply("끄는 중....").setEphemeral(true).queue(msg ->
                     DacoBot.shutdown());
         }
+
     }
 
     private static class SayCommand extends SlashCommand {
+
         public SayCommand() {
             name = "말해";
             help = "메시지 보내기";
@@ -72,6 +75,7 @@ public class AdminCommand extends SlashCommand {
             event.deferReply().queue(m -> m.deleteOriginal().queue());
             event.getChannel().sendMessage(option.getAsString()).queue();
         }
+
     }
 
     private static class ClearCommand extends SlashCommand {
@@ -106,6 +110,7 @@ public class AdminCommand extends SlashCommand {
             event.reply("초기화가 완료 되었습니다. 길드 ID: " + forcedGuildId).setEphemeral(true).queue();
             DacoBot.shutdown();
         }
+
     }
 
     private static class RestartCommand extends SlashCommand {
@@ -121,6 +126,7 @@ public class AdminCommand extends SlashCommand {
             event.reply("재시작 진행 중... 새 봇은 개발 툴에서 추적되지 않으니 주의하세요.").setEphemeral(true).queue();
             DacoBot.restart();
         }
+
     }
 
 }

@@ -26,4 +26,5 @@ public class CreeperCommand extends SlashCommand {
 
         event.reply(creeperArt).queue();
     }
+
 }

@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.talk.model;
+package net.qsef1256.dacobot.game.chat.model;
 
 import lombok.Getter;
 import net.qsef1256.dacobot.setting.DiaSetting;
@@ -22,7 +22,7 @@ import javax.management.openmbean.KeyAlreadyExistsException;
 public class DacoChat {
 
     public static final Logger logger = LoggerFactory.getLogger("DacoChat");
-    
+
     @Getter
     private Bot chatBot;
     private Chat chat;

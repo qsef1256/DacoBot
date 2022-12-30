@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.command.tool;
+package net.qsef1256.dacobot.command.tool.moss;
 
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;

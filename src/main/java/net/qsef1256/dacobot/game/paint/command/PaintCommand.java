@@ -108,6 +108,7 @@ public class PaintCommand extends SlashCommand {
 
             printPallet(event, paint);
         }
+
     }
 
     private static class PixelCommand extends SlashCommand {
@@ -213,6 +214,7 @@ public class PaintCommand extends SlashCommand {
 
             printPallet(event, painter);
         }
+
     }
 
     private static class DrawAllCommand extends SlashCommand {
@@ -255,6 +257,7 @@ public class PaintCommand extends SlashCommand {
 
             printPallet(event, painter);
         }
+
     }
 
     public static class EraseCommand extends SlashCommand {
@@ -391,6 +394,7 @@ public class PaintCommand extends SlashCommand {
 
             printPallet(event, painter);
         }
+
     }
 
     private static class DrawerCommand extends SlashCommand {
@@ -404,6 +408,7 @@ public class PaintCommand extends SlashCommand {
         protected void execute(SlashCommandEvent event) {
             PaintDrawer.initDrawer(event);
         }
+
     }
 
     private static class ColorCommand extends SlashCommand {
@@ -428,6 +433,7 @@ public class PaintCommand extends SlashCommand {
                     .setDescription(stringBuilder.toString());
             event.replyEmbeds(embedBuilder.build()).queue();
         }
+
     }
 
 }

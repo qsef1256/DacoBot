@@ -21,7 +21,6 @@ public class AsdfCommand extends SlashCommand {
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-
         CmdStatistic statistic = new CmdStatistic(getClass());
 
         final String message = RandomUtil.getRandomElement(

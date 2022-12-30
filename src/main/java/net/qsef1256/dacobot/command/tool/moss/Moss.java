@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.command.tool;
+package net.qsef1256.dacobot.command.tool.moss;
 
 import lombok.Getter;
 import net.qsef1256.dialib.util.EnumUtil;

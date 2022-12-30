@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.command.tool;
 
+import net.qsef1256.dacobot.command.tool.moss.MossParser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
