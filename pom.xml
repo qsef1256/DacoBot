@@ -176,6 +176,12 @@
             <type>pom</type>
         </dependency>
 
+        <dependency>
+            <groupId>net.qsef1256</groupId>
+            <artifactId>DiaLib</artifactId>
+            <version>1.1.6</version>
+        </dependency>
+
         <!-- Function Library -->
         <dependency>
             <groupId>org.mariuszgromada.math</groupId>
@@ -184,7 +190,6 @@
         </dependency>
 
         <!-- Technical Library -->
-
         <dependency>
             <groupId>org.jboss.weld.se</groupId>
             <artifactId>weld-se-shaded</artifactId>
@@ -192,7 +197,7 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jboss</groupId>
+            <groupId>io.smallrye</groupId>
             <artifactId>jandex</artifactId>
             <version>3.0.5</version>
         </dependency>
@@ -258,12 +263,6 @@
         </dependency>
 
         <!-- Utility Library -->
-        <dependency>
-            <groupId>net.qsef1256</groupId>
-            <artifactId>DiaLib</artifactId>
-            <version>1.1.5</version>
-        </dependency>
-
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
@@ -365,7 +364,7 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>20030211.134440</version>
+            <version>1.9.4</version>
         </dependency>
 
         <dependency>

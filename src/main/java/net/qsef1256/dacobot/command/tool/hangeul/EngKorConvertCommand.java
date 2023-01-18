@@ -24,7 +24,7 @@ public class EngKorConvertCommand extends SlashCommand {
     @Override
     protected void execute(SlashCommandEvent event) {
         try {
-            OptionMapping option = JDAUtil.getOptionMapping(event, "수식");
+            OptionMapping option = JDAUtil.getOptionMapping(event, "오타");
             if (option == null) return;
 
             event.replyEmbeds(DiaEmbed.info("영한 변환",
