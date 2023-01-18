@@ -19,7 +19,7 @@ import java.util.function.Consumer;
 import static net.qsef1256.dacobot.DacoBot.logger;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJpa<T, ID> {
+public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa<T, K> {
 
     @Getter
     private EntityManager entityManager;
@@ -56,13 +56,13 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     }
 
     @Override
-    public boolean existsById(ID id) {
+    public boolean existsById(K id) {
         initEntityManager();
         return entityManager.contains(findById(id));
     }
 
     @Override
-    public T findById(ID id) {
+    public T findById(K id) {
         initEntityManager();
         return entityManager.find(clazz, id);
     }
@@ -114,7 +114,7 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
     }
 
     @Override
-    public void deleteById(ID id) {
+    public void deleteById(K id) {
         delete(findById(id));
     }
 
@@ -177,10 +177,7 @@ public class DaoCommonJpaImpl<T, ID extends Serializable> implements DaoCommonJp
 
     @Override
     public String toString() {
-        String toString = "%s@%s [clazz = %s".formatted(
-                getClass().getSimpleName(),
-                Integer.toHexString(hashCode()),
-                clazz.getSimpleName());
+        String toString = "%s [clazz = %s".formatted(super.toString(), clazz.getSimpleName());
 
         if (entityManager == null) {
             return toString + ", entityManager = null]"; // is call open() before transaction?

@@ -12,11 +12,11 @@ import java.io.Serializable;
  * 사용전 open() 을, 사용후 close() 를 호출해야 합니다.
  * </p>
  *
- * @param <T>  Entity
- * @param <ID> Entity's Key
+ * @param <T> Entity
+ * @param <K> Entity's Key
  * @see org.springframework.data.jpa.repository.JpaRepository
  */
-public interface DaoCommonJpa<T, ID extends Serializable> extends DaoCommon<T, ID>, AutoCloseable {
+public interface DaoCommonJpa<T, K extends Serializable> extends DaoCommon<T, K>, AutoCloseable {
 
     /**
      * 트랜젝션을 엽니다.

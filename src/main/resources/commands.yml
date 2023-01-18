@@ -76,6 +76,9 @@ CATEGORIES:
       - CoronaCommand
       - PeriodicTableCommand
       - MossCommand
+      - CleanChannelCommand
+      - EngKorConvertCommand
+      - KorEngConvertCommand
 
   MISC:
     TITLE: "기타"

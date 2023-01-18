@@ -9,17 +9,17 @@ import java.util.Map;
 /**
  * CRUD 를 포함하는 일반 Dao Interface 입니다.
  *
- * @param <T>  Entity
- * @param <ID> Entity's Key
+ * @param <T> Entity
+ * @param <K> Entity's Key
  * @see org.springframework.data.repository.CrudRepository
  */
-public interface DaoCommon<T, ID extends Serializable> {
+public interface DaoCommon<T, K extends Serializable> {
 
     void save(T entity);
 
     void saveAll(Iterable<T> entity);
 
-    boolean existsById(ID id);
+    boolean existsById(K id);
 
     /**
      * 제약 조건들로 엔티티 들을 찾습니다. 결과는 여러개 일 수 있습니다.
@@ -34,11 +34,11 @@ public interface DaoCommon<T, ID extends Serializable> {
      *
      * @param constraint constraint Map
      * @return List of T
-     * @see #findById(ID)
+     * @see #findById(K)
      */
     List<T> findBy(Map<String, Object> constraint);
 
-    T findById(ID id);
+    T findById(K id);
 
     List<T> findAll();
 
@@ -46,7 +46,7 @@ public interface DaoCommon<T, ID extends Serializable> {
 
     void delete(T entity);
 
-    void deleteById(ID id);
+    void deleteById(K id);
 
     void deleteAll();
 
