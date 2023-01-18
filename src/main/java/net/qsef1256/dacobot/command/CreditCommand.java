@@ -120,7 +120,6 @@ public class CreditCommand extends SlashCommand {
                             """, false)
                     .addField("기능 라이브러리", """
                             [mXParser](https://mathparser.org/): `BSD-2-Clause`
-                            [Program AB](https://code.google.com/archive/p/program-ab/): `LGPL-2.0-or-later`
                             """, false)
                     .addField("유틸 라이브러리", """
                             [Lombok](https://projectlombok.org/): `MIT`

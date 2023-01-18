@@ -30,7 +30,7 @@ public class JDAUtil {
      * @param member       executing member
      * @return true when member can execute
      */
-    public static boolean canExecute(@NotNull SlashCommand slashCommand, Member member) {
+    public boolean canExecute(@NotNull SlashCommand slashCommand, Member member) {
         if (slashCommand.isOwnerCommand()) {
             return DacoBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
         }
@@ -46,7 +46,7 @@ public class JDAUtil {
         return true;
     }
 
-    public static boolean canExecute(@NotNull Command command, Member member) {
+    public boolean canExecute(@NotNull Command command, Member member) {
         if (command.isOwnerCommand()) {
             return DacoBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
         }
@@ -128,7 +128,7 @@ public class JDAUtil {
     }
 
     @Nullable
-    public static OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
+    public OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
         final OptionMapping option = event.getOption(optionName);
         if (option == null) {
             event.reply("%s를 입력해주세요.".formatted(optionName)).setEphemeral(true).queue();

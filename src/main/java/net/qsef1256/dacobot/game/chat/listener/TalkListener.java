@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.game.chat.model.DacoChat;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,11 +17,6 @@ public class TalkListener implements CommandListener {
         String message = event.getMessage().getContentDisplay();
         String prefix = DacoBot.getCommandClient().getPrefix();
         if (!message.startsWith(prefix.trim())) return;
-
-        String response = DacoChat.getInstance().talk(message.substring(prefix.length() - 1).trim());
-        if (response.isBlank()) response = DacoChat.getInstance().talk(""); // replace Empty response
-
-        event.getChannel().sendMessage(response).queue();
     }
 
     @Override

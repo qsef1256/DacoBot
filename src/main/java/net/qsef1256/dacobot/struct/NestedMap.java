@@ -272,7 +272,7 @@ public class NestedMap<T, S> {
     }
 
     /**
-     * {@code Entry&lt;T, Map&lt;S, ?&gt;&gt;} 를 담고 있는 iterator 를 구합니다.
+     * {@code Entry<T, Map<S, ?>>} 를 담고 있는 iterator 를 구합니다.
      *
      * @return iterator
      * @see #forEach(BiConsumer)
@@ -306,7 +306,7 @@ public class NestedMap<T, S> {
     }
 
     /**
-     * {@code Entry&lt;T, Map&lt;S, ?&gt;&gt;} 를 담고 있는 spliterator 를 구합니다.
+     * {@code Entry<T, Map<S, ?>>} 를 담고 있는 spliterator 를 구합니다.
      *
      * @return spliterator
      * @see #forEach(BiConsumer)

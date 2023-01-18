@@ -39,7 +39,6 @@ https://discord.gg/uDEVbvJ55q
     * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리
     * [mXParser](https://mathparser.org/): Copyright 2010 - 2020 Mariusz Gromada. All rights reserved. `BSD-2-Clause`
-    * [Program AB](https://code.google.com/archive/p/program-ab/): Copyright (C) 2013 ALICE A.I. Foundation `LGPL-2.0-or-later`
 * 유틸 라이브러리
     * [Lombok](https://projectlombok.org/): Copyright © 2009-2021 The Project Lombok Authors `MIT`
     * [Guava](https://github.com/google/guava): Copyright (C) 2012 The Guava Authors `Apache-2.0`

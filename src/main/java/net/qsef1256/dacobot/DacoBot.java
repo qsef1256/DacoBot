@@ -180,7 +180,9 @@ public class DacoBot {
         System.exit(1);
     }
 
-    // 주의: 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
+    /**
+     * <b>주의:</b> 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
+     */
     public static void restart() {
         StringBuilder cmd = new StringBuilder();
         cmd.append(System.getProperty("java.home"))

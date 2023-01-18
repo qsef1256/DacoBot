@@ -2,11 +2,10 @@ package net.qsef1256.dacobot.game.chat.command;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import net.qsef1256.dacobot.game.chat.model.DacoChat;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 
-// TODO Add talk
+// TODO: add talk
 public class TalkCommand extends Command {
 
     public TalkCommand() {
@@ -34,9 +33,7 @@ public class TalkCommand extends Command {
 
         @Override
         protected void execute(@NotNull CommandEvent event) {
-            DacoChat.getInstance().restart();
-
-            event.reply("다코챗 재시작 중...");
+            event.reply(DiaMessage.underConstruction());
         }
 
     }

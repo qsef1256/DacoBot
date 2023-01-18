@@ -21,6 +21,7 @@ class KorEngConverterTest {
         assertEquals("안녀", converter.engToKor("dkssu"));
         assertEquals("안녕", converter.engToKor("dkssud"));
         assertEquals("그어어얽", converter.engToKor("rmdjdjdjfr"));
+        assertEquals("아무말", converter.engToKor("dkanakf"));
     }
 
 }
