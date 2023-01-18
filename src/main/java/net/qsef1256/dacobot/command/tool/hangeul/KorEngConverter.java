@@ -39,19 +39,23 @@ public class KorEngConverter {
 
     // 1. 초성으로 시작해야 함 (다른 경우에는 무시, 한 글자를 완성할 수 없음)
     // 2. 중성이 다음에 들어와야 함, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인 (다른 경우에는 무시, 한 글자를 완성할 수 없음)
-    // 3. 종성이 초성으로도 사용될 수 있는 경우 다음 글자가 중성인지 확인하고 맞다면 1로 돌아감
+    // 3. 종성이 초성으로도 사용될 수 있는 경우 다음 글자가 중성인지 확인하고 맞다면 1로 돌아감 (이때 '글고' 처럼 종성이 남아있을 수 있음)
     // 4. 종성은 없어도 되나, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인해서 종성이 있는지 확인하고 있을 경우 글자에 포함함
     @NotNull
     private String processSingleChar(@NotNull String eng, @NotNull StringBuilder removeBuffer) {
         // 1
         String initialChar = String.valueOf(eng.charAt(0));
-        removeBuffer.append(initialChar);
-
         InitialConsonant initial = InitialConsonant.fromEng(initialChar);
 
+        removeBuffer.append(initialChar);
         eng = StringUtils.removeStart(eng, initialChar);
-        if (initial == null || eng.isBlank()) {
+
+        if (initial == null) {
             return initialChar;
+        }
+
+        if (eng.isBlank()) {
+            return initial.getKor();
         }
 
         // 2
@@ -63,19 +67,35 @@ public class KorEngConverter {
             medial = MedialConsonant.fromEng(medialChar);
         }
 
-        if (medial == null) {
+        if (eng.length() >= 1 && medial == null) {
             medialChar = String.valueOf(eng.charAt(0));
             medial = MedialConsonant.fromEng(medialChar);
         }
 
-        removeBuffer.append(medialChar);
-
-        eng = StringUtils.removeStart(eng, medialChar);
         if (medial == null) {
-            return initial.getKor() + medialChar;
+            return initial.getKor();
         }
 
-        if (eng.isBlank() || checkGhostFire(eng)) {
+        removeBuffer.append(medialChar);
+        eng = StringUtils.removeStart(eng, medialChar);
+
+        // 3
+        // 종성이 남아있는 경우
+        if (checkGhostFire(eng, 1)) {
+            String lastChar = String.valueOf(eng.charAt(0));
+            FinalConsonant last = FinalConsonant.fromEng(lastChar);
+
+            if (last == null) {
+                lastChar = "";
+                last = FinalConsonant.NONE;
+            }
+            removeBuffer.append(lastChar);
+
+            return new SingleKorChar(initial, medial, last).toString();
+        }
+
+        // 그렇지 않은 경우
+        if (checkGhostFire(eng, 0)) {
             return new SingleKorChar(initial, medial, FinalConsonant.NONE).toString();
         }
 
@@ -88,7 +108,7 @@ public class KorEngConverter {
             last = FinalConsonant.fromEng(lastChar);
         }
 
-        if (last == null) {
+        if (eng.length() >= 1 && last == null) {
             lastChar = String.valueOf(eng.charAt(0));
             last = FinalConsonant.fromEng(lastChar);
         }
@@ -97,7 +117,6 @@ public class KorEngConverter {
             lastChar = "";
             last = FinalConsonant.NONE;
         }
-
         removeBuffer.append(lastChar);
 
         return new SingleKorChar(initial, medial, last).toString();
@@ -105,20 +124,23 @@ public class KorEngConverter {
 
     /**
      * <a href="https://namu.wiki/w/%EB%8F%84%EA%B9%A8%EB%B9%84%EB%B6%88%20%ED%98%84%EC%83%81">도깨비불 현상</a> 을 확인합니다.
+     *
+     * @param pointer location of start checking
      */
-    private boolean checkGhostFire(@NotNull String eng) {
-        // 3
-        if (InitialConsonant.fromEng(String.valueOf(eng.charAt(0))) != null) {
+    private boolean checkGhostFire(@NotNull String eng, int pointer) {
+        if (eng.length() >= 1 + pointer && InitialConsonant.fromEng(String.valueOf(eng.charAt(pointer))) != null) {
             String secondMedialChar;
             MedialConsonant secondMedial = null;
 
-            if (eng.length() >= 3) {
-                secondMedialChar = String.valueOf(eng.charAt(1)) + eng.charAt(2);
+            String medialCharAtOne = String.valueOf(eng.charAt(1 + pointer));
+
+            if (eng.length() >= 3 + pointer) {
+                secondMedialChar = medialCharAtOne + eng.charAt(2 + pointer);
                 secondMedial = MedialConsonant.fromEng(secondMedialChar);
             }
 
-            if (eng.length() >= 2 && secondMedial == null) {
-                secondMedialChar = String.valueOf(eng.charAt(1));
+            if (eng.length() >= 2 + pointer && secondMedial == null) {
+                secondMedialChar = medialCharAtOne;
                 secondMedial = MedialConsonant.fromEng(secondMedialChar);
             }
 
