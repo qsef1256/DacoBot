@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 @Getter
-public enum FinalConsonant {
+public enum FinalConsonant implements Consonant {
 
     NONE("", ""),
     GIYEOG("r", "ㄱ"),
@@ -44,10 +44,12 @@ public enum FinalConsonant {
     private static final Map<String, FinalConsonant> fromEng =
             EnumUtil.toMap(FinalConsonant::getEng, FinalConsonant.class);
 
+    @NotNull
     private final String eng;
+    @NotNull
     private final String kor;
 
-    FinalConsonant(String eng, String kor) {
+    FinalConsonant(@NotNull String eng, @NotNull String kor) {
         this.eng = eng;
         this.kor = kor;
     }

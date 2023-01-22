@@ -15,17 +15,17 @@ import java.util.Objects;
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 @Table(name = "element_data")
 public class Element {
 
     @Id
     private int number;
-    private @NotNull String symbol;
+    private @NotNull String symbol = "";
 
-    private @NotNull String name;
-    private @NotNull String engName;
+    private @NotNull String name = "";
+    private @NotNull String engName = "";
     private @Nullable String alias;
 
     private @Nullable String description;
@@ -33,28 +33,28 @@ public class Element {
     private int elementGroup;
     private int elementPeriod;
     @Enumerated(EnumType.STRING)
-    private @NotNull Series elementSeries;
+    private @NotNull Series elementSeries = Series.ALKALI_METAL;
 
     private double weight;
     private double density;
     private double melting;
     private double boiling;
     @Enumerated(EnumType.STRING)
-    private @NotNull Phase phaseOnSATP;
+    private @NotNull Phase phaseOnSATP = Phase.SOLID;
     @Enumerated(EnumType.STRING)
-    private @NotNull GenerationCause generationCause;
+    private @NotNull GenerationCause generationCause = GenerationCause.ARTIFICIAL;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Element element = (Element) o;
-        return Objects.equals(number, element.number);
+
+        return Objects.equals(o, this);
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return number;
     }
 
 }

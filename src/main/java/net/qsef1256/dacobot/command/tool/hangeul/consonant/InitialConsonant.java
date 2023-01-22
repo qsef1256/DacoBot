@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 @Getter
-public enum InitialConsonant {
+public enum InitialConsonant implements Consonant {
 
     GIYEOG("r", "ㄱ"),
     SSANG_GIYEOG("R", "ㄲ"),
@@ -34,11 +34,12 @@ public enum InitialConsonant {
             EnumUtil.toMap(InitialConsonant::getKor, InitialConsonant.class);
     private static final Map<String, InitialConsonant> fromEng =
             EnumUtil.toMap(InitialConsonant::getEng, InitialConsonant.class);
-
+    @NotNull
     private final String eng;
+    @NotNull
     private final String kor;
 
-    InitialConsonant(String eng, String kor) {
+    InitialConsonant(@NotNull String eng, @NotNull String kor) {
         this.eng = eng;
         this.kor = kor;
     }

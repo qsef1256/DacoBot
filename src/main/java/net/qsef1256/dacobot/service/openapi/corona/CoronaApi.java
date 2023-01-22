@@ -14,11 +14,11 @@ import org.dom4j.Element;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
@@ -54,7 +54,8 @@ public class CoronaApi {
                 + "?serviceKey=" + key + "&startCreateDt=" + startDate + "&endCreateDt=" + endDate;
 
         try (APIConnector connector = new APIConnector()) {
-            Document document = XmlUtil.parse(connector.getResult(url, ContentType.APPLICATION_XML));
+            Document document = XmlUtil.parse(connector.getResult(url,
+                    ContentType.APPLICATION_XML.withCharset(StandardCharsets.UTF_8)));
 
             String resultCode = document.getRootElement().element("header").element("resultCode").getText();
             APICode apiCode = APICode.findByCode(resultCode);
@@ -112,7 +113,11 @@ public class CoronaApi {
     public static void main(String[] args) {
         new CoronaApi().update();
 
-        logger.info(Objects.requireNonNull(CoronaApi.getData()).toString());
+        CoronaEntity data = CoronaApi.getData();
+        if (data == null)
+            throw new IllegalStateException("data is null");
+
+        logger.info(data.toString());
     }
 
 }

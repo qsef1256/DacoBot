@@ -27,16 +27,15 @@ import static org.reflections.scanners.Scanners.TypesAnnotated;
 public class JpaEntityManagerFactory {
 
     @Getter
-    public static Configuration setting = null;
+    private static Configuration setting;
 
     private final Class<?>[] entityClasses;
 
     static {
-        Configurations configs = new Configurations();
         try {
-            setting = configs.properties(DiaSetting.SETTING_NAME + ".properties");
+            setting = new Configurations().properties(DiaSetting.SETTING_NAME + ".properties");
         } catch (ConfigurationException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

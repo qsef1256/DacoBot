@@ -8,9 +8,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
- * HTTP or REST API Connector, 비동기 처리
+ * HTTP or REST API Connector, 비동기 처리 필요
  */
 public class APIConnector implements AutoCloseable {
 
@@ -29,12 +30,25 @@ public class APIConnector implements AutoCloseable {
      */
     @NotNull
     public BufferedReader getResult(@NotNull String urlString) throws IOException {
-        return getResult(urlString, ContentType.APPLICATION_JSON);
+        return getResult(urlString, ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8));
     }
 
+    /**
+     * URL 로부터 데이터를 얻어옵니다.
+     *
+     * <p><b>주의: </b>비동기로 처리 되어야 합니다.</p>
+     *
+     * @param urlString url
+     * @return result BufferedReader
+     * @throws IOException when can't connect to url
+     * @implSpec Charset 은 UTF-8 을 사용합니다.
+     * @see #getResult(String, ContentType)
+     */
     @NotNull
     public BufferedReader getResult(@NotNull String urlString, @NotNull ContentType contentType) throws IOException {
         if (connection != null) close();
+        if (contentType.getCharset() != StandardCharsets.UTF_8)
+            throw new IllegalArgumentException("invalid charset in contentType, requires UTF-8: " + contentType.getCharset());
 
         URL url = new URL(urlString);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -44,11 +58,12 @@ public class APIConnector implements AutoCloseable {
         int code = conn.getResponseCode();
 
         BufferedReader br = (code >= 200 && code <= 300) ?
-                new BufferedReader(new InputStreamReader(conn.getInputStream())) :
-                new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                new BufferedReader(new InputStreamReader(conn.getInputStream(), StandardCharsets.UTF_8)) :
+                new BufferedReader(new InputStreamReader(conn.getErrorStream(), StandardCharsets.UTF_8));
 
         this.connection = conn;
         this.bufferedReader = br;
+
         return br;
     }
 
@@ -62,7 +77,7 @@ public class APIConnector implements AutoCloseable {
      */
     @NotNull
     public StringBuilder getResultAsString(@NotNull String urlString) throws IOException {
-        return getResultAsString(urlString, ContentType.APPLICATION_JSON);
+        return getResultAsString(urlString, ContentType.APPLICATION_JSON.withCharset(StandardCharsets.UTF_8));
     }
 
     @NotNull
@@ -74,6 +89,7 @@ public class APIConnector implements AutoCloseable {
         while ((line = br.readLine()) != null) {
             sb.append(line);
         }
+
         return sb;
     }
 

@@ -79,7 +79,7 @@ public class HangManCommand extends SlashCommand {
                 return;
             }
 
-            HangManContainer.setHangman(new HangMan(word));
+            HangManContainer.getInstance().setHangman(new HangMan(word));
             event.replyEmbeds(DiaEmbed.success("행맨 게임", "%s 단어로 행맨 게임을 시작합니다.".formatted(word), null).build())
                     .setEphemeral(true)
                     .queue();
@@ -122,7 +122,7 @@ public class HangManCommand extends SlashCommand {
                 event.reply("글자를 입력해주세요.").setEphemeral(true).queue();
                 return;
             }
-            HangMan hangman = HangManContainer.getHangman();
+            HangMan hangman = HangManContainer.getInstance().getHangman();
 
             String input = option.getAsString();
             try {
@@ -147,7 +147,7 @@ public class HangManCommand extends SlashCommand {
     }
 
     private static @NotNull EmbedBuilder getHangmanStatus() {
-        HangMan hangman = HangManContainer.getHangman();
+        HangMan hangman = HangManContainer.getInstance().getHangman();
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setColor(DiaColor.MAIN_COLOR);

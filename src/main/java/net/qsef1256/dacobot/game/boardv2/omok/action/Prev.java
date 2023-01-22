@@ -28,7 +28,8 @@ class Prev extends RemainGameAction {
 
     @Override
     public void execute() {
-        if (coordinate == null) throw new IllegalStateException("저장된 로그가 없습니다.");
+        if (coordinate == null)
+            throw new IllegalStateException("저장된 로그가 없습니다.");
 
         color = (EmojiPiece) board.getPiece(coordinate);
         board.setPiece(coordinate, color);

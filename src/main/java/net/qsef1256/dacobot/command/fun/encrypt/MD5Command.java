@@ -10,6 +10,7 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 
+import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
@@ -27,7 +28,7 @@ public class MD5Command extends SlashCommand {
     @NotNull
     public static String toMD5(@NotNull String content) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(content.getBytes());
+        md.update(content.getBytes(Charset.defaultCharset()));
 
         byte[] byteData = md.digest();
         StringBuilder sb = new StringBuilder();
@@ -35,6 +36,7 @@ public class MD5Command extends SlashCommand {
         for (byte byteDatum : byteData) {
             sb.append(Integer.toString((byteDatum & 0xff) + 0x100, 16).substring(1));
         }
+
         return sb.toString();
     }
 

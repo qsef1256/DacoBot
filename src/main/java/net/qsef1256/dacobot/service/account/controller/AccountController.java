@@ -27,6 +27,7 @@ public class AccountController {
 
             if (dao.existsById(discordId))
                 throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
+
             AccountEntity userData = new AccountEntity();
             userData.setDiscordId(discordId);
             userData.setRegisterTime(LocalDateTime.now());

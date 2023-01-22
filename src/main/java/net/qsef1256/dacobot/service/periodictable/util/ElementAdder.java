@@ -6,17 +6,17 @@ import net.qsef1256.dacobot.service.periodictable.entity.Element;
 import net.qsef1256.dacobot.service.periodictable.enums.GenerationCause;
 import net.qsef1256.dacobot.service.periodictable.enums.Phase;
 import net.qsef1256.dacobot.service.periodictable.enums.Series;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
 public class ElementAdder {
 
-    private static final Scanner sc = new Scanner(System.in);
+    private static final Scanner sc = new Scanner(System.in, StandardCharsets.UTF_8);
     private static final DaoCommonJpa<Element, Integer> elementDao = new DaoCommonJpaImpl<>(Element.class);
 
     private static final Logger log = LoggerFactory.getLogger(ElementAdder.class);
@@ -75,7 +75,6 @@ public class ElementAdder {
                 .build();
     }
 
-    @NotNull
     @Unmodifiable
     public static String scanValue(String valueName) {
         log.info(valueName);

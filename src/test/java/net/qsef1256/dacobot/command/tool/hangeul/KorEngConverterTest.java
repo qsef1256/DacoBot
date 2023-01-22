@@ -34,18 +34,22 @@ class KorEngConverterTest {
 
     @Test
     void engToKorSpecial() {
+        assertEquals("!", converter.engToKor("!"));
+        assertEquals("ㅓ퍼ㅓㅓㄻㅁㄹ", converter.engToKor("jvjjjfaaf"));
+        assertEquals("ㄻㄻㄻㄻ", converter.engToKor("fafafafa"));
         assertEquals("들고", converter.engToKor("emfrh"));
         assertEquals("글글글", converter.engToKor("rmfrmfrmf"));
         assertEquals("들긔마", converter.engToKor("emfrmlak"));
         assertEquals("닭과 꿩이 들고 있는 잔디깎이의 희망",
                 converter.engToKor("ekfrrhk Rnjddl emfrh dlTsms wkselRkRdldml gmlakd"));
-
         assertEquals("책상의자다리짚고돌기", converter.engToKor("cortkddmlwkekflwlvrhehfrl"));
         assertEquals("마법사 돌쇠 씨의 사과", converter.engToKor("akqjqtk ehfthl Tldml tkrhk"));
         assertEquals("샘플은 많으면 많을수록 좋다 다다익선이니",
                 converter.engToKor("toavmfdms aksgdmaus aksgdmftnfhr whgek ekekdlrtjsdlsl"));
         assertEquals("뉴모노울트라마이크로스코픽실리코볼케이노코니오시스",
                 converter.engToKor("sbahshdnfxmfkakdlzmfhtmzhvlrtlfflzhqhfzpdlshzhsldhtltm"));
+        assertEquals("깎깎", converter.engToKor("RKRRKR"));
+        assertEquals("뒤틀린얀", converter.engToKor("enlxmfflsdis"));
     }
 
 }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Map;
 
 @Getter
-public enum MedialConsonant {
+public enum MedialConsonant implements Consonant {
 
     AH("k", "ㅏ"),
     AE("o", "ㅐ"),
@@ -36,11 +36,12 @@ public enum MedialConsonant {
             EnumUtil.toMap(MedialConsonant::getKor, MedialConsonant.class);
     private static final Map<String, MedialConsonant> fromEng =
             EnumUtil.toMap(MedialConsonant::getEng, MedialConsonant.class);
-
+    @NotNull
     private final String eng;
+    @NotNull
     private final String kor;
 
-    MedialConsonant(String eng, String kor) {
+    MedialConsonant(@NotNull String eng, @NotNull String kor) {
         this.eng = eng;
         this.kor = kor;
     }

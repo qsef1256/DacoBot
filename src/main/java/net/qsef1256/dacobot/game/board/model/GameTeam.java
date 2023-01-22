@@ -11,7 +11,7 @@ import java.util.Set;
 public class GameTeam {
 
     private GamePiece piece;
-
+    
     private Set<User> users;
 
     public void addUser(User user) {

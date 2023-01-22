@@ -20,23 +20,18 @@ import java.util.Properties;
  * <p>Licensed under MIT
  * <a href="https://github.com/eugenp/tutorials/blob/master/persistence-modules/hibernate-jpa/src/main/java/com/baeldung/hibernate/jpabootstrap/config/HibernatePersistenceUnitInfo.java">Original Source</a>
  */
+@Getter
 public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
 
     public static final String JPA_VERSION = "2.1";
 
     private final String persistenceUnitName;
     private PersistenceUnitTransactionType transactionType = PersistenceUnitTransactionType.RESOURCE_LOCAL;
-    @Getter
     private final List<String> managedClassNames;
-    @Getter
     private final List<String> mappingFileNames = new ArrayList<>();
-    @Getter
     private final Properties properties;
-    @Getter
     private DataSource jtaDataSource;
-    @Getter
     private DataSource nonJtaDataSource;
-    @Getter
     private final List<ClassTransformer> transformers = new ArrayList<>();
 
     public PersistenceUnitInfoImpl(String persistenceUnitName, List<String> managedClassNames, Properties properties) {
@@ -46,18 +41,8 @@ public class PersistenceUnitInfoImpl implements PersistenceUnitInfo {
     }
 
     @Override
-    public String getPersistenceUnitName() {
-        return persistenceUnitName;
-    }
-
-    @Override
     public String getPersistenceProviderClassName() {
         return HibernatePersistenceProvider.class.getName();
-    }
-
-    @Override
-    public PersistenceUnitTransactionType getTransactionType() {
-        return transactionType;
     }
 
     public PersistenceUnitInfoImpl setJtaDataSource(DataSource jtaDataSource) {

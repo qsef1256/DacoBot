@@ -2,12 +2,12 @@ package net.qsef1256.dacobot.command.tool.hangeul;
 
 import lombok.Getter;
 import lombok.SneakyThrows;
-import net.qsef1256.dacobot.command.tool.hangeul.consonant.FinalConsonant;
-import net.qsef1256.dacobot.command.tool.hangeul.consonant.InitialConsonant;
-import net.qsef1256.dacobot.command.tool.hangeul.consonant.MedialConsonant;
-import net.qsef1256.dacobot.command.tool.hangeul.consonant.SingleKorChar;
+import net.qsef1256.dacobot.command.tool.hangeul.consonant.*;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * <a href="https://namu.wiki/w/%ED%95%9C%EC%98%81%20%EC%A0%84%ED%99%98%20%EB%8B%A8%EC%96%B4">한영 전환 단어</a>를 변환합니다.
@@ -28,10 +28,10 @@ public class KorEngConverter {
         StringBuilder result = new StringBuilder();
 
         while (!eng.isBlank()) {
-            StringBuilder removeBuffer = new StringBuilder();
+            AtomicInteger removeCount = new AtomicInteger(0);
 
-            result.append(processSingleChar(eng, removeBuffer));
-            eng = StringUtils.removeStart(eng, removeBuffer.toString());
+            result.append(processSingleChar(eng.substring(0, Math.min(6, eng.length())), removeCount));
+            eng = StringUtils.substring(eng, removeCount.get());
         }
 
         return result.toString();
@@ -42,45 +42,52 @@ public class KorEngConverter {
     // 3. 종성이 초성으로도 사용될 수 있는 경우 다음 글자가 중성인지 확인하고 맞다면 1로 돌아감 (이때 '글고' 처럼 종성이 남아있을 수 있음)
     // 4. 종성은 없어도 되나, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인해서 종성이 있는지 확인하고 있을 경우 글자에 포함함
     @NotNull
-    private String processSingleChar(@NotNull String eng, @NotNull StringBuilder removeBuffer) {
+    private String processSingleChar(@NotNull String eng, AtomicInteger removeCount) {
         // 1
+        // check Final Consonant only
+        SingleChar<FinalConsonant> lastConsonant = new SingleChar<>(eng, FinalConsonant::fromEng);
+        if (lastConsonant.hasConsonant() && !lastConsonant.hasNextConsonant(MedialConsonant::fromEng)) {
+            removeCount.addAndGet(lastConsonant.getCharacter().length());
+
+            return lastConsonant.toString();
+        }
+
+        // check MedialConsonant only
+        SingleChar<MedialConsonant> medialConsonant = new SingleChar<>(eng, MedialConsonant::fromEng);
+        if (medialConsonant.hasConsonant()) {
+            removeCount.addAndGet(medialConsonant.getCharacter().length());
+
+            return medialConsonant.toString();
+        }
+
+        // start create character
         String initialChar = String.valueOf(eng.charAt(0));
         InitialConsonant initial = InitialConsonant.fromEng(initialChar);
 
-        removeBuffer.append(initialChar);
-        eng = StringUtils.removeStart(eng, initialChar);
-
         if (initial == null) {
+            removeCount.addAndGet(initialChar.length());
             return initialChar;
         }
+
+        removeCount.addAndGet(initialChar.length());
+        eng = StringUtils.removeStart(eng, initialChar);
 
         if (eng.isBlank()) {
             return initial.getKor();
         }
 
         // 2
-        String medialChar = "";
-        MedialConsonant medial = null;
+        SingleChar<MedialConsonant> medial = new SingleChar<>(eng, MedialConsonant::fromEng);
 
-        if (eng.length() >= 2) {
-            medialChar = String.valueOf(eng.charAt(0)) + eng.charAt(1);
-            medial = MedialConsonant.fromEng(medialChar);
-        }
-
-        if (eng.length() >= 1 && medial == null) {
-            medialChar = String.valueOf(eng.charAt(0));
-            medial = MedialConsonant.fromEng(medialChar);
-        }
-
-        if (medial == null) {
+        if (medial.getConsonant() == null) {
             return initial.getKor();
         }
 
-        removeBuffer.append(medialChar);
-        eng = StringUtils.removeStart(eng, medialChar);
+        removeCount.addAndGet(medial.getCharacter().length());
+        eng = StringUtils.removeStart(eng, medial.getCharacter());
 
         // 3
-        // 종성이 남아있는 경우
+        // case of with FinalConsonant
         if (checkGhostFire(eng, 1)) {
             String lastChar = String.valueOf(eng.charAt(0));
             FinalConsonant last = FinalConsonant.fromEng(lastChar);
@@ -89,37 +96,24 @@ public class KorEngConverter {
                 lastChar = "";
                 last = FinalConsonant.NONE;
             }
-            removeBuffer.append(lastChar);
+            removeCount.addAndGet(lastChar.length());
 
-            return new SingleKorChar(initial, medial, last).toString();
+            return new SingleKorChar(initial, medial.getConsonant(), last).toString();
         }
 
-        // 그렇지 않은 경우
+        // case of without FinalConsonant
         if (checkGhostFire(eng, 0)) {
-            return new SingleKorChar(initial, medial, FinalConsonant.NONE).toString();
+            return new SingleKorChar(initial, medial.getConsonant(), FinalConsonant.NONE).toString();
         }
 
         // 4
-        String lastChar = "";
-        FinalConsonant last = null;
+        SingleChar<FinalConsonant> last = new SingleChar<>(eng, FinalConsonant::fromEng);
 
-        if (eng.length() >= 2) {
-            lastChar = String.valueOf(eng.charAt(0)) + eng.charAt(1);
-            last = FinalConsonant.fromEng(lastChar);
-        }
+        removeCount.addAndGet(last.getCharacter().length());
 
-        if (eng.length() >= 1 && last == null) {
-            lastChar = String.valueOf(eng.charAt(0));
-            last = FinalConsonant.fromEng(lastChar);
-        }
-
-        if (last == null) {
-            lastChar = "";
-            last = FinalConsonant.NONE;
-        }
-        removeBuffer.append(lastChar);
-
-        return new SingleKorChar(initial, medial, last).toString();
+        return new SingleKorChar(initial, medial.getConsonant(), Optional
+                .ofNullable(last.getConsonant())
+                .orElse(FinalConsonant.NONE)).toString();
     }
 
     /**
@@ -128,19 +122,19 @@ public class KorEngConverter {
      * @param pointer location of start checking
      */
     private boolean checkGhostFire(@NotNull String eng, int pointer) {
-        if (eng.length() >= 1 + pointer && InitialConsonant.fromEng(String.valueOf(eng.charAt(pointer))) != null) {
+        if (eng.length() >= 2 + pointer && InitialConsonant.fromEng(String.valueOf(eng.charAt(pointer))) != null) {
             String secondMedialChar;
             MedialConsonant secondMedial = null;
 
-            String medialCharAtOne = String.valueOf(eng.charAt(1 + pointer));
+            String firstMedialChar = String.valueOf(eng.charAt(1 + pointer));
 
             if (eng.length() >= 3 + pointer) {
-                secondMedialChar = medialCharAtOne + eng.charAt(2 + pointer);
+                secondMedialChar = firstMedialChar + eng.charAt(2 + pointer);
                 secondMedial = MedialConsonant.fromEng(secondMedialChar);
             }
 
-            if (eng.length() >= 2 + pointer && secondMedial == null) {
-                secondMedialChar = medialCharAtOne;
+            if (secondMedial == null) {
+                secondMedialChar = firstMedialChar;
                 secondMedial = MedialConsonant.fromEng(secondMedialChar);
             }
 

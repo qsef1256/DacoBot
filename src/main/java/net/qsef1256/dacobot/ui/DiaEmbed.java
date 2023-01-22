@@ -13,7 +13,7 @@ import org.jetbrains.annotations.Nullable;
 public class DiaEmbed {
 
     /**
-     * 오류 임베드를 작성합니다. 모든 항목은 없을 수 있습니다.
+     * 오류 임베드를 작성합니다.
      *
      * @param title Error title
      * @param desc  description
@@ -22,7 +22,10 @@ public class DiaEmbed {
      * @return error message EmbedBuilder
      */
     @NotNull
-    public static EmbedBuilder error(@Nullable String title, @Nullable String desc, Throwable e, @Nullable User user) {
+    public static EmbedBuilder error(@Nullable String title,
+                                     @Nullable String desc,
+                                     @Nullable Throwable e,
+                                     @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.FAIL);
@@ -36,7 +39,9 @@ public class DiaEmbed {
     }
 
     @NotNull
-    public static EmbedBuilder main(@Nullable String title, @Nullable String desc, @Nullable User user) {
+    public static EmbedBuilder main(@Nullable String title,
+                                    @Nullable String desc,
+                                    @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.MAIN_COLOR);
@@ -48,7 +53,9 @@ public class DiaEmbed {
     }
 
     @NotNull
-    public static EmbedBuilder info(@Nullable String title, @Nullable String desc, @Nullable User user) {
+    public static EmbedBuilder info(@Nullable String title,
+                                    @Nullable String desc,
+                                    @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.INFO);
@@ -60,7 +67,9 @@ public class DiaEmbed {
     }
 
     @NotNull
-    public static EmbedBuilder success(@Nullable String title, @Nullable String desc, @Nullable User user) {
+    public static EmbedBuilder success(@Nullable String title,
+                                       @Nullable String desc,
+                                       @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.SUCCESS);
@@ -72,7 +81,9 @@ public class DiaEmbed {
     }
 
     @NotNull
-    public static EmbedBuilder fail(@Nullable String title, @Nullable String desc, @Nullable User user) {
+    public static EmbedBuilder fail(@Nullable String title,
+                                    @Nullable String desc,
+                                    @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.FAIL);
@@ -84,7 +95,9 @@ public class DiaEmbed {
     }
 
     @NotNull
-    public static EmbedBuilder severe(@Nullable String title, @Nullable String desc, @Nullable User user) {
+    public static EmbedBuilder severe(@Nullable String title,
+                                      @Nullable String desc,
+                                      @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.SEVERE);
