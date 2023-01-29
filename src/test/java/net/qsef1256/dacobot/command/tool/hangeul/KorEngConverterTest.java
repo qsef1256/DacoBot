@@ -50,6 +50,7 @@ class KorEngConverterTest {
                 converter.engToKor("sbahshdnfxmfkakdlzmfhtmzhvlrtlfflzhqhfzpdlshzhsldhtltm"));
         assertEquals("깎깎", converter.engToKor("RKRRKR"));
         assertEquals("뒤틀린얀", converter.engToKor("enlxmfflsdis"));
+        assertEquals("붪궖부ㅝㄽ괈", converter.engToKor("qnjfvrnjfvqnnjftrhkft"));
     }
 
 }

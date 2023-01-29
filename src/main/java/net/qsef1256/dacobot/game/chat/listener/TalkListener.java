@@ -16,7 +16,11 @@ public class TalkListener implements CommandListener {
     public void onNonCommandMessage(@NotNull MessageReceivedEvent event) {
         String message = event.getMessage().getContentDisplay();
         String prefix = DacoBot.getCommandClient().getPrefix();
-        if (!message.startsWith(prefix.trim())) return;
+        if (!message.startsWith(prefix.trim())) {
+            // TODO: DacoChat
+
+            event.getChannel().sendMessage("모?루").queue();
+        }
     }
 
     @Override
