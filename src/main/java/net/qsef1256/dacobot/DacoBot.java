@@ -62,7 +62,7 @@ public class DacoBot {
         commandClientBuilder.useHelpBuilder(true);
         commandClientBuilder.setHelpWord("도움말");
         commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
-        commandClientBuilder.setPrefix("다코야 ");
+        commandClientBuilder.setPrefix("다코야");
         commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
 
         try {

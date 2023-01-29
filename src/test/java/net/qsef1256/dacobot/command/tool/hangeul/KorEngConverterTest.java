@@ -8,12 +8,14 @@ class KorEngConverterTest {
 
     static KorEngConverter converter = KorEngConverter.getInstance();
 
+    /*
     @Test
     void korToEng() {
         String kor = "안녕하세요!!!";
 
         // TODO
     }
+    */
 
     @Test
     void engToKor() {
