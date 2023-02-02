@@ -1,100 +1,96 @@
 package net.qsef1256.dacobot.setting;
 
 import lombok.Getter;
-import lombok.experimental.UtilityClass;
+import lombok.SneakyThrows;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dialib.util.CommonUtil;
-import net.qsef1256.dialib.util.PropertiesUtil;
+import net.qsef1256.dialib.io.FileLoader;
+import net.qsef1256.dialib.io.provider.ExecutionPathProvider;
+import net.qsef1256.dialib.io.provider.ResourceFolderProvider;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.InvalidPropertiesFormatException;
 import java.util.List;
-import java.util.Properties;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
-@UtilityClass
+@Getter
 public class DiaSetting {
 
-    public static final String PROJECT_NAME = "project";
-    public static final String SETTING_NAME = "setting";
-    public static final String KEY_NAME = "key";
+    @Getter
+    private static final DiaSetting instance = new DiaSetting();
 
-    @Getter
-    private static Properties setting;
-    @Getter
-    private static Properties key;
-    @Getter
-    private static Properties project;
-    @Getter
-    private static ZoneId zoneId;
+    private Configuration setting;
+    private Configuration project;
+    private Configuration key;
+    private ZoneId zoneId;
 
-    static {
+    @SneakyThrows
+    private DiaSetting() {
+        init();
+    }
+
+    public void init() throws ConfigurationException {
         try {
-            DiaSetting.initSettings();
-        } catch (InvalidPropertiesFormatException e) {
-            e.printStackTrace();
-            System.exit(1);
+            setting = new Configurations().properties(getFile("setting.properties"));
+            project = new Configurations().properties(getProjectFile());
+            key = new Configurations().properties(getFile("key.properties"));
+
+            zoneId = ZoneId.of(getSetting().getString("bot.timer.zone"));
+        } catch (IOException e) {
+            throw new ConfigurationException(e);
         }
     }
 
-    private static void initSettings() throws InvalidPropertiesFormatException {
-        try {
-            setting = PropertiesUtil.loadFile(SETTING_NAME);
-            key = PropertiesUtil.loadFile(KEY_NAME);
-            project = PropertiesUtil.loadFile(PROJECT_NAME);
-        } catch (final RuntimeException e) {
-            logger.error("Error on loading properties");
-            e.printStackTrace();
-        }
-
-        if (CommonUtil.anyNull(setting, key))
-            throw new InvalidPropertiesFormatException("bot properties is null");
-
-        zoneId = ZoneId.of(getSetting().getProperty("bot.timer.zone"));
-
-        logger.info("main Package: %s".formatted(setting.getProperty("main.package")));
+    private File getFile(String fileName) throws FileNotFoundException {
+        return FileLoader.getFirst(fileName,
+                new ExecutionPathProvider(getClass()),
+                new ResourceFolderProvider(getClass().getClassLoader()));
     }
 
-    public static @NotNull List<Guild> getAllGuilds() {
-        List<Guild> guilds = new ArrayList<>();
-
-        guilds.add(getMainGuild());
-        for (String subGuildId : DiaSetting.getSetting().getProperty("bot.subGuildIds").split(",\\s*")) {
-            guilds.add(DacoBot.getJda().getGuildById(subGuildId));
-        }
-        return guilds;
+    @NotNull
+    private File getProjectFile() throws IOException {
+        return FileLoader.getFromResource(getClass().getClassLoader(), "project.properties");
     }
 
-    public static Guild getMainGuild() {
+    public Guild getMainGuild() {
         return DacoBot.getJda().getGuildById(getMainGuildID());
     }
 
-    public static @NotNull Long getMainGuildID() {
-        return Long.parseLong(DiaSetting.getSetting().getProperty("bot.mainGuildId"));
+    public @NotNull Long getMainGuildID() {
+        return Long.parseLong(getSetting().getString("bot.mainGuildId"));
     }
 
-    public static MessageChannel getMainChannel() {
+    public MessageChannel getMainChannel() {
         return getMainGuild().getTextChannelById(getMainChannelId());
     }
 
-    public static @NotNull Long getMainChannelId() {
-        return Long.parseLong(DiaSetting.getSetting().getProperty("bot.mainChannelId"));
+    public @NotNull Long getMainChannelId() {
+        return Long.parseLong(getSetting().getString("bot.mainChannelId"));
     }
 
-    // TODO: for external resource (like config file)
-    // TODO: 예를 들어 단독 jar 파일로 실행되는 경우 config.properties 파일을 resource 에서 찾는 것은 비효율적
-    @NotNull
-    public static String getResourcesPath() {
-        File currDir = new File(".");
-        String path = currDir.getAbsolutePath();
-        path = path.substring(0, path.length() - 2);
-        return path + File.separator + "src" + File.separator + "main" + File.separator + "resources";
+    public String getMainPackage() {
+        return getSetting().getString("main.package");
+    }
+
+    public String getMainClass() {
+        return getSetting().getString("main.class");
+    }
+
+    public @NotNull List<Guild> getAllGuilds() {
+        List<Guild> guilds = new ArrayList<>();
+
+        guilds.add(getMainGuild());
+        for (String subGuildId : getSetting().getString("bot.subGuildIds").split(",\\s*")) {
+            guilds.add(DacoBot.getJda().getGuildById(subGuildId));
+        }
+        return guilds;
     }
 
 }

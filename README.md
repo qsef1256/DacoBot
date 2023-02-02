@@ -15,6 +15,13 @@ https://discord.gg/uDEVbvJ55q
 
 * /도움말
 
+### Setting
+
+* `setting.properties`
+* `key.properties`
+
+해당 파일은 설정 파일을 jar 파일과 같은 디렉터리에 위치시키는 것으로 로드시킬 수 있음
+
 ## TODO
 
 * 이용 약관, 개인정보 처리방침
@@ -52,6 +59,7 @@ https://discord.gg/uDEVbvJ55q
     * [Apache Commons DBCP](https://commons.apache.org/proper/commons-dbcp/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
     * [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
     * [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
+    * [Apache Commons IO](https://commons.apache.org/proper/commons-io/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
     * [Apache Maven Model](https://maven.apache.org/ref/3.8.6/maven-model/): Copyright 2001-2022 The Apache Software Foundation `Apache-2.0`
 * 테스트/로깅 라이브러리
     * [JUnit 5](https://junit.org/junit5/): Copyright © 2022 The JUnit Team `EPL-2.0`

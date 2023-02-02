@@ -53,8 +53,8 @@ public class CreditCommand extends SlashCommand {
 
             try {
                 model = MavenUtil.getMavenModel(
-                        DiaSetting.getProject().getProperty("groupId"),
-                        DiaSetting.getProject().getProperty("artifactId"));
+                        DiaSetting.getInstance().getProject().getString("groupId"),
+                        DiaSetting.getInstance().getProject().getString("artifactId"));
             } catch (final RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
@@ -135,6 +135,7 @@ public class CreditCommand extends SlashCommand {
                             [Apache Commons DBCP](https://commons.apache.org/proper/commons-dbcp/): `Apache-2.0`
                             [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/): `Apache-2.0`
                             [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/): `Apache-2.0`
+                            [Apache Commons IO](https://commons.apache.org/proper/commons-io/): `Apache-2.0`
                             [Apache Maven Model](https://maven.apache.org/ref/3.8.6/maven-model/): `Apache-2.0`
                             """, false)
                     .addField("테스트/로깅 라이브러리", """

@@ -21,7 +21,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @UtilityClass
 public class ShortWeatherAPI {
 
-    private static final String TOKEN = DiaSetting.getKey().getProperty("weather.token");
+    private static final String TOKEN = DiaSetting.getInstance().getKey().getString("weather.token");
 
     /**
      * 기상청으로부터 데이터를 받습니다.

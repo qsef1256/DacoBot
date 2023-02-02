@@ -26,7 +26,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @UtilityClass
 public class DiaScheduler {
 
-    private static final ZonedDateTime now = ZonedDateTime.now(DiaSetting.getZoneId());
+    private static final ZonedDateTime now = ZonedDateTime.now(DiaSetting.getInstance().getZoneId());
 
     @Getter
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);

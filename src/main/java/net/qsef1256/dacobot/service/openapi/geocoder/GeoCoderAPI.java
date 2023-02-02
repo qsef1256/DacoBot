@@ -14,7 +14,7 @@ public class GeoCoderAPI {
 
     public static void main(String[] args) throws IOException {
         String address = "동편로 80";
-        String token = DiaSetting.getKey().getProperty("geocoder.token");
+        String token = DiaSetting.getInstance().getKey().getString("geocoder.token");
         String urlString = "http://api.vworld.kr/req/address" +
                 "?" + URLEncoder.encode("service", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("address", StandardCharsets.UTF_8) +
                 "&" + URLEncoder.encode("request", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("getcoord", StandardCharsets.UTF_8) +

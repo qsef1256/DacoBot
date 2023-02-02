@@ -7,8 +7,6 @@ import lombok.Getter;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.util.ReflectionUtil;
 import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.builder.fluent.Configurations;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 import org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor;
@@ -27,17 +25,9 @@ import static org.reflections.scanners.Scanners.TypesAnnotated;
 public class JpaEntityManagerFactory {
 
     @Getter
-    private static Configuration setting;
+    private static final Configuration setting = DiaSetting.getInstance().getSetting();
 
     private final Class<?>[] entityClasses;
-
-    static {
-        try {
-            setting = new Configurations().properties(DiaSetting.SETTING_NAME + ".properties");
-        } catch (ConfigurationException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     public JpaEntityManagerFactory() {
         final Set<Class<?>> annotated =
@@ -46,7 +36,7 @@ public class JpaEntityManagerFactory {
     }
 
     protected EntityManagerFactory getEntityManagerFactory() {
-        PersistenceUnitInfo persistenceUnitInfo = getPersistenceUnitInfo(setting.getString("main.package"));
+        PersistenceUnitInfo persistenceUnitInfo = getPersistenceUnitInfo(DiaSetting.getInstance().getMainPackage());
         Map<String, Object> configuration = new HashMap<>();
         return new EntityManagerFactoryBuilderImpl(new PersistenceUnitInfoDescriptor(persistenceUnitInfo), configuration).build();
     }

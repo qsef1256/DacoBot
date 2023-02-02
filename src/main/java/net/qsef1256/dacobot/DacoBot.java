@@ -25,6 +25,7 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.ReflectionUtil;
 import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +48,8 @@ public class DacoBot {
     private static CommandClient commandClient;
     private static String[] args;
 
-    public static void main(final String[] args) throws LoginException, InterruptedException {
-        String token = DiaSetting.getKey().getProperty("discord.token");
+    public static void main(final String[] args) throws LoginException, InterruptedException, ConfigurationException {
+        String token = DiaSetting.getInstance().getKey().getString("discord.token");
 
         DacoBot.args = args;
 
@@ -56,9 +57,9 @@ public class DacoBot {
         Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
 
         final CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
-        commandClientBuilder.setOwnerId(DiaSetting.getSetting().getProperty("bot.ownerId"));
+        commandClientBuilder.setOwnerId(DiaSetting.getInstance().getSetting().getString("bot.ownerId"));
         commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
-        commandClientBuilder.forceGuildOnly(DiaSetting.getSetting().getProperty("bot.mainGuildId"));
+        commandClientBuilder.forceGuildOnly(DiaSetting.getInstance().getMainGuildID());
         commandClientBuilder.useHelpBuilder(true);
         commandClientBuilder.setHelpWord("도움말");
         commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
@@ -92,9 +93,9 @@ public class DacoBot {
         jda.awaitReady();
 
         // TODO: global command
-        DiaSetting.getAllGuilds().forEach(DacoBot::upsertGuildCommands);
+        DiaSetting.getInstance().getAllGuilds().forEach(DacoBot::upsertGuildCommands);
 
-        LocalDateTimeUtil.setZoneId(DiaSetting.getZoneId());
+        LocalDateTimeUtil.setZoneId(DiaSetting.getInstance().getZoneId());
         DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);
 
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");

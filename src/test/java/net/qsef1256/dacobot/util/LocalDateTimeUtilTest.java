@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class LocalDateTimeUtilTest {
 
     LocalDateTime utcNow = LocalDateTime.now(ZoneId.of("Etc/UTC"));
-    LocalDateTime now = ZonedDateTime.now(DiaSetting.getZoneId()).toLocalDateTime();
+    LocalDateTime now = ZonedDateTime.now(DiaSetting.getInstance().getZoneId()).toLocalDateTime();
 
     @Test
     void isToday() {

@@ -100,7 +100,6 @@
                         <goals>
                             <goal>jandex</goal>
                         </goals>
-                        <!-- phase is 'process-classes by default' -->
                         <configuration>
                             <!-- Nothing needed here for simple cases -->
                         </configuration>
@@ -179,7 +178,7 @@
         <dependency>
             <groupId>net.qsef1256</groupId>
             <artifactId>DiaLib</artifactId>
-            <version>1.1.6</version>
+            <version>1.1.7</version>
         </dependency>
 
         <!-- Function Library -->
