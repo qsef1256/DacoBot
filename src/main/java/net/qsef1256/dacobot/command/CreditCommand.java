@@ -86,7 +86,7 @@ public class CreditCommand extends SlashCommand {
                     .addField("연락처", "`qsef1256@naver.com`", true)
                     .addField("가동 시간", formattedUptime, true)
                     .addField("", message, false)
-                    .setFooter("provided by JDA v4.4.0_350")
+                    .setFooter("provided by JDA v4.4.0_352")
                     .build()).queue();
         }
 
