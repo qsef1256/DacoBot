@@ -6,12 +6,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class CleanChannelCommand extends SlashCommand {
 
-    private static final String CLEAN_MESSAGE = "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n" +
-            "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n";
-
     public CleanChannelCommand() {
         name = "청소";
         help = "채팅을 지웁니다.";
+
+        ownerCommand = true;
     }
 
     @Override
@@ -20,5 +19,59 @@ public class CleanChannelCommand extends SlashCommand {
 
         event.reply("채팅 청소가 완료 되었습니다.").queue();
     }
+
+    private static final String CLEAN_MESSAGE =
+            """
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    ㅤ
+                    """;
 
 }
