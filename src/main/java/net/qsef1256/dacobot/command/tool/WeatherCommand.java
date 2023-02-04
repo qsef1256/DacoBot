@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.command.tool;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.qsef1256.dacobot.service.openapi.weather.ShortWeatherAPI;
 import net.qsef1256.dacobot.service.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.service.openapi.weather.model.Forecast;

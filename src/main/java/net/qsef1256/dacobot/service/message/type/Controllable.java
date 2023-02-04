@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.service.message.type;
 
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 
 public interface Controllable extends AbstractMessage {
 
@@ -10,7 +10,7 @@ public interface Controllable extends AbstractMessage {
      */
     void invalidate();
 
-    void edit(MessageBuilder content);
+    void edit(MessageEditBuilder content);
 
     void remove();
 

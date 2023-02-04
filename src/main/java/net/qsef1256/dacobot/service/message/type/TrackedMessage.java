@@ -3,8 +3,9 @@ package net.qsef1256.dacobot.service.message.type;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.data.MessageData;
@@ -17,20 +18,25 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
     @Getter
     protected final ManagedKey key;
     @Getter
-    protected final MessageBuilder message;
+    protected final MessageCreateBuilder message;
     @Nullable
     protected Runnable onRemove;
 
     private final MessageChannel channel;
 
-    public TrackedMessage(ManagedKey key, MessageBuilder message, MessageChannel channel) {
+    public TrackedMessage(@NotNull ManagedKey key,
+                          @NotNull MessageCreateBuilder message,
+                          @NotNull MessageChannel channel) {
         this.key = key;
         this.message = message;
         this.channel = channel;
         this.onRemove = null;
     }
 
-    public TrackedMessage(ManagedKey key, MessageBuilder message, MessageChannel channel, @Nullable Runnable onRemove) {
+    public TrackedMessage(@NotNull ManagedKey key,
+                          @NotNull MessageCreateBuilder message,
+                          @NotNull MessageChannel channel,
+                          @Nullable Runnable onRemove) {
         this(key, message, channel);
         this.onRemove = onRemove;
     }
@@ -47,7 +53,7 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
     }
 
     @Override
-    public void edit(@NotNull MessageBuilder content) {
+    public void edit(@NotNull MessageEditBuilder content) {
         MessageData messageData = getMessageData();
         messageData.getChannel().editMessageById(messageData.getMessageId(), content.build()).queue();
     }
@@ -58,7 +64,7 @@ public class TrackedMessage implements AbstractMessage, Controllable, Timed {
     }
 
     @Override
-    public void move(MessageChannel channel) {
+    public void move(@NotNull MessageChannel channel) {
         remove();
 
         new TrackedMessage(key, message, channel, onRemove).send();

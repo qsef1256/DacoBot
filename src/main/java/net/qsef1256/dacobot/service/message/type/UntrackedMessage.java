@@ -1,17 +1,17 @@
 package net.qsef1256.dacobot.service.message.type;
 
 import lombok.Getter;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 
 public class UntrackedMessage implements AbstractMessage {
 
     @Getter
-    private final MessageBuilder message;
+    private final MessageCreateBuilder message;
     @Getter
     private final MessageChannel channel;
 
-    public UntrackedMessage(MessageBuilder message, MessageChannel channel) {
+    public UntrackedMessage(MessageCreateBuilder message, MessageChannel channel) {
         this.message = message;
         this.channel = channel;
     }

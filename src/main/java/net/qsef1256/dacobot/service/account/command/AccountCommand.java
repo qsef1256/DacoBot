@@ -1,10 +1,10 @@
 package net.qsef1256.dacobot.service.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
 import net.qsef1256.dacobot.service.account.controller.AccountController;
@@ -152,7 +152,7 @@ public class AccountCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
         }
-        
+
     }
 
 }

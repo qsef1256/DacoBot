@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.service.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.service.account.data.AccountEntity;

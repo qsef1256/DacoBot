@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.board.model;
 
 import lombok.Getter;
-import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import org.jetbrains.annotations.NotNull;
 
@@ -46,7 +46,7 @@ public abstract class GameHost<T extends Game> implements Game {
         return game.playerExist(userId);
     }
 
-    public @NotNull MessageBuilder getUIMessage() {
+    public @NotNull MessageCreateBuilder getUIMessage() {
         return game.getUI().getUIMessage();
     }
 

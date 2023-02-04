@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.service.account.listener;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.service.account.command.AccountCommand;
@@ -22,7 +22,7 @@ public class AccountButtonListener extends ListenerAdapter {
      * @see AccountCommand
      */
     @Override
-    public void onButtonClick(final @NotNull ButtonClickEvent event) { // TODO: refactoring to Account model
+    public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) { // TODO: refactoring to Account model
         switch (event.getComponentId()) {
             case "account_reset" -> {
                 final User user = event.getUser();
@@ -38,7 +38,6 @@ public class AccountButtonListener extends ListenerAdapter {
                             .build()
                     ).queue();
 
-                    if (event.getButton() == null) return;
                     event.editButton(event.getButton().asDisabled()).queue();
                 } catch (RuntimeException ex) {
                     event.replyEmbeds(DiaEmbed.error("계정 초기화 실패", null, ex, user)
@@ -50,7 +49,6 @@ public class AccountButtonListener extends ListenerAdapter {
                     ex.printStackTrace();
                 }
 
-                if (event.getButton() == null) return;
                 event.editButton(event.getButton().asDisabled()).queue();
             }
 
@@ -68,7 +66,6 @@ public class AccountButtonListener extends ListenerAdapter {
                             .build()
                     ).queue();
 
-                    if (event.getButton() == null) return;
                     event.editButton(event.getButton().asDisabled()).queue();
                 } catch (RuntimeException ex) {
                     event.replyEmbeds(DiaEmbed.error("계정 삭제 실패", null, ex, user)
@@ -80,7 +77,6 @@ public class AccountButtonListener extends ListenerAdapter {
                     ex.printStackTrace();
                 }
 
-                if (event.getButton() == null) return;
                 event.editButton(event.getButton().asDisabled()).queue();
             }
 

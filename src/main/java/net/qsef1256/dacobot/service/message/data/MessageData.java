@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.service.message.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 
 @Data
 @AllArgsConstructor

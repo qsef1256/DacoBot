@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.game.paint.listener;
 
 import net.dv8tion.jda.api.entities.MessageReaction;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -30,7 +31,7 @@ public class PaintReactionListener extends ListenerAdapter {
         event.retrieveMessage().queue(callback -> {
             ColorEmoji selectedColor = PaintDrawer.getColor(userId);
             if (selectedColor != null) {
-                String emoji = selectedColor.getEmoji();
+                Emoji emoji = Emoji.fromUnicode(selectedColor.getEmoji());
                 callback.removeReaction(emoji, user.get()).queue();
             }
 
@@ -43,9 +44,8 @@ public class PaintReactionListener extends ListenerAdapter {
         Long drawerId = PaintDrawer.getDrawerId(userId);
         if (drawerId == null) return null;
         if (messageIdLong != drawerId) return null;
-        MessageReaction.ReactionEmote reactionEmote = reaction.getReactionEmote();
 
-        return ColorEmoji.findByEmoji(reactionEmote.getEmoji());
+        return ColorEmoji.findByEmoji(reaction.getEmoji().getAsReactionCode());
     }
 
     @Override

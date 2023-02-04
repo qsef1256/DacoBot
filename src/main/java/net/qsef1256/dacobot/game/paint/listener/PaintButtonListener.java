@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.game.paint.listener;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.paint.command.PaintCommand;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
@@ -19,7 +19,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 public class PaintButtonListener extends ListenerAdapter {
 
     @Override
-    public void onButtonClick(final @NotNull ButtonClickEvent event) {
+    public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) {
         switch (event.getComponentId()) {
 
             case "paint_erase" -> {

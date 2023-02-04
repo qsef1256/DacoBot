@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.board.omok.listener;
 
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.exceptions.ErrorResponseException;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.board.omok.model.OmokController;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 public class OmokButtonListener extends ListenerAdapter {
 
     @Override
-    public void onButtonClick(@NotNull ButtonClickEvent event) {
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         switch (event.getComponentId()) {
 
             case "omok_confirm" -> {

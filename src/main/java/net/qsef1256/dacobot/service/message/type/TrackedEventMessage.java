@@ -1,10 +1,11 @@
 package net.qsef1256.dacobot.service.message.type;
 
 import com.sun.jdi.request.DuplicateRequestException;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
-import net.dv8tion.jda.api.interactions.Interaction;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.message.MessageApiImpl;
 import net.qsef1256.dacobot.service.message.data.MessageData;
@@ -15,15 +16,15 @@ import org.jetbrains.annotations.NotNull;
  */
 public class TrackedEventMessage extends TrackedMessage implements Timed {
 
-    private final Interaction event;
+    private final IReplyCallback event;
 
-    public TrackedEventMessage(ManagedKey key, MessageBuilder message, @NotNull Interaction event) {
+    public TrackedEventMessage(ManagedKey key, MessageCreateBuilder message, @NotNull IReplyCallback event) {
         super(key, message, event.getMessageChannel());
 
         this.event = event;
     }
 
-    public TrackedEventMessage(ManagedKey key, MessageBuilder message, @NotNull Interaction event, Runnable onRemove) {
+    public TrackedEventMessage(ManagedKey key, MessageCreateBuilder message, @NotNull IReplyCallback event, Runnable onRemove) {
         super(key, message, event.getMessageChannel(), onRemove);
 
         this.event = event;
@@ -37,21 +38,23 @@ public class TrackedEventMessage extends TrackedMessage implements Timed {
                 original -> getMessageApi().add(key, new MessageData(original.getIdLong(), event.getMessageChannel()))));
     }
 
-    public void edit(@NotNull ReplyMessage replyMessage, @NotNull MessageBuilder content) {
+    public void edit(@NotNull ReplyMessage replyMessage, @NotNull MessageEditBuilder content) {
         MessageData messageData = getMessageData();
 
-        messageData.getChannel().editMessageById(getMessageApi().get(key).getMessageId(), content.build()).queue();
+        messageData.getChannel()
+                .editMessageById(getMessageApi().get(key).getMessageId(), content.build())
+                .queue();
         replyMessage.send();
     }
 
     @Override
-    public void edit(@NotNull MessageBuilder content) {
+    public void edit(@NotNull MessageEditBuilder content) {
         edit(ReplyMessage.builder(event).content(
-                new MessageBuilder().append("메시지 수정이 완료 되었습니다.").build()
+                new MessageCreateBuilder().setContent("메시지 수정이 완료 되었습니다.").build()
         ).debug(true).build(), content);
     }
 
-    private void removeWithoutNotice() {
+    private void delete() {
         MessageData messageData = getMessageData();
         messageData.getChannel().deleteMessageById(messageData.getMessageId()).queue();
 
@@ -59,24 +62,28 @@ public class TrackedEventMessage extends TrackedMessage implements Timed {
     }
 
     public void remove(@NotNull ReplyMessage replyMessage) {
-        removeWithoutNotice();
+        delete();
+
         replyMessage.send();
     }
 
     @Override
     public void remove() {
         remove(ReplyMessage.builder(event).content(
-                new MessageBuilder().append("메시지 삭제가 완료되었습니다.").build()
+                new MessageCreateBuilder().setContent("메시지 삭제가 완료되었습니다.").build()
         ).build());
     }
 
     @Override
-    public void move(MessageChannel channel) {
+    public void move(@NotNull MessageChannel channel) {
         MessageData messageData = getMessageData();
 
-        Message message = messageData.getChannel().retrieveMessageById(messageData.getMessageId()).complete();
-        MessageBuilder messageBuilder = new MessageBuilder(message);
-        removeWithoutNotice();
+        Message message = messageData.getChannel()
+                .retrieveMessageById(messageData.getMessageId())
+                .complete();
+
+        MessageCreateBuilder messageBuilder = MessageCreateBuilder.fromMessage(message);
+        delete();
 
         new TrackedEventMessage(key, messageBuilder, event).send();
     }

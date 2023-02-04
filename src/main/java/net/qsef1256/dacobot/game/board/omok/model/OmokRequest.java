@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.board.omok.model;
 
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.qsef1256.dacobot.service.request.model.Request;
 import org.jetbrains.annotations.NotNull;
 

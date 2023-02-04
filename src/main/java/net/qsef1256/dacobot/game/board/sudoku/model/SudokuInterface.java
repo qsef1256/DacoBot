@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.game.board.sudoku.model;
 
 import lombok.Getter;
-import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.qsef1256.dacobot.game.board.model.Game;
 import net.qsef1256.dacobot.game.board.model.GameUI;
 import org.jetbrains.annotations.NotNull;
@@ -56,15 +56,15 @@ public class SudokuInterface implements Game {
 
         @NotNull
         @Override
-        public MessageBuilder getUIMessage() {
-            return new MessageBuilder()
-                    .append("""
+        public MessageCreateBuilder getUIMessage() {
+            return new MessageCreateBuilder()
+                    .addContent("""
                             **:checkered_flag: 스도쿠**
                                             
                             """)
-                    .append(sudokuGame.printBoard())
-                    .append("사용자: ")
-                    .append(user.getName());
+                    .addContent(sudokuGame.printBoard())
+                    .addContent("사용자: ")
+                    .addContent(user.getName());
         }
 
         @NotNull

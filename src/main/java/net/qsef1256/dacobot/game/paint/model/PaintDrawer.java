@@ -1,23 +1,23 @@
 package net.qsef1256.dacobot.game.paint.model;
 
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Emoji;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.interactions.components.ActionRow;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dialib.util.CommonUtil;
 import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +61,7 @@ public class PaintDrawer {
         selectedColor.remove(discordId);
     }
 
-    public static void setDrawer(@NotNull ButtonClickEvent event, int dx, int dy, boolean isPaint) {
+    public static void setDrawer(@NotNull ButtonInteractionEvent event, int dx, int dy, boolean isPaint) {
         event.deferEdit().queue();
         Message message = event.getMessage();
         DataObject embedData = message.getEmbeds().get(0).toData();
@@ -137,7 +137,7 @@ public class PaintDrawer {
 
         event.getChannel()
                 .sendMessageEmbeds(getDrawerEmbed(user, paint, 1, 1))
-                .setActionRows(
+                .setComponents(
                         ActionRow.of(
                                 Button.secondary("paint_drawer_ul", emptyLabel).asDisabled(),
                                 Button.primary("paint_drawer_up", emptyLabel).withEmoji(Emoji.fromUnicode("⬆")),
@@ -152,7 +152,7 @@ public class PaintDrawer {
                                 Button.secondary("paint_drawer_dr", emptyLabel).asDisabled()))
                 .queue(message -> {
                     for (ColorEmoji color : ColorEmoji.values()) {
-                        message.addReaction(color.getEmoji()).queue();
+                        message.addReaction(Emoji.fromUnicode(color.getEmoji())).queue();
                     }
 
                     setDrawerId(user.getIdLong(), message.getIdLong());

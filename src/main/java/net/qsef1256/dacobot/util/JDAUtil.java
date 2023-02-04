@@ -2,13 +2,12 @@ package net.qsef1256.dacobot.util;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.setting.DiaSetting;
@@ -16,7 +15,6 @@ import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -34,16 +32,10 @@ public class JDAUtil {
         if (slashCommand.isOwnerCommand()) {
             return DacoBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
         }
-        if (slashCommand.getEnabledRoles().length != 0) {
-            for (Role role : member.getRoles()) {
-                if (Arrays.asList(slashCommand.getEnabledRoles()).contains(role.getId())) return true;
-            }
-            return false;
-        }
-        if (slashCommand.getEnabledUsers().length != 0) {
-            return Arrays.asList(slashCommand.getEnabledUsers()).contains(member.getId());
-        }
-        return true;
+
+        return CommonUtil.allContains(slashCommand.getUserPermissions(), member
+                .getPermissions()
+                .toArray(new Permission[0]));
     }
 
     public boolean canExecute(@NotNull Command command, Member member) {
@@ -51,7 +43,9 @@ public class JDAUtil {
             return DacoBot.getCommandClient().getOwnerIdLong() == member.getIdLong();
         }
 
-        return CommonUtil.linearIn(command.getUserPermissions(), member.getPermissions().toArray(new Permission[0]));
+        return CommonUtil.allContains(command.getUserPermissions(), member
+                .getPermissions()
+                .toArray(new Permission[0]));
     }
 
     /**
@@ -124,7 +118,7 @@ public class JDAUtil {
     }
 
     public Member getMemberFromId(long userId) {
-        return getMemberFromUser(User.fromId(userId));
+        return getMemberFromUser((User) User.fromId(userId));
     }
 
     @Nullable

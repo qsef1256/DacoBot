@@ -1,11 +1,12 @@
 package net.qsef1256.dacobot.service.message.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.qsef1256.dacobot.service.key.SingleUserKey;
 import net.qsef1256.dacobot.service.message.type.TrackedEventMessage;
 import net.qsef1256.dacobot.ui.DiaMessage;
@@ -51,7 +52,7 @@ public class MessageCommand extends SlashCommand {
             if (option == null) return;
 
             SingleUserKey key = new SingleUserKey("test", event.getUser());
-            MessageBuilder message = new MessageBuilder().append(option.getAsString());
+            MessageCreateBuilder message = new MessageCreateBuilder().addContent(option.getAsString());
 
             new TrackedEventMessage(key, message, event).send();
         }
@@ -79,9 +80,11 @@ public class MessageCommand extends SlashCommand {
             }
 
             SingleUserKey key = new SingleUserKey("test", event.getUser());
-            MessageBuilder message = new MessageBuilder().append(messageOptions.getAsString());
+            MessageCreateBuilder message = new MessageCreateBuilder()
+                    .addContent(messageOptions.getAsString());
 
-            new TrackedEventMessage(key, message, event).edit(message);
+            new TrackedEventMessage(key, message, event)
+                    .edit(MessageEditBuilder.fromCreateData(message.build()));
         }
 
     }
@@ -97,11 +100,11 @@ public class MessageCommand extends SlashCommand {
         protected void execute(@NotNull SlashCommandEvent event) {
             SingleUserKey key = new SingleUserKey("test", event.getUser());
 
-            new TrackedEventMessage(key, new MessageBuilder(), event).remove();
+            new TrackedEventMessage(key, new MessageCreateBuilder(), event).remove();
         }
 
     }
-    
+
     public static class MoveCommand extends SlashCommand {
 
         public MoveCommand() {
@@ -113,7 +116,7 @@ public class MessageCommand extends SlashCommand {
         protected void execute(@NotNull SlashCommandEvent event) {
             SingleUserKey key = new SingleUserKey("test", event.getUser());
 
-            new TrackedEventMessage(key, new MessageBuilder(), event).move(event.getChannel());
+            new TrackedEventMessage(key, new MessageCreateBuilder(), event).move(event.getChannel());
         }
 
     }

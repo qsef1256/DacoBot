@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.game.board;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.interactions.Interaction;
+import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.qsef1256.dacobot.game.board.model.GameHost;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.message.MessageApiImpl;
@@ -29,7 +29,7 @@ public class GameAPI {
         return (T) gameMap.get(game.getKey());
     }
 
-    public void newGame(@NotNull GameHost<?> game, Interaction event) {
+    public void newGame(@NotNull GameHost<?> game, IReplyCallback event) {
         if (gameMap.containsKey(game.getKey()))
             throw new DuplicateRequestException(game.getKey().getType() + " 게임이 이미 있습니다.");
         if (!event.getChannelType().isMessage()) throw new IllegalArgumentException("메시지 채널에만 보낼 수 있습니다.");

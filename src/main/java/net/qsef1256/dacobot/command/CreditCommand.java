@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.localization.TimeLocalizer;
 import net.qsef1256.dacobot.setting.DiaSetting;
@@ -13,12 +13,14 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.MavenUtil;
 import net.qsef1256.dialib.util.RandomUtil;
+import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Optional;
 
 public class CreditCommand extends SlashCommand {
 
@@ -72,6 +74,12 @@ public class CreditCommand extends SlashCommand {
             final int serverSize = DacoBot.getJda().getGuilds().size();
             final int userSize = DacoBot.getJda().getUsers().size();
 
+            Optional<Dependency> jda = model.getDependencies().stream()
+                    .filter(dependency -> dependency.getArtifactId().equals("JDA"))
+                    .findFirst();
+
+            final String jdaVersion = jda.isPresent() ? jda.get().getVersion() : "?";
+
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.MAIN_COLOR)
                     .setTitle(name + " Credits")
@@ -86,7 +94,7 @@ public class CreditCommand extends SlashCommand {
                     .addField("연락처", "`qsef1256@naver.com`", true)
                     .addField("가동 시간", formattedUptime, true)
                     .addField("", message, false)
-                    .setFooter("provided by JDA v4.4.0_352")
+                    .setFooter("provided by JDA v" + jdaVersion)
                     .build()).queue();
         }
 

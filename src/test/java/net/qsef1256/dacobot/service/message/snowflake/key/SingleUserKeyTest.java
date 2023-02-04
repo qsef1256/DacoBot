@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot.service.message.snowflake.key;
 
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.UserSnowflake;
 import net.qsef1256.dacobot.service.key.SingleUserKey;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,9 +18,9 @@ class SingleUserKeyTest {
 
     @BeforeAll
     static void setUp() {
-        User user1 = User.fromId(1);
-        User user2 = User.fromId(2);
-        User user3 = User.fromId(3);
+        UserSnowflake user1 = User.fromId(1);
+        UserSnowflake user2 = User.fromId(2);
+        UserSnowflake user3 = User.fromId(3);
 
         // Same
         key1 = new SingleUserKey("test", user1);

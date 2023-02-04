@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.service.request.listener;
 
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.ButtonClickEvent;
+import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.service.request.model.RequestAPI;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class RequestButtonListener extends ListenerAdapter {
 
     @Override
-    public void onButtonClick(final @NotNull ButtonClickEvent event) {
+    public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) {
         switch (event.getComponentId()) {
             case "request_accept" -> {
                 User eventUser = event.getUser();
@@ -35,7 +35,7 @@ public class RequestButtonListener extends ListenerAdapter {
                     event.replyEmbeds(DiaEmbed.error("요청 실패", null, e, eventUser).build()).queue();
                 }
             }
-            
+
             default -> {
             }
         }

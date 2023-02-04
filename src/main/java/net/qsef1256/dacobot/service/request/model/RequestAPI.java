@@ -2,12 +2,12 @@ package net.qsef1256.dacobot.service.request.model;
 
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.components.Button;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dialib.util.CommonUtil;
 import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dialib.util.CommonUtil;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.jetbrains.annotations.NotNull;

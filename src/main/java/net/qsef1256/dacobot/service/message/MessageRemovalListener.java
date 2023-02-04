@@ -3,7 +3,8 @@ package net.qsef1256.dacobot.service.message;
 import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.localization.TimeLocalizer;
 import net.qsef1256.dacobot.service.key.ManagedKey;
 import net.qsef1256.dacobot.service.key.UserKey;
@@ -16,6 +17,7 @@ public class MessageRemovalListener<K1 extends ManagedKey, V1 extends MessageDat
 
     @Override
     public void onRemoval(@Nullable K1 key, @Nullable V1 value, RemovalCause cause) {
+        if (DacoBot.getJda() == null) return;
 
         if (key instanceof UserKey userKey) {
             userKey.getUsers().forEach(user -> {
@@ -37,9 +39,9 @@ public class MessageRemovalListener<K1 extends ManagedKey, V1 extends MessageDat
                 if (value == null) return;
 
                 value.getOnRemove().run();
-                MessageBuilder messageBuilder = new MessageBuilder();
-                messageBuilder.append(userKey.getType());
-                messageBuilder.append(" 메시지가 %s로 삭제 되었습니다.".formatted(removeCause));
+                MessageCreateBuilder messageBuilder = new MessageCreateBuilder();
+                messageBuilder.addContent(userKey.getType());
+                messageBuilder.addContent(" 메시지가 %s로 삭제 되었습니다.".formatted(removeCause));
 
                 DiaNotification.notify(messageBuilder, user);
             });

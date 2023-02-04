@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.service.message.type;
 
-import net.dv8tion.jda.api.MessageBuilder;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 
 // TODO
 public class ThreadMessage implements AbstractMessage, Controllable {
@@ -12,7 +12,7 @@ public class ThreadMessage implements AbstractMessage, Controllable {
     }
 
     @Override
-    public void edit(MessageBuilder content) {
+    public void edit(MessageEditBuilder content) {
         throw new UnsupportedOperationException("this Message is TODO");
     }
 

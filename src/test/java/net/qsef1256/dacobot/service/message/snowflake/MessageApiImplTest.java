@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.service.message.snowflake;
 
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.qsef1256.dacobot.service.key.MultiUserKey;
 import net.qsef1256.dacobot.service.key.SingleUserKey;
 import net.qsef1256.dacobot.service.message.MessageApiImpl;

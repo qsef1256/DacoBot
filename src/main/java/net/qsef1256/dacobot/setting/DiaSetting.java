@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.setting;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dialib.io.FileLoader;
 import net.qsef1256.dialib.io.provider.ExecutionPathProvider;

@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.game.boardv2.omok;
 
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.qsef1256.dacobot.game.boardv2.api.ui.MessageUI;
 import net.qsef1256.dacobot.game.boardv2.api.ui.TextUI;
 import net.qsef1256.dacobot.game.boardv2.impl.board.GridBoard;
@@ -22,7 +22,7 @@ public class OmokUI implements MessageUI, TextUI {
     }
 
     @Override
-    public MessageBuilder getMessageUI() {
+    public MessageCreateBuilder getMessageUI() {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setColor(GridBoard.BOARD.getEmoji().getColor())
                 .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
@@ -32,7 +32,7 @@ public class OmokUI implements MessageUI, TextUI {
                 .addField("차례", game.getCycle().getTurn().getPiece().getDisplay(), true)
                 .setFooter("경기 중에 채팅은 스크롤이 올라가니 적당히.");
         embedBuilder.addField("게임 상태", game.getCycle().getStatus().getDisplay(), false);
-        return new MessageBuilder().append(embedBuilder);
+        return new MessageCreateBuilder().addEmbeds(embedBuilder.build());
     }
 
     @Override

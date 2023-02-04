@@ -25,7 +25,7 @@ public enum ColorEmoji implements Emoji {
     private static final Map<Color, ColorEmoji> colorMap = EnumUtil.toMap(ColorEmoji::getColor, ColorEmoji.class);
 
     @Getter
-    private final String emoji;
+    private final String emoji; // TODO: return Emoji by JDA
     @Getter
     private final String id;
     @Getter
@@ -36,7 +36,7 @@ public enum ColorEmoji implements Emoji {
 
         this.id = id;
         this.emoji = emoji;
-        color = null;
+        this.color = null;
     }
 
     ColorEmoji(@NotNull String id, @NotNull String emoji, @NotNull Color color) {

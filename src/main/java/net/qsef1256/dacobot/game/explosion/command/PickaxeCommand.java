@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.game.explosion.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;

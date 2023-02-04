@@ -25,12 +25,10 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.ReflectionUtil;
 import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -48,7 +46,7 @@ public class DacoBot {
     private static CommandClient commandClient;
     private static String[] args;
 
-    public static void main(final String[] args) throws LoginException, InterruptedException, ConfigurationException {
+    public static void main(final String[] args) throws InterruptedException {
         String token = DiaSetting.getInstance().getKey().getString("discord.token");
 
         DacoBot.args = args;
@@ -78,7 +76,9 @@ public class DacoBot {
 
         initJpa();
 
-        final JDABuilder builder = JDABuilder.createDefault(token);
+        final JDABuilder builder = JDABuilder
+                .createDefault(token)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT);
         configureMemoryUsage(builder);
         builder.addEventListeners(commandClient);
 
@@ -170,6 +170,8 @@ public class DacoBot {
     }
 
     public static void shutdown() {
+        logger.info("Shutting down...");
+
         DiaScheduler.shutdown();
         jda.shutdown();
         JpaController.shutdown();
