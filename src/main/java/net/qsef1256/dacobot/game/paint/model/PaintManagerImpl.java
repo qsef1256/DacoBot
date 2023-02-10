@@ -112,4 +112,5 @@ public class PaintManagerImpl implements PaintManager {
                 .setCreatedUserId(discordId)
                 .setOwnerId(discordId);
     }
+    
 }

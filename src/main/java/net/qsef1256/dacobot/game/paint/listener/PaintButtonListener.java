@@ -47,7 +47,6 @@ public class PaintButtonListener extends ListenerAdapter {
                             .build()).queue();
                 }
 
-                if (event.getButton() == null) return;
                 event.editButton(event.getButton().asDisabled()).queue();
             }
 
@@ -79,7 +78,6 @@ public class PaintButtonListener extends ListenerAdapter {
                     }
                 });
 
-                if (event.getButton() == null) return;
                 event.editButton(event.getButton().asDisabled()).queue();
             }
 

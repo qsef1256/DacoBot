@@ -1,9 +1,6 @@
 package net.qsef1256.dacobot;
 
-import com.jagrosh.jdautilities.command.Command;
-import com.jagrosh.jdautilities.command.CommandClient;
-import com.jagrosh.jdautilities.command.CommandClientBuilder;
-import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.*;
 import jakarta.persistence.EntityTransaction;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
@@ -14,8 +11,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
+import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.chat.listener.TalkListener;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
@@ -32,6 +31,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -70,6 +70,12 @@ public class DacoBot {
             exit("Error on loading commands", e);
         }
 
+        try {
+            registerContextMenu(commandClientBuilder);
+        } catch (Exception e) {
+            exit("Error on loading context menus", e);
+        }
+
         commandClient = commandClientBuilder.build();
         commandClient.setListener(new TalkListener());
         logger.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
@@ -77,9 +83,8 @@ public class DacoBot {
         initJpa();
 
         final JDABuilder builder = JDABuilder
-                .createDefault(token)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT);
-        configureMemoryUsage(builder);
+                .createDefault(token);
+        configureBot(builder);
         builder.addEventListeners(commandClient);
 
         try {
@@ -93,7 +98,7 @@ public class DacoBot {
         jda.awaitReady();
 
         // TODO: global command
-        DiaSetting.getInstance().getAllGuilds().forEach(DacoBot::upsertGuildCommands);
+        DiaSetting.getInstance().getAllGuilds().forEach(DacoBot::upsertToGuild);
 
         LocalDateTimeUtil.setZoneId(DiaSetting.getInstance().getZoneId());
         DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);
@@ -107,14 +112,17 @@ public class DacoBot {
         transaction.commit();
     }
 
-    private static void configureMemoryUsage(final @NotNull JDABuilder builder) {
+    private static void configureBot(final @NotNull JDABuilder builder) {
         builder.disableCache(CacheFlag.VOICE_STATE);
-        builder.setChunkingFilter(ChunkingFilter.ALL); // 모든 길드의 유저 캐싱하기 (권한 필요)
-        builder.enableIntents(GatewayIntent.GUILD_MEMBERS); // 유저 캐싱 권한 얻기 (권한 필요)
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL); // 모든 길드의 유저 캐싱하기
+        builder.setChunkingFilter(ChunkingFilter.ALL);
+        builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT);
         builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
     }
 
-    private static void registerCommands(final CommandClientBuilder commandClientBuilder) throws ReflectiveOperationException {
+    private static void registerCommands(
+            final @NotNull CommandClientBuilder commandClientBuilder)
+            throws ReflectiveOperationException {
         logger.info("Loading Commands");
         final Set<Class<?>> commands = ReflectionUtil.getReflections().get(SubTypes.of(Command.class).asClass());
 
@@ -139,6 +147,11 @@ public class DacoBot {
         }
     }
 
+    private static void registerContextMenu(final @NotNull CommandClientBuilder commandClientBuilder) {
+        logger.info("Loading Context Menus");
+        commandClientBuilder.addContextMenu(new EngKorContextMenu());
+    }
+
     private static void registerListeners(final JDABuilder builder) throws ReflectiveOperationException {
         logger.info("Loading Listeners");
         final Set<Class<?>> listeners = ReflectionUtil.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
@@ -154,16 +167,25 @@ public class DacoBot {
         }
     }
 
-    private static void upsertGuildCommands(Guild mainGuild) {
-        if (mainGuild != null) {
-            String formatted = "Upsert commands for Guild id %s".formatted(mainGuild.getId());
+    private static void upsertToGuild(Guild guild) {
+        if (guild != null) {
+            String formatted = "Upsert command data for Guild id %s".formatted(guild.getId());
 
             logger.info(formatted);
             List<CommandData> commandDataList = commandClient.getSlashCommands()
                     .stream()
                     .map(SlashCommand::buildCommandData)
                     .toList();
-            mainGuild.updateCommands().addCommands(commandDataList).queue();
+            List<CommandData> contextMenuList = commandClient.getContextMenus()
+                    .stream()
+                    .map(ContextMenu::buildCommandData)
+                    .toList();
+
+            List<CommandData> allCommandData = new ArrayList<>();
+            allCommandData.addAll(commandDataList);
+            allCommandData.addAll(contextMenuList);
+
+            guild.updateCommands().addCommands(allCommandData).queue();
         } else {
             logger.warn("Cannot find main Guild");
         }

@@ -77,7 +77,7 @@ public class PaintDrawer {
                     .queue(callback -> callback.delete().queueAfter(5, TimeUnit.SECONDS));
             return;
         }
-        if (user != eventUser || drawerId != message.getIdLong()) {
+        if (user.getIdLong() != eventUser.getIdLong() || drawerId != message.getIdLong()) {
             event.getChannel().sendMessage("<@%s> 님, 당신의 그림판이 아닌 것 같은데요... 그림판은 하나만 있을 수 있어요.".formatted(eventUser.getId()))
                     .queue(callback -> callback.delete().queueAfter(5, TimeUnit.SECONDS));
             return;
@@ -159,4 +159,5 @@ public class PaintDrawer {
                     setColor(user.getIdLong(), ColorEmoji.WHITE);
                 });
     }
+
 }
