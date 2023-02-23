@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -27,7 +27,8 @@ public class RuleCommand extends SlashCommand {
                 .appendDescription(":four: 곡괭이 자꾸 들이대면 폭탄 터트릴꺼에요.\n")
                 .appendDescription(":five: 본체는 아무 생각이 없어요.\n")
                 .appendDescription(":six: 사용자 식별을 위해 디코 ID를 저장하고 있습니다.\n")
-                .appendDescription(":seven: 재밌게 노세요!\n")
+                .appendDescription(":seven: 디스코드 ToS 를 준수하세요.\n")
+                .appendDescription(":eight: 재밌게 노세요!\n")
                 .setFooter("사실 규칙은 반쯤 장식이에요.")
                 .build()).queue();
     }

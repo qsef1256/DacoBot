@@ -6,10 +6,10 @@ https://discord.gg/uDEVbvJ55q
 
 ## Environment
 
-* JDA 4.4.0_350
-* Jakarta EE 10
-* JPA 3.0
-* CDI 4.0
+* `JDA 5.0.0-beta.3`
+* `Jakarta EE 10`
+* `JPA 3.0`
+* `CDI 4.0`
 
 ## Usage
 
@@ -24,10 +24,27 @@ https://discord.gg/uDEVbvJ55q
 
 ## TODO
 
+### Priority
+
 * 이용 약관, 개인정보 처리방침
-* /밴 : 사용 금지 (운영자 명령어)
-* /깃허브: 오류 보고!
+* 운영자 명령어, 관리 시스템 (/밴)
+
+### Planned
+
+* Localization: https://github.com/DV8FromTheWorld/JDA/blob/master/src/examples/java/LocalizationExample.java
+* JDA Wiki: https://jda.wiki/using-jda/gateway-intents-and-member-cache-policy/
+* 방치형 게임 (폭발겜)
+* 명령어 줄이기 (버튼 등 UI 화)
+* 다코챗
+* Upsert commands to global
+
+### Idea
+
 * JAspect 사용
+* /깃허브: 오류 보고!
+* 퀴즈 게임
+* 봇을 통째로 게임으로 만들기 (명령어 사용에 비용 필요)
+* 인터프리터 게임 제작기(?)
 
 ## Library
 
@@ -36,10 +53,10 @@ https://discord.gg/uDEVbvJ55q
     * [Chewtils](https://github.com/Chew/JDA-Chewtils): Copyright 2016-2018 John Grosh (jagrosh) & Kaidan Gustave (TheMonitorLizard) `Apache-2.0`
 * DB 라이브러리
     * [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
-    * [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
-    * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
-    * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
-    * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
+        * [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
+        * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
+        * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
+        * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * 기술 라이브러리
     * [Weld](https://github.com/weld/core): `Apache-2.0`
     * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`

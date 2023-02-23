@@ -149,6 +149,7 @@ public class DacoBot {
 
     private static void registerContextMenu(final @NotNull CommandClientBuilder commandClientBuilder) {
         logger.info("Loading Context Menus");
+
         commandClientBuilder.addContextMenu(new EngKorContextMenu());
     }
 
@@ -169,9 +170,8 @@ public class DacoBot {
 
     private static void upsertToGuild(Guild guild) {
         if (guild != null) {
-            String formatted = "Upsert command data for Guild id %s".formatted(guild.getId());
+            logger.info("Upsert command data for Guild id %s".formatted(guild.getId()));
 
-            logger.info(formatted);
             List<CommandData> commandDataList = commandClient.getSlashCommands()
                     .stream()
                     .map(SlashCommand::buildCommandData)
