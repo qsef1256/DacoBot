@@ -44,8 +44,8 @@ public class PaintManagerImpl implements PaintManager {
     @NotNull
     protected PaintEntity findPaint(String paintName, long discordId) {
         dao.open();
-
-        if (!dao.existsById(paintName)) throw new IllegalArgumentException(paintName + " 이름의 그림은 없습니다.");
+        if (!dao.existsById(paintName))
+            throw new IllegalArgumentException(paintName + " 이름의 그림은 없습니다.");
 
         PaintEntity paintData = dao.findById(paintName);
         checkPermission(discordId, paintData.getOwnerId());
@@ -112,5 +112,5 @@ public class PaintManagerImpl implements PaintManager {
                 .setCreatedUserId(discordId)
                 .setOwnerId(discordId);
     }
-    
+
 }

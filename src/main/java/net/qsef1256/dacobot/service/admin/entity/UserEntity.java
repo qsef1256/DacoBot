@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Entity
 public class UserEntity {
@@ -13,5 +15,6 @@ public class UserEntity {
 
     private UserStatus status;
     private int warnCount;
+    private LocalDateTime banTime;
 
 }
