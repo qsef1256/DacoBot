@@ -24,7 +24,8 @@
             </roles>
             <timezone>Asia/Seoul</timezone>
             <properties>
-                <picUrl>https://ko.gravatar.com/userimage/212410962/31f86af0cf34b0a64502f5df0c9a23fa.png?size=200</picUrl>
+                <picUrl>https://ko.gravatar.com/userimage/212410962/31f86af0cf34b0a64502f5df0c9a23fa.png?size=200
+                </picUrl>
             </properties>
         </developer>
     </developers>
@@ -101,9 +102,6 @@
                         <goals>
                             <goal>jandex</goal>
                         </goals>
-                        <configuration>
-                            <!-- Nothing needed here for simple cases -->
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -158,7 +156,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.8</version>
+            <version>5.0.0-beta.9</version>
             <exclusions>
                 <exclusion>
                     <groupId>club.minnced</groupId>
@@ -266,7 +264,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
+            <version>1.18.28</version>
             <scope>compile</scope>
         </dependency>
 
