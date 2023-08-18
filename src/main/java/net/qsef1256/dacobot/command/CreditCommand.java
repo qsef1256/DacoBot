@@ -109,7 +109,7 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            event.replyEmbeds(DiaEmbed.main("라이브러리", "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.", null)
+            event.replyEmbeds(DiaEmbed.primary("라이브러리", "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.", null)
                     .addField("코어 라이브러리", """
                             [JDA](https://github.com/DV8FromTheWorld/JDA): `Apache-2.0`
                             [Chewtils](https://github.com/Chew/JDA-Chewtils): `Apache-2.0`
@@ -169,7 +169,7 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            event.replyEmbeds(DiaEmbed.main("외부 API", "다이아 덩어리를 굴러가게 만드는 서비스들", null)
+            event.replyEmbeds(DiaEmbed.primary("외부 API", "다이아 덩어리를 굴러가게 만드는 서비스들", null)
                     .addField("기상청 단기예보 조회 서비스",
                             "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084) 제공 `기상청`", false)
                     .addField("기상청 중기예보 조회 서비스",

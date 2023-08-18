@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.service.diapedia;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,7 +31,9 @@ public class DiapediaPage {
 
     @SuppressWarnings("unchecked")
     public MessageEmbed toEmbed() {
-        EmbedBuilder embed = DiaEmbed.main(id, null, null);
+        EmbedBuilder embed = DiaEmbed.primary(id, null, null);
+        embed.setAuthor("Diapedia", null, DiaImage.MAIN_THUMBNAIL);
+
         if (!categories.isEmpty())
             embed.addField("하위 카테고리", String.join(", ", categories), false);
         values.forEach((key, o) -> {

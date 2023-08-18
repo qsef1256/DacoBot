@@ -39,9 +39,9 @@ public class DiaEmbed {
     }
 
     @NotNull
-    public static EmbedBuilder main(@Nullable String title,
-                                    @Nullable String desc,
-                                    @Nullable User user) {
+    public static EmbedBuilder primary(@Nullable String title,
+                                       @Nullable String desc,
+                                       @Nullable User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
 
         embedBuilder.setColor(DiaColor.MAIN_COLOR);
@@ -117,9 +117,10 @@ public class DiaEmbed {
     }
 
     private static void setUser(@Nullable User user, EmbedBuilder embedBuilder) {
-        if (user != null) embedBuilder.setAuthor(user.getName(), null, user.getEffectiveAvatarUrl());
-
-        else embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
+        if (user != null)
+            embedBuilder.setAuthor(user.getName(), null, user.getEffectiveAvatarUrl());
+        else
+            embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
     }
 
 }
