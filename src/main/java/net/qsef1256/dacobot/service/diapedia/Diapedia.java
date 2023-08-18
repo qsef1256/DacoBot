@@ -9,8 +9,8 @@ import org.jetbrains.annotations.NotNull;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.FileReader;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Diapedia {
 
@@ -18,7 +18,7 @@ public class Diapedia {
     private static final Diapedia instance = new Diapedia();
 
     private DiapediaPage index;
-    private final Map<String, DiapediaPage> pages = new HashMap<>();
+    private final Map<String, DiapediaPage> pages = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     private Diapedia() {
         init();

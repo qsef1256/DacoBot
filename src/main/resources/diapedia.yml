@@ -1,4 +1,4 @@
-Version: 2023-08-12
+Version: 2023-08-18
 
 Useful:
   Site:
@@ -6,6 +6,7 @@ Useful:
     - "https://translate.google.com"
     - "https://stackoverflow.com"
     - "https://www.curioustore.com/"
+    - "https://chat.openai.com/"
   API:
     - "https://github.com/public-apis/public-apis"
     - "https://publicapis.dev/"
@@ -60,6 +61,7 @@ Computer Science:
     Array:
     Stack:
     Queue:
+    Dequeue:
     Linked List:
     Graph:
     Tree:
@@ -79,6 +81,11 @@ Computer Science:
     Dynamic Programming:
       Memoization:
     Greedy:
+
+  Concurrency:
+    Deadlock: "https://jwprogramming.tistory.com/12"
+    Race condition: "https://iredays.tistory.com/125"
+    Parallelism: "https://velog.io/@wlsrhkd4023/%EB%8F%99%EC%8B%9C%EC%84%B1Concurrency%EA%B3%BC-%EB%B3%91%EB%A0%AC%EC%84%B1Parallelism-%EC%B0%A8%EC%9D%B4"
 
   Paradigm:
     Procedural Programming: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%B0%A8%EC%A0%81_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
@@ -149,7 +156,7 @@ Computer Science:
     - "https://tech.kakao.com/2023/02/01/university-student-mentoring-get-out-from-the-well/"
 
 Java:
-  Grammer:
+  Grammar:
     Enum:
       - "https://honbabzone.com/java/java-enum/"
       - "https://velog.io/@kyle/%EC%9E%90%EB%B0%94-Enum-%EA%B8%B0%EB%B3%B8-%EB%B0%8F-%ED%99%9C%EC%9A%A9"
@@ -269,7 +276,7 @@ Java:
     - "https://www.javatips.net/"
 
 JavaScript:
-  Grammer:
+  Grammar:
     async, await: "https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Async_await"
     Regular Expression: "https://evan-moon.github.io/2021/05/07/why-regexp-called-regexp/" # regex
 
@@ -286,7 +293,7 @@ CSS:
     Bootstrap: "https://getbootstrap.com/docs/5.2/customize/overview/"
 
 Database:
-  Grammer:
+  Grammar:
     CRUD: "https://www.tcpschool.com/mysql/mysql_basic_create"
     JOIN:
     ORDER BY:
@@ -368,7 +375,7 @@ Network:
     6. Presentation:
       - ASCII
       - UTF-8
-    7. Applicaton:
+    7. Application:
       - HTTP
       - SMTP
       - SSH
