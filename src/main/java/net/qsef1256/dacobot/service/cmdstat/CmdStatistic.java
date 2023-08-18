@@ -16,8 +16,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CmdStatistic {
 
-    DaoCommonJpa<CmdStatisticEntity, String> dao = new DaoCommonJpaImpl<>(CmdStatisticEntity.class);
-
+    private final DaoCommonJpa<CmdStatisticEntity, String> dao = new DaoCommonJpaImpl<>(CmdStatisticEntity.class);
     private CmdStatisticEntity statistic;
 
     public CmdStatistic(Class<? extends SlashCommand> command) {

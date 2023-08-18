@@ -36,9 +36,7 @@ public class AccountCommand extends SlashCommand {
 
     @Override
     protected void execute(final @NotNull SlashCommandEvent event) {
-        SlashCommand[] children = getChildren();
-
-        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
+        event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
     private static class RegisterCommand extends SlashCommand {

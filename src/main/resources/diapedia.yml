@@ -1,0 +1,438 @@
+Version: 2023-08-12
+
+Useful:
+  Site:
+    - "https://google.com"
+    - "https://translate.google.com"
+    - "https://stackoverflow.com"
+    - "https://www.curioustore.com/"
+  API:
+    - "https://github.com/public-apis/public-apis"
+    - "https://publicapis.dev/"
+  Library:
+    GUI:
+      - "https://www.gtk.org/"
+      - "https://github.com/Lubycon/quantumic-design"
+  Learn:
+    - "https://www.geeksforgeeks.org/"
+  Guideline:
+    - "https://github.com/jwasham/coding-interview-university"
+
+Computer Science:
+  Language:
+    Programming Language:
+      - Java
+      - JavaScript (ECMAScript)
+      - C
+      - C#
+      - Python
+    Markup Language:
+      - HTML # HTML is not a programming language
+      - Markdown
+    Style Sheet:
+      - CSS(SCSS)
+    Data Format:
+      - YAML # YAML Ain't Markup Language
+      - JSON
+      - XML
+    Template Engine:
+      - JSP
+      - Thymeleaf
+      - Mustache
+
+  Principle:
+    OOP:
+      - Abstraction
+      - Encapsulation
+      - Inheritance
+      - Polymorphism
+    SOLID:
+      - "https://ko.wikipedia.org/wiki/SOLID_(%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%EC%84%A4%EA%B3%84)"
+      - "https://www.nextree.co.kr/p6960/"
+      - "https://limkydev.tistory.com/77"
+    Coupling and Cohension:
+      - "https://itwiki.kr/w/%EA%B2%B0%ED%95%A9%EB%8F%84"
+      - "https://rutgo-letsgo.tistory.com/227"
+      - "https://velog.io/@eddy_song/separation-of-concerns"
+
+  Data Structure:
+    Description: "https://iwuooh.com/entry/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0Data-Structure%EC%9D%98-%EC%A0%95%EC%9D%98%EC%99%80-%EC%A2%85%EB%A5%98"
+    Array:
+    Stack:
+    Queue:
+    Linked List:
+    Graph:
+    Tree:
+      Binary Tree:
+      RB Tree:
+    Heap: "https://evan-moon.github.io/2019/10/12/introduction-data-structure-heap/"
+
+  Algorithm:
+    Recursive: "https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=minichuuuuu&logNo=220650556844"
+    Backtracking: "https://chanhuiseok.github.io/posts/algo-23/"
+    Sorting:
+      Quick Sort:
+      Merge Sort:
+      Heap Sort:
+    DFS:
+    BFS: "https://namu.wiki/w/%EB%84%88%EB%B9%84%20%EC%9A%B0%EC%84%A0%20%ED%83%90%EC%83%89"
+    Dynamic Programming:
+      Memoization:
+    Greedy:
+
+  Paradigm:
+    Procedural Programming: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%B0%A8%EC%A0%81_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
+    Objective Oriented Programming: "https://ko.wikipedia.org/wiki/%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" # OOP
+    Functional Programming: "https://ko.wikipedia.org/wiki/%ED%95%A8%EC%88%98%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
+    Declarative Programming: "https://ko.wikipedia.org/wiki/%EC%84%A0%EC%96%B8%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
+    Aspect Oriented Programming: "https://galid1.tistory.com/497?category=769011" # AOP
+    Domain Driven Design:
+
+  Software Development Process:
+    Requirements Engineering:
+      Description: "https://ko.wikipedia.org/wiki/%EC%9A%94%EA%B5%AC%EA%B3%B5%ED%95%99"
+    
+    Waterfall:
+    Agile: "https://evan-moon.github.io/2019/07/02/what-is-agile/#%EC%95%A0%EC%9E%90%EC%9D%BC%EC%9D%84-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94%EA%B1%B8%EA%B9%8C"
+    Test Driven Development: # TDD
+    eXtreme Programming:
+  
+  Unified Modeling Language: # UML
+    Description: "https://aswalmighty.tistory.com/88?category=788367"
+    Class Relationship: "https://itproda.tistory.com/101"
+    Diagrams:
+      - Usecase Diagram
+      - Class Diagram
+      - Object Diagram
+      - Component Diagram
+      - Deployment Diagram
+      - Activity Diagram
+      - State Diagram
+      - Sequence Diagram
+      - Communication Diagram
+  
+  Software Architecture:
+    MVC: "https://m.blog.naver.com/jhc9639/220967034588"
+    Monolith vs Microservices: "https://www.atlassian.com/ko/microservices/microservices-architecture/microservices-vs-monolith" # MSA
+    Layered Architecture: "https://hudi.blog/layered-architecture/"
+    Hexagonal: "https://tech.osci.kr/hexagonal-architecture/"
+
+    Anti-pattern:
+      Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
+    # TODO: another architecture
+
+  Refactoring:
+    Common:
+      - "http://dj6316.torchpad.com/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81%28refactoring%29/CH.03+%EC%BD%94%EB%93%9C%EC%9D%98+%EA%B5%AC%EB%A6%B0%EB%82%B4/1.%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C"
+      - "https://chodragon9.github.io/blog/legacy-code-to-easy-code/"
+    Code Smell:
+      - "https://dnight.tistory.com/entry/%EC%BD%94%EB%93%9C%EC%8A%A4%EB%A9%9C-CodeSmall"
+      - "http://rapapa.net/?p=2406"
+      - "https://refactoring.guru/refactoring/smells"
+      - "https://nesoy.github.io/articles/2018-05/Refactoring-BadSmell"
+
+  Testing:
+    Type:
+      - Unit Test
+      - Integration Test
+      - Acceptance Test
+    Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
+    Anti-pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+
+  Programming Culture:
+    Code Review:
+  
+  Problem: # TODO: make multi-thread section
+    Thrashing: "https://jwprogramming.tistory.com/56"
+
+  Scaling:
+    - "https://tech.kakao.com/2023/02/01/university-student-mentoring-get-out-from-the-well/"
+
+Java:
+  Grammer:
+    Enum:
+      - "https://honbabzone.com/java/java-enum/"
+      - "https://velog.io/@kyle/%EC%9E%90%EB%B0%94-Enum-%EA%B8%B0%EB%B3%B8-%EB%B0%8F-%ED%99%9C%EC%9A%A9"
+    Record: "https://scshim.tistory.com/372"
+    Nested Class: "https://gyrfalcon.tistory.com/entry/JAVAJ-Nested-Class"
+    Lambda:
+      Common: "https://khj93.tistory.com/entry/JAVA-%EB%9E%8C%EB%8B%A4%EC%8B%9DRambda%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B4%EA%B3%A0-%EC%82%AC%EC%9A%A9%EB%B2%95"
+      Functional Interface: "https://bcp0109.tistory.com/313"
+      Method reference: "https://www.tcpschool.com/java/java_lambda_reference"
+    Closure: "https://futurecreator.github.io/2018/08/09/java-lambda-and-closure/"
+    Generic: "http://www.joefkelley.com/460/"
+    Interface: "https://icarus8050.tistory.com/77"
+
+  Java API:
+    CompletableFuture: "https://mangkyu.tistory.com/263"
+    ConcurrentHashMap: "https://devlog-wjdrbs96.tistory.com/269"
+
+  Design Pattern:
+    Description:
+      - "https://catsbi.oopy.io/344dbe7b-9774-48fc-9c95-b554e9c1c4bc"
+      - "https://technical-leader.tistory.com/7"
+    GRASP: "https://www.hanbit.co.kr/network/category/category_view.html?cms_code=CMS8586826397&cate_cd="
+    Singleton: "https://jdm.kr/blog/10"
+    Composite: # Delegation
+      - "https://gmlwjd9405.github.io/2018/08/10/composite-pattern.html"
+      - "https://mygumi.tistory.com/343"
+      - "https://incheol-jung.gitbook.io/docs/q-and-a/architecture/undefined-2"
+    Builder: "https://jdm.kr/blog/217"
+    Static Factory Method: "https://velog.io/@ljinsk3/%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EA%B9%8C"
+    Abstract Factory: "https://jdm.kr/blog/192"
+    Factory Method: "https://jdm.kr/blog/180"
+    DI:
+      - "https://devlog-wjdrbs96.tistory.com/165?category=882236"
+      - "https://galid1.tistory.com/493?category=769011"
+    DAO, DTO, VO: "https://choitaetae.tistory.com/97"
+    Observer: "https://jdm.kr/blog/32"
+    Decorator: "https://catsbi.oopy.io/f58693bb-b2aa-4175-a786-a98f42b638c3"
+    Command: "https://victorydntmd.tistory.com/295?category=719467"
+    Visitor:
+    Composition over inheritance: "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
+    Anti Pattern: # Common Mistakes
+      - "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+
+  Framework & Library:
+    Utility:
+      Lombok: "https://projectlombok.org/"
+      Xml:
+        Jackson: "https://interconnection.tistory.com/137"
+        dom4j:
+      Json:
+        Gson:
+
+    Database:
+      JDBC: "https://ko.wikipedia.org/wiki/JDBC"
+      Connection Pool:
+        Description: "https://www.holaxprogramming.com/2013/01/10/devops-how-to-manage-dbcp/"
+        HikariCP:
+      ORM:
+        JPA:
+        Hibernate:
+        Spring Data JPA:
+          Description:
+            - "https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#preface"
+            - "https://goddaehee.tistory.com/209"
+            - "https://velog.io/@agugu95/SpringBoot-Entity-Design-Caution"
+          Transactional: "https://mommoo.tistory.com/92"
+
+    Validate:
+      Hibernate Validator:
+
+    Compiler:
+      JavaCC: "https://javacc.github.io/javacc/"
+
+    Spring:
+      IoC Container:
+      Bean: "https://atoz-develop.tistory.com/entry/Spring-%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B9%88Bean%EC%9D%98-%EA%B0%9C%EB%85%90%EA%B3%BC-%EC%83%9D%EC%84%B1-%EC%9B%90%EB%A6%AC"
+      Controller:
+        Description: "https://hardlearner.tistory.com/315"
+        Model Object: "https://velog.io/@msriver/Spring-Model-%EA%B0%9D%EC%B2%B4"
+      Spring Boot: "https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#getting-help"
+      Spring Security:
+        Architecture: "https://catsbi.oopy.io/f9b0d83c-4775-47da-9c81-2261851fe0d0"
+
+    RxJava: "https://velog.io/@haero_kim/series/Reactive-Programming"
+
+    Test:
+      JUnit: "https://lee-mandu.tistory.com/398?category=633568"
+      Mockito: "https://catsbi.oopy.io/a29ed4d0-49d3-44d3-bd24-154d6a7dc71f"
+
+  Time Complexity:
+    - "https://www.grepiu.com/post/9"
+    - "https://www.bigocheatsheet.com/"
+
+  Debugging:
+    Basic: "https://ericlippert.com/2014/03/05/how-to-debug-small-programs/"
+    Tool:
+      Debugger:
+      Profiler:
+    Memory Leak:
+      MAT: "https://www.eclipse.org/mat/"
+    Thread Dump:
+      "https://fastthread.io/"
+
+  References:
+    Web:
+      - "https://velog.io/@corepen_"
+      - "https://catsbi.oopy.io/5ce4e76e-645a-4c5f-9e61-7ffb5390e09e"
+    Book:
+      Clean Code: "https://velog.io/@0909oje/10%EC%9E%A5.-%ED%81%B4%EB%9E%98%EC%8A%A4"
+      Effective Java: "https://mangkyu.tistory.com/133"
+      The Pragmatic Programmer:
+        - "https://velog.io/@corepen_/3%EC%A3%BC-%EC%99%84%EB%8F%85-Daily-%EC%84%9C%ED%8F%89-%EC%8B%A4%EC%9A%A9%EC%A3%BC%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8-1"
+        - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
+      Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
+
+  Useful:
+    - "https://www.javatips.net/"
+
+JavaScript:
+  Grammer:
+    async, await: "https://developer.mozilla.org/ko/docs/Learn/JavaScript/Asynchronous/Async_await"
+    Regular Expression: "https://evan-moon.github.io/2021/05/07/why-regexp-called-regexp/" # regex
+
+  Node.js:
+    npmjs: "https://npmjs.com/"
+
+  Library:
+    React:
+      Aspect: "https://dev.aspect.app/"
+
+CSS:
+  Principle: "https://maintainablecss.com/chapters/introduction/"
+  Framework:
+    Bootstrap: "https://getbootstrap.com/docs/5.2/customize/overview/"
+
+Database:
+  Grammer:
+    CRUD: "https://www.tcpschool.com/mysql/mysql_basic_create"
+    JOIN:
+    ORDER BY:
+    VIEW:
+
+  Principle:
+    Normalization:
+
+Game Development:
+  Design Pattern: "https://lipcoder.tistory.com/category/Game%20Design%20Pattern%2C%20Logic"
+  Architecture:
+    Component Based:
+      - "https://www.kodeco.com/2806-introduction-to-component-based-architecture-in-games"
+      - "https://gameprogrammingpatterns.com/component.html"
+  Assets:
+    - "https://www.kenney.nl/assets"
+
+Security:
+  Attack Method:
+    SQL Injection:
+    Middle Man Attack:
+    XSS:
+
+  Web:
+    Site:
+      - "https://webhacking.kr/"
+      - "https://owasp.org/www-project-top-ten/"
+    Tomcat:
+      - "https://book.hacktricks.xyz/network-services-pentesting/pentesting-web/tomcat"
+      - "https://hg2lee.tistory.com/91"
+      - "https://tomcat.apache.org/tomcat-10.0-doc/config/filter.html"
+    Protocol:
+      TLS/SSL:
+        HTTPS:
+
+  Vulnerability:
+    - Log4Shell
+    - Meltdown & Specter
+    - Heartbleed
+
+  OWASP Top 10:
+    - 1:Broken Access Control
+    - 2:Cryptographic Failures
+    - 3:Injection
+    - 4:Insecure
+    - 5:Security Misconfiguration
+    - 6:Vulnerable
+    - 7:Identification and Authentication Failures
+    - 8:Software and Data Integrity Failure
+    - 9:Security Logging and Monitoring Failures
+    - 10:Server-Side Request Forgery
+
+Network:
+  Description:
+    - "https://yozm.wishket.com/magazine/detail/1875/"
+
+  Principle:
+    Async/Sync/Blocking/Non-Blocking: "https://velog.io/@wonhee010/%EB%8F%99%EA%B8%B0vs%EB%B9%84%EB%8F%99%EA%B8%B0-feat.-blocking-vs-non-blocking"
+
+  Protocol:
+    Description: "https://bohyeon-n.github.io/deploy/network/internet-2.html"
+    HTTP:
+    TCP/UDP:
+
+  OSI-7-Layer:
+    Description: "https://shlee0882.tistory.com/110"
+    1. Physical:
+      - Cable
+      - Hub
+    2. Data link:
+      - Switch
+      - Bridge
+    3. Network:
+      - Router
+    4. Transport:
+      - TCP
+      - UDP
+    5. Session:
+    6. Presentation:
+      - ASCII
+      - UTF-8
+    7. Applicaton:
+      - HTTP
+      - SMTP
+      - SSH
+      - User Application
+
+  IP class: "https://limkydev.tistory.com/168" # A/B/C class
+  Subnet mask: "https://limkydev.tistory.com/166"
+  Gateway: "https://melonicedlatte.com/network/2020/04/28/201100.html"
+
+DevOps:
+  CI/CD:
+    Description: "https://www.nextree.co.kr/p10799/"
+    Tool:
+      - Jenkins
+      - Github Actions
+      - GitLab
+      - TeamCity
+
+  Orchestration:
+    Docker vs Kubernetes: "https://www.itworld.co.kr/news/135282"
+    Kubernetes:
+      - "https://subicura.com/2019/05/19/kubernetes-basic-1.html"
+
+  Docker:
+    Dockerfile: "https://wooono.tistory.com/123"
+    Links:
+      - "https://novemberde.github.io/post/2017/04/09/Docker_Registry_0/"
+      - "https://docs.docker.com/build/building/multi-stage/"
+      - "https://jiseok-woo.tistory.com/24"
+
+  Registry:
+    Nexus:
+    Amazon S3:
+      - "https://www.jetbrains.com/help/teamcity/storing-build-artifacts-in-amazon-s3.html#Migrating+Artifacts+To+a+Different+Storage"
+    Github Packages:
+    GitLab:
+
+Git:
+  Basic:
+    Action:
+      Commit:
+      Push:
+      Pull:
+      Fetch:
+      Pull Request:
+      Rebase: "https://firework-ham.tistory.com/12"
+    Structure:
+      Branch:
+      Repository:
+      SubModule: "https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88"
+
+  Convention:
+    Commit: "https://www.conventionalcommits.org/ko/v1.0.0/"
+    Branch: "https://velog.io/@kw2577/Git-branch-%EC%A0%84%EB%9E%B5"
+
+Artificial Intelligence:
+  Product:
+    - ChatGPT
+    - Sketch2Code
+    - Google Bard
+
+  Behavior Tree: "https://engineering.linecorp.com/ko/blog/behavior-tree/"
+
+Etc:
+  Don't try this at home:
+    - "https://github.com/Lee-WonJun/JDD-Description"
+    - "https://taylor.town/-10x"

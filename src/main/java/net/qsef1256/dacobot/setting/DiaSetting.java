@@ -6,11 +6,10 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dialib.io.FileLoader;
-import net.qsef1256.dialib.io.provider.ExecutionPathProvider;
-import net.qsef1256.dialib.io.provider.ResourceFolderProvider;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.commons.configuration2.ex.ConfigurationException;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -48,15 +47,15 @@ public class DiaSetting {
         }
     }
 
-    private File getFile(String fileName) throws FileNotFoundException {
-        return FileLoader.getFirst(fileName,
-                new ExecutionPathProvider(getClass()),
-                new ResourceFolderProvider(getClass().getClassLoader()));
+    @NotNull
+    @Contract("_ -> new")
+    private File getFile(@NotNull String fileName) throws FileNotFoundException {
+        return FileLoader.get(fileName, this.getClass());
     }
 
     @NotNull
     private File getProjectFile() throws IOException {
-        return FileLoader.getFromResource(getClass().getClassLoader(), "project.properties");
+        return FileLoader.getFromResource("project.properties", getClass().getClassLoader());
     }
 
     public Guild getMainGuild() {
