@@ -37,13 +37,25 @@ public class KorEngConverter {
         return result.toString();
     }
 
-    // 1. 초성으로 시작해야 함 (다른 경우에는 무시, 한 글자를 완성할 수 없음)
-    // 2. 중성이 다음에 들어와야 함, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인 (다른 경우에는 무시, 한 글자를 완성할 수 없음)
-    // 3. 종성이 초성으로도 사용될 수 있는 경우 다음 글자가 중성인지 확인하고 맞다면 1로 돌아감 (이때 '글고' 처럼 종성이 남아있을 수 있음)
-    // 4. 종성은 없어도 되나, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인해서 종성이 있는지 확인하고 있을 경우 글자에 포함함
+    /**
+     * Process eng string to single kor char
+     *
+     * <p>Algorithm:
+     * <ol>
+     * <li>초성으로 시작해야 함 (다른 경우에는 무시, 한 글자를 완성할 수 없음)</li>
+     * <li>중성이 다음에 들어와야 함, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인 (다른 경우에는 무시, 한 글자를 완성할 수 없음)</li>
+     * <li> 종성이 초성으로도 사용될 수 있는 경우 다음 글자가 중성인지 확인하고 맞다면 1로 돌아감 (이때 '글고' 처럼 종성이 남아있을 수 있음)</li>
+     * <li>종성은 없어도 되나, 다음 글자를 2개 짜리 먼저, 1개 순으로 확인해서 종성이 있는지 확인하고 있을 경우 글자에 포함함</li>
+     * </ol>
+     * </p>
+     *
+     * @param eng         end char to process, mutable
+     * @param removeCount processed (and removed) word count, start from 0
+     * @return single kor char
+     */
     @NotNull
     private String processSingleChar(@NotNull String eng, AtomicInteger removeCount) {
-        // 1
+        // 1.
         // check Final Consonant only
         SingleChar<FinalConsonant> lastConsonant = new SingleChar<>(eng, FinalConsonant::fromEng);
         if (lastConsonant.hasConsonant() && !lastConsonant.hasNextConsonant(MedialConsonant::fromEng)) {
@@ -60,7 +72,7 @@ public class KorEngConverter {
             return medialConsonant.toString();
         }
 
-        // start create character
+        // start to create character
         String initialChar = String.valueOf(eng.charAt(0));
         InitialConsonant initial = InitialConsonant.fromEng(initialChar);
 
@@ -72,21 +84,16 @@ public class KorEngConverter {
         removeCount.addAndGet(initialChar.length());
         eng = StringUtils.removeStart(eng, initialChar);
 
-        if (eng.isBlank()) {
-            return initial.getKor();
-        }
+        if (eng.isBlank()) return initial.getKor();
 
-        // 2
+        // 2.
         SingleChar<MedialConsonant> medial = new SingleChar<>(eng, MedialConsonant::fromEng);
-
-        if (medial.getConsonant() == null) {
-            return initial.getKor();
-        }
+        if (medial.getConsonant() == null) return initial.getKor();
 
         removeCount.addAndGet(medial.getCharacter().length());
         eng = StringUtils.removeStart(eng, medial.getCharacter());
 
-        // 3
+        // 3.
         // case of with FinalConsonant
         if (checkGhostFire(eng, 1)) {
             String lastChar = String.valueOf(eng.charAt(0));
@@ -106,9 +113,8 @@ public class KorEngConverter {
             return new SingleKorChar(initial, medial.getConsonant(), FinalConsonant.NONE).toString();
         }
 
-        // 4
+        // 4.
         SingleChar<FinalConsonant> last = new SingleChar<>(eng, FinalConsonant::fromEng);
-
         removeCount.addAndGet(last.getCharacter().length());
 
         return new SingleKorChar(initial, medial.getConsonant(), Optional
@@ -120,6 +126,7 @@ public class KorEngConverter {
      * <a href="https://namu.wiki/w/%EB%8F%84%EA%B9%A8%EB%B9%84%EB%B6%88%20%ED%98%84%EC%83%81">도깨비불 현상</a> 을 확인합니다.
      *
      * @param pointer location of start checking
+     * @return if a ghost fire phenomenon is active, return true
      */
     private boolean checkGhostFire(@NotNull String eng, int pointer) {
         if (eng.length() >= 2 + pointer && InitialConsonant.fromEng(String.valueOf(eng.charAt(pointer))) != null) {
