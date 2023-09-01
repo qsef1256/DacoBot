@@ -23,7 +23,10 @@ public class ReflectionUtil {
      * @see #isNested(Class)
      */
     public boolean isConcrete(@NotNull Class<?> clazz) {
-        return !(clazz.isInterface() || clazz.isArray() || clazz.isPrimitive() || Modifier.isAbstract(clazz.getModifiers()));
+        return !(clazz.isInterface()
+                || clazz.isArray()
+                || clazz.isPrimitive()
+                || Modifier.isAbstract(clazz.getModifiers()));
     }
 
     /**

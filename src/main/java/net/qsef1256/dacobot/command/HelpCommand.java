@@ -157,6 +157,7 @@ public class HelpCommand extends SlashCommand {
 
     }
 
+    // TODO: separate to object like Diapedia
     private static void buildEmbed(@NotNull EmbedBuilder embedBuilder, @NotNull Map<?, ?> map, Member member) {
         if (map.get("TITLE") != null) {
             embedBuilder.setTitle(map.get("TITLE").toString());

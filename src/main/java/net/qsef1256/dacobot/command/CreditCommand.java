@@ -60,6 +60,7 @@ public class CreditCommand extends SlashCommand {
             } catch (final RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
+
                 return;
             }
 

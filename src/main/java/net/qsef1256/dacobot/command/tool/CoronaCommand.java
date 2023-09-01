@@ -2,8 +2,8 @@ package net.qsef1256.dacobot.command.tool;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.qsef1256.dacobot.service.openapi.corona.CoronaApi;
-import net.qsef1256.dacobot.service.openapi.corona.CoronaEntity;
+import net.qsef1256.dacobot.module.openapi.corona.CoronaApi;
+import net.qsef1256.dacobot.module.openapi.corona.CoronaEntity;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 

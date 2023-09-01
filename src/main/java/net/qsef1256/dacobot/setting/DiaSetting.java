@@ -89,6 +89,7 @@ public class DiaSetting {
         for (String subGuildId : getSetting().getString("bot.subGuildIds").split(",\\s*")) {
             guilds.add(DacoBot.getJda().getGuildById(subGuildId));
         }
+
         return guilds;
     }
 

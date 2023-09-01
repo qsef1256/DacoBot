@@ -139,11 +139,14 @@ public class NestedMap<T, S> {
      * @see #putAll(T, Map)
      */
     public <V> V put(T key, S subKey, V value) {
-        Map<S, V> subMap = keyMap.containsKey(key) ? (Map<S, V>) keyMap.get(key) : new HashMap<>();
+        Map<S, V> subMap = keyMap.containsKey(key)
+                ? (Map<S, V>) keyMap.get(key)
+                : new HashMap<>();
         V replaced = subMap.put(subKey, value);
 
         if (keyMap.containsKey(key)) keyMap.replace(key, subMap);
         else keyMap.put(key, subMap);
+
         return replaced;
     }
 
@@ -217,11 +220,14 @@ public class NestedMap<T, S> {
      * @see #replace(T, Map)
      */
     public <V> V replace(T key, S subKey, V value) {
-        Map<S, V> subMap = keyMap.containsKey(key) ? (Map<S, V>) keyMap.get(key) : new HashMap<>();
+        Map<S, V> subMap = keyMap.containsKey(key)
+                ? (Map<S, V>) keyMap.get(key)
+                : new HashMap<>();
         V replaced = subMap.replace(subKey, value);
 
         if (keyMap.containsKey(key)) keyMap.replace(key, subMap);
         else keyMap.put(key, subMap);
+
         return replaced;
     }
 

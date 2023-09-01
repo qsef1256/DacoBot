@@ -6,8 +6,8 @@ import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.service.account.controller.AccountController;
-import net.qsef1256.dacobot.service.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.controller.AccountController;
+import net.qsef1256.dacobot.module.account.data.UserEntity;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 

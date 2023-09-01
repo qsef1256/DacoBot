@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.service.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.data.UserEntity;
 import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 

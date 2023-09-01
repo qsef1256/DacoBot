@@ -5,9 +5,9 @@ import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
 import net.qsef1256.dacobot.game.board.model.GameHost;
-import net.qsef1256.dacobot.service.key.ManagedKey;
-import net.qsef1256.dacobot.service.message.MessageApiImpl;
-import net.qsef1256.dacobot.service.message.type.TrackedEventMessage;
+import net.qsef1256.dacobot.module.key.ManagedKey;
+import net.qsef1256.dacobot.module.message.MessageApiImpl;
+import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
 

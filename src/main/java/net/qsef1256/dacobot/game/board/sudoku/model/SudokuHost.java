@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.game.board.model.GameHost;
 import net.qsef1256.dacobot.game.board.model.GameUI;
-import net.qsef1256.dacobot.service.key.SingleUserKey;
-import net.qsef1256.dacobot.service.key.UserKey;
+import net.qsef1256.dacobot.module.key.SingleUserKey;
+import net.qsef1256.dacobot.module.key.UserKey;
 
 import java.util.Set;
 

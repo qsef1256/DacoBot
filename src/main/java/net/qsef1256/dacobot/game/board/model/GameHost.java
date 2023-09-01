@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.game.board.model;
 
 import lombok.Getter;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.qsef1256.dacobot.service.key.ManagedKey;
+import net.qsef1256.dacobot.module.key.ManagedKey;
 import org.jetbrains.annotations.NotNull;
 
 /**

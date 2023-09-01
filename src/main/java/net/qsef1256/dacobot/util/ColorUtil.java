@@ -20,6 +20,7 @@ public class ColorUtil {
         final float hue = random.nextFloat();
         final float saturation = (random.nextInt(2000) + 1000) / 10000f;
         final float luminance = 0.9f;
+
         return Color.getHSBColor(hue, saturation, luminance);
     }
 
@@ -32,6 +33,7 @@ public class ColorUtil {
         final float hue = random.nextFloat();
         final float saturation = 0.9f;
         final float luminance = 1;
+
         return Color.getHSBColor(hue, saturation, luminance);
     }
 

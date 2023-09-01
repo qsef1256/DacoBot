@@ -53,9 +53,8 @@ public class DiaScheduler {
      * @param second   0 ~ 59
      */
     public static void executePerTime(Runnable runnable, int hour, int minute, int second) {
-        ZonedDateTime nextExecutionTime = getNextExecutionTime(hour, minute, second);
+        long delay = getDiffFromNow(getNextExecutionTime(hour, minute, second));
 
-        long delay = getDiffFromNow(nextExecutionTime);
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 runnable.run();
