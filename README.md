@@ -31,23 +31,24 @@ https://discord.gg/uDEVbvJ55q
 
 ### Planned
 
+* DI (Guice)
 * Localization: https://github.com/DV8FromTheWorld/JDA/blob/master/src/examples/java/LocalizationExample.java
 * JDA Wiki: https://jda.wiki/using-jda/gateway-intents-and-member-cache-policy/
 * 방치형 게임 (폭발겜)
 * 명령어 줄이기 (버튼 등 UI 화)
 * 다코챗
 * Upsert commands to global
+* Move this Planned section to GitHub issue
 
 ### Idea
 
-* JAspect 사용
+* AOP (JAspect)
 * /깃허브: 오류 보고!
 * /기능: 기능 요청 폼
 * 퀴즈 게임
+* 펫 게임
 * 봇을 통째로 게임으로 만들기 (명령어 사용에 비용 필요)
 * 인터프리터 게임 제작기 (?)
-* 펫 게임
-* /자라
 * TacoBot (??)
 
 ## Library
