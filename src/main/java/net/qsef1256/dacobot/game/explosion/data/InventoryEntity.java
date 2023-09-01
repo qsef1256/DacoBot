@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,7 +25,7 @@ public class InventoryEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "discord_id")
-    private AccountEntity discordUser;
+    private UserEntity discordUser;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Map<Integer, ItemEntity> items = new HashMap<>();

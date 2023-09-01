@@ -19,7 +19,7 @@ public class NoZaraCommand extends SlashCommand {
         CmdStatistic statistic = new CmdStatistic(getClass());
 
         EmbedBuilder embedBuilder = DiaEmbed.primary("용봉탕", "저런! 자라가 도망갔네요.", null);
-        embedBuilder.setImage("https://tenor.com/view/mcconnell-turtle-sprint-gif-7799343");
+        embedBuilder.setImage("https://media.tenor.com/Yu00bIKQgtAAAAAd/mcconnell-turtle.gif");
         embedBuilder.setFooter(statistic.getUseInfo());
 
         event.replyEmbeds(embedBuilder.build()).queue();

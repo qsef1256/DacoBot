@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.service.account.controller.AccountController;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import net.qsef1256.dacobot.service.account.model.Account;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.junit.jupiter.api.AfterAll;
@@ -24,9 +24,9 @@ class AttendCommandTest {
 
     @Test
     void testAttend() {
-        try (DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class)) {
+        try (DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class)) {
             Account user = new Account(419761037861060620L);
-            AccountEntity userData = user.getData();
+            UserEntity userData = user.getData();
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {

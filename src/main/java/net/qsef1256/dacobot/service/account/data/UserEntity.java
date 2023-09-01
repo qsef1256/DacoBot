@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Entity
 @Accessors(chain = true)
 @Table(name = "discord_user")
-public class AccountEntity {
+public class UserEntity {
 
     @Id
     @Column(name = "discord_id", nullable = false)
@@ -23,6 +23,7 @@ public class AccountEntity {
 
     private LocalDateTime registerTime = LocalDateTime.now();
 
+    // TODO: this is moved to admin service...
     @Column(nullable = false)
     @ColumnDefault(value = "'OK'")
     private String status = "OK";
@@ -33,6 +34,7 @@ public class AccountEntity {
     @ColumnDefault(value = "0")
     private Integer attendCount = 0;
 
+    // TODO: move to DiaGame
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;

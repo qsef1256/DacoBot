@@ -1,11 +1,11 @@
 package net.qsef1256.dacobot.service.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.entities.User;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import net.qsef1256.dacobot.service.account.model.Account;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
@@ -26,11 +26,11 @@ public class AttendCommand extends SlashCommand {
         if (event.getMember() == null) return;
         User eventUser = event.getUser();
 
-        try (DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class)) {
+        try (DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class)) {
             dao.open();
 
             Account user = new Account(eventUser.getIdLong());
-            AccountEntity userData = user.getData();
+            UserEntity userData = user.getData();
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {

@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.database;
 
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class JPATest {
 
-    private static final DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class);
+    private static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
-    private static final AccountEntity testUser = new AccountEntity();
+    private static final UserEntity testUser = new UserEntity();
 
     static {
         testUser.setDiscordId(419761037861060620L);
@@ -34,14 +34,14 @@ class JPATest {
     void testAutoClose() {
         assertDoesNotThrow(() -> {
             for (int i = 0; i < 3; i++) {
-                try (DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class)) {
+                try (DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class)) {
                     testUser(dao);
                 }
             }
         });
     }
 
-    private static void testUser(@NotNull DaoCommonJpa<AccountEntity, Long> dao) {
+    private static void testUser(@NotNull DaoCommonJpa<UserEntity, Long> dao) {
         logger.info("User Count: " + dao.count());
 
         logger.info("is Exists?: " + dao.existsById(testUser.getDiscordId()));

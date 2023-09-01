@@ -9,7 +9,7 @@ import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
 import net.qsef1256.dacobot.service.account.controller.AccountController;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -19,7 +19,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 
 public class Inventory {
 
-    protected static final DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class);
+    protected static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
     @Getter
     private InventoryEntity data;
@@ -40,10 +40,10 @@ public class Inventory {
         // FIXME: fix inventory creating bug ?
         // TODO: https://stackoverflow.com/questions/30088649/how-to-use-multiple-join-fetch-in-one-jpql-query
 
-        AccountEntity account;
+        UserEntity account;
         try {
-            account = (AccountEntity) JpaController.getEntityManager()
-                    .createQuery("select m from AccountEntity m join fetch m.inventory where m.discordId = :discordId")
+            account = (UserEntity) JpaController.getEntityManager()
+                    .createQuery("select m from UserEntity m join fetch m.inventory where m.discordId = :discordId")
                     .setParameter("discordId", discordId)
                     .getSingleResult();
             data.setDiscordUser(account);
@@ -68,7 +68,7 @@ public class Inventory {
         dao.close();
     }
 
-    public AccountEntity getUser() {
+    public UserEntity getUser() {
         return data.getDiscordUser();
     }
 
@@ -156,7 +156,7 @@ public class Inventory {
     }
 
     private void saveAndClose() {
-        AccountEntity account = data.getDiscordUser();
+        UserEntity account = data.getDiscordUser();
 
         account.setInventory(data);
         dao.saveAndClose(account);

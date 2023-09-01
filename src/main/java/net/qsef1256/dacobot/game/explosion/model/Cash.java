@@ -7,7 +7,7 @@ import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
 import net.qsef1256.dacobot.service.account.controller.AccountController;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
@@ -25,10 +25,10 @@ public class Cash {
     public Cash(final long discordId) {
         dao.open();
 
-        AccountEntity account;
+        UserEntity account;
         try {
-            account = (AccountEntity) JpaController.getEntityManager()
-                    .createQuery("select m from AccountEntity m join fetch m.explosionCash where m.discordId = :discordId")
+            account = (UserEntity) JpaController.getEntityManager()
+                    .createQuery("select m from UserEntity m join fetch m.explosionCash where m.discordId = :discordId")
                     .setParameter("discordId", discordId)
                     .getSingleResult();
             data = account.getExplosionCash();

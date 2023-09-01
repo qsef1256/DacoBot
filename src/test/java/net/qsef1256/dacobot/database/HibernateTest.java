@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.database;
 
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 class HibernateTest {
 
     public void DaoCheck() {
-        DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class);
+        DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
         logger.info("qsef1256 is exist?: " + dao.existsById(419761037861060619L));
         if (!dao.existsById(419761037861060620L))
@@ -24,13 +24,13 @@ class HibernateTest {
         logger.info("count: " + count);
     }
 
-    private void find(@NotNull DaoCommon<AccountEntity, Long> dao) {
-        AccountEntity user = dao.findById(419761037861060620L);
+    private void find(@NotNull DaoCommon<UserEntity, Long> dao) {
+        UserEntity user = dao.findById(419761037861060620L);
         logger.info(user.getDiscordId() + " Status: " + user.getStatus() + " Time: " + user.getRegisterTime());
     }
 
-    private void save(@NotNull DaoCommon<AccountEntity, Long> dao) {
-        AccountEntity testUser = new AccountEntity();
+    private void save(@NotNull DaoCommon<UserEntity, Long> dao) {
+        UserEntity testUser = new UserEntity();
         testUser.setDiscordId(419761037861060620L);
         testUser.setRegisterTime(LocalDateTime.now());
         testUser.setStatus("TEST");

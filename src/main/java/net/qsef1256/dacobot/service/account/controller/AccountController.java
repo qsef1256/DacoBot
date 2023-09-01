@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.service.account.controller;
 import lombok.experimental.UtilityClass;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import net.qsef1256.dacobot.service.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.util.JDAUtil;
 
@@ -14,7 +14,7 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @UtilityClass
 public class AccountController {
 
-    private static final DaoCommonJpa<AccountEntity, Long> dao = new DaoCommonJpaImpl<>(AccountEntity.class);
+    private static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
     /**
      * 다양한 기능을 사용하기 위해 유저 등록을 시도합니다.
@@ -28,7 +28,7 @@ public class AccountController {
             if (dao.existsById(discordId))
                 throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
 
-            AccountEntity userData = new AccountEntity();
+            UserEntity userData = new UserEntity();
             userData.setDiscordId(discordId);
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
@@ -62,9 +62,9 @@ public class AccountController {
         }
     }
 
-    public static AccountEntity getAccount(long discordId) {
+    public static UserEntity getAccount(long discordId) {
         dao.open();
-        AccountEntity entity = dao.findById(discordId);
+        UserEntity entity = dao.findById(discordId);
         dao.close();
 
         return entity;

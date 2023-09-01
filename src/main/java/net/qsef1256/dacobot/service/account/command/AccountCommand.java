@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.game.explosion.model.Cash;
 import net.qsef1256.dacobot.service.account.controller.AccountController;
-import net.qsef1256.dacobot.service.account.data.AccountEntity;
+import net.qsef1256.dacobot.service.account.data.UserEntity;
 import net.qsef1256.dacobot.service.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.service.account.model.Account;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
@@ -84,7 +84,7 @@ public class AccountCommand extends SlashCommand {
             final User user = event.getUser();
 
             try {
-                final AccountEntity userData = new Account(user.getIdLong()).getData();
+                final UserEntity userData = new Account(user.getIdLong()).getData();
                 final Cash cashData = new Cash(user.getIdLong());
                 final long cash = cashData.getCash();
 

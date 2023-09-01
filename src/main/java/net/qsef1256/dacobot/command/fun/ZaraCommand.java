@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.service.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.ui.DiaEmbed;
+import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
@@ -29,9 +30,16 @@ public class ZaraCommand extends SlashCommand {
         };
 
         EmbedBuilder embedBuilder = DiaEmbed.primary("자라", message, null);
-        embedBuilder.setImage("https://media.tenor.com/COj0Hup5pz8AAAAd/turtle.gif");
-        embedBuilder.setFooter(statistic.getUseInfo());
+        switch (RandomUtil.randomInt(1, 2)) {
+            case 1 -> embedBuilder.setImage("https://media.tenor.com/COj0Hup5pz8AAAAd/turtle.gif");
+            case 2 -> embedBuilder.setImage(
+                    "https://media.discordapp.net/attachments/949632236691529768/1146469838789808138/1545116962330.jpg");
+            default -> {
+                // do nothing
+            }
+        }
 
+        embedBuilder.setFooter(statistic.getUseInfo());
         event.replyEmbeds(embedBuilder.build()).queue();
     }
 
