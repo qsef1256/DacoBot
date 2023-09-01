@@ -56,7 +56,6 @@ public class JpaEntityManagerFactory {
     protected Properties getProperties() {
         Properties config = new Properties();
 
-        config.put("hibernate.dialect", setting.getString("hibernate.dialect"));
         config.put("hibernate.archive.autodetection", setting.getString("hibernate.archive.autodetection"));
         config.put("hibernate.physical_naming_strategy", setting.getString("hibernate.physical_naming_strategy"));
         config.put("hibernate.current_session_context_class", setting.getString("hibernate.current_session_context_class"));
