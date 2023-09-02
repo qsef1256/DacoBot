@@ -6,7 +6,7 @@ https://discord.gg/uDEVbvJ55q
 
 ## Environment
 
-* `JDA 5.0.0-beta.3`
+* `JDA 5.0.0-beta.13`
 * `Jakarta EE 10`
 * `JPA 3.0`
 * `CDI 4.0`
@@ -19,37 +19,9 @@ https://discord.gg/uDEVbvJ55q
 
 * `setting.properties`
 * `key.properties`
+* `diapedia.yml` (for Diapedia)
 
 해당 파일은 설정 파일을 jar 파일과 같은 디렉터리에 위치시키는 것으로 로드시킬 수 있음
-
-## TODO
-
-### Priority
-
-* 이용 약관, 개인정보 처리방침
-* 운영자 명령어, 관리 시스템 (/밴)
-
-### Planned
-
-* DI (Guice)
-* Localization: https://github.com/DV8FromTheWorld/JDA/blob/master/src/examples/java/LocalizationExample.java
-* JDA Wiki: https://jda.wiki/using-jda/gateway-intents-and-member-cache-policy/
-* 방치형 게임 (폭발겜)
-* 명령어 줄이기 (버튼 등 UI 화)
-* 다코챗
-* Upsert commands to global
-* Move this Planned section to GitHub issue
-
-### Idea
-
-* AOP (JAspect)
-* /깃허브: 오류 보고!
-* /기능: 기능 요청 폼
-* 퀴즈 게임
-* 펫 게임
-* 봇을 통째로 게임으로 만들기 (명령어 사용에 비용 필요)
-* 인터프리터 게임 제작기 (?)
-* TacoBot (??)
 
 ## Library
 
@@ -65,7 +37,7 @@ https://discord.gg/uDEVbvJ55q
 * 기술 라이브러리
     * [Weld](https://github.com/weld/core): `Apache-2.0`
     * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
-    * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
+    * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` (secondary) `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리
     * [mXParser](https://mathparser.org/): Copyright 2010–2020 Mariusz Gromada. All rights reserved. `BSD-2-Clause`
 * 유틸 라이브러리
@@ -90,9 +62,6 @@ https://discord.gg/uDEVbvJ55q
     * [Logback](https://logback.qos.ch/): Copyright © 2021 QOS.ch `EPL-1.0` `LGPL-2.1`
 * 기타 라이센스
     * [Twemoji](https://twemoji.twitter.com/): Copyright 2020 Twitter, Inc and other contributors / 색상 수정됨 `MIT`, `CC-BY-4.0`
-
-<!-- Removed License -->
-<!-- * [AspectJ](https://projects.eclipse.org/projects/tools.aspectj): Copyright © 2012-2021 Eclipse Foundation. All Rights Reserved. `EPL-1.0` -->
 
 라이선스 코드는 [SPDX](https://spdx.org/licenses/) 를 기준으로 합니다.
 
