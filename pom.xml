@@ -188,9 +188,9 @@
 
         <!-- Technical Library -->
         <dependency>
-            <groupId>org.jboss.weld.se</groupId>
-            <artifactId>weld-se-shaded</artifactId>
-            <version>5.1.1.SP2</version>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>7.0.0</version>
         </dependency>
 
         <dependency>

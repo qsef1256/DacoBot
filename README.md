@@ -35,7 +35,7 @@ https://discord.gg/uDEVbvJ55q
         * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
         * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * 기술 라이브러리
-    * [Weld](https://github.com/weld/core): `Apache-2.0`
+    * [Guice](https://github.com/google/guice): `Apache-2.0`
     * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
     * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` (secondary) `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리

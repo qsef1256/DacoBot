@@ -1,10 +1,5 @@
 package jsr330.domain;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Default;
-
-@Dependent
-@Default
 public class PngFileEditor implements ImageFileEditor {
 
     @Override

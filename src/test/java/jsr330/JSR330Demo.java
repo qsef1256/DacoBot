@@ -1,8 +1,8 @@
 package jsr330;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import lombok.extern.slf4j.Slf4j;
-import org.jboss.weld.environment.se.Weld;
-import org.jboss.weld.environment.se.WeldContainer;
 
 /**
  * CDI 샘플
@@ -12,13 +12,10 @@ import org.jboss.weld.environment.se.WeldContainer;
 public class JSR330Demo {
 
     public static void main(String[] args) {
-        Weld weld = new Weld();
+        Injector injector = Guice.createInjector(new ImageFileInjector());
+        ImageFileProcessor imageFileProcessor = injector.getInstance(ImageFileProcessor.class);
 
-        try (WeldContainer container = weld.initialize()) {
-            ImageFileProcessor imageFileProcessor = container.select(ImageFileProcessor.class).get();
-
-            log.info(imageFileProcessor.openFile("file1.png"));
-        }
+        log.info(imageFileProcessor.openFile("file1.png"));
     }
 
 }

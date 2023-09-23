@@ -1,10 +1,5 @@
 package jsr330.domain;
 
-import jakarta.enterprise.context.Dependent;
-import jakarta.enterprise.inject.Alternative;
-
-@Dependent
-@Alternative
 public class JpgFileEditor implements ImageFileEditor {
 
     @Override
