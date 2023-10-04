@@ -25,6 +25,7 @@ import net.qsef1256.dacobot.util.ReflectionUtil;
 import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,6 +41,7 @@ import static org.reflections.scanners.Scanners.SubTypes;
 public class DacoBot {
 
     public static final Logger logger = LoggerFactory.getLogger(DacoBot.class.getSimpleName());
+
     @Getter
     private static JDA jda;
     @Getter
@@ -47,23 +49,15 @@ public class DacoBot {
     private static String[] args;
 
     public static void main(final String[] args) throws InterruptedException {
-        String token = DiaSetting.getInstance().getKey().getString("discord.token");
-
         DacoBot.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
         Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
 
-        final CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
-        commandClientBuilder.setOwnerId(DiaSetting.getInstance().getSetting().getString("bot.ownerId"));
-        commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
-        commandClientBuilder.forceGuildOnly(DiaSetting.getInstance().getMainGuildID());
-        commandClientBuilder.useHelpBuilder(true);
-        commandClientBuilder.setHelpWord("도움말");
-        commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
-        commandClientBuilder.setPrefix("다코야");
-        commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
+        CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
+        configureCommandClientBuilder(commandClientBuilder);
 
+        // TryUtil.run(() -> registerCommands(commandClientBuilder), e -> {});
         try {
             registerCommands(commandClientBuilder);
         } catch (final ReflectiveOperationException e) {
@@ -81,9 +75,9 @@ public class DacoBot {
         logger.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
 
         initJpa();
-
-        final JDABuilder builder = JDABuilder
-                .createDefault(token);
+        JDABuilder builder = JDABuilder.createDefault(DiaSetting.getInstance()
+                .getKey()
+                .getString("discord.token"));
         configureBot(builder);
         builder.addEventListeners(commandClient);
 
@@ -112,6 +106,17 @@ public class DacoBot {
         transaction.commit();
     }
 
+    private static void configureCommandClientBuilder(@NotNull CommandClientBuilder commandClientBuilder) {
+        commandClientBuilder.setOwnerId(DiaSetting.getInstance().getSetting().getString("bot.ownerId"));
+        commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
+        commandClientBuilder.forceGuildOnly(DiaSetting.getInstance().getMainGuildID());
+        commandClientBuilder.useHelpBuilder(true);
+        commandClientBuilder.setHelpWord("도움말");
+        commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
+        commandClientBuilder.setPrefix("다코야");
+        commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
+    }
+
     private static void configureBot(final @NotNull JDABuilder builder) {
         builder.disableCache(CacheFlag.VOICE_STATE);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL); // 모든 길드의 유저 캐싱하기
@@ -120,8 +125,7 @@ public class DacoBot {
         builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
     }
 
-    private static void registerCommands(
-            final @NotNull CommandClientBuilder commandClientBuilder)
+    private static void registerCommands(@NotNull CommandClientBuilder commandClientBuilder)
             throws ReflectiveOperationException {
         logger.info("Loading Commands");
         final Set<Class<?>> commands = ReflectionUtil.getReflections().get(SubTypes.of(Command.class).asClass());
@@ -147,13 +151,13 @@ public class DacoBot {
         }
     }
 
-    private static void registerContextMenu(final @NotNull CommandClientBuilder commandClientBuilder) {
+    private static void registerContextMenu(@NotNull CommandClientBuilder commandClientBuilder) {
         logger.info("Loading Context Menus");
 
         commandClientBuilder.addContextMenu(new EngKorContextMenu());
     }
 
-    private static void registerListeners(final JDABuilder builder) throws ReflectiveOperationException {
+    private static void registerListeners(@NotNull JDABuilder builder) throws ReflectiveOperationException {
         logger.info("Loading Listeners");
         final Set<Class<?>> listeners = ReflectionUtil.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
 
@@ -168,7 +172,7 @@ public class DacoBot {
         }
     }
 
-    private static void upsertToGuild(Guild guild) {
+    private static void upsertToGuild(@Nullable Guild guild) {
         if (guild != null) {
             logger.info("Upsert command data for Guild id %s".formatted(guild.getId()));
 
@@ -185,7 +189,9 @@ public class DacoBot {
             allCommandData.addAll(commandDataList);
             allCommandData.addAll(contextMenuList);
 
-            guild.updateCommands().addCommands(allCommandData).queue();
+            guild.updateCommands()
+                    .addCommands(allCommandData)
+                    .queue();
         } else {
             logger.warn("Cannot find main Guild");
         }
@@ -200,8 +206,8 @@ public class DacoBot {
     }
 
     private static void exit(String message, @NotNull Exception e) {
-        logger.error(message);
-        e.printStackTrace();
+        logger.error(message, e);
+
         System.exit(1);
     }
 
@@ -229,8 +235,8 @@ public class DacoBot {
         try {
             Runtime.getRuntime().exec(cmd.toString());
         } catch (IOException e) {
-            logger.error("Failed to start bot: %s".formatted(e.getMessage()));
-            e.printStackTrace();
+            logger.error("Failed to start bot: %s".formatted(e.getMessage()), e);
+
             return;
         }
         shutdown();

@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>DacoBot</name>
-    <description>Dia Discord Bot - Daco Bot</description>
+    <description>Dia Discord Bot - DacoBot</description>
 
     <developers>
         <developer>
@@ -156,7 +156,7 @@
         <dependency>
             <groupId>net.dv8tion</groupId>
             <artifactId>JDA</artifactId>
-            <version>5.0.0-beta.13</version>
+            <version>5.0.0-beta.15</version>
             <exclusions>
                 <exclusion>
                     <groupId>club.minnced</groupId>
@@ -209,6 +209,18 @@
             <groupId>jakarta.el</groupId>
             <artifactId>jakarta.el-api</artifactId>
             <version>5.0.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.19</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.20</version>
         </dependency>
 
         <!-- Database Library -->
@@ -387,7 +399,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>2.0.7</version>
+            <version>2.0.9</version>
         </dependency>
 
         <!-- Testing Library -->
