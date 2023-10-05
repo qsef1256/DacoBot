@@ -3,6 +3,7 @@ package net.qsef1256.dacobot;
 import com.jagrosh.jdautilities.command.*;
 import jakarta.persistence.EntityTransaction;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -56,19 +57,8 @@ public class DacoBot {
 
         CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
         configureCommandClientBuilder(commandClientBuilder);
-
-        // TryUtil.run(() -> registerCommands(commandClientBuilder), e -> {});
-        try {
-            registerCommands(commandClientBuilder);
-        } catch (final ReflectiveOperationException e) {
-            exit("Error on loading commands", e);
-        }
-
-        try {
-            registerContextMenu(commandClientBuilder);
-        } catch (Exception e) {
-            exit("Error on loading context menus", e);
-        }
+        registerCommands(commandClientBuilder);
+        registerContextMenu(commandClientBuilder);
 
         commandClient = commandClientBuilder.build();
         commandClient.setListener(new TalkListener());
@@ -80,12 +70,7 @@ public class DacoBot {
                 .getString("discord.token"));
         configureBot(builder);
         builder.addEventListeners(commandClient);
-
-        try {
-            registerListeners(builder);
-        } catch (final ReflectiveOperationException e) {
-            exit("Error on loading listeners", e);
-        }
+        registerListeners(builder);
 
         HelpCommand.initCommands();
         jda = builder.build();
@@ -117,7 +102,7 @@ public class DacoBot {
         commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
     }
 
-    private static void configureBot(final @NotNull JDABuilder builder) {
+    private static void configureBot(@NotNull JDABuilder builder) {
         builder.disableCache(CacheFlag.VOICE_STATE);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL); // 모든 길드의 유저 캐싱하기
         builder.setChunkingFilter(ChunkingFilter.ALL);
@@ -125,14 +110,14 @@ public class DacoBot {
         builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
     }
 
-    private static void registerCommands(@NotNull CommandClientBuilder commandClientBuilder)
-            throws ReflectiveOperationException {
+    @SneakyThrows
+    private static void registerCommands(@NotNull CommandClientBuilder commandClientBuilder) {
         logger.info("Loading Commands");
-        final Set<Class<?>> commands = ReflectionUtil.getReflections().get(SubTypes.of(Command.class).asClass());
+        Set<Class<?>> commands = ReflectionUtil.getReflections().get(SubTypes.of(Command.class).asClass());
 
         if (commands.isEmpty())
             logger.warn("There is no command in the registered package. No commands were loaded.");
-        for (final Class<?> command : commands) {
+        for (Class<?> command : commands) {
             if (!ReflectionUtil.isPlain(command)) continue;
 
             String typeDisplay = "Unknown";
@@ -157,13 +142,14 @@ public class DacoBot {
         commandClientBuilder.addContextMenu(new EngKorContextMenu());
     }
 
-    private static void registerListeners(@NotNull JDABuilder builder) throws ReflectiveOperationException {
+    @SneakyThrows
+    private static void registerListeners(@NotNull JDABuilder builder) {
         logger.info("Loading Listeners");
-        final Set<Class<?>> listeners = ReflectionUtil.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
+        Set<Class<?>> listeners = ReflectionUtil.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
 
         if (listeners.isEmpty())
             logger.warn("There is no listener in the registered package. No listeners were loaded.");
-        for (final Class<?> listener : listeners) {
+        for (Class<?> listener : listeners) {
             if (!ReflectionUtil.isConcrete(listener)) continue;
 
             ListenerAdapter slashCommand = (ListenerAdapter) listener.getConstructor().newInstance();
