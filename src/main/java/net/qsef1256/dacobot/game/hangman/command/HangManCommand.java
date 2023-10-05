@@ -84,7 +84,7 @@ public class HangManCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
 
-            event.getChannel().sendMessage(event.getUser().getAsTag() + " 님이 행맨 게임을 시작했습니다!").queue();
+            event.getChannel().sendMessage(event.getUser().getName() + " 님이 행맨 게임을 시작했습니다!").queue();
             event.getChannel().sendMessageEmbeds(getHangmanStatus().build()).queue();
         }
 

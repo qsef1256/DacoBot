@@ -121,7 +121,7 @@ public class PaintDrawer {
                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                 .setColor(DiaColor.MAIN_COLOR)
                 .addField(user.getName() + "의 팔레트", painter.printPallet(), false)
-                .addField("유저 태그", user.getAsTag(), true)
+                .addField("유저 태그", user.getName(), true)
                 .addField("커서 x", String.valueOf(x), true)
                 .addField("커서 y", String.valueOf(y), true)
                 .setFooter("/갤러리 저장 으로 그림을 저장하세요.")

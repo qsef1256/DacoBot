@@ -63,8 +63,8 @@ public class RequestAPI {
                             .setColor(DiaColor.INFO)
                             .addField(title, ("<@%s> 님, %s 님으로 부터 %s 신청이 들어왔습니다.\n" +
                                     "수락 또는 거절 버튼을 눌러주세요.").formatted(receiver.getIdLong(), requester.getName(), title), false)
-                            .addField("신청자", requester.getAsTag(), true)
-                            .addField("상대자", receiver.getAsTag(), true)
+                            .addField("신청자", requester.getName(), true)
+                            .addField("상대자", receiver.getName(), true)
                             .addField("신청 ID", String.valueOf(messageId), true)
                             .setFooter("또는 /요청 수락, /요청 거절 명령어를 이용할 수 있습니다.")
                             .build())

@@ -50,7 +50,7 @@ public class MultiUserKey extends ManagedKeyImpl implements UserKey {
             userNames.append("[")
                     .append(user.getIdLong())
                     .append(", ")
-                    .append(user.getAsTag())
+                    .append(user.getName())
                     .append("]");
         }
 

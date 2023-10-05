@@ -32,7 +32,7 @@ public class AccountButtonListener extends ListenerAdapter {
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 초기화 됨")
                             .setColor(DiaColor.SUCCESS)
-                            .setAuthor(user.getAsTag(), null, user.getEffectiveAvatarUrl())
+                            .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                             .setDescription("정상적으로 초기화 되었습니다.")
                             .setFooter("당신의 계정 한줄기 빛으로 대체")
                             .build()).queue();
@@ -57,7 +57,7 @@ public class AccountButtonListener extends ListenerAdapter {
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 삭제 됨")
                             .setColor(DiaColor.SUCCESS)
-                            .setAuthor(user.getAsTag(), null, user.getEffectiveAvatarUrl())
+                            .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                             .setDescription("정상적으로 삭제 되었습니다.")
                             .setFooter("으음... 다시 오실꺼죠?")
                             .build()).queue();

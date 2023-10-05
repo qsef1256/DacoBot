@@ -56,7 +56,7 @@ public class PickaxeCommand extends SlashCommand {
                 String pickaxeCountDisplay = (pickaxeCount > 0) ? "+" + pickaxeCount : String.valueOf(pickaxeCount);
                 callback.editOriginal(status + "`" + pickaxeCountDisplay + "` 다이아 보유량: `" + cash.getPickaxeCount() + "` 개").queue();
             } catch (RuntimeException e) {
-                String message = ":warning: " + user.getAsTag() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
+                String message = ":warning: " + user.getName() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
 
                 if (e instanceof NoSuchElementException) {
                     message = message + "\n곡괭이 커맨드는 계정 등록이 있어야 사용 가능해요. `/계정 등록` 을 입력하세요.";

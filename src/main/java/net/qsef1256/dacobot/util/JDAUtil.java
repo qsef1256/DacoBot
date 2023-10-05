@@ -59,7 +59,7 @@ public class JDAUtil {
         User user = DacoBot.getJda().getUserById(userId);
         if (user == null) return null;
 
-        return user.getAsTag();
+        return user.getName();
     }
 
     /**
