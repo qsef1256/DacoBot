@@ -38,6 +38,7 @@ public class AccountController {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
+
             throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
         }
     }
@@ -58,6 +59,7 @@ public class AccountController {
             throw e;
         } catch (final RuntimeException e) {
             logger.error(e.getMessage());
+
             throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");
         }
     }

@@ -34,8 +34,10 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
         open();
 
         AtomicLong count = new AtomicLong();
-        execute(manager -> count.set(
-                (long) manager.createQuery("SELECT count(t) FROM " + clazz.getSimpleName() + " t").getSingleResult()));
+        execute(manager -> count.set((long) manager
+                .createQuery("SELECT count(t) FROM " + clazz.getSimpleName() + " t")
+                .getSingleResult()));
+
         return count.get();
     }
 

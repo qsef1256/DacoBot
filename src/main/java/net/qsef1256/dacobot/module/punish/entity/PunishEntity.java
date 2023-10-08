@@ -24,8 +24,4 @@ public class PunishEntity {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    public enum PunishType {
-        WARN, BAN
-    }
-
 }
