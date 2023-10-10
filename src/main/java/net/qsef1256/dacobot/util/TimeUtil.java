@@ -36,7 +36,7 @@ public class TimeUtil {
         return duration;
     }
 
-    private static long getTimeToAdd(@NotNull String hmsPart) {
+    private long getTimeToAdd(@NotNull String hmsPart) {
         return TryUtil.getOr(() -> Long.parseLong(hmsPart.substring(0, hmsPart.length() - 1)),
                 NumberFormatException.class,
                 e -> 0L);

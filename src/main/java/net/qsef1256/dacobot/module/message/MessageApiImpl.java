@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.module.key.ManagedKey;
+import net.qsef1256.dacobot.module.common.key.ManagedKey;
 import net.qsef1256.dacobot.module.message.data.MessageData;
 import net.qsef1256.dacobot.module.message.exception.MessageApiException;
 import org.jetbrains.annotations.Nullable;

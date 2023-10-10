@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
-import net.qsef1256.dacobot.module.key.SingleUserKey;
+import net.qsef1256.dacobot.module.common.key.SingleUserKey;
 import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;

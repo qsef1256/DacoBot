@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.module.key;
+package net.qsef1256.dacobot.module.common.key;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

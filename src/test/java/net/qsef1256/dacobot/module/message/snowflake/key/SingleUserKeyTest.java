@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.module.message.snowflake.key;
 
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.UserSnowflake;
-import net.qsef1256.dacobot.module.key.SingleUserKey;
+import net.qsef1256.dacobot.module.common.key.SingleUserKey;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

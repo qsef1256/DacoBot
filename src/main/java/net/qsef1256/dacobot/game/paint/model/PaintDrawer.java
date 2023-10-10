@@ -61,14 +61,17 @@ public class PaintDrawer {
         selectedColor.remove(discordId);
     }
 
-    public static void setDrawer(@NotNull ButtonInteractionEvent event, int dx, int dy, boolean isPaint) {
+    public static void setDrawer(@NotNull ButtonInteractionEvent event,
+                                 int dx,
+                                 int dy,
+                                 boolean isPaint) {
         event.deferEdit().queue();
         Message message = event.getMessage();
         DataObject embedData = message.getEmbeds().get(0).toData();
         DataArray fields = embedData.getArray("fields");
 
-        String userTag = fields.getObject(1).getString("value");
-        User user = JDAUtil.getUserFromTag(userTag);
+        String userName = fields.getObject(1).getString("value");
+        User user = JDAUtil.getUserFromId(Long.parseLong(userName));
         User eventUser = event.getUser();
 
         Long drawerId = getDrawerId(eventUser.getIdLong());
@@ -111,6 +114,7 @@ public class PaintDrawer {
             message.editMessageEmbeds(getDrawerEmbed(user, painter, x, y)).queue();
         } catch (RuntimeException e) {
             logger.info(e.getMessage());
+
             event.getChannel().sendMessage("<@%s> 님, 문제가 생겼네요. 그림판이 고장났어요.".formatted(user.getId())).queue();
         }
     }
@@ -121,7 +125,7 @@ public class PaintDrawer {
                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                 .setColor(DiaColor.MAIN_COLOR)
                 .addField(user.getName() + "의 팔레트", painter.printPallet(), false)
-                .addField("유저 태그", user.getName(), true)
+                .addField("유저 ID", user.getId(), true)
                 .addField("커서 x", String.valueOf(x), true)
                 .addField("커서 y", String.valueOf(y), true)
                 .setFooter("/갤러리 저장 으로 그림을 저장하세요.")

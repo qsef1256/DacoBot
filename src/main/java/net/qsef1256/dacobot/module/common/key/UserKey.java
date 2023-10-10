@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.module.key;
+package net.qsef1256.dacobot.module.common.key;
 
 import net.dv8tion.jda.api.entities.User;
 

@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.module.message;
 
-import net.qsef1256.dacobot.module.key.ManagedKey;
+import net.qsef1256.dacobot.module.common.key.ManagedKey;
 import net.qsef1256.dacobot.module.message.data.MessageData;
 import org.jetbrains.annotations.TestOnly;
 
@@ -18,5 +18,5 @@ public interface MessageApi {
 
     @TestOnly
     void clear();
-    
+
 }
