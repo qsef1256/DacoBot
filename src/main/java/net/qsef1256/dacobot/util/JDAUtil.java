@@ -74,16 +74,6 @@ public class JDAUtil {
     }
 
     /**
-     * 태그에서 유저를 찾습니다.
-     *
-     * @param userTag `qsef1256#6620`
-     * @return matching User
-     */
-    public User getUserFromTag(String userTag) {
-        return DacoBot.getJda().getUserByTag(userTag);
-    }
-
-    /**
      * Snowflake 에서 유저를 찾습니다.
      *
      * @param userId User's snowflake id
