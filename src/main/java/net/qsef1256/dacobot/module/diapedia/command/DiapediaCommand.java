@@ -27,7 +27,7 @@ public class DiapediaCommand extends SlashCommand {
         if (search == null) {
             event.replyEmbeds(Diapedia
                     .getInstance()
-                    .index()).queue();
+                    .getIndex()).queue();
         } else {
             event.replyEmbeds(Diapedia
                     .getInstance()

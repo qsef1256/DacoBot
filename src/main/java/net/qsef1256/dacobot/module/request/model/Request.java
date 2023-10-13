@@ -20,7 +20,9 @@ public abstract class Request {
     private final long receiverId;
     private final MessageChannel channel;
 
-    protected Request(long requesterId, long receiverId, MessageChannel channel) {
+    protected Request(long requesterId,
+                      long receiverId,
+                      MessageChannel channel) {
         this.requesterId = requesterId;
         this.receiverId = receiverId;
         this.channel = channel;

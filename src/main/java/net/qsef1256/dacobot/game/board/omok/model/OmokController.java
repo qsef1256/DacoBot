@@ -29,13 +29,17 @@ public class OmokController { // TODO: cleanup or use another api
 
     private static final NestedMap<Long, String> omokMap = new NestedMap<>();
 
-    public static void requestGame(MessageChannel channel, @NotNull User user, @NotNull User oppositeUser) {
+    public static void requestGame(@NotNull MessageChannel channel,
+                                   @NotNull User user,
+                                   @NotNull User oppositeUser) {
         OmokRequest request = new OmokRequest(user.getIdLong(), oppositeUser.getIdLong(), channel);
 
         RequestAPI.addRequest(request);
     }
 
+    @Getter
     private enum OmokProcess {
+
         PREV("prev"),
         PREVIEW("preview"),
         CONFIRM("confirm"),
@@ -43,7 +47,6 @@ public class OmokController { // TODO: cleanup or use another api
         PLACE("place"),
         RESIGN("resign");
 
-        @Getter
         private final String key;
 
         OmokProcess(String key) {

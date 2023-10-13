@@ -30,15 +30,19 @@ public class JpaEntityManagerFactory {
     private final Class<?>[] entityClasses;
 
     public JpaEntityManagerFactory() {
-        final Set<Class<?>> annotated =
-                ReflectionUtil.getReflections().get(SubTypes.of(TypesAnnotated.with(Entity.class)).asClass());
+        final Set<Class<?>> annotated = ReflectionUtil.getReflections().get(SubTypes
+                .of(TypesAnnotated.with(Entity.class))
+                .asClass());
         this.entityClasses = annotated.toArray(new Class[0]);
     }
 
     protected EntityManagerFactory getEntityManagerFactory() {
         PersistenceUnitInfo persistenceUnitInfo = getPersistenceUnitInfo(DiaSetting.getInstance().getMainPackage());
         Map<String, Object> configuration = new HashMap<>();
-        return new EntityManagerFactoryBuilderImpl(new PersistenceUnitInfoDescriptor(persistenceUnitInfo), configuration).build();
+
+        return new EntityManagerFactoryBuilderImpl(
+                new PersistenceUnitInfoDescriptor(persistenceUnitInfo),
+                configuration).build();
     }
 
     protected PersistenceUnitInfo getPersistenceUnitInfo(String name) {
@@ -77,6 +81,7 @@ public class JpaEntityManagerFactory {
         config.put("hibernate.hikari.jdbcUrl", setting.getString("hibernate.hikari.jdbcUrl"));
         config.put("hibernate.hikari.dataSource.user", setting.getString("hibernate.hikari.dataSource.user"));
         config.put("hibernate.hikari.dataSource.password", setting.getString("hibernate.hikari.dataSource.password"));
+
         return config;
     }
 

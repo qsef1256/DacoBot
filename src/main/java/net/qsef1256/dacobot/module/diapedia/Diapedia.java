@@ -31,7 +31,7 @@ public class Diapedia {
                 Diapedia.class)));
 
         load(map);
-        loadIndex(map);
+        index = new DiapediaPage("목차", map);
     }
 
     @SuppressWarnings("unchecked")
@@ -46,11 +46,7 @@ public class Diapedia {
         });
     }
 
-    public void loadIndex(@NotNull Map<String, Object> map) {
-        index = new DiapediaPage("목차", map);
-    }
-
-    public MessageEmbed index() {
+    public MessageEmbed getIndex() {
         return index.toEmbed();
     }
 

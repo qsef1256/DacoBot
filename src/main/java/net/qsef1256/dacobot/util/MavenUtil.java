@@ -10,6 +10,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.util.Objects;
 
+import static net.qsef1256.dacobot.DacoBot.logger;
+
 @UtilityClass
 public class MavenUtil {
 
@@ -30,7 +32,7 @@ public class MavenUtil {
             if (model == null) throw new FileNotFoundException("pom.xml is null");
             return model;
         } catch (final IOException | XmlPullParserException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
 
             throw new FileNotFoundException("failed to find maven model");
         }

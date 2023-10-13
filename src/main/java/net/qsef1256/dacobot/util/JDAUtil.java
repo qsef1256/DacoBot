@@ -101,7 +101,7 @@ public class JDAUtil {
     }
 
     public Member getMemberFromUser(User user) {
-        Guild guild = DacoBot.getJda().getGuildById(DiaSetting.getInstance().getMainGuildID()); // TODO: for sub guilds?
+        Guild guild = DiaSetting.getInstance().getMainGuild(); // TODO: for sub guilds?
 
         if (guild == null) return null;
         return guild.getMember(user);
@@ -115,7 +115,9 @@ public class JDAUtil {
     public OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
         final OptionMapping option = event.getOption(optionName);
         if (option == null) {
-            event.reply("%s를 입력해주세요.".formatted(optionName)).setEphemeral(true).queue();
+            event.reply("%s를 입력해주세요.".formatted(optionName))
+                    .setEphemeral(true)
+                    .queue();
             return null;
         }
         return option;

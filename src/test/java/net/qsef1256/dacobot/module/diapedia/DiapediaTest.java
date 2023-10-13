@@ -9,7 +9,7 @@ class DiapediaTest {
     @Test
     void index() {
         assertDoesNotThrow(() -> System.out.println(Diapedia.getInstance()
-                .index()
+                .getIndex()
                 .toData()));
     }
 

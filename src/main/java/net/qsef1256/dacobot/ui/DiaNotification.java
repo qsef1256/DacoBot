@@ -11,7 +11,8 @@ import org.jetbrains.annotations.NotNull;
 public class DiaNotification {
 
     public void everyone(@NotNull MessageCreateBuilder message) {
-        DiaSetting.getInstance().getMainChannel().sendMessage("@everyone **[%s 공지] %s**".formatted(DiaInfo.BOT_NAME, message.build())).queue();
+        DiaSetting.getInstance().getMainChannel().sendMessage(
+                "@everyone **[%s 공지] %s**".formatted(DiaInfo.BOT_NAME, message.build())).queue();
     }
 
     public void send(@NotNull MessageCreateBuilder message) {
@@ -19,10 +20,11 @@ public class DiaNotification {
     }
 
     public void notify(@NotNull MessageCreateBuilder message, @NotNull User user) {
-        DiaSetting.getInstance().getMainChannel().sendMessage("**[다코봇 알림]** " + user.getAsMention() + ", " + message.build()).queue();
+        DiaSetting.getInstance().getMainChannel().sendMessage(
+                "**[다코봇 알림]** " + user.getAsMention() + ", " + message.build()).queue();
     }
 
-    public void notifyDM(MessageCreateBuilder message, @NotNull User user) {
+    public void notifyDM(@NotNull MessageCreateBuilder message, @NotNull User user) {
         user.openPrivateChannel().queue(
                 channel -> channel.sendMessage(message.build()).queue(),
                 failure -> notify(new MessageCreateBuilder()

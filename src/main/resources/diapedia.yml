@@ -197,7 +197,7 @@ Java:
     Observer: "https://jdm.kr/blog/32"
     Decorator: "https://catsbi.oopy.io/f58693bb-b2aa-4175-a786-a98f42b638c3"
     Command: "https://victorydntmd.tistory.com/295?category=719467"
-    Visitor:
+    Visitor: "https://thecodinglog.github.io/design/2019/10/29/visitor-pattern.html"
     Composition over inheritance: "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
     Anti Pattern: # Common Mistakes
       - "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
