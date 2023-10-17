@@ -28,6 +28,7 @@ public class UserEntity {
     @ColumnDefault(value = "'OK'")
     private String status = "OK";
 
+    // TODO: separation required (maybe)
     private LocalDateTime lastAttendTime;
 
     @Column(nullable = false)

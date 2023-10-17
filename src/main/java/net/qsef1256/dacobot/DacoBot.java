@@ -18,7 +18,6 @@ import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.chat.listener.TalkListener;
-import net.qsef1256.dacobot.module.openapi.corona.CoronaApi;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -77,10 +76,10 @@ public class DacoBot {
         jda.awaitReady();
 
         // TODO: global command
-        DiaSetting.getInstance().getAllGuilds().forEach(DacoBot::upsertToGuild);
-
+        DiaSetting.getInstance()
+                .getAllGuilds()
+                .forEach(DacoBot::upsertToGuild);
         LocalDateTimeUtil.setZoneId(DiaSetting.getInstance().getZoneId());
-        DiaScheduler.executePerTime(() -> new CoronaApi().update(), 12, 0, 0);
 
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
     }

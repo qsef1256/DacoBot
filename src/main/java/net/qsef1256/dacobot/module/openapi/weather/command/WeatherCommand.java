@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.command.tool;
+package net.qsef1256.dacobot.module.openapi.weather.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;

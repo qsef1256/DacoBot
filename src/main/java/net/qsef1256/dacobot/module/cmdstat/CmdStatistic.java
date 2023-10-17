@@ -39,9 +39,7 @@ public class CmdStatistic {
 
             dao.saveAndClose(statistic);
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
-
-            throw new RuntimeException("Error when handling " + command.getSimpleName() + "'s statistics");
+            throw new RuntimeException("Error when handling " + command.getSimpleName() + "'s statistics", e);
         }
     }
 

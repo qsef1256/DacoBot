@@ -40,14 +40,22 @@ public class ShortWeatherAPI {
         String time = toFind.format(DateTimeFormatter.ofPattern("HHmm"));
 
         String urlString = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst" +
-                "?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) + "=" + TOKEN + /* Service Key */
-                "&" + URLEncoder.encode("pageNo", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("1", StandardCharsets.UTF_8) + /* 페이지 번호 */
-                "&" + URLEncoder.encode("numOfRows", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("10", StandardCharsets.UTF_8) + /* 한 페이지 결과 수 */
-                "&" + URLEncoder.encode("dataType", StandardCharsets.UTF_8) + "=" + URLEncoder.encode("JSON", StandardCharsets.UTF_8) + /* 요청 자료 형식(XML/JSON) */
-                "&" + URLEncoder.encode("base_date", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(date, StandardCharsets.UTF_8) + /* ‘21년 6월 28일 발표 */
-                "&" + URLEncoder.encode("base_time", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(time, StandardCharsets.UTF_8) + /* 06시 발표(정시 단위) */
-                "&" + URLEncoder.encode("nx", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(String.valueOf(x), StandardCharsets.UTF_8) + /* 예보 지점의 X 좌표값 */
-                "&" + URLEncoder.encode("ny", StandardCharsets.UTF_8) + "=" + URLEncoder.encode(String.valueOf(y), StandardCharsets.UTF_8); /* 예보 지점의 Y 좌표값 */
+                "?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) +
+                "=" + TOKEN + /* Service Key */
+                "&" + URLEncoder.encode("pageNo", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode("1", StandardCharsets.UTF_8) + /* 페이지 번호 */
+                "&" + URLEncoder.encode("numOfRows", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode("10", StandardCharsets.UTF_8) + /* 한 페이지 결과 수 */
+                "&" + URLEncoder.encode("dataType", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode("JSON", StandardCharsets.UTF_8) + /* 요청 자료 형식(XML/JSON) */
+                "&" + URLEncoder.encode("base_date", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode(date, StandardCharsets.UTF_8) + /* ‘21년 6월 28일 발표 */
+                "&" + URLEncoder.encode("base_time", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode(time, StandardCharsets.UTF_8) + /* 06시 발표(정시 단위) */
+                "&" + URLEncoder.encode("nx", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode(String.valueOf(x), StandardCharsets.UTF_8) + /* 예보 지점의 X 좌표값 */
+                "&" + URLEncoder.encode("ny", StandardCharsets.UTF_8) +
+                "=" + URLEncoder.encode(String.valueOf(y), StandardCharsets.UTF_8); /* 예보 지점의 Y 좌표값 */
         StringBuilder sb;
         Gson gson = GsonUtil.getGson();
         JsonObject jsonObject;

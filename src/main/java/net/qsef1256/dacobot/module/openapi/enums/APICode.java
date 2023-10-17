@@ -9,7 +9,9 @@ import java.util.Map;
 /**
  * Open API 에러 코드를 나타냅니다.
  */
+@Getter
 public enum APICode {
+
     NORMAL_SERVICE("00", "정상"),
     APPLICATION_ERROR("01", "애플리케이션 오류"),
     DB_ERROR("02", "데이터베이스 오류"),
@@ -30,9 +32,7 @@ public enum APICode {
 
     private static final Map<String, APICode> codeMap = EnumUtil.toMap(APICode::getCode, APICode.class);
 
-    @Getter
     private final String code;
-    @Getter
     private final String display;
 
     APICode(String code, String display) {

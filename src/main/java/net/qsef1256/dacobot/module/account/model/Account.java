@@ -12,12 +12,12 @@ import net.qsef1256.dacobot.util.JDAUtil;
 import java.util.NoSuchElementException;
 
 // TODO: OAuth 2.0
+@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Account {
 
     protected static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
-    @Getter
     private UserEntity data;
 
     public Account(final long discordId) {
