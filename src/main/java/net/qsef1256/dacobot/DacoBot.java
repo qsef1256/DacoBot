@@ -190,12 +190,6 @@ public class DacoBot {
         JpaController.shutdown();
     }
 
-    private static void exit(String message, @NotNull Exception e) {
-        logger.error(message, e);
-
-        System.exit(1);
-    }
-
     /**
      * <b>주의:</b> 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
      */
