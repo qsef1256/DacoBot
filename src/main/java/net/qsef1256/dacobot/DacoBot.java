@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.jagrosh.jdautilities.command.*;
 import jakarta.persistence.EntityTransaction;
@@ -19,7 +18,6 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
 import net.qsef1256.dacobot.database.JpaController;
-import net.qsef1256.dacobot.database.inject.DaoModule;
 import net.qsef1256.dacobot.listener.CommandHandler;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.setting.DiaSetting;
@@ -58,7 +56,6 @@ public class DacoBot {
         DacoBot.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
-        injector = Guice.createInjector(new DaoModule());
 
         Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
 

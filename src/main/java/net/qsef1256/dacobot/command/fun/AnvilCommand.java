@@ -4,8 +4,6 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.database.inject.DaoCommonJpaFactory;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dialib.util.RandomUtil;
@@ -24,9 +22,7 @@ public class AnvilCommand extends SlashCommand {
     protected void execute(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
-        CmdStatistic statistic = new CmdStatistic(DacoBot.getInjector()
-                .getInstance(DaoCommonJpaFactory.class)
-                .create(CmdStatistic.class), getClass());
+        CmdStatistic statistic = new CmdStatistic(getClass());
 
         int random = RandomUtil.randomInt(1, 4);
         switch (random) {
