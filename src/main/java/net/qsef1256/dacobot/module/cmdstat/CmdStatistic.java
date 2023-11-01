@@ -3,9 +3,8 @@ package net.qsef1256.dacobot.module.cmdstat;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.inject.DaoCommonJpaFactory;
+import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
@@ -17,19 +16,10 @@ import static net.qsef1256.dacobot.DacoBot.logger;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CmdStatistic {
 
-    private DaoCommonJpa<CmdStatisticEntity, String> dao;
+    private final DaoCommonJpa<CmdStatisticEntity, String> dao = new DaoCommonJpaImpl<>(CmdStatisticEntity.class);
     private CmdStatisticEntity statistic;
 
-    public CmdStatistic(@NotNull Class<? extends SlashCommand> command) {
-        this(DacoBot.getInjector()
-                .getInstance(DaoCommonJpaFactory.class)
-                .create(CmdStatistic.class), command);
-    }
-
-    public CmdStatistic(@NotNull DaoCommonJpa<CmdStatisticEntity, String> dao,
-                        @NotNull Class<? extends SlashCommand> command) {
-        this.dao = dao;
-
+    public CmdStatistic(Class<? extends SlashCommand> command) {
         try {
             dao.open();
 

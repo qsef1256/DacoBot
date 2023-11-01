@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot;
 
-import com.google.inject.Injector;
 import com.jagrosh.jdautilities.command.*;
 import jakarta.persistence.EntityTransaction;
 import lombok.Getter;
@@ -48,9 +47,6 @@ public class DacoBot {
     @Getter
     private static CommandClient commandClient;
     private static String[] args;
-
-    @Getter
-    private static Injector injector;
 
     public static void main(final String[] args) throws InterruptedException {
         DacoBot.args = args;
