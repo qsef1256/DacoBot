@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.chat.listener;
+package net.qsef1256.dacobot.listener;
 
 import com.jagrosh.jdautilities.command.CommandListener;
 import com.jagrosh.jdautilities.command.SlashCommand;
@@ -10,7 +10,16 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 
 @Slf4j
-public class TalkListener implements CommandListener {
+public class CommandHandler implements CommandListener {
+
+    @Override
+    public void onSlashCommandException(@NotNull SlashCommandEvent event,
+                                        @NotNull SlashCommand command,
+                                        @NotNull Throwable throwable) {
+        log.error("%s slash command exception".formatted(command.getName()), throwable);
+
+        event.replyEmbeds(DiaEmbed.error(null, null, throwable, event.getUser()).build()).queue();
+    }
 
     @Override
     public void onNonCommandMessage(@NotNull MessageReceivedEvent event) {
@@ -21,13 +30,6 @@ public class TalkListener implements CommandListener {
 
             event.getChannel().sendMessage("모?루").queue();
         }
-    }
-
-    @Override
-    public void onSlashCommandException(@NotNull SlashCommandEvent event,
-                                        @NotNull SlashCommand command,
-                                        @NotNull Throwable throwable) {
-        event.replyEmbeds(DiaEmbed.error(null, null, throwable, event.getUser()).build()).queue();
     }
 
 }

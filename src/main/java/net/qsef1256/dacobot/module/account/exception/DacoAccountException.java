@@ -1,9 +1,8 @@
 package net.qsef1256.dacobot.module.account.exception;
 
-public class DacoAccountException extends RuntimeException {
+import lombok.experimental.StandardException;
 
-    public DacoAccountException(String message) {
-        super(message);
-    }
+@StandardException
+public class DacoAccountException extends RuntimeException {
 
 }

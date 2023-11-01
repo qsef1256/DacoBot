@@ -1,5 +1,7 @@
 package net.qsef1256.dacobot;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.jagrosh.jdautilities.command.*;
 import jakarta.persistence.EntityTransaction;
 import lombok.Getter;
@@ -17,7 +19,8 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
 import net.qsef1256.dacobot.database.JpaController;
-import net.qsef1256.dacobot.game.chat.listener.TalkListener;
+import net.qsef1256.dacobot.database.inject.DaoModule;
+import net.qsef1256.dacobot.listener.CommandHandler;
 import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -48,10 +51,15 @@ public class DacoBot {
     private static CommandClient commandClient;
     private static String[] args;
 
+    @Getter
+    private static Injector injector;
+
     public static void main(final String[] args) throws InterruptedException {
         DacoBot.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
+        injector = Guice.createInjector(new DaoModule());
+
         Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
 
         CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
@@ -60,7 +68,7 @@ public class DacoBot {
         registerContextMenu(commandClientBuilder);
 
         commandClient = commandClientBuilder.build();
-        commandClient.setListener(new TalkListener());
+        commandClient.setListener(new CommandHandler());
         logger.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
 
         initJpa();
@@ -112,7 +120,9 @@ public class DacoBot {
     @SneakyThrows
     private static void registerCommands(@NotNull CommandClientBuilder commandClientBuilder) {
         logger.info("Loading Commands");
-        Set<Class<?>> commands = ReflectionUtil.getReflections().get(SubTypes.of(Command.class).asClass());
+        Set<Class<?>> commands = ReflectionUtil.getReflections()
+                .get(SubTypes.of(Command.class)
+                        .asClass());
 
         if (commands.isEmpty())
             logger.warn("There is no command in the registered package. No commands were loaded.");
@@ -144,7 +154,9 @@ public class DacoBot {
     @SneakyThrows
     private static void registerListeners(@NotNull JDABuilder builder) {
         logger.info("Loading Listeners");
-        Set<Class<?>> listeners = ReflectionUtil.getReflections().get(SubTypes.of(ListenerAdapter.class).asClass());
+        Set<Class<?>> listeners = ReflectionUtil.getReflections()
+                .get(SubTypes.of(ListenerAdapter.class)
+                        .asClass());
 
         if (listeners.isEmpty())
             logger.warn("There is no listener in the registered package. No listeners were loaded.");

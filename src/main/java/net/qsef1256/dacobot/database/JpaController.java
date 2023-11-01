@@ -6,8 +6,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+// TODO: why static?
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JpaController {
 
@@ -20,7 +19,6 @@ public class JpaController {
             entityManagerFactory = new JpaEntityManagerFactory().getEntityManagerFactory();
             threadLocal = new ThreadLocal<>();
         } catch (Exception e) {
-            logger.error(e.getMessage());
             throw new ExceptionInInitializerError(e);
         }
     }

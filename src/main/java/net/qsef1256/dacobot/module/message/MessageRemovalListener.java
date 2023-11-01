@@ -16,7 +16,9 @@ import org.jetbrains.annotations.Nullable;
 public class MessageRemovalListener<K1 extends ManagedKey, V1 extends MessageData> implements RemovalListener<K1, V1> {
 
     @Override
-    public void onRemoval(@Nullable K1 key, @Nullable V1 value, RemovalCause cause) {
+    public void onRemoval(@Nullable K1 key,
+                          @Nullable V1 value,
+                          RemovalCause cause) {
         if (DacoBot.getJda() == null) return;
 
         if (key instanceof UserKey userKey) {

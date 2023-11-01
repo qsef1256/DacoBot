@@ -28,9 +28,7 @@ public class Account {
         } catch (NoSuchElementException e) {
             throw e;
         } catch (final RuntimeException e) {
-            e.printStackTrace();
-
-            throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 의 정보를 로드하는데 실패했습니다");
+            throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 의 정보를 로드하는데 실패했습니다", e);
         }
     }
 
