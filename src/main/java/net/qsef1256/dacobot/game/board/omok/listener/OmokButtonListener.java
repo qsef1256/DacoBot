@@ -7,7 +7,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.board.omok.model.OmokController;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OmokButtonListener extends ListenerAdapter {
 
     @Override

@@ -10,9 +10,11 @@ import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+@Component
 public class PaintReactionListener extends ListenerAdapter {
 
     @Override

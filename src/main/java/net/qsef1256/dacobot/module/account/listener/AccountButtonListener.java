@@ -11,9 +11,11 @@ import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
+@Component
 public class AccountButtonListener extends ListenerAdapter {
 
     /**

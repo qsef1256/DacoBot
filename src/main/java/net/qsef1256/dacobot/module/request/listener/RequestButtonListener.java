@@ -6,7 +6,9 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RequestButtonListener extends ListenerAdapter {
 
     @Override

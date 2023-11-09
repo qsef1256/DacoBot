@@ -11,11 +11,13 @@ import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
+@Component
 public class PaintButtonListener extends ListenerAdapter {
 
     @Override

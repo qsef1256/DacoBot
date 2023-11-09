@@ -39,9 +39,6 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-
-import static org.reflections.scanners.Scanners.SubTypes;
 
 @Slf4j
 @SpringBootApplication
@@ -54,12 +51,15 @@ public class DacoBot implements CommandLineRunner {
     @Getter
     private static CommandClient commandClient;
     private final List<? extends Command> commands;
+    private final List<? extends ListenerAdapter> listeners;
 
     private String[] args;
 
     @Autowired
-    public DacoBot(List<? extends Command> commands) {
+    public DacoBot(List<? extends Command> commands,
+                   List<? extends ListenerAdapter> listeners) {
         this.commands = commands;
+        this.listeners = listeners;
     }
 
     public static void main(final String[] args) {
@@ -71,7 +71,7 @@ public class DacoBot implements CommandLineRunner {
         this.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
-        Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
         CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
         configureCommandClientBuilder(commandClientBuilder);
@@ -97,19 +97,19 @@ public class DacoBot implements CommandLineRunner {
         // TODO: global command
         DiaSetting.getInstance()
                 .getAllGuilds()
-                .forEach(DacoBot::upsertToGuild);
+                .forEach(this::upsertToGuild);
         LocalDateTimeUtil.setZoneId(DiaSetting.getInstance().getZoneId());
 
         logger.info("Finish loading " + DiaInfo.BOT_NAME + "!");
     }
 
-    private static void initJpa() {
+    private void initJpa() {
         EntityTransaction transaction = JpaController.getEntityManager().getTransaction();
         transaction.begin();
         transaction.commit();
     }
 
-    private static void configureCommandClientBuilder(@NotNull CommandClientBuilder commandClientBuilder) {
+    private void configureCommandClientBuilder(@NotNull CommandClientBuilder commandClientBuilder) {
         commandClientBuilder.setOwnerId(DiaSetting.getInstance().getSetting().getString("bot.ownerId"));
         commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
         commandClientBuilder.forceGuildOnly(DiaSetting.getInstance().getMainGuildID());
@@ -120,7 +120,7 @@ public class DacoBot implements CommandLineRunner {
         commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
     }
 
-    private static void configureBot(@NotNull JDABuilder builder) {
+    private void configureBot(@NotNull JDABuilder builder) {
         builder.disableCache(CacheFlag.VOICE_STATE);
         builder.setMemberCachePolicy(MemberCachePolicy.ALL); // 모든 길드의 유저 캐싱하기
         builder.setChunkingFilter(ChunkingFilter.ALL);
@@ -148,31 +148,27 @@ public class DacoBot implements CommandLineRunner {
         }
     }
 
-    private static void registerContextMenu(@NotNull CommandClientBuilder commandClientBuilder) {
+    private void registerContextMenu(@NotNull CommandClientBuilder commandClientBuilder) {
         logger.info("Loading Context Menus");
 
         commandClientBuilder.addContextMenu(new EngKorContextMenu());
     }
 
     @SneakyThrows
-    private static void registerListeners(@NotNull JDABuilder builder) {
+    private void registerListeners(@NotNull JDABuilder builder) {
         logger.info("Loading Listeners");
-        Set<Class<?>> listeners = ReflectionUtil
-                .getReflections()
-                .get(SubTypes.of(ListenerAdapter.class).asClass());
 
         if (listeners.isEmpty())
             logger.warn("There is no listener in the registered package. No listeners were loaded.");
-        for (Class<?> listener : listeners) {
-            if (!ReflectionUtil.isConcrete(listener)) continue;
+        for (ListenerAdapter listener : listeners) {
+            if (!ReflectionUtil.isConcrete(listener.getClass())) continue;
 
-            ListenerAdapter slashCommand = (ListenerAdapter) listener.getConstructor().newInstance();
-            builder.addEventListeners(slashCommand);
-            logger.info("Loaded %s successfully".formatted(listener.getSimpleName()));
+            builder.addEventListeners(listener);
+            logger.info("Loaded %s successfully".formatted(listener.getClass().getSimpleName()));
         }
     }
 
-    private static void upsertToGuild(@Nullable Guild guild) {
+    private void upsertToGuild(@Nullable Guild guild) {
         if (guild != null) {
             logger.info("Upsert command data for Guild id %s".formatted(guild.getId()));
 
@@ -197,7 +193,7 @@ public class DacoBot implements CommandLineRunner {
         }
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         logger.info("Shutting down...");
 
         DiaScheduler.shutdown();

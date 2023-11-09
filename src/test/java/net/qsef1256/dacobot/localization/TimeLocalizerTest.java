@@ -14,7 +14,10 @@ class TimeLocalizerTest {
         assertDoesNotThrow(() -> { // TODO: assertEquals
             System.out.println(TimeLocalizer.format(Duration.ofHours(1)));
 
-            System.out.println(TimeLocalizer.format(Duration.ofDays(370).plusHours(3).plusMinutes(23).plusSeconds(35)));
+            System.out.println(TimeLocalizer.format(Duration.ofDays(370)
+                    .plusHours(3)
+                    .plusMinutes(23)
+                    .plusSeconds(35)));
         });
     }
 

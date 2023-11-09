@@ -3,6 +3,7 @@ package net.qsef1256.dacobot.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -45,6 +46,9 @@ public class AdminCommand extends SlashCommand {
 
     private static class StopCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
+
         public StopCommand() {
             name = "자자";
             help = "장비를 정지합니다.";
@@ -58,7 +62,7 @@ public class AdminCommand extends SlashCommand {
 
             event.reply("끄는 중....")
                     .setEphemeral(true)
-                    .queue(msg -> DacoBot.shutdown());
+                    .queue(msg -> dacoBot.shutdown());
         }
 
     }
@@ -96,6 +100,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
+        @SneakyThrows
         protected void execute(@NotNull SlashCommandEvent event) {
             JDA jda = DacoBot.getJda();
             String forcedGuildId = DacoBot.getCommandClient().forcedGuildId();

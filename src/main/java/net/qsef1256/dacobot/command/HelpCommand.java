@@ -34,7 +34,9 @@ public class HelpCommand extends SlashCommand {
     private static final Map<String, SlashCommand> slashCommandMap = new HashMap<>();
 
     static {
-        try (InputStream in = HelpCommand.class.getClassLoader().getResourceAsStream("commands.yml")) {
+        try (InputStream in = HelpCommand.class
+                .getClassLoader()
+                .getResourceAsStream("commands.yml")) {
             settings = new Yaml().load(in);
             initHelp(settings);
         } catch (IOException e) {
