@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.localization.TimeLocalizer;
+import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
@@ -16,12 +16,14 @@ import net.qsef1256.dialib.util.RandomUtil;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
+@Component
 public class CreditCommand extends SlashCommand {
 
     public CreditCommand() {
@@ -123,7 +125,6 @@ public class CreditCommand extends SlashCommand {
                             [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
                             """, false)
                     .addField("기술 라이브러리", """
-                            [Weld](https://github.com/weld/core): `Apache-2.0`
                             [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
                             [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
                             """, false)

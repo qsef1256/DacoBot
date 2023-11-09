@@ -10,6 +10,7 @@ https://discord.gg/uDEVbvJ55q
 * `Jakarta EE 10`
 * `JPA 3.0`
 * `CDI 4.0`
+* `Spring Boot 3.1.5`
 
 ## Usage
 
@@ -28,14 +29,16 @@ https://discord.gg/uDEVbvJ55q
 * 코어 라이브러리
     * [JDA](https://github.com/DV8FromTheWorld/JDA): Copyright 2015 Austin Keener, Michael Ritter, Florian Spieß, and the JDA contributors `Apache-2.0`
     * [Chewtils](https://github.com/Chew/JDA-Chewtils): Copyright 2016-2018 John Grosh (jagrosh) & Kaidan Gustave (TheMonitorLizard) `Apache-2.0`
+* Spring Boot
+    * [Spring Core]()
+    * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
+    * TODO
 * DB 라이브러리
     * [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
         * [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
         * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
         * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
-        * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * 기술 라이브러리
-    * [Guice](https://github.com/google/guice): `Apache-2.0`
     * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
     * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` (secondary) `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리

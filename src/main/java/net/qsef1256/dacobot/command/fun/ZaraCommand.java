@@ -7,9 +7,11 @@ import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
+@Component
 public class ZaraCommand extends SlashCommand {
 
     public ZaraCommand() {

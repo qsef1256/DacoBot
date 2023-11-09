@@ -9,12 +9,14 @@ import net.qsef1256.dacobot.module.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.List;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
+@Component
 public class WeatherCommand extends SlashCommand {
 
     public WeatherCommand() {

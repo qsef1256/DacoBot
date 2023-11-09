@@ -19,11 +19,13 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
+@Component
 public class GalleryCommand extends SlashCommand {
 
     public GalleryCommand() {

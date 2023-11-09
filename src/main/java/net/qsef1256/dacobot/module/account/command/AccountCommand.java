@@ -17,10 +17,12 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 
+@Component
 public class AccountCommand extends SlashCommand {
 
     public AccountCommand() {

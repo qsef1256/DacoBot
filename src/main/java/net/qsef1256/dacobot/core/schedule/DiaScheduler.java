@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.schedule;
+package net.qsef1256.dacobot.core.schedule;
 
 import lombok.Getter;
 import lombok.experimental.UtilityClass;

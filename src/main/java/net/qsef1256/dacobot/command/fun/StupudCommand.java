@@ -8,9 +8,11 @@ import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 public class StupudCommand extends SlashCommand {
 
     public StupudCommand() {

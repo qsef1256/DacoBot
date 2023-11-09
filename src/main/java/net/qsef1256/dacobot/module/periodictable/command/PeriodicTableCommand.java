@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.module.periodictable.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -15,11 +15,13 @@ import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dacobot.util.ParseUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.stereotype.Component;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class PeriodicTableCommand extends SlashCommand {
 
     private static final DaoCommonJpa<Element, Integer> elementDao = new DaoCommonJpaImpl<>(Element.class);

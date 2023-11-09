@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Setter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -12,11 +13,14 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
+@Component
 public class AdminCommand extends SlashCommand {
 
     public AdminCommand() {
@@ -33,7 +37,7 @@ public class AdminCommand extends SlashCommand {
     }
 
     @Override
-    public void execute(final @NotNull SlashCommandEvent event) {
+    public void execute(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
@@ -49,7 +53,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(final @NotNull SlashCommandEvent event) {
+        public void execute(@NotNull SlashCommandEvent event) {
             logger.info("Shutting down with command");
 
             event.reply("끄는 중....")
@@ -70,7 +74,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(final @NotNull SlashCommandEvent event) {
+        public void execute(@NotNull SlashCommandEvent event) {
             final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
             if (option == null) return;
 
@@ -82,6 +86,9 @@ public class AdminCommand extends SlashCommand {
 
     private static class ClearCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
+
         public ClearCommand() {
             name = "초기화";
             help = "명령어를 초기화 하고 종료 합니다.";
@@ -89,7 +96,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void execute(@NotNull SlashCommandEvent event) {
             JDA jda = DacoBot.getJda();
             String forcedGuildId = DacoBot.getCommandClient().forcedGuildId();
 
@@ -113,12 +120,15 @@ public class AdminCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
 
-            DacoBot.shutdown();
+            dacoBot.shutdown();
         }
 
     }
 
     private static class RestartCommand extends SlashCommand {
+
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
 
         public RestartCommand() {
             name = "재시작";
@@ -132,7 +142,7 @@ public class AdminCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
 
-            DacoBot.restart();
+            dacoBot.restart();
         }
 
     }

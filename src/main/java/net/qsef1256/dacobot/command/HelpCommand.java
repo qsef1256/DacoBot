@@ -17,6 +17,7 @@ import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
@@ -25,6 +26,7 @@ import java.util.*;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
+@Component
 public class HelpCommand extends SlashCommand {
 
     private static final Map<String, Map<?, ?>> categories = new HashMap<>();

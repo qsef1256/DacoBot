@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.model;
 
-import net.qsef1256.dacobot.schedule.DiaScheduler;
+import net.qsef1256.dacobot.core.schedule.DiaScheduler;
 
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;

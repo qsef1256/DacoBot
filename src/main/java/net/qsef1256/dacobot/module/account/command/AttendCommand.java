@@ -10,10 +10,12 @@ import net.qsef1256.dacobot.module.account.model.Account;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
+@Component
 public class AttendCommand extends SlashCommand {
 
     public AttendCommand() {

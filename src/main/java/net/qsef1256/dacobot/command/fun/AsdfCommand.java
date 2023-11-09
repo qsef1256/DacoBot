@@ -9,9 +9,11 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.ColorUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
+@Component
 public class AsdfCommand extends SlashCommand {
 
     public AsdfCommand() {

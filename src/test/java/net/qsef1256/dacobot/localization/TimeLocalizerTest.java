@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.localization;
 
+import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -18,7 +19,3 @@ class TimeLocalizerTest {
     }
 
 }
-
-// FIXME: Gitlab TOKEN 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
-// Use and expire
-// whatever...

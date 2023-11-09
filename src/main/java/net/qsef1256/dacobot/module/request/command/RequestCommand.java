@@ -1,9 +1,9 @@
 package net.qsef1256.dacobot.module.request.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.qsef1256.dacobot.module.request.model.Request;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
@@ -11,7 +11,9 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RequestCommand extends SlashCommand {
 
     public RequestCommand() {

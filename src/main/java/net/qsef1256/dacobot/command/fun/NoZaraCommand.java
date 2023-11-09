@@ -6,7 +6,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class NoZaraCommand extends SlashCommand {
 
     public NoZaraCommand() {

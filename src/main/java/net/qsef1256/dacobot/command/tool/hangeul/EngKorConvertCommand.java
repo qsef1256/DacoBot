@@ -7,11 +7,13 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 import static net.qsef1256.dacobot.DacoBot.logger;
 
+@Component
 public class EngKorConvertCommand extends SlashCommand {
 
     public EngKorConvertCommand() {

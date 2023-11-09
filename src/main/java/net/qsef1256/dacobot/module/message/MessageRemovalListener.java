@@ -5,7 +5,7 @@ import com.github.benmanes.caffeine.cache.RemovalListener;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.localization.TimeLocalizer;
+import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import net.qsef1256.dacobot.module.common.key.ManagedKey;
 import net.qsef1256.dacobot.module.common.key.UserKey;
 import net.qsef1256.dacobot.module.message.data.MessageData;

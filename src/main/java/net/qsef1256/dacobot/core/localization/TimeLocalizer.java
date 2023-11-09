@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.localization;
+package net.qsef1256.dacobot.core.localization;
 
 import lombok.experimental.UtilityClass;
 import org.jetbrains.annotations.NotNull;

@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.*;
 import jakarta.persistence.EntityTransaction;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -16,9 +17,9 @@ import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.HelpCommand;
 import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
+import net.qsef1256.dacobot.core.schedule.DiaScheduler;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.listener.CommandHandler;
-import net.qsef1256.dacobot.schedule.DiaScheduler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.util.ReflectionUtil;
@@ -28,6 +29,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,21 +43,34 @@ import java.util.Set;
 
 import static org.reflections.scanners.Scanners.SubTypes;
 
-public class DacoBot {
+@Slf4j
+@SpringBootApplication
+public class DacoBot implements CommandLineRunner {
 
-    public static final Logger logger = LoggerFactory.getLogger(DacoBot.class.getSimpleName());
+    public static final Logger logger = LoggerFactory.getLogger(DacoBot.class);
 
     @Getter
     private static JDA jda;
     @Getter
     private static CommandClient commandClient;
-    private static String[] args;
+    private final List<? extends Command> commands;
 
-    public static void main(final String[] args) throws InterruptedException {
-        DacoBot.args = args;
+    private String[] args;
+
+    @Autowired
+    public DacoBot(List<? extends Command> commands) {
+        this.commands = commands;
+    }
+
+    public static void main(final String[] args) {
+        SpringApplication.run(DacoBot.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
+        this.args = args;
 
         logger.info(DiaInfo.BOT_NAME + " is Starting!");
-
         Runtime.getRuntime().addShutdownHook(new Thread(DacoBot::shutdown));
 
         CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
@@ -110,31 +128,23 @@ public class DacoBot {
         builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
     }
 
-    @SneakyThrows
-    private static void registerCommands(@NotNull CommandClientBuilder commandClientBuilder) {
-        logger.info("Loading Commands");
-        Set<Class<?>> commands = ReflectionUtil.getReflections()
-                .get(SubTypes.of(Command.class)
-                        .asClass());
+    private void registerCommands(@NotNull CommandClientBuilder commandClientBuilder) {
+        log.info("Loading Commands");
 
         if (commands.isEmpty())
-            logger.warn("There is no command in the registered package. No commands were loaded.");
-        for (Class<?> command : commands) {
-            if (!ReflectionUtil.isPlain(command)) continue;
-
+            log.warn("There is no command in the registered package. No commands were loaded.");
+        for (Command command : commands) {
             String typeDisplay = "Unknown";
-            if (GenericUtil.typeOf(command.getSuperclass(), Command.class)) {
+            if (GenericUtil.typeOf(command.getClass().getSuperclass(), Command.class)) {
                 typeDisplay = "Command";
-                Command instance = (Command) command.getConstructor().newInstance();
-                commandClientBuilder.addCommand(instance);
+                commandClientBuilder.addCommand(command);
             }
-            if (GenericUtil.typeOf(command.getSuperclass(), SlashCommand.class)) {
+            if (GenericUtil.typeOf(command.getClass().getSuperclass(), SlashCommand.class)) {
                 typeDisplay = "Slash";
-                SlashCommand instance = (SlashCommand) command.getConstructor().newInstance();
-                commandClientBuilder.addSlashCommand(instance);
+                commandClientBuilder.addSlashCommand((SlashCommand) command);
             }
 
-            logger.info("Loaded %s %s successfully".formatted(typeDisplay, command.getSimpleName()));
+            log.info("Loaded %s %s successfully".formatted(typeDisplay, command.getClass().getSimpleName()));
         }
     }
 
@@ -147,9 +157,9 @@ public class DacoBot {
     @SneakyThrows
     private static void registerListeners(@NotNull JDABuilder builder) {
         logger.info("Loading Listeners");
-        Set<Class<?>> listeners = ReflectionUtil.getReflections()
-                .get(SubTypes.of(ListenerAdapter.class)
-                        .asClass());
+        Set<Class<?>> listeners = ReflectionUtil
+                .getReflections()
+                .get(SubTypes.of(ListenerAdapter.class).asClass());
 
         if (listeners.isEmpty())
             logger.warn("There is no listener in the registered package. No listeners were loaded.");
@@ -198,7 +208,7 @@ public class DacoBot {
     /**
      * <b>주의:</b> 새로 만든 봇은 추적되지 않음 (직접 닫아야 함)
      */
-    public static void restart() {
+    public void restart() {
         StringBuilder cmd = new StringBuilder();
         cmd.append(System.getProperty("java.home"))
                 .append(File.separator)
@@ -213,7 +223,7 @@ public class DacoBot {
                 .append(" ")
                 .append(DacoBot.class.getName())
                 .append(" ");
-        for (String arg : DacoBot.args) {
+        for (String arg : args) {
             cmd.append(arg).append(" ");
         }
         try {

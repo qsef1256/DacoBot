@@ -11,11 +11,13 @@ import net.qsef1256.dacobot.module.punish.entity.PunishType;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.TimeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
+@Component
 public class PunishCommand extends SlashCommand {
 
     public PunishCommand() {
