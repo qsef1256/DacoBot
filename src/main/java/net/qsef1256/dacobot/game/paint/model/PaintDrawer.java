@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.game.paint.model;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -16,29 +16,36 @@ import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
-@UtilityClass
+@Slf4j
+@Component
 public class PaintDrawer {
 
-    private static final Map<Long, Long> messageMap = new HashMap<>();
-    private static final Map<Long, ColorEmoji> selectedColor = new HashMap<>();
+    private final Map<Long, Long> messageMap = new HashMap<>();
+    private final Map<Long, ColorEmoji> selectedColor = new HashMap<>();
+    private final JDAService jdaService;
+
+    @Autowired
+    public PaintDrawer(JDAService jdaService) {
+        this.jdaService = jdaService;
+    }
 
     @Nullable
-    public static Long getDrawerId(long discordId) {
+    public Long getDrawerId(long discordId) {
         return messageMap.get(discordId);
     }
 
-    public static void setDrawerId(long discordId, long messageId) {
+    public void setDrawerId(long discordId, long messageId) {
         if (messageMap.containsKey(discordId))
             messageMap.replace(discordId, messageId);
         else
@@ -46,32 +53,32 @@ public class PaintDrawer {
     }
 
     @Nullable
-    public static ColorEmoji getColor(long discordId) {
+    public ColorEmoji getColor(long discordId) {
         return selectedColor.get(discordId);
     }
 
-    public static void setColor(long discordId, ColorEmoji color) {
+    public void setColor(long discordId, ColorEmoji color) {
         if (selectedColor.containsKey(discordId)) {
             selectedColor.replace(discordId, color);
         } else
             selectedColor.put(discordId, color);
     }
 
-    public static void clearColor(long discordId) {
+    public void clearColor(long discordId) {
         selectedColor.remove(discordId);
     }
 
-    public static void setDrawer(@NotNull ButtonInteractionEvent event,
-                                 int dx,
-                                 int dy,
-                                 boolean isPaint) {
+    public void setDrawer(@NotNull ButtonInteractionEvent event,
+                          int dx,
+                          int dy,
+                          boolean isPaint) {
         event.deferEdit().queue();
         Message message = event.getMessage();
         DataObject embedData = message.getEmbeds().get(0).toData();
         DataArray fields = embedData.getArray("fields");
 
         String userName = fields.getObject(1).getString("value");
-        User user = JDAUtil.getUserFromId(Long.parseLong(userName));
+        User user = jdaService.getUserFromId(Long.parseLong(userName));
         User eventUser = event.getUser();
 
         Long drawerId = getDrawerId(eventUser.getIdLong());
@@ -113,14 +120,14 @@ public class PaintDrawer {
             }
             message.editMessageEmbeds(getDrawerEmbed(user, painter, x, y)).queue();
         } catch (RuntimeException e) {
-            logger.info(e.getMessage());
+            log.info(e.getMessage());
 
             event.getChannel().sendMessage("<@%s> 님, 문제가 생겼네요. 그림판이 고장났어요.".formatted(user.getId())).queue();
         }
     }
 
     @NotNull
-    private static MessageEmbed getDrawerEmbed(@NotNull User user, @NotNull Painter painter, int x, int y) {
+    private MessageEmbed getDrawerEmbed(@NotNull User user, @NotNull Painter painter, int x, int y) {
         return new EmbedBuilder()
                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                 .setColor(DiaColor.MAIN_COLOR)
@@ -132,7 +139,7 @@ public class PaintDrawer {
                 .build();
     }
 
-    public static void initDrawer(@NotNull SlashCommandEvent event) {
+    public void initDrawer(@NotNull SlashCommandEvent event) {
         User user = event.getUser();
         event.reply("그림판은 비싸니까 많이 띄우지 마세요. 그리고 천천히 그리세요... 디코가 싫대요.").setEphemeral(true).queue();
 

@@ -17,6 +17,12 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class PaintReactionListener extends ListenerAdapter {
 
+    private final PaintDrawer paintDrawer;
+
+    public PaintReactionListener(PaintDrawer paintDrawer) {
+        this.paintDrawer = paintDrawer;
+    }
+
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event) {
         AtomicReference<User> user = new AtomicReference<>();
@@ -31,19 +37,19 @@ public class PaintReactionListener extends ListenerAdapter {
         if (color == null) return;
 
         event.retrieveMessage().queue(callback -> {
-            ColorEmoji selectedColor = PaintDrawer.getColor(userId);
+            ColorEmoji selectedColor = paintDrawer.getColor(userId);
             if (selectedColor != null) {
                 Emoji emoji = Emoji.fromUnicode(selectedColor.getEmoji());
                 callback.removeReaction(emoji, user.get()).queue();
             }
 
-            PaintDrawer.setColor(userId, color);
+            paintDrawer.setColor(userId, color);
         });
     }
 
     @Nullable
     private ColorEmoji getPixelColor(long userId, long messageIdLong, MessageReaction reaction) {
-        Long drawerId = PaintDrawer.getDrawerId(userId);
+        Long drawerId = paintDrawer.getDrawerId(userId);
         if (drawerId == null) return null;
         if (messageIdLong != drawerId) return null;
 
@@ -60,11 +66,11 @@ public class PaintReactionListener extends ListenerAdapter {
         long userId = user.get().getIdLong();
         MessageReaction reaction = event.getReaction();
 
-        ColorEmoji selectedColor = PaintDrawer.getColor(userId);
+        ColorEmoji selectedColor = paintDrawer.getColor(userId);
         ColorEmoji removedColor = getPixelColor(userId, messageIdLong, reaction);
         if (removedColor == null) return;
         if (selectedColor == removedColor)
-            PaintDrawer.clearColor(userId);
+            paintDrawer.clearColor(userId);
     }
 
 }

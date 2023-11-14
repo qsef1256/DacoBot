@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.command.tool;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -16,8 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @Component
 public class CalculateCommand extends SlashCommand {
 
@@ -58,7 +58,7 @@ public class CalculateCommand extends SlashCommand {
                     .setFooter("provided by mXParser")
                     .build()).queue();
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             event.replyEmbeds(DiaEmbed.error(null, "주어진 문자열을 계산하던 도중 문제가 생겼습니다.", null, null)
                     .addField("입력한 값", formula, false)
                     .setFooter("뭘 넣었길래...")

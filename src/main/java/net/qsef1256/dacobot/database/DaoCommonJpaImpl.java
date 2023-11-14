@@ -8,7 +8,11 @@ import jakarta.persistence.criteria.Root;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,10 +20,13 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
+@Component
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa<T, K> {
+
+    @Setter(onMethod_ = {@Autowired})
+    private JpaController jpaController;
 
     @Getter
     private EntityManager entityManager;
@@ -128,7 +135,7 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
     }
 
     private void initEntityManager() {
-        entityManager = JpaController.getEntityManager();
+        entityManager = jpaController.getEntityManager();
     }
 
     /**
@@ -149,7 +156,7 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
     @Override
     public void close() {
         commit();
-        JpaController.close();
+        jpaController.close();
     }
 
     @Override
@@ -171,7 +178,7 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
         try {
             action.accept(entityManager);
         } catch (RuntimeException e) {
-            logger.error("Error when execute action: %s".formatted(this));
+            log.error("Error when execute action: %s".formatted(this));
             rollback();
             throw e;
         }

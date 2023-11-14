@@ -2,6 +2,8 @@ package net.qsef1256.dacobot.game.paint.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -19,13 +21,13 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @Component
 public class PaintCommand extends SlashCommand {
 
@@ -57,7 +59,7 @@ public class PaintCommand extends SlashCommand {
                     .setFooter("/갤러리 저장 으로 그림을 저장하세요.")
                     .build()).queue();
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.FAIL)
                     .setTitle("오류 발생")
@@ -155,7 +157,7 @@ public class PaintCommand extends SlashCommand {
                 event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 event.replyEmbeds(DiaEmbed.error(null, "그림을 그리던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
@@ -209,7 +211,7 @@ public class PaintCommand extends SlashCommand {
                 event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 event.replyEmbeds(DiaEmbed.error(null, "그림을 그리던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
@@ -252,7 +254,7 @@ public class PaintCommand extends SlashCommand {
                 event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 event.replyEmbeds(DiaEmbed.error(null, "그림을 그리던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
@@ -331,7 +333,7 @@ public class PaintCommand extends SlashCommand {
                 event.reply("오류 발생: %s".formatted(e.getMessage())).queue();
                 return;
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 event.replyEmbeds(DiaEmbed.error(null, "크기를 바꾸던 도중 문제가 발생했습니다.", null, user).build()).queue();
                 return;
             }
@@ -384,7 +386,7 @@ public class PaintCommand extends SlashCommand {
                 event.reply("오류 발생: " + e.getMessage()).queue();
                 return;
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 event.replyEmbeds(new EmbedBuilder()
                         .setColor(DiaColor.FAIL)
                         .setTitle("오류 발생")
@@ -401,6 +403,9 @@ public class PaintCommand extends SlashCommand {
 
     private static class DrawerCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private PaintDrawer paintDrawer;
+
         public DrawerCommand() {
             name = "그림판";
             help = "그림판을 띄웁니다.";
@@ -408,7 +413,7 @@ public class PaintCommand extends SlashCommand {
 
         @Override
         protected void execute(SlashCommandEvent event) {
-            PaintDrawer.initDrawer(event);
+            paintDrawer.initDrawer(event);
         }
 
     }

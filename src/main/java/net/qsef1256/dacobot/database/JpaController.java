@@ -2,22 +2,23 @@ package net.qsef1256.dacobot.database;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 // TODO: why static?
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class JpaController {
 
-    private static final ThreadLocal<EntityManager> threadLocal;
+    private final ThreadLocal<EntityManager> threadLocal = new ThreadLocal<>();
     @Getter
-    private static final EntityManagerFactory entityManagerFactory;
+    private final EntityManagerFactory entityManagerFactory;
 
-    static {
+    @Autowired
+    public JpaController(@NotNull JpaEntityManagerFactory factory) {
         try {
-            entityManagerFactory = new JpaEntityManagerFactory().getEntityManagerFactory();
-            threadLocal = new ThreadLocal<>();
+            entityManagerFactory = factory.getEntityManagerFactory();
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
         }
@@ -28,7 +29,7 @@ public class JpaController {
      *
      * @return entityManager
      */
-    public static EntityManager getEntityManager() {
+    public EntityManager getEntityManager() {
         EntityManager entityManager = threadLocal.get();
 
         if (entityManager == null) {
@@ -38,7 +39,7 @@ public class JpaController {
         return entityManager;
     }
 
-    public static void close() {
+    public void close() {
         EntityManager entityManager = threadLocal.get();
         if (entityManager != null) {
             entityManager.close();
@@ -46,7 +47,7 @@ public class JpaController {
         }
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         entityManagerFactory.close();
         threadLocal.remove();
     }

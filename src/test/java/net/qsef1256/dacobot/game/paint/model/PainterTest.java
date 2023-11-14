@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.game.paint.model;
 
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.game.paint.command.PaintCommand;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.enums.Emoji;
@@ -11,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@Slf4j
 class PainterTest {
     static Painter painter;
 
@@ -34,7 +35,7 @@ class PainterTest {
 
     @Test
     void printToString() {
-        assertDoesNotThrow(() -> logger.info(painter.printPallet()));
+        assertDoesNotThrow(() -> log.info(painter.printPallet()));
     }
 
     @Test

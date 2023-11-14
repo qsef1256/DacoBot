@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.game.paint.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -15,10 +16,15 @@ import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @Component
 public class PaintButtonListener extends ListenerAdapter {
+
+    private final PaintDrawer paintDrawer;
+
+    private PaintButtonListener(PaintDrawer paintDrawer) {
+        this.paintDrawer = paintDrawer;
+    }
 
     @Override
     public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) {
@@ -40,7 +46,7 @@ public class PaintButtonListener extends ListenerAdapter {
                             .setFooter("용량 절약 횟수: " + statistic.getUseCount() + " 금일: " + statistic.getTodayUsed())
                             .build()).queue();
                 } catch (RuntimeException e) {
-                    logger.warn(e.getMessage());
+                    log.warn(e.getMessage());
                     event.replyEmbeds(new EmbedBuilder()
                             .setColor(DiaColor.FAIL)
                             .setTitle("문제 발생")
@@ -70,7 +76,7 @@ public class PaintButtonListener extends ListenerAdapter {
                                 .setDescription(paintName + " 그림을 덮어썼습니다.")
                                 .build()).queue();
                     } catch (RuntimeException e) {
-                        logger.warn(e.getMessage());
+                        log.warn(e.getMessage());
                         callback.editOriginalEmbeds(new EmbedBuilder()
                                 .setColor(DiaColor.FAIL)
                                 .setTitle("문제 발생")
@@ -83,11 +89,11 @@ public class PaintButtonListener extends ListenerAdapter {
                 event.editButton(event.getButton().asDisabled()).queue();
             }
 
-            case "paint_drawer_up" -> PaintDrawer.setDrawer(event, 0, -1, false);
-            case "paint_drawer_down" -> PaintDrawer.setDrawer(event, 0, 1, false);
-            case "paint_drawer_left" -> PaintDrawer.setDrawer(event, -1, 0, false);
-            case "paint_drawer_right" -> PaintDrawer.setDrawer(event, 1, 0, false);
-            case "paint_drawer_center" -> PaintDrawer.setDrawer(event, 0, 0, true);
+            case "paint_drawer_up" -> paintDrawer.setDrawer(event, 0, -1, false);
+            case "paint_drawer_down" -> paintDrawer.setDrawer(event, 0, 1, false);
+            case "paint_drawer_left" -> paintDrawer.setDrawer(event, -1, 0, false);
+            case "paint_drawer_right" -> paintDrawer.setDrawer(event, 1, 0, false);
+            case "paint_drawer_center" -> paintDrawer.setDrawer(event, 0, 0, true);
             default -> {
             }
         }

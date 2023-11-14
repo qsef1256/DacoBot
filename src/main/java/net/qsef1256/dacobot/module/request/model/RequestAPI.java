@@ -1,16 +1,16 @@
 package net.qsef1256.dacobot.module.request.model;
 
-import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.NoSuchElementException;
@@ -22,12 +22,18 @@ import java.util.concurrent.atomic.AtomicReference;
  *
  * @see Request
  */
-@UtilityClass
+@Component
 public class RequestAPI {
+
+    private final JDAService jdaService;
+
+    public RequestAPI(JDAService jdaService) {
+        this.jdaService = jdaService;
+    }
 
     // TODO: integrate message service
     // TODO: for multiple user request (3 ~ N Users)
-    private static final BidiMap<Long, Request> requestMap = new DualHashBidiMap<>();
+    private final BidiMap<Long, Request> requestMap = new DualHashBidiMap<>();
 
     /**
      * 새로운 유저간 신청을 생성합니다.
@@ -35,7 +41,7 @@ public class RequestAPI {
      * @param requestObject request Information Object
      * @param <T>           Type of requestObject
      */
-    public static <T extends Request> void addRequest(@NotNull T requestObject) {
+    public <T extends Request> void addRequest(@NotNull T requestObject) {
         String title = requestObject.getTitle();
         long requesterId = requestObject.getRequesterId();
         long receiverId = requestObject.getReceiverId();
@@ -48,8 +54,8 @@ public class RequestAPI {
             }
         });
 
-        User requester = JDAUtil.getUserFromId(requesterId);
-        User receiver = JDAUtil.getUserFromId(receiverId);
+        User requester = jdaService.getUserFromId(requesterId);
+        User receiver = jdaService.getUserFromId(receiverId);
 
         channel.sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -76,21 +82,21 @@ public class RequestAPI {
         });
     }
 
-    public static void cancel(long userId) {
+    public void cancel(long userId) {
         Long messageId = getMessageId(userId);
         if (messageId == null)
-            throw new NoSuchElementException("%s 의 신청을 찾을 수 없습니다.".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new NoSuchElementException("%s 의 신청을 찾을 수 없습니다.".formatted(jdaService.getNameAsTag(userId)));
 
         cancel(userId, messageId);
     }
 
-    private static void cancel(long userId, long messageId) {
+    private void cancel(long userId, long messageId) {
         Request request = getRequest(messageId, userId);
-        User requester = JDAUtil.getUserFromId(request.getRequesterId());
-        User receiver = JDAUtil.getUserFromId(request.getReceiverId());
+        User requester = jdaService.getUserFromId(request.getRequesterId());
+        User receiver = jdaService.getUserFromId(request.getReceiverId());
 
         if (request.getRequesterId() != userId)
-            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(jdaService.getNameAsTag(userId)));
         request.getChannel().deleteMessageById(messageId).queue();
         request.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -101,20 +107,20 @@ public class RequestAPI {
         requestMap.remove(messageId);
     }
 
-    public static void accept(long userId) {
+    public void accept(long userId) {
         Long messageId = getMessageId(userId);
         if (messageId == null)
-            throw new NoSuchElementException("%s 의 신청을 찾을 수 없습니다.".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new NoSuchElementException("%s 의 신청을 찾을 수 없습니다.".formatted(jdaService.getNameAsTag(userId)));
         accept(messageId, userId);
     }
 
-    public static void accept(long messageId, long userId) {
+    public void accept(long messageId, long userId) {
         Request request = getRequest(messageId, userId);
-        User requester = JDAUtil.getUserFromId(request.getRequesterId());
-        User receiver = JDAUtil.getUserFromId(request.getReceiverId());
+        User requester = jdaService.getUserFromId(request.getRequesterId());
+        User receiver = jdaService.getUserFromId(request.getReceiverId());
 
         if (request.getReceiverId() != userId)
-            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(jdaService.getNameAsTag(userId)));
         request.getChannel().deleteMessageById(messageId).queue();
         request.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -127,21 +133,21 @@ public class RequestAPI {
         requestMap.remove(messageId);
     }
 
-    public static void deny(long userId) {
+    public void deny(long userId) {
         Long messageId = getMessageId(userId);
         if (messageId == null)
-            throw new NoSuchElementException("%s 의 신청을 찾을 수 없습니다.".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new NoSuchElementException("%s 의 신청을 찾을 수 없습니다.".formatted(jdaService.getNameAsTag(userId)));
 
         deny(messageId, userId);
     }
 
-    public static void deny(long messageId, long userId) {
+    public void deny(long messageId, long userId) {
         Request request = getRequest(messageId, userId);
-        User requester = JDAUtil.getUserFromId(request.getRequesterId());
-        User receiver = JDAUtil.getUserFromId(request.getReceiverId());
+        User requester = jdaService.getUserFromId(request.getRequesterId());
+        User receiver = jdaService.getUserFromId(request.getReceiverId());
 
         if (request.getReceiverId() != userId)
-            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(jdaService.getNameAsTag(userId)));
         request.getChannel().deleteMessageById(messageId).queue();
         request.getChannel().sendMessageEmbeds(new EmbedBuilder()
                 .setAuthor(requester.getName(), null, requester.getEffectiveAvatarUrl())
@@ -154,7 +160,7 @@ public class RequestAPI {
         requestMap.remove(messageId);
     }
 
-    private static Long getMessageId(long userId) {
+    private Long getMessageId(long userId) {
         AtomicReference<Long> messageId = new AtomicReference<>();
         requestMap.forEach((id, request) -> {
             if (CommonUtil.anySame(userId, request.getRequesterId(), request.getReceiverId())) {
@@ -162,23 +168,23 @@ public class RequestAPI {
             }
         });
         if (messageId.get() == null)
-            throw new NoSuchElementException("%s 님의 요청을 찾지 못했습니다.".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new NoSuchElementException("%s 님의 요청을 찾지 못했습니다.".formatted(jdaService.getNameAsTag(userId)));
 
         return messageId.get();
     }
 
-    private static @NotNull Request getRequest(long messageId, long userId) {
+    private @NotNull Request getRequest(long messageId, long userId) {
         if (!requestMap.containsKey(messageId))
-            throw new NoSuchElementException("%s 님의 요청을 찾지 못했습니다.".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new NoSuchElementException("%s 님의 요청을 찾지 못했습니다.".formatted(jdaService.getNameAsTag(userId)));
 
         Request request = requestMap.get(messageId);
         if (!CommonUtil.anySame(userId, request.getRequesterId(), request.getReceiverId()))
-            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(JDAUtil.getNameAsTag(userId)));
+            throw new IllegalCallerException("%s 님, 당신의 메시지가 아닌 것 같은데요...".formatted(jdaService.getNameAsTag(userId)));
 
         return request;
     }
 
-    public static @NotNull Request getRequest(long userId) {
+    public @NotNull Request getRequest(long userId) {
         Long messageId = getMessageId(userId);
 
         return getRequest(messageId, userId);

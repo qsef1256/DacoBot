@@ -2,18 +2,24 @@ package net.qsef1256.dacobot.game.explosion.model;
 
 import jakarta.persistence.NoResultException;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.data.UserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 public class Cash {
 
     protected static final DaoCommonJpa<CashEntity, Long> dao = new DaoCommonJpaImpl<>(CashEntity.class);
+    @Setter(onMethod_ = {@Autowired})
+    private JpaController jpaController;
+    @Setter(onMethod_ = {@Autowired})
+    private AccountController accountController;
     @Getter
     private CashEntity data;
 
@@ -27,15 +33,15 @@ public class Cash {
 
         UserEntity account;
         try {
-            account = (UserEntity) JpaController.getEntityManager()
+            account = (UserEntity) jpaController.getEntityManager()
                     .createQuery("select m from UserEntity m join fetch m.explosionCash where m.discordId = :discordId")
                     .setParameter("discordId", discordId)
                     .getSingleResult();
             data = account.getExplosionCash();
         } catch (NoResultException e) {
-            logger.info("creating Cash for %s".formatted(discordId));
+            log.info("creating Cash for %s".formatted(discordId));
 
-            account = AccountController.getAccount(discordId);
+            account = accountController.getAccount(discordId);
             data = new CashEntity().setDiscordUser(account);
             dao.save(data);
         } finally {

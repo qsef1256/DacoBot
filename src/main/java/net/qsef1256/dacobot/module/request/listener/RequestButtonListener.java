@@ -1,15 +1,20 @@
 package net.qsef1256.dacobot.module.request.listener;
 
+import lombok.Setter;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RequestButtonListener extends ListenerAdapter {
+
+    @Setter(onMethod_ = {@Autowired})
+    private RequestAPI requestAPI;
 
     @Override
     public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) {
@@ -18,7 +23,7 @@ public class RequestButtonListener extends ListenerAdapter {
                 User eventUser = event.getUser();
 
                 try {
-                    RequestAPI.accept(event.getMessage().getIdLong(), eventUser.getIdLong());
+                    requestAPI.accept(event.getMessage().getIdLong(), eventUser.getIdLong());
 
                     event.deferEdit().queue();
                 } catch (RuntimeException e) {
@@ -30,7 +35,7 @@ public class RequestButtonListener extends ListenerAdapter {
                 User eventUser = event.getUser();
 
                 try {
-                    RequestAPI.deny(event.getMessage().getIdLong(), eventUser.getIdLong());
+                    requestAPI.deny(event.getMessage().getIdLong(), eventUser.getIdLong());
 
                     event.deferEdit().queue();
                 } catch (RuntimeException e) {

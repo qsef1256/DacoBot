@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.command.tool.hangeul;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -11,8 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @Component
 public class EngKorConvertCommand extends SlashCommand {
 
@@ -33,7 +33,7 @@ public class EngKorConvertCommand extends SlashCommand {
                     KorEngConverter.getInstance().engToKor(option.getAsString()),
                     event.getUser()).build()).queue();
         } catch (RuntimeException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             event.replyEmbeds(DiaEmbed.error("오타", "주어진 문자열을 변환하던 도중 문제가 생겼습니다.", null, null)
                     .setFooter("뭘 넣었길래...")
                     .build()).queue();

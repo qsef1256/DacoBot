@@ -2,6 +2,8 @@ package net.qsef1256.dacobot.game.explosion.model;
 
 import jakarta.persistence.NoResultException;
 import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.database.JpaController;
@@ -12,15 +14,19 @@ import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.data.UserEntity;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 public class Inventory {
 
     protected static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
+    @Setter(onMethod_ = {@Autowired})
+    private JpaController jpaController;
+    @Setter(onMethod_ = {@Autowired})
+    private AccountController accountController;
     @Getter
     private InventoryEntity data;
 
@@ -42,27 +48,27 @@ public class Inventory {
 
         UserEntity account;
         try {
-            account = (UserEntity) JpaController.getEntityManager()
+            account = (UserEntity) jpaController.getEntityManager()
                     .createQuery("select m from UserEntity m join fetch m.inventory where m.discordId = :discordId")
                     .setParameter("discordId", discordId)
                     .getSingleResult();
             data.setDiscordUser(account);
         } catch (NoResultException e) {
-            logger.info("creating Inventory for %s".formatted(discordId));
+            log.info("creating Inventory for %s".formatted(discordId));
 
-            account = AccountController.getAccount(discordId);
+            account = accountController.getAccount(discordId);
             account.setInventory(new InventoryEntity().setDiscordUser(account));
             dao.saveAndClose(account);
             return;
         }
 
         try {
-            data = (InventoryEntity) JpaController.getEntityManager()
+            data = (InventoryEntity) jpaController.getEntityManager()
                     .createQuery("select m from InventoryEntity m join fetch m.items where m.discordUser = :discordUser")
                     .setParameter("discordUser", account)
                     .getSingleResult();
         } catch (NoResultException e) {
-            logger.info("can't find item for %s".formatted(discordId));
+            log.info("can't find item for %s".formatted(discordId));
         }
 
         dao.close();

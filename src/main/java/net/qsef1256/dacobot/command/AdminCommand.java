@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -19,8 +20,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @Component
 public class AdminCommand extends SlashCommand {
 
@@ -58,7 +58,7 @@ public class AdminCommand extends SlashCommand {
 
         @Override
         public void execute(@NotNull SlashCommandEvent event) {
-            logger.info("Shutting down with command");
+            log.info("Shutting down with command");
 
             event.reply("끄는 중....")
                     .setEphemeral(true)
@@ -102,8 +102,8 @@ public class AdminCommand extends SlashCommand {
         @Override
         @SneakyThrows
         protected void execute(@NotNull SlashCommandEvent event) {
-            JDA jda = DacoBot.getJda();
-            String forcedGuildId = DacoBot.getCommandClient().forcedGuildId();
+            JDA jda = dacoBot.getJda();
+            String forcedGuildId = dacoBot.getCommandClient().forcedGuildId();
 
             try {
                 jda.awaitReady();
@@ -115,10 +115,10 @@ public class AdminCommand extends SlashCommand {
 
             final Guild guild = jda.getGuildById(forcedGuildId);
             if (guild != null) {
-                logger.info("Cleaning Commands");
+                log.info("Cleaning Commands");
                 guild.updateCommands().queue();
             } else {
-                logger.warn("forced Guild is null");
+                log.warn("forced Guild is null");
             }
 
             event.reply("초기화가 완료 되었습니다. 길드 ID: " + forcedGuildId)

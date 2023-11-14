@@ -3,6 +3,7 @@ package net.qsef1256.dacobot.module.cmdstat;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
@@ -11,8 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CmdStatistic {
 
@@ -50,7 +50,7 @@ public class CmdStatistic {
         data.setUseCount(1);
         data.setTodayUsed(1);
 
-        logger.info("Creating %s's statistics".formatted(command.getSimpleName()));
+        log.info("Creating %s's statistics".formatted(command.getSimpleName()));
         statistic = data;
         dao.saveAndClose(data);
     }

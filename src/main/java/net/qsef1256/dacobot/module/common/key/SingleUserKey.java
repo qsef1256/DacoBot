@@ -1,8 +1,10 @@
 package net.qsef1256.dacobot.module.common.key;
 
+import lombok.Setter;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.UserSnowflake;
-import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.util.JDAService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
 import java.util.Set;
@@ -10,10 +12,12 @@ import java.util.Set;
 public class SingleUserKey extends ManagedKeyImpl implements UserKey {
 
     private final UserSnowflake user;
+    @Setter(onMethod_ = {@Autowired})
+    private JDAService jdaService;
 
     @Override
     public Set<User> getUsers() {
-        return Set.of(JDAUtil.getUserFromId(user.getIdLong()));
+        return Set.of(jdaService.getUserFromId(user.getIdLong()));
     }
 
     public SingleUserKey(String type, UserSnowflake user) {
@@ -22,7 +26,7 @@ public class SingleUserKey extends ManagedKeyImpl implements UserKey {
     }
 
     public User getUser() {
-        return JDAUtil.getUserFromId(user.getIdLong());
+        return jdaService.getUserFromId(user.getIdLong());
     }
 
     public UserSnowflake getUserSnowflake() {

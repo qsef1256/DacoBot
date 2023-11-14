@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
@@ -16,6 +17,7 @@ import net.qsef1256.dialib.util.RandomUtil;
 import org.apache.maven.model.Dependency;
 import org.apache.maven.model.Model;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
@@ -46,6 +48,11 @@ public class CreditCommand extends SlashCommand {
 
     private static class MainInfoCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
+        @Setter(onMethod_ = {@Autowired})
+        private DiaSetting setting;
+
         public MainInfoCommand() {
             name = "보기";
             help = "전반적인 정보를 확인합니다.";
@@ -57,8 +64,8 @@ public class CreditCommand extends SlashCommand {
 
             try {
                 model = MavenUtil.getMavenModel(
-                        DiaSetting.getInstance().getProject().getString("groupId"),
-                        DiaSetting.getInstance().getProject().getString("artifactId"));
+                        setting.getProject().getString("groupId"),
+                        setting.getProject().getString("artifactId"));
             } catch (final RuntimeException e) {
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
                 e.printStackTrace();
@@ -74,8 +81,8 @@ public class CreditCommand extends SlashCommand {
             final String name = model.getName();
             final String version = model.getVersion();
 
-            final int serverSize = DacoBot.getJda().getGuilds().size();
-            final int userSize = DacoBot.getJda().getUsers().size();
+            final int serverSize = dacoBot.getJda().getGuilds().size();
+            final int userSize = dacoBot.getJda().getUsers().size();
 
             Optional<Dependency> jda = model.getDependencies().stream()
                     .filter(dependency -> dependency.getArtifactId().equals("JDA"))

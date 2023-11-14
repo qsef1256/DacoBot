@@ -1,13 +1,15 @@
 package net.qsef1256.dacobot.game.paint.model;
 
-import net.qsef1256.dacobot.DacoBot;
+import com.jagrosh.jdautilities.command.CommandClient;
+import lombok.Setter;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.game.paint.data.PaintEntity;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.game.paint.model.painter.PixelPainter;
-import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dacobot.util.JDAService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.ArrayList;
@@ -18,6 +20,11 @@ import java.util.Map;
 public class PaintManagerImpl implements PaintManager {
 
     private static final DaoCommonJpa<PaintEntity, String> dao = new DaoCommonJpaImpl<>(PaintEntity.class);
+
+    @Setter(onMethod_ = {@Autowired})
+    private JDAService jdaService;
+    @Setter(onMethod_ = {@Autowired})
+    private CommandClient commandClient;
 
     @Override
     public List<String> getOwnedPaint(long discordId) {
@@ -55,8 +62,8 @@ public class PaintManagerImpl implements PaintManager {
     }
 
     private void checkPermission(long discordId, Long ownerId) {
-        if (ownerId != discordId && DacoBot.getCommandClient().getOwnerIdLong() != discordId)
-            throw new IllegalArgumentException("그림을 편집할 권한이 없습니다. 소유자: " + JDAUtil.getNameAsTag(ownerId));
+        if (ownerId != discordId && commandClient.getOwnerIdLong() != discordId)
+            throw new IllegalArgumentException("그림을 편집할 권한이 없습니다. 소유자: " + jdaService.getNameAsTag(ownerId));
     }
 
     @Override
@@ -103,9 +110,11 @@ public class PaintManagerImpl implements PaintManager {
         }
     }
 
-    private void setPaintData(@NotNull PaintEntity paintData, String paintName, @NotNull PixelPainter painter, long discordId) {
-        paintData
-                .setPaintName(paintName)
+    private void setPaintData(@NotNull PaintEntity paintData,
+                              @NotNull String paintName,
+                              @NotNull PixelPainter painter,
+                              long discordId) {
+        paintData.setPaintName(paintName)
                 .setXSize(painter.getWidth())
                 .setYSize(painter.getHeight())
                 .setPixels(painter.getPixelEntities())

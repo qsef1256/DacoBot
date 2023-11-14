@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.module.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
@@ -17,6 +18,7 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
@@ -43,6 +45,11 @@ public class AccountCommand extends SlashCommand {
 
     private static class RegisterCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private AccountController accountController;
+        @Setter(onMethod_ = {@Autowired})
+        private UserController userController;
+
         public RegisterCommand() {
             name = "등록";
             help = "폭발물 취급 허가를 얻습니다.";
@@ -54,8 +61,8 @@ public class AccountCommand extends SlashCommand {
 
             event.deferReply().queue(callback -> {
                 try {
-                    AccountController.register(user.getIdLong());
-                    UserController.register(user.getIdLong());
+                    accountController.register(user.getIdLong());
+                    userController.register(user.getIdLong());
                     callback.editOriginalEmbeds(new EmbedBuilder()
                             .setTitle("등록 성공")
                             .setColor(DiaColor.SUCCESS)

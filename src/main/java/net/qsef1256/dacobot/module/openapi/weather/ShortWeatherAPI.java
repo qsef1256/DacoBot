@@ -2,12 +2,18 @@ package net.qsef1256.dacobot.module.openapi.weather;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import lombok.experimental.UtilityClass;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.module.openapi.APIConnector;
 import net.qsef1256.dacobot.module.openapi.enums.APICode;
 import net.qsef1256.dacobot.module.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.gson.GsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.IOException;
 import java.io.SyncFailedException;
@@ -16,12 +22,12 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
+@Slf4j
+@SpringBootApplication
+public class ShortWeatherAPI implements CommandLineRunner {
 
-@UtilityClass
-public class ShortWeatherAPI {
-
-    private static final String TOKEN = DiaSetting.getInstance().getKey().getString("weather.token");
+    @Setter(onMethod_ = {@Autowired})
+    private DiaSetting setting;
 
     /**
      * 기상청으로부터 데이터를 받습니다.
@@ -41,7 +47,7 @@ public class ShortWeatherAPI {
 
         String urlString = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst" +
                 "?" + URLEncoder.encode("serviceKey", StandardCharsets.UTF_8) +
-                "=" + TOKEN + /* Service Key */
+                "=" + setting.getKey().getString("weather.token") + /* Service Key */
                 "&" + URLEncoder.encode("pageNo", StandardCharsets.UTF_8) +
                 "=" + URLEncoder.encode("1", StandardCharsets.UTF_8) + /* 페이지 번호 */
                 "&" + URLEncoder.encode("numOfRows", StandardCharsets.UTF_8) +
@@ -68,9 +74,15 @@ public class ShortWeatherAPI {
 
         if (jsonObject == null) throw new SyncFailedException("기상청에서 받은 데이터를 Json 으로 변환하는데 실패했습니다.");
 
-        JsonObject response = jsonObject.getAsJsonObject().get("response").getAsJsonObject();
+        JsonObject response = jsonObject.getAsJsonObject()
+                .get("response")
+                .getAsJsonObject();
 
-        String resultCode = response.get("header").getAsJsonObject().get("resultCode").getAsString();
+        String resultCode = response.get("header")
+                .getAsJsonObject()
+                .get("resultCode")
+                .getAsString();
+
         APICode apiCode = APICode.findByCode(resultCode);
         if (apiCode != APICode.NORMAL_SERVICE)
             throw new IllegalArgumentException("기상청 API 와 연동하는데 실패했습니다: " + (apiCode != null ? apiCode.getDisplay() : null));
@@ -83,10 +95,15 @@ public class ShortWeatherAPI {
         return (now.getMinute() < 45) ? now.minusHours(1) : now; // 정시 45분 마다 업데이트
     }
 
-    public static void main(String[] args) throws IOException {
-        Forecast weather = ShortWeatherAPI.getWeather(60, 123);
+    public static void main(String[] args) {
+        SpringApplication.run(DacoBot.class, args);
+    }
 
-        weather.forEach((code, value) -> logger.info("%s%s %s".formatted(
+    @Override
+    public void run(String... args) throws Exception {
+        Forecast weather = getWeather(60, 123);
+
+        weather.forEach((code, value) -> log.info("%s%s %s".formatted(
                 code.getEmoji(),
                 code.getDesc(),
                 code.getDisplay(value))));

@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.game.explosion.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -20,8 +21,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @Component
 public class InventoryCommand extends SlashCommand {
 
@@ -58,7 +58,7 @@ public class InventoryCommand extends SlashCommand {
             try {
                 event.replyEmbeds(getInventoryEmbed(user).build()).queue();
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
+                log.warn(e.getMessage());
                 e.printStackTrace();
                 event.replyEmbeds(DiaEmbed.error("인벤토리 로드 실패", null, e, user).build()).queue();
             }

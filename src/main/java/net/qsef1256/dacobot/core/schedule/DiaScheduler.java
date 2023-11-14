@@ -1,10 +1,12 @@
 package net.qsef1256.dacobot.core.schedule;
 
 import lombok.Getter;
-import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
@@ -12,8 +14,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-
-import static net.qsef1256.dacobot.DacoBot.logger;
 
 /**
  * 스케줄러, 종료시 수동으로 정지 시켜야 합니다.
@@ -23,16 +23,20 @@ import static net.qsef1256.dacobot.DacoBot.logger;
  * @implNote call shutdown() at stop
  * @see <a href=https://alwayspr.tistory.com/32>See Reference</a>
  */
-@UtilityClass
+@Slf4j
+@Component
 public class DiaScheduler {
 
-    private static final ZonedDateTime now = ZonedDateTime.now(DiaSetting.getInstance().getZoneId());
+    private final ZonedDateTime now;
 
     @Getter
-    private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
-    static {
-        Runtime.getRuntime().addShutdownHook(new Thread(DiaScheduler::shutdown));
+    @Autowired
+    public DiaScheduler(@NotNull DiaSetting setting) {
+        now = ZonedDateTime.now(setting.getZoneId());
+
+        Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
     }
 
     /**
@@ -40,7 +44,7 @@ public class DiaScheduler {
      *
      * @param runnable Runnable to schedule
      */
-    public static void executePerDay(Runnable runnable) {
+    public void executePerDay(Runnable runnable) {
         executePerTime(runnable, 0, 0, 0);
     }
 
@@ -52,19 +56,19 @@ public class DiaScheduler {
      * @param minute   0 ~ 59
      * @param second   0 ~ 59
      */
-    public static void executePerTime(Runnable runnable, int hour, int minute, int second) {
+    public void executePerTime(Runnable runnable, int hour, int minute, int second) {
         long delay = getDiffFromNow(getNextExecutionTime(hour, minute, second));
 
         scheduler.scheduleAtFixedRate(() -> {
             try {
                 runnable.run();
             } catch (Exception e) {
-                logger.error("Failed to execute task", e);
+                log.error("Failed to execute task", e);
             }
         }, delay, TimeUnit.DAYS.toSeconds(1), TimeUnit.SECONDS);
     }
 
-    private static ZonedDateTime getNextExecutionTime(int hour, int minute, int second) {
+    private ZonedDateTime getNextExecutionTime(int hour, int minute, int second) {
         ZonedDateTime nextExecutionTime = now.withHour(hour).withMinute(minute).withSecond(second);
         if (isOverDay(nextExecutionTime)) nextExecutionTime = nextExecutionTime.plusDays(1);
 
@@ -72,25 +76,25 @@ public class DiaScheduler {
     }
 
     @Contract(pure = true)
-    private static boolean isOverDay(ZonedDateTime nextExecutionTime) {
+    private boolean isOverDay(ZonedDateTime nextExecutionTime) {
         return now.compareTo(nextExecutionTime) > 0;
     }
 
-    private static long getDiffFromNow(ZonedDateTime nextExecutionTime) {
+    private long getDiffFromNow(ZonedDateTime nextExecutionTime) {
         return Duration.between(now, nextExecutionTime).getSeconds();
     }
 
     @NotNull
-    public static ScheduledFuture<?> schedule(Runnable runnable, long delay, TimeUnit timeUnit) {
+    public ScheduledFuture<?> schedule(Runnable runnable, long delay, TimeUnit timeUnit) {
         return scheduler.schedule(runnable, delay, timeUnit);
     }
 
     @NotNull
-    public static ScheduledFuture<?> schedule(Runnable runnable, long second) {
+    public ScheduledFuture<?> schedule(Runnable runnable, long second) {
         return schedule(runnable, second, TimeUnit.SECONDS);
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         scheduler.shutdown();
     }
 

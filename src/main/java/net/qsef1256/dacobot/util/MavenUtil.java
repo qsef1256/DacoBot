@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.util;
 
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
@@ -10,8 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.util.Objects;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
 @UtilityClass
 public class MavenUtil {
 
@@ -32,7 +32,7 @@ public class MavenUtil {
             if (model == null) throw new FileNotFoundException("pom.xml is null");
             return model;
         } catch (final IOException | XmlPullParserException e) {
-            logger.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
 
             throw new FileNotFoundException("failed to find maven model");
         }

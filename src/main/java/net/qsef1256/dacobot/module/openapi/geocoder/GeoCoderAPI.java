@@ -1,20 +1,37 @@
 package net.qsef1256.dacobot.module.openapi.geocoder;
 
+import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.module.openapi.APIConnector;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.gson.GsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
+@Slf4j
+@SpringBootApplication
+public class GeoCoderAPI implements CommandLineRunner {
 
-public class GeoCoderAPI {
+    private final DiaSetting setting;
 
-    public static void main(String[] args) throws IOException {
+    @Autowired
+    public GeoCoderAPI(DiaSetting setting) {
+        this.setting = setting;
+    }
+
+    public static void main(String[] args) {
+        SpringApplication.run(DacoBot.class, args);
+    }
+
+    @Override
+    public void run(String... args) throws Exception {
         String address = "동편로 80";
-        String token = DiaSetting.getInstance().getKey().getString("geocoder.token");
+        String token = setting.getKey().getString("geocoder.token");
         String urlString = "http://api.vworld.kr/req/address" +
                 "?" + URLEncoder.encode("service", StandardCharsets.UTF_8) +
                 "=" + URLEncoder.encode("address", StandardCharsets.UTF_8) +
@@ -39,7 +56,7 @@ public class GeoCoderAPI {
 
         try (APIConnector connector = new APIConnector()) {
             StringBuilder sb = connector.getResultAsString(urlString);
-            logger.info(GsonUtil.parsePretty(sb.toString()));
+            log.info(GsonUtil.parsePretty(sb.toString()));
         }
     }
 
