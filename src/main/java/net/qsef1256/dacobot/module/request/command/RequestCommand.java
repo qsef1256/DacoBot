@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestCommand extends SlashCommand {
 
-
     public RequestCommand() {
         name = "요청";
         help = "요청을 수락하거나 거절합니다.";

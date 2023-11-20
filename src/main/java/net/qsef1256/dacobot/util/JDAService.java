@@ -85,6 +85,7 @@ public class JDAService {
     public User retrieveUserFromId(long userId) {
         AtomicReference<User> user = new AtomicReference<>();
         jda.retrieveUserById(userId).queue(user::set);
+
         return user.get();
     }
 
@@ -128,9 +129,8 @@ public class JDAService {
      * @return true when member can execute
      */
     public boolean canExecute(@NotNull SlashCommand slashCommand, Member member) {
-        if (slashCommand.isOwnerCommand()) {
+        if (slashCommand.isOwnerCommand())
             return commandClient.getOwnerIdLong() == member.getIdLong();
-        }
 
         return CommonUtil.allContains(slashCommand.getUserPermissions(), member
                 .getPermissions()
@@ -138,9 +138,8 @@ public class JDAService {
     }
 
     public boolean canExecute(@NotNull Command command, Member member) {
-        if (command.isOwnerCommand()) {
+        if (command.isOwnerCommand())
             return commandClient.getOwnerIdLong() == member.getIdLong();
-        }
 
         return CommonUtil.allContains(command.getUserPermissions(), member
                 .getPermissions()

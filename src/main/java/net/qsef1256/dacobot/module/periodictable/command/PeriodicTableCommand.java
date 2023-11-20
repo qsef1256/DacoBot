@@ -76,7 +76,8 @@ public class PeriodicTableCommand extends SlashCommand {
             elementDao.open();
             Element result = null;
 
-            if (ParseUtil.canInteger(searchText)) result = search(Map.of("number", Integer.valueOf(searchText)));
+            if (ParseUtil.canInteger(searchText))
+                result = search(Map.of("number", Integer.valueOf(searchText)));
             if (result == null) result = search(Map.of("symbol", searchText));
             if (result == null) result = search(Map.of("name", searchText));
             if (result == null) result = search(Map.of("alias", searchText));
