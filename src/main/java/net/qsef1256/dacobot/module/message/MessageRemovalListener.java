@@ -12,14 +12,14 @@ import net.qsef1256.dacobot.module.common.key.UserKey;
 import net.qsef1256.dacobot.module.message.data.MessageData;
 import net.qsef1256.dacobot.ui.DiaNotification;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 public class MessageRemovalListener<K1 extends ManagedKey, V1 extends MessageData> implements RemovalListener<K1, V1> {
 
-    @Setter(onMethod_ = {@Bean})
+    @Setter(onMethod_ = {@Autowired})
     public DacoBot dacoBot;
 
     @Override

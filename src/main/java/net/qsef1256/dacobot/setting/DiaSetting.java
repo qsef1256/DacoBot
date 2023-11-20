@@ -24,12 +24,12 @@ public class DiaSetting {
     private Configuration key;
     private ZoneId zoneId;
 
-    @SneakyThrows
-    private DiaSetting() {
+    public DiaSetting() {
         init();
     }
 
-    public void init() throws ConfigurationException {
+    @SneakyThrows
+    public void init() {
         try {
             setting = new Configurations().properties(getFile("setting.properties"));
             project = new Configurations().properties(getProjectFile());
