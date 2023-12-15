@@ -14,6 +14,7 @@ import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,9 +29,9 @@ public class JDAService {
     private final CommandClient commandClient;
 
     @Autowired
-    public JDAService(@NotNull JDA jda,
-                      @NotNull CommandClient commandClient,
-                      @NotNull DiaSetting setting) {
+    public JDAService(@Lazy JDA jda,
+                      @Lazy CommandClient commandClient,
+                      @Lazy DiaSetting setting) {
         this.jda = jda;
         this.commandClient = commandClient;
         this.setting = setting;

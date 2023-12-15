@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot;
 
 import com.jagrosh.jdautilities.command.*;
+import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityTransaction;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -43,7 +44,6 @@ import java.util.List;
 public class DacoBot implements CommandLineRunner {
 
     private JDA jda;
-
     private CommandClient commandClient;
     private DiaHelp diaHelp;
     private final DiaSetting setting;
@@ -67,7 +67,7 @@ public class DacoBot implements CommandLineRunner {
         this.jpaController = jpaController;
     }
 
-    public static void main(final String[] args) {
+    public static void main(String[] args) {
         SpringApplication.run(DacoBot.class, args);
     }
 
@@ -101,7 +101,7 @@ public class DacoBot implements CommandLineRunner {
         jda.awaitReady();
 
         // TODO: global command
-        getAllGuilds().forEach(this::upsertToGuild);
+        System.out.println(getJda());
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 
         log.info("Finish loading " + DiaInfo.BOT_NAME + "!");
@@ -138,17 +138,17 @@ public class DacoBot implements CommandLineRunner {
         if (commands.isEmpty())
             log.warn("There is no command in the registered package. No commands were loaded.");
         for (Command command : commands) {
-            String typeDisplay = "Unknown";
+            String commandType = "Unknown";
             if (GenericUtil.typeOf(command.getClass().getSuperclass(), Command.class)) {
-                typeDisplay = "Command";
+                commandType = "Command";
                 commandClientBuilder.addCommand(command);
             }
             if (GenericUtil.typeOf(command.getClass().getSuperclass(), SlashCommand.class)) {
-                typeDisplay = "Slash";
+                commandType = "Slash";
                 commandClientBuilder.addSlashCommand((SlashCommand) command);
             }
 
-            log.info("Loaded %s %s successfully".formatted(typeDisplay, command.getClass().getSimpleName()));
+            log.info("Loaded %s %s successfully".formatted(commandType, command.getClass().getSimpleName()));
         }
     }
 
@@ -197,7 +197,11 @@ public class DacoBot implements CommandLineRunner {
         }
     }
 
-    @Bean
+    @PostConstruct
+    private void init() {
+        getAllGuilds().forEach(this::upsertToGuild);
+    }
+
     public JDA getJda() {
         return jda;
     }
@@ -216,11 +220,14 @@ public class DacoBot implements CommandLineRunner {
         return getJda().getGuildById(setting.getMainGuildID());
     }
 
-    public @NotNull List<Guild> getAllGuilds() {
+    @NotNull
+    public List<Guild> getAllGuilds() {
         List<Guild> guilds = new ArrayList<>();
 
         guilds.add(getMainGuild());
-        for (String subGuildId : setting.getSetting().getString("bot.subGuildIds").split(",\\s*")) {
+        for (String subGuildId : setting.getSetting()
+                .getString("bot.subGuildIds")
+                .split(",\\s*")) {
             guilds.add(getJda().getGuildById(subGuildId));
         }
 
