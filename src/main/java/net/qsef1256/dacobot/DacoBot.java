@@ -1,7 +1,6 @@
 package net.qsef1256.dacobot;
 
 import com.jagrosh.jdautilities.command.*;
-import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityTransaction;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -95,13 +94,14 @@ public class DacoBot implements CommandLineRunner {
         builder.addEventListeners(commandClient);
         registerListeners(builder);
 
+
         diaHelp = new DiaHelp(commandClient);
         diaHelp.load();
         jda = builder.build();
         jda.awaitReady();
 
+        getAllGuilds().forEach(this::upsertToGuild);
         // TODO: global command
-        System.out.println(getJda());
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 
         log.info("Finish loading " + DiaInfo.BOT_NAME + "!");
@@ -197,11 +197,7 @@ public class DacoBot implements CommandLineRunner {
         }
     }
 
-    @PostConstruct
-    private void init() {
-        getAllGuilds().forEach(this::upsertToGuild);
-    }
-
+    @Bean
     public JDA getJda() {
         return jda;
     }
