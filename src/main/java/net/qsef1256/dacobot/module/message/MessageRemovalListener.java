@@ -4,8 +4,8 @@ import com.github.benmanes.caffeine.cache.RemovalCause;
 import com.github.benmanes.caffeine.cache.RemovalListener;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
-import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import net.qsef1256.dacobot.module.common.key.ManagedKey;
 import net.qsef1256.dacobot.module.common.key.UserKey;
@@ -20,13 +20,13 @@ import org.springframework.stereotype.Component;
 public class MessageRemovalListener<K1 extends ManagedKey, V1 extends MessageData> implements RemovalListener<K1, V1> {
 
     @Setter(onMethod_ = {@Autowired})
-    public DacoBot dacoBot;
+    public JDA jda;
 
     @Override
     public void onRemoval(@Nullable K1 key,
                           @Nullable V1 value,
                           RemovalCause cause) {
-        if (dacoBot.getJda() == null) return;
+        if (jda == null) return;
 
         if (key instanceof UserKey userKey) {
             userKey.getUsers().forEach(user -> {

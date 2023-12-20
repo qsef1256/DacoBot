@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.qsef1256.dacobot.DacoBot;
+import net.dv8tion.jda.api.JDA;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
@@ -49,7 +49,7 @@ public class CreditCommand extends SlashCommand {
     private static class MainInfoCommand extends SlashCommand {
 
         @Setter(onMethod_ = {@Autowired})
-        private DacoBot dacoBot;
+        private JDA jda;
         @Setter(onMethod_ = {@Autowired})
         private DiaSetting setting;
 
@@ -81,8 +81,8 @@ public class CreditCommand extends SlashCommand {
             final String name = model.getName();
             final String version = model.getVersion();
 
-            final int serverSize = dacoBot.getJda().getGuilds().size();
-            final int userSize = dacoBot.getJda().getUsers().size();
+            final int serverSize = jda.getGuilds().size();
+            final int userSize = jda.getUsers().size();
 
             Optional<Dependency> jda = model.getDependencies().stream()
                     .filter(dependency -> dependency.getArtifactId().equals("JDA"))

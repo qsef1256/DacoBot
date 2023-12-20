@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.command;
 
+import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
@@ -92,6 +93,10 @@ public class AdminCommand extends SlashCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private DacoBot dacoBot;
+        @Setter(onMethod_ = {@Autowired})
+        private JDA jda;
+        @Setter(onMethod_ = {@Autowired})
+        private CommandClient commandClient;
 
         public ClearCommand() {
             name = "초기화";
@@ -102,8 +107,7 @@ public class AdminCommand extends SlashCommand {
         @Override
         @SneakyThrows
         protected void execute(@NotNull SlashCommandEvent event) {
-            JDA jda = dacoBot.getJda();
-            String forcedGuildId = dacoBot.getCommandClient().forcedGuildId();
+            String forcedGuildId = commandClient.forcedGuildId();
 
             try {
                 jda.awaitReady();

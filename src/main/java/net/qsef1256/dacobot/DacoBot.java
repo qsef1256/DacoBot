@@ -1,28 +1,18 @@
 package net.qsef1256.dacobot;
 
-import com.jagrosh.jdautilities.command.*;
+import com.jagrosh.jdautilities.command.CommandClient;
+import com.jagrosh.jdautilities.command.ContextMenu;
+import com.jagrosh.jdautilities.command.SlashCommand;
 import jakarta.persistence.EntityTransaction;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.dv8tion.jda.api.utils.ChunkingFilter;
-import net.dv8tion.jda.api.utils.MemberCachePolicy;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.command.help.DiaHelp;
-import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
 import net.qsef1256.dacobot.core.schedule.DiaScheduler;
 import net.qsef1256.dacobot.database.JpaController;
-import net.qsef1256.dacobot.listener.CommandHandler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
-import net.qsef1256.dacobot.util.ReflectionUtil;
-import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -42,28 +32,26 @@ import java.util.List;
 @SpringBootApplication
 public class DacoBot implements CommandLineRunner {
 
-    private JDA jda;
-    private CommandClient commandClient;
-    private DiaHelp diaHelp;
+    private final JDA jda;
+    private final CommandClient commandClient;
     private final DiaSetting setting;
     private final DiaScheduler scheduler;
     private final JpaController jpaController;
-    private final List<? extends Command> commands;
-    private final List<? extends ListenerAdapter> listeners;
+    private DiaHelp diaHelp;
 
     private String[] args;
 
     @Autowired
-    public DacoBot(List<? extends Command> commands,
-                   List<? extends ListenerAdapter> listeners,
-                   DiaSetting setting,
+    public DacoBot(DiaSetting setting,
                    DiaScheduler scheduler,
-                   JpaController jpaController) {
-        this.commands = commands;
-        this.listeners = listeners;
+                   JpaController jpaController,
+                   JDA jda,
+                   CommandClient commandClient) {
         this.setting = setting;
         this.scheduler = scheduler;
         this.jpaController = jpaController;
+        this.jda = jda;
+        this.commandClient = commandClient;
     }
 
     public static void main(String[] args) {
@@ -77,27 +65,11 @@ public class DacoBot implements CommandLineRunner {
         log.info(DiaInfo.BOT_NAME + " is Starting!");
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
-        CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
-        configureCommandClientBuilder(commandClientBuilder);
-        registerCommands(commandClientBuilder);
-        registerContextMenu(commandClientBuilder);
-
-        commandClient = commandClientBuilder.build();
-        commandClient.setListener(new CommandHandler());
         log.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
-
         initJpa();
-        JDABuilder builder = JDABuilder.createDefault(setting
-                .getKey()
-                .getString("discord.token"));
-        configureBot(builder);
-        builder.addEventListeners(commandClient);
-        registerListeners(builder);
-
 
         diaHelp = new DiaHelp(commandClient);
         diaHelp.load();
-        jda = builder.build();
         jda.awaitReady();
 
         getAllGuilds().forEach(this::upsertToGuild);
@@ -111,65 +83,6 @@ public class DacoBot implements CommandLineRunner {
         EntityTransaction transaction = jpaController.getEntityManager().getTransaction();
         transaction.begin();
         transaction.commit();
-    }
-
-    private void configureCommandClientBuilder(@NotNull CommandClientBuilder commandClientBuilder) {
-        commandClientBuilder.setOwnerId(setting.getSetting().getString("bot.ownerId"));
-        commandClientBuilder.setActivity(Activity.playing("다코 가동 중..."));
-        commandClientBuilder.forceGuildOnly(setting.getMainGuildID());
-        commandClientBuilder.useHelpBuilder(true);
-        commandClientBuilder.setHelpWord("도움말");
-        commandClientBuilder.setHelpConsumer(event -> event.reply("/도움말을 입력해주세요."));
-        commandClientBuilder.setPrefix("다코야");
-        commandClientBuilder.setManualUpsert(true); // TODO: Endpoint disabled (https://discord.com/developers/docs/change-log#updated-command-permissions)
-    }
-
-    private void configureBot(@NotNull JDABuilder builder) {
-        builder.disableCache(CacheFlag.VOICE_STATE);
-        builder.setMemberCachePolicy(MemberCachePolicy.ALL); // 모든 길드의 유저 캐싱하기
-        builder.setChunkingFilter(ChunkingFilter.ALL);
-        builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT);
-        builder.disableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MESSAGE_TYPING);
-    }
-
-    private void registerCommands(@NotNull CommandClientBuilder commandClientBuilder) {
-        log.info("Loading Commands");
-
-        if (commands.isEmpty())
-            log.warn("There is no command in the registered package. No commands were loaded.");
-        for (Command command : commands) {
-            String commandType = "Unknown";
-            if (GenericUtil.typeOf(command.getClass().getSuperclass(), Command.class)) {
-                commandType = "Command";
-                commandClientBuilder.addCommand(command);
-            }
-            if (GenericUtil.typeOf(command.getClass().getSuperclass(), SlashCommand.class)) {
-                commandType = "Slash";
-                commandClientBuilder.addSlashCommand((SlashCommand) command);
-            }
-
-            log.info("Loaded %s %s successfully".formatted(commandType, command.getClass().getSimpleName()));
-        }
-    }
-
-    private void registerContextMenu(@NotNull CommandClientBuilder commandClientBuilder) {
-        log.info("Loading Context Menus");
-
-        commandClientBuilder.addContextMenu(new EngKorContextMenu());
-    }
-
-    @SneakyThrows
-    private void registerListeners(@NotNull JDABuilder builder) {
-        log.info("Loading Listeners");
-
-        if (listeners.isEmpty())
-            log.warn("There is no listener in the registered package. No listeners were loaded.");
-        for (ListenerAdapter listener : listeners) {
-            if (!ReflectionUtil.isConcrete(listener.getClass())) continue;
-
-            builder.addEventListeners(listener);
-            log.info("Loaded %s successfully".formatted(listener.getClass().getSimpleName()));
-        }
     }
 
     private void upsertToGuild(@Nullable Guild guild) {
@@ -198,22 +111,12 @@ public class DacoBot implements CommandLineRunner {
     }
 
     @Bean
-    public JDA getJda() {
-        return jda;
-    }
-
-    @Bean
-    public CommandClient getCommandClient() {
-        return commandClient;
-    }
-
-    @Bean
     public DiaHelp getDiaHelp() {
         return diaHelp;
     }
 
     public Guild getMainGuild() {
-        return getJda().getGuildById(setting.getMainGuildID());
+        return jda.getGuildById(setting.getMainGuildID());
     }
 
     @NotNull
@@ -224,7 +127,7 @@ public class DacoBot implements CommandLineRunner {
         for (String subGuildId : setting.getSetting()
                 .getString("bot.subGuildIds")
                 .split(",\\s*")) {
-            guilds.add(getJda().getGuildById(subGuildId));
+            guilds.add(jda.getGuildById(subGuildId));
         }
 
         return guilds;
