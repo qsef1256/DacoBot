@@ -4,7 +4,6 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandListener;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -16,8 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class CommandHandler implements CommandListener {
 
-    @Setter(onMethod_ = {@Autowired})
-    private CommandClient commandClient;
+    private final CommandClient commandClient;
+
+    @Autowired
+    public CommandHandler(CommandClient commandClient) {
+        this.commandClient = commandClient;
+    }
 
     @Override
     public void onSlashCommandException(@NotNull SlashCommandEvent event,

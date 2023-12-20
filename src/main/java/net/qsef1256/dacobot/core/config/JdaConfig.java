@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.init;
+package net.qsef1256.dacobot.core.config;
 
 import com.jagrosh.jdautilities.command.CommandClient;
 import lombok.SneakyThrows;

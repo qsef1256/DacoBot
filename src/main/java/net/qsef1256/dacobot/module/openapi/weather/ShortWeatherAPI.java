@@ -4,16 +4,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.module.openapi.APIConnector;
 import net.qsef1256.dacobot.module.openapi.enums.APICode;
 import net.qsef1256.dacobot.module.openapi.weather.model.Forecast;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.gson.GsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.SyncFailedException;
@@ -23,8 +20,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Slf4j
-@SpringBootApplication
-public class ShortWeatherAPI implements CommandLineRunner {
+@Component
+public class ShortWeatherAPI {
 
     @Setter(onMethod_ = {@Autowired})
     private DiaSetting setting;
@@ -93,20 +90,6 @@ public class ShortWeatherAPI implements CommandLineRunner {
     private LocalDateTime getDateTime() {
         LocalDateTime now = LocalDateTime.now();
         return (now.getMinute() < 45) ? now.minusHours(1) : now; // 정시 45분 마다 업데이트
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(DacoBot.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-        Forecast weather = getWeather(60, 123);
-
-        weather.forEach((code, value) -> log.info("%s%s %s".formatted(
-                code.getEmoji(),
-                code.getDesc(),
-                code.getDisplay(value))));
     }
 
 }

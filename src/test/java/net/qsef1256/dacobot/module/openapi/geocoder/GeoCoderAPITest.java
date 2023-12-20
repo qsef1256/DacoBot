@@ -1,35 +1,23 @@
 package net.qsef1256.dacobot.module.openapi.geocoder;
 
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.module.openapi.APIConnector;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.gson.GsonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.jetbrains.annotations.NotNull;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @Slf4j
-@SpringBootApplication
-public class GeoCoderAPI implements CommandLineRunner {
+@SpringBootTest
+class GeoCoderAPITest {
 
-    private final DiaSetting setting;
-
-    @Autowired
-    public GeoCoderAPI(DiaSetting setting) {
-        this.setting = setting;
-    }
-
-    public static void main(String[] args) {
-        SpringApplication.run(DacoBot.class, args);
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
+    @Test
+    void run(@NotNull DiaSetting setting) throws IOException {
         String address = "동편로 80";
         String token = setting.getKey().getString("geocoder.token");
         String urlString = "http://api.vworld.kr/req/address" +
@@ -56,6 +44,7 @@ public class GeoCoderAPI implements CommandLineRunner {
 
         try (APIConnector connector = new APIConnector()) {
             StringBuilder sb = connector.getResultAsString(urlString);
+
             log.info(GsonUtil.parsePretty(sb.toString()));
         }
     }

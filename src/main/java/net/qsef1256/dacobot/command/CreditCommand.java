@@ -183,10 +183,6 @@ public class CreditCommand extends SlashCommand {
                             "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084) 제공 `기상청`", false)
                     .addField("기상청 중기예보 조회 서비스",
                             "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15059468) 제공 `기상청`", false)
-                    .addField("보건복지부 코로나19 감염현황 조회 서비스",
-                            "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043376) 제공 `보건복지부`", false)
-                    .addField("Geocoder API 2.0",
-                            "[Link](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do) 제공 `국토교통부`", false)
                     .build()).queue();
         }
 

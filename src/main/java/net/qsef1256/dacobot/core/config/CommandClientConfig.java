@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.init;
+package net.qsef1256.dacobot.core.config;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -37,7 +37,7 @@ public class CommandClientConfig {
         registerContextMenu(commandClientBuilder);
 
         CommandClient commandClient = commandClientBuilder.build();
-        commandClient.setListener(new CommandHandler());
+        commandClient.setListener(new CommandHandler(commandClient));
 
         return commandClient;
     }
