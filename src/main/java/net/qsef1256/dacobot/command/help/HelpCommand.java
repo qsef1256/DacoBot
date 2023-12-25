@@ -63,8 +63,12 @@ public class HelpCommand extends SlashCommand {
             try {
                 event.replyEmbeds(diaHelp.getMainMenu(member).build()).queue();
             } catch (RuntimeException e) {
-                event.replyEmbeds(DiaEmbed.error(null, "설정 파일을 로드하는데 실패했습니다.", null, null).build()).queue();
-                e.printStackTrace();
+                log.error("failed to load DiaHelp", e);
+
+                event.replyEmbeds(DiaEmbed.error(null,
+                        "설정 파일을 로드하는데 실패했습니다.",
+                        null,
+                        null).build()).queue();
             }
         }
 
@@ -79,7 +83,9 @@ public class HelpCommand extends SlashCommand {
             name = "찾기";
             help = "특정 카테고리의 도움말을 찾습니다.";
 
-            options = Collections.singletonList(new OptionData(OptionType.STRING, "카테고리", "찾을 카테고리").setRequired(true));
+            options = Collections.singletonList(new OptionData(OptionType.STRING,
+                    "카테고리",
+                    "찾을 카테고리").setRequired(true));
         }
 
         @Override
@@ -93,7 +99,9 @@ public class HelpCommand extends SlashCommand {
             try {
                 event.replyEmbeds(diaHelp.getSearchResult(member, option.getAsString()).build()).queue();
             } catch (NoSuchElementException e) {
-                event.replyEmbeds(DiaEmbed.fail("찾기 실패", option.getAsString() + " 카테고리는 존재하지 않아요!", null)
+                event.replyEmbeds(DiaEmbed.fail("찾기 실패",
+                                option.getAsString() + " 카테고리는 존재하지 않아요!",
+                                null)
                         .setFooter("/도움말 전체 로 카테고리 목록을 확인하세요.")
                         .build()).queue();
             } catch (RuntimeException e) {
