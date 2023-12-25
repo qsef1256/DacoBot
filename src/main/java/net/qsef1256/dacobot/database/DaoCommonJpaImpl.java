@@ -27,7 +27,6 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
 
     @Setter(onMethod_ = {@Autowired})
     private JpaController jpaController;
-
     @Getter
     private EntityManager entityManager;
     private Class<T> clazz;

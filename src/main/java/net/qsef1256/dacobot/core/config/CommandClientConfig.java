@@ -23,8 +23,8 @@ public class CommandClientConfig {
     private final DiaSetting setting;
     private final List<? extends Command> commands;
 
-    public CommandClientConfig(DiaSetting setting,
-                               List<? extends Command> commands) {
+    public CommandClientConfig(@NotNull DiaSetting setting,
+                               @NotNull List<? extends Command> commands) {
         this.setting = setting;
         this.commands = commands;
     }

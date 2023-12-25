@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
-import net.qsef1256.dacobot.command.help.DiaHelp;
 import net.qsef1256.dacobot.core.schedule.DiaScheduler;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.setting.DiaSetting;
@@ -20,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +35,6 @@ public class DacoBot implements CommandLineRunner {
     private final DiaSetting setting;
     private final DiaScheduler scheduler;
     private final JpaController jpaController;
-    private DiaHelp diaHelp;
 
     private String[] args;
 
@@ -68,8 +65,6 @@ public class DacoBot implements CommandLineRunner {
         log.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
         initJpa();
 
-        diaHelp = new DiaHelp(commandClient);
-        diaHelp.load();
         jda.awaitReady();
 
         getAllGuilds().forEach(this::upsertToGuild);
@@ -108,11 +103,6 @@ public class DacoBot implements CommandLineRunner {
         } else {
             log.warn("Cannot find main Guild");
         }
-    }
-
-    @Bean
-    public DiaHelp getDiaHelp() {
-        return diaHelp;
     }
 
     public Guild getMainGuild() {

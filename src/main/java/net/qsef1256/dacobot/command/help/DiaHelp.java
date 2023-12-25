@@ -14,6 +14,7 @@ import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ import java.io.InputStream;
 import java.util.*;
 
 @Slf4j
+@Component
 public class DiaHelp {
 
     @Setter(onMethod_ = {@Autowired})
@@ -31,8 +33,10 @@ public class DiaHelp {
     private Map<String, Object> settings = new HashMap<>();
     private final Map<String, SlashCommand> slashCommandMap = new HashMap<>();
 
-    public DiaHelp(CommandClient commandClient) {
+    public DiaHelp(@NotNull CommandClient commandClient) {
         this.commandClient = commandClient;
+
+        load();
     }
 
     public void load() {
