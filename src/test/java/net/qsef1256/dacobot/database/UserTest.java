@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @Slf4j
-class JPATest {
+class UserTest {
 
     private static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
 
@@ -25,7 +25,7 @@ class JPATest {
     }
 
     @Test
-    void testJPA() {
+    void testUserEntity() {
         testUser(dao);
 
         dao.close();

@@ -14,7 +14,6 @@ import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +24,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Slf4j
 @SpringBootApplication
@@ -63,11 +63,18 @@ public class DacoBot implements CommandLineRunner {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
         log.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
-        initJpa();
+        initJpa(); // TODO: replace to Spring Data Jpa
 
         jda.awaitReady();
 
-        getAllGuilds().forEach(this::upsertToGuild);
+        List<Guild> guilds = getAllGuilds()
+                .stream()
+                .filter(Objects::nonNull)
+                .toList();
+        log.info("guilds size: " + guilds.size());
+
+        guilds.forEach(this::upsertToGuild);
+
         // TODO: global command
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 
@@ -80,29 +87,25 @@ public class DacoBot implements CommandLineRunner {
         transaction.commit();
     }
 
-    private void upsertToGuild(@Nullable Guild guild) {
-        if (guild != null) {
-            log.info("Upsert command data for Guild id %s".formatted(guild.getId()));
+    private void upsertToGuild(@NotNull Guild guild) {
+        log.info("Upsert command data for Guild id %s".formatted(guild.getId()));
 
-            List<CommandData> commandDataList = commandClient.getSlashCommands()
-                    .stream()
-                    .map(SlashCommand::buildCommandData)
-                    .toList();
-            List<CommandData> contextMenuList = commandClient.getContextMenus()
-                    .stream()
-                    .map(ContextMenu::buildCommandData)
-                    .toList();
+        List<CommandData> commandDataList = commandClient.getSlashCommands()
+                .stream()
+                .map(SlashCommand::buildCommandData)
+                .toList();
+        List<CommandData> contextMenuList = commandClient.getContextMenus()
+                .stream()
+                .map(ContextMenu::buildCommandData)
+                .toList();
 
-            List<CommandData> allCommandData = new ArrayList<>();
-            allCommandData.addAll(commandDataList);
-            allCommandData.addAll(contextMenuList);
+        List<CommandData> allCommandData = new ArrayList<>();
+        allCommandData.addAll(commandDataList);
+        allCommandData.addAll(contextMenuList);
 
-            guild.updateCommands()
-                    .addCommands(allCommandData)
-                    .queue();
-        } else {
-            log.warn("Cannot find main Guild");
-        }
+        guild.updateCommands()
+                .addCommands(allCommandData)
+                .queue();
     }
 
     public Guild getMainGuild() {

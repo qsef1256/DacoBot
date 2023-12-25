@@ -3,6 +3,7 @@ package net.qsef1256.dacobot.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
@@ -25,6 +26,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.Optional;
 
+@Slf4j
 @Component
 public class CreditCommand extends SlashCommand {
 
@@ -67,15 +69,23 @@ public class CreditCommand extends SlashCommand {
                         setting.getProject().getString("groupId"),
                         setting.getProject().getString("artifactId"));
             } catch (final RuntimeException e) {
-                event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
-                e.printStackTrace();
+                log.error("failed to get Maven Model", e);
+                event.replyEmbeds(DiaEmbed.error("정보 확인 실패",
+                        "봇 정보 확인에 실패했습니다.",
+                        null,
+                        null).build()).queue();
 
                 return;
             }
 
             final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
             final String message = RandomUtil.getRandomElement(
-                    Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM", "나는 댕청하다, /댕청"));
+                    Arrays.asList("폭발은 예술이다!",
+                            "흠...",
+                            "연락처는 장식이다 카더라",
+                            "(할말 없음)",
+                            "멘트 추천은 본체한테 DM",
+                            "나는 댕청하다, /댕청"));
 
             final String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
             final String name = model.getName();
@@ -119,7 +129,9 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            event.replyEmbeds(DiaEmbed.primary("라이브러리", "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.", null)
+            event.replyEmbeds(DiaEmbed.primary("라이브러리",
+                            "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.",
+                            null)
                     .addField("코어 라이브러리", """
                             [JDA](https://github.com/DV8FromTheWorld/JDA): `Apache-2.0`
                             [Chewtils](https://github.com/Chew/JDA-Chewtils): `Apache-2.0`

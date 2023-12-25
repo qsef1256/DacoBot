@@ -112,8 +112,9 @@ public class AdminCommand extends SlashCommand {
             try {
                 jda.awaitReady();
             } catch (InterruptedException e) {
+                log.error("failed to clean command and restart", e);
                 event.replyEmbeds(DiaEmbed.error(null, null, e, null).build()).queue();
-                e.printStackTrace();
+
                 return;
             }
 

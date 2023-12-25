@@ -2,7 +2,6 @@ package net.qsef1256.dacobot.command.help;
 
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.SlashCommand;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -13,7 +12,6 @@ import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.yaml.snakeyaml.Yaml;
 
@@ -25,15 +23,16 @@ import java.util.*;
 @Component
 public class DiaHelp {
 
-    @Setter(onMethod_ = {@Autowired})
-    private JDAService jdaService;
+    private final JDAService jdaService;
     private final CommandClient commandClient;
 
     private final Map<String, Map<?, ?>> categories = new HashMap<>();
     private Map<String, Object> settings = new HashMap<>();
     private final Map<String, SlashCommand> slashCommandMap = new HashMap<>();
 
-    public DiaHelp(@NotNull CommandClient commandClient) {
+    public DiaHelp(JDAService jdaService,
+                   CommandClient commandClient) {
+        this.jdaService = jdaService;
         this.commandClient = commandClient;
 
         load();
@@ -99,12 +98,10 @@ public class DiaHelp {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL);
 
-        if (map.get("TITLE") != null) {
+        if (map.get("TITLE") != null)
             embedBuilder.setTitle(map.get("TITLE").toString());
-        }
-        if (map.get("DESC") != null) {
+        if (map.get("DESC") != null)
             embedBuilder.setDescription(map.get("DESC").toString());
-        }
 
         if (map.containsKey("CATEGORIES")) {
             Map<?, ?> category = (Map<?, ?>) map.get("CATEGORIES");

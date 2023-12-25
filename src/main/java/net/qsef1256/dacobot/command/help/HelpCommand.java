@@ -2,7 +2,6 @@ package net.qsef1256.dacobot.command.help;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
@@ -16,6 +15,7 @@ import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
@@ -25,13 +25,15 @@ import java.util.NoSuchElementException;
 @Component
 public class HelpCommand extends SlashCommand {
 
-    public HelpCommand() {
+    @Autowired
+    public HelpCommand(@NotNull MainMenuCommand menuCommand,
+                       @NotNull FindCommand findCommand) {
         name = "도움말";
         help = "다이아 덩어리를 다루는 방법";
 
         children = new SlashCommand[]{
-                new MainMenuCommand(),
-                new FindCommand()
+                menuCommand,
+                findCommand
         };
     }
 
@@ -42,12 +44,15 @@ public class HelpCommand extends SlashCommand {
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
+    @Component
     private static class MainMenuCommand extends SlashCommand {
 
-        @Setter(onMethod_ = {@Autowired})
-        private DiaHelp diaHelp;
+        private final DiaHelp diaHelp;
 
-        public MainMenuCommand() {
+        @Autowired
+        public MainMenuCommand(@Lazy DiaHelp diaHelp) {
+            this.diaHelp = diaHelp;
+
             name = "전체";
             help = "도움말의 메인 카테고리를 확인합니다.";
         }
@@ -74,12 +79,15 @@ public class HelpCommand extends SlashCommand {
 
     }
 
+    @Component
     private static class FindCommand extends SlashCommand {
 
-        @Setter(onMethod_ = {@Autowired})
-        private DiaHelp diaHelp;
+        private final DiaHelp diaHelp;
 
-        public FindCommand() {
+        @Autowired
+        public FindCommand(@Lazy DiaHelp diaHelp) {
+            this.diaHelp = diaHelp;
+
             name = "찾기";
             help = "특정 카테고리의 도움말을 찾습니다.";
 

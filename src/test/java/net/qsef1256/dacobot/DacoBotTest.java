@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.command.help;
+package net.qsef1256.dacobot;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class DiaHelpTest {
+class DacoBotTest {
 
     @Test
-    void getDiaHelp(@Autowired DiaHelp diaHelp) {
-        assertNotNull(diaHelp);
+    void testDacoBot(@Autowired DacoBot dacoBot) {
+        assertNotNull(dacoBot);
     }
-    
+
 }

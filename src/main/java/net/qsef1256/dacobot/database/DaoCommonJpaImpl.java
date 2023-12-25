@@ -8,7 +8,6 @@ import jakarta.persistence.criteria.Root;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import java.util.function.Consumer;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa<T, K> {
 
-    @Setter(onMethod_ = {@Autowired})
     private JpaController jpaController;
     @Getter
     private EntityManager entityManager;
@@ -35,6 +33,12 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
         this.clazz = clazz;
     }
 
+    // FIXME: DI 방식으로 생성되지 않은 경우 Spring IoC 범위 밖이라 jpaController 를 AutoWired 할 수 없는 것으로 추정됨
+    @Autowired
+    public void setJpaController(@NotNull JpaController jpaController) {
+        this.jpaController = jpaController;
+    }
+    
     @Override
     public long count() {
         open();

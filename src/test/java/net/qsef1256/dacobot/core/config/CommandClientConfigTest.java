@@ -1,5 +1,6 @@
-package net.qsef1256.dacobot.command.help;
+package net.qsef1256.dacobot.core.config;
 
+import com.jagrosh.jdautilities.command.CommandClient;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class DiaHelpTest {
+class CommandClientConfigTest {
 
     @Test
-    void getDiaHelp(@Autowired DiaHelp diaHelp) {
-        assertNotNull(diaHelp);
+    void getCommandClient(@Autowired CommandClient commandClient) {
+        assertNotNull(commandClient);
     }
-    
+
 }
