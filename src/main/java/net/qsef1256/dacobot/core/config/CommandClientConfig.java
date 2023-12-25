@@ -29,7 +29,7 @@ public class CommandClientConfig {
         this.commands = commands;
     }
 
-    @Bean
+    @Bean(name = "commandClient")
     public CommandClient getCommandClient() {
         CommandClientBuilder commandClientBuilder = new CommandClientBuilder();
         configureCommandClientBuilder(commandClientBuilder);

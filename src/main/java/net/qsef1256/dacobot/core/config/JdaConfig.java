@@ -28,7 +28,7 @@ public class JdaConfig {
         this.listeners = listeners;
     }
 
-    @Bean
+    @Bean(name = "jda")
     public JDA getJda(@NotNull DiaSetting setting,
                       @NotNull CommandClient commandClient) {
         JDABuilder builder = JDABuilder.createDefault(setting
