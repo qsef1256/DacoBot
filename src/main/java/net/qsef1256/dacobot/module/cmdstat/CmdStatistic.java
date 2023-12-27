@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Deprecated(since = "use CmdStatisticService", forRemoval = true)
 public class CmdStatistic {
 
     private final DaoCommonJpa<CmdStatisticEntity, String> dao = new DaoCommonJpaImpl<>(CmdStatisticEntity.class);

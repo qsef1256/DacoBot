@@ -74,12 +74,11 @@ public class CreditCommand extends SlashCommand {
                         "봇 정보 확인에 실패했습니다.",
                         null,
                         null).build()).queue();
-
                 return;
             }
 
-            final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-            final String message = RandomUtil.getRandomElement(
+            long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+            String message = RandomUtil.getRandomElement(
                     Arrays.asList("폭발은 예술이다!",
                             "흠...",
                             "연락처는 장식이다 카더라",
@@ -87,18 +86,18 @@ public class CreditCommand extends SlashCommand {
                             "멘트 추천은 본체한테 DM",
                             "나는 댕청하다, /댕청"));
 
-            final String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
-            final String name = model.getName();
-            final String version = model.getVersion();
+            String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
+            String name = model.getName();
+            String version = model.getVersion();
 
-            final int serverSize = jda.getGuilds().size();
-            final int userSize = jda.getUsers().size();
+            int serverSize = jda.getGuilds().size();
+            int userSize = jda.getUsers().size();
 
             Optional<Dependency> jda = model.getDependencies().stream()
                     .filter(dependency -> dependency.getArtifactId().equals("JDA"))
                     .findFirst();
 
-            final String jdaVersion = jda.isPresent() ? jda.get().getVersion() : "?";
+            String jdaVersion = jda.isPresent() ? jda.get().getVersion() : "?";
 
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.MAIN_COLOR)
