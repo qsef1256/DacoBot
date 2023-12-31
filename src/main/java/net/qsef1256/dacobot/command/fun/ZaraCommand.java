@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.command.fun;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -14,14 +14,18 @@ import java.time.LocalDateTime;
 @Component
 public class ZaraCommand extends SlashCommand {
 
-    public ZaraCommand() {
+    private final CmdStatisticService statistic;
+
+    public ZaraCommand(CmdStatisticService statistic) {
+        this.statistic = statistic;
+
         name = "자라";
         help = "자라는 거북목 자라과의 동물으로, 한반도 토종 거북입니다.";
     }
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-        CmdStatistic statistic = new CmdStatistic(getClass());
+        statistic.addCmdStatistic(getClass().getSimpleName());
 
         String message = switch (LocalDateTime.now().getHour()) {
             case 22, 23, 0 -> "새 나라의 어린이는 일찍 잡니다.";
@@ -41,7 +45,7 @@ public class ZaraCommand extends SlashCommand {
             }
         }
 
-        embedBuilder.setFooter(statistic.getUseInfo());
+        embedBuilder.setFooter(statistic.getUseInfo(getClass().getSimpleName()));
         event.replyEmbeds(embedBuilder.build()).queue();
     }
 

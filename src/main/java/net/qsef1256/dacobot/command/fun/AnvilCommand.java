@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +15,11 @@ import java.awt.*;
 @Component
 public class AnvilCommand extends SlashCommand {
 
-    public AnvilCommand() {
+    private final CmdStatisticService statistic;
+
+    public AnvilCommand(CmdStatisticService statistic) {
+        this.statistic = statistic;
+        
         name = "모루";
         help = "몰?루";
     }
@@ -24,7 +28,7 @@ public class AnvilCommand extends SlashCommand {
     protected void execute(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
-        CmdStatistic statistic = new CmdStatistic(getClass());
+        statistic.addCmdStatistic(getClass().getSimpleName());
 
         int random = RandomUtil.randomInt(1, 4);
         switch (random) {
@@ -33,14 +37,14 @@ public class AnvilCommand extends SlashCommand {
                     .setColor(new Color(35, 35, 35))
                     .setTitle("모?루")
                     .setImage(DiaImage.ANVIL)
-                    .setFooter(statistic.getUseInfo())
+                    .setFooter(statistic.getUseInfo(getClass().getSimpleName()))
                     .build()).queue();
             case 2 -> event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                     .setColor(new Color(27, 221, 239))
                     .setTitle("Mola mola")
                     .setImage(DiaImage.MOLA_MOLA)
-                    .setFooter(statistic.getUseInfo())
+                    .setFooter(statistic.getUseInfo(getClass().getSimpleName()))
                     .build()).queue();
             case 3 -> event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
@@ -54,13 +58,13 @@ public class AnvilCommand extends SlashCommand {
                             ⬛🟥⬛🟥🟥⬛⬛🟥⬛🟥⬛
                             ⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛⬛
                             """)
-                    .setFooter(statistic.getUseInfo())
+                    .setFooter(statistic.getUseInfo(getClass().getSimpleName()))
                     .build()).queue();
             case 4 -> event.replyEmbeds(new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                     .setColor(Color.WHITE)
                     .addField("Molar", ":tooth:", false)
-                    .setFooter(statistic.getUseInfo())
+                    .setFooter(statistic.getUseInfo(getClass().getSimpleName()))
                     .build()).queue();
             default -> event.reply("ㅁㄹ").queue();
         }

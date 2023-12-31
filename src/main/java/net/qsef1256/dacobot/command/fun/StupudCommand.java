@@ -4,7 +4,8 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
+import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -15,7 +16,11 @@ import java.util.Arrays;
 @Component
 public class StupudCommand extends SlashCommand {
 
-    public StupudCommand() {
+    private final CmdStatisticService statistic;
+
+    public StupudCommand(CmdStatisticService statistic) {
+        this.statistic = statistic;
+
         name = "댕청";
         help = "I'm stupud";
     }
@@ -24,7 +29,7 @@ public class StupudCommand extends SlashCommand {
     protected void execute(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
-        CmdStatistic statistic = new CmdStatistic(getClass());
+        CmdStatisticEntity cmdStatistic = statistic.addCmdStatistic(getClass().getSimpleName());
 
         final String message = RandomUtil.getRandomElement(
                 Arrays.asList("I'm stupud", "나는 바보다", "I'M STUPUD", "멍멍", "하하하ㅏ하", "**나는 댕청하다**"));
@@ -34,7 +39,7 @@ public class StupudCommand extends SlashCommand {
                 .setTitle("나는 댕청하다")
                 .setColor(DiaColor.MAIN_COLOR)
                 .setDescription(message)
-                .setFooter("바보 스택을 쌓은 횟수: " + statistic.getUseCount() + " 금일: " + statistic.getTodayUsed())
+                .setFooter("바보 스택을 쌓은 횟수: " + cmdStatistic.getUseCount() + " 금일: " + cmdStatistic.getTodayUsed())
                 .build()).queue();
     }
 

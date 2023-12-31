@@ -9,7 +9,8 @@ import net.qsef1256.dacobot.game.paint.command.PaintCommand;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
 import net.qsef1256.dacobot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
+import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -20,22 +21,25 @@ import java.util.NoSuchElementException;
 @Component
 public class PaintButtonListener extends ListenerAdapter {
 
+    private final CmdStatisticService statistic;
     private final PaintDrawer paintDrawer;
 
-    private PaintButtonListener(PaintDrawer paintDrawer) {
+    private PaintButtonListener(@NotNull CmdStatisticService statistic,
+                                @NotNull PaintDrawer paintDrawer) {
+        this.statistic = statistic;
         this.paintDrawer = paintDrawer;
     }
 
     @Override
-    public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) {
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         switch (event.getComponentId()) {
-
             case "paint_erase" -> {
                 if (event.getMember() == null) return;
                 User user = event.getUser();
 
                 try {
-                    CmdStatistic statistic = new CmdStatistic(PaintCommand.EraseCommand.class);
+                    CmdStatisticEntity cmdStatistic = statistic.addCmdStatistic(
+                            PaintCommand.EraseCommand.class.getSimpleName());
 
                     PainterContainer.getPainter(user.getIdLong()).erasePallet();
                     event.replyEmbeds(new EmbedBuilder()
@@ -43,7 +47,10 @@ public class PaintButtonListener extends ListenerAdapter {
                             .setColor(DiaColor.SUCCESS)
                             .setTitle("쓱쓱 싹싹")
                             .setDescription("다이아의 용량이 절약 되었습니다.")
-                            .setFooter("용량 절약 횟수: " + statistic.getUseCount() + " 금일: " + statistic.getTodayUsed())
+                            .setFooter("용량 절약 횟수: "
+                                    + cmdStatistic.getUseCount()
+                                    + " 금일: "
+                                    + cmdStatistic.getTodayUsed())
                             .build()).queue();
                 } catch (RuntimeException e) {
                     log.warn(e.getMessage());
@@ -57,7 +64,6 @@ public class PaintButtonListener extends ListenerAdapter {
 
                 event.editButton(event.getButton().asDisabled()).queue();
             }
-
             case "gallery_overwrite" -> {
                 if (event.getMember() == null) return;
                 User user = event.getUser();
@@ -88,13 +94,13 @@ public class PaintButtonListener extends ListenerAdapter {
 
                 event.editButton(event.getButton().asDisabled()).queue();
             }
-
             case "paint_drawer_up" -> paintDrawer.setDrawer(event, 0, -1, false);
             case "paint_drawer_down" -> paintDrawer.setDrawer(event, 0, 1, false);
             case "paint_drawer_left" -> paintDrawer.setDrawer(event, -1, 0, false);
             case "paint_drawer_right" -> paintDrawer.setDrawer(event, 1, 0, false);
             case "paint_drawer_center" -> paintDrawer.setDrawer(event, 0, 0, true);
             default -> {
+                // do nothing
             }
         }
     }
