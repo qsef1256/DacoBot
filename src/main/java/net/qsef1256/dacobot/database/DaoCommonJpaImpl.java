@@ -19,9 +19,15 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
+/**
+ * implementation of DaoCommon
+ *
+ * @deprecated Not works, instead of use Spring Data JPA method.
+ */
 @Slf4j
 @Component
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Deprecated(since = "use Spring Data JPA method")
 public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa<T, K> {
 
     private JpaController jpaController;
@@ -38,7 +44,7 @@ public class DaoCommonJpaImpl<T, K extends Serializable> implements DaoCommonJpa
     public void setJpaController(@NotNull JpaController jpaController) {
         this.jpaController = jpaController;
     }
-    
+
     @Override
     public long count() {
         open();

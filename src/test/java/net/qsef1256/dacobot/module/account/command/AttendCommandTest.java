@@ -1,34 +1,32 @@
 package net.qsef1256.dacobot.module.account.command;
 
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.database.DaoCommonJpa;
 import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.module.account.model.Account;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Slf4j
+@SpringBootTest
 class AttendCommandTest {
 
-    @Setter(onMethod_ = {@Autowired})
-    private AccountController controller;
-
     @BeforeEach
-    void registerUser() {
+    void registerUser(@Autowired AccountController controller) {
         controller.register(419761037861060620L);
     }
 
     @AfterEach
-    void deleteUser() {
+    void deleteUser(@Autowired AccountController controller) {
         controller.delete(419761037861060620L);
     }
 

@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.module.punish.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
@@ -32,7 +32,7 @@ public class UserStatusEntity {
                 : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy hibernateProxy
                 ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass() :
-                this.getClass();
+                getClass();
 
         if (thisEffectiveClass != oEffectiveClass) return false;
 

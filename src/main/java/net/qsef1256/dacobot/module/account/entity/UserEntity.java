@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.module.account.data;
+package net.qsef1256.dacobot.module.account.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

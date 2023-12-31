@@ -2,7 +2,7 @@ package net.qsef1256.dacobot.module.punish.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 
 import java.time.LocalDateTime;
 

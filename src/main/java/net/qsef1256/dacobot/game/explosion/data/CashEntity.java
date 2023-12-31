@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
@@ -18,7 +18,7 @@ public class CashEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cashId;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "explosionCash")
+    @OneToOne(mappedBy = "explosionCash")
     private UserEntity discordUser;
 
     @Column(name = "cash", nullable = false)

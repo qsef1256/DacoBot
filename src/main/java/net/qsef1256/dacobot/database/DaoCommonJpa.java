@@ -15,7 +15,9 @@ import java.io.Serializable;
  * @param <T> Entity
  * @param <K> Entity's Key
  * @see org.springframework.data.jpa.repository.JpaRepository
+ * @deprecated use Spring Data JPA method.
  */
+@Deprecated(since = "use Spring Data JPA method")
 public interface DaoCommonJpa<T, K extends Serializable> extends DaoCommon<T, K>, AutoCloseable {
 
     /**

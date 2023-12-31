@@ -9,7 +9,7 @@ import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.game.explosion.data.CashEntity;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
@@ -28,7 +28,7 @@ public class Cash {
     // TODO: find where cached data exists (1st? 2st? or else?) > 1st로 추정
     // TODO: https://stackoverflow.com/questions/13258976/how-to-refresh-jpa-entities-when-backend-database-changes-asynchronously
     // TODO: http://ldg.pe.kr/framework_reference/hibernate/ver3.x/html/transactions.html
-    public Cash(final long discordId) {
+    public Cash(long discordId) {
         dao.open();
 
         UserEntity account;

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 
@@ -47,6 +47,7 @@ public class InventoryEntity {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         InventoryEntity that = (InventoryEntity) o;
+
         return discordUser != null && Objects.equals(discordUser, that.discordUser);
     }
 

@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.database;
 
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 

@@ -12,7 +12,9 @@ import java.util.Map;
  * @param <T> Entity
  * @param <K> Entity's Key
  * @see org.springframework.data.repository.CrudRepository
+ * @deprecated use Spring Data JPA method.
  */
+@Deprecated(since = "use Spring Data JPA method")
 public interface DaoCommon<T, K extends Serializable> {
 
     void save(T entity);
