@@ -3,11 +3,12 @@ package net.qsef1256.dacobot.module.account.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
-import net.qsef1256.dacobot.game.explosion.model.Cash;
+import net.qsef1256.dacobot.game.explosion.model.CashService;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
@@ -24,16 +25,18 @@ import org.springframework.stereotype.Component;
 import java.time.format.DateTimeFormatter;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Component
 public class AccountCommand extends SlashCommand {
 
-    public AccountCommand() {
+    @Autowired
+    public AccountCommand(StatusCommand statusCommand) {
         name = "계정";
         help = "계정을 관리합니다.";
 
         children = new SlashCommand[]{
                 new RegisterCommand(),
-                new StatusCommand(),
+                statusCommand,
                 new ResetCommand()
         };
     }
@@ -75,15 +78,22 @@ public class AccountCommand extends SlashCommand {
                     callback.editOriginalEmbeds(DiaEmbed.error("등록 실패", null, e, user).build()).queue();
 
                     if (e instanceof DacoAccountException) return;
-                    e.printStackTrace();
+                    log.error("계정 등록 실패", e);
                 }
             });
         }
 
     }
 
+    @Component
     private static class StatusCommand extends SlashCommand {
-        public StatusCommand() {
+
+        private final CashService cashService;
+
+        @Autowired
+        public StatusCommand(CashService cashService) {
+            this.cashService = cashService;
+
             name = "확인";
             help = "계정 상태를 확인합니다. 아니면 돈 자랑...";
         }
@@ -93,9 +103,8 @@ public class AccountCommand extends SlashCommand {
             final User user = event.getUser();
 
             try {
-                final UserEntity userData = new Account(user.getIdLong()).getData();
-                final Cash cashData = new Cash(user.getIdLong());
-                final long cash = cashData.getCash();
+                UserEntity userData = new Account(user.getIdLong()).getData();
+                long cash = cashService.getCash(user.getIdLong()).getCash();
 
                 String footer = "아직 돈이 없군요. 돈을 벌어보세요!";
                 footer = getFooter(cash, footer);
@@ -118,7 +127,7 @@ public class AccountCommand extends SlashCommand {
                         .build()).queue();
 
                 if (e instanceof NoSuchElementException) return;
-                e.printStackTrace();
+                log.error("계정 정보 확인 실패", e);
             }
         }
 

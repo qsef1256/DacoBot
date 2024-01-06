@@ -11,6 +11,7 @@ import net.qsef1256.dacobot.listener.CommandHandler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,7 +25,7 @@ public class CommandClientConfig {
     private final List<? extends Command> commands;
 
     public CommandClientConfig(@NotNull DiaSetting setting,
-                               @NotNull List<? extends Command> commands) {
+                               @Qualifier("botCommands") List<? extends Command> commands) {
         this.setting = setting;
         this.commands = commands;
     }
