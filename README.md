@@ -1,12 +1,30 @@
 # DacoBot
 
+[java-badge]: https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
+
+[spring-badge]: https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white
+
+[mariadb-badge]: https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white
+
+[dependabot-badge]: https://img.shields.io/badge/dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=white
+
+[discord-badge]: https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white
+
+[discord-invite]: https://discord.gg/uDEVbvJ55q
+
+![Java][java-badge]
+![Spring][spring-badge]
+![MariaDB][mariadb-badge]
+![Dependabot][dependabot-badge]
+[![Discord][discord-badge]][discord-invite]
+
 **D**i**a**mond Dis**co**rd **Bot** by qsef1256
 
-https://discord.gg/uDEVbvJ55q
+---
 
 ## Environment
 
-* `JDA 5.0.0-beta.13`
+* `JDA 5.0.0-beta.20`
 * `Jakarta EE 10`
 * `JPA 3.0`
 * `CDI 4.0`
