@@ -10,9 +10,9 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
-import net.qsef1256.dacobot.game.explosion.model.CashService;
-import net.qsef1256.dacobot.game.explosion.model.Inventory;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
@@ -30,18 +30,17 @@ public class InventoryCommand extends SlashCommand {
     public InventoryCommand(@NotNull SeeCommand seeCommand,
                             @NotNull ItemInfoCommand infoCommand,
                             @NotNull ItemAddCommand addCommand,
-                            @NotNull ItemRemoveCommand removeCommand) {
+                            @NotNull ItemRemoveCommand removeCommand,
+                            @NotNull ItemCommandGroup commandGroup) {
         name = "인벤토리";
         help = "닦던마냥 16개만 있거나 그러지 않아요.";
-
         children = new SlashCommand[]{
                 seeCommand,
                 infoCommand,
                 addCommand,
                 removeCommand
         };
-
-        subcommandGroup = new ItemCommandGroup();
+        subcommandGroup = commandGroup;
     }
 
     @Override
@@ -50,12 +49,14 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Component
-    protected static class SeeCommand extends SlashCommand {
+    public static class SeeCommand extends SlashCommand {
 
+        private final InventoryService inventory;
         private final CashService cashService;
 
-        @Autowired
-        public SeeCommand(CashService cashService) {
+        public SeeCommand(@NotNull CashService cashService,
+                          InventoryService inventory) {
+            this.inventory = inventory;
             this.cashService = cashService;
 
             name = "보기";
@@ -83,9 +84,8 @@ public class InventoryCommand extends SlashCommand {
                     .setTitle("%s의 인벤토리".formatted(user.getName()));
 
             StringBuilder items = new StringBuilder();
-            Inventory inventory = Inventory.fromUser(user.getIdLong());
 
-            inventory.getItems().forEach((id, item) -> {
+            inventory.getItems(user.getIdLong()).forEach((id, item) -> {
                 ItemTypeEntity itemType = item.getItemType();
 
                 String itemInfo = "%s%s : %s > %s개".formatted(
@@ -106,21 +106,24 @@ public class InventoryCommand extends SlashCommand {
 
     }
 
-    private static class ItemCommandGroup extends SubcommandGroupData {
+    @Component
+    public static class ItemCommandGroup extends SubcommandGroupData {
 
-        public ItemCommandGroup() {
+        public ItemCommandGroup(@NotNull ItemInfoCommand infoCommand,
+                                @NotNull ItemAddCommand addCommand,
+                                @NotNull ItemRemoveCommand removeCommand) {
             super("아이템", "아이템의 정보를 확인하거나 사용합니다.");
 
             // FIXME: fix command Data
-            addSubcommands(SubcommandData.fromData(new ItemInfoCommand().getData()));
-            addSubcommands(SubcommandData.fromData(new ItemAddCommand().getData()));
-            addSubcommands(SubcommandData.fromData(new ItemRemoveCommand().getData()));
+            addSubcommands(SubcommandData.fromData(infoCommand.getData()));
+            addSubcommands(SubcommandData.fromData(addCommand.getData()));
+            addSubcommands(SubcommandData.fromData(removeCommand.getData()));
         }
 
     }
 
     @Component
-    protected static class ItemInfoCommand extends SlashCommand {
+    public static class ItemInfoCommand extends SlashCommand {
 
         public ItemInfoCommand() {
             name = "정보";
@@ -142,9 +145,13 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Component
-    protected static class ItemAddCommand extends SlashCommand {
+    public static class ItemAddCommand extends SlashCommand {
 
-        public ItemAddCommand() {
+        private final InventoryService inventory;
+
+        public ItemAddCommand(@NotNull InventoryService inventory) {
+            this.inventory = inventory;
+
             name = "추가";
             help = "관리용 치트";
             ownerCommand = true;
@@ -155,7 +162,7 @@ public class InventoryCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                Inventory.fromUser(user.getIdLong()).addItem(1);
+                inventory.addItem(user.getIdLong(), 1);
             } catch (RuntimeException e) {
                 log.error("failed to execute " + getClass().getSimpleName(), e);
 
@@ -171,9 +178,13 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Component
-    protected static class ItemRemoveCommand extends SlashCommand {
+    public static class ItemRemoveCommand extends SlashCommand {
 
-        public ItemRemoveCommand() {
+        private final InventoryService inventory;
+
+        public ItemRemoveCommand(@NotNull InventoryService inventory) {
+            this.inventory = inventory;
+
             name = "삭제";
             help = "관리용 치트";
             ownerCommand = true;
@@ -184,7 +195,7 @@ public class InventoryCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                Inventory.fromUser(user.getIdLong()).removeItem(1);
+                inventory.removeItem(user.getIdLong(), 1);
             } catch (RuntimeException e) {
                 log.error("failed to execute " + getClass().getSimpleName(), e);
 

@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.game.explosion.data.InventoryEntity;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
+import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;

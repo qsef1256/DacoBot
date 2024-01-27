@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.data;
+package net.qsef1256.dacobot.game.explosion.domain.cash;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

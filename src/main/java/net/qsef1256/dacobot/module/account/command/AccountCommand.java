@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
-import net.qsef1256.dacobot.game.explosion.model.CashService;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;

@@ -1,8 +1,7 @@
-package net.qsef1256.dacobot.game.explosion.data;
+package net.qsef1256.dacobot.game.explosion.domain.itemtype;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import net.qsef1256.dacobot.game.explosion.enums.ItemRank;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter

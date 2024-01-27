@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.data;
+package net.qsef1256.dacobot.game.explosion.domain.item;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -6,8 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.ColumnDefault;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -34,12 +36,12 @@ public class ItemEntity {
     @Column
     private LocalDateTime lastGetTime = LocalDateTime.now();
 
-    public ItemEntity(ItemTypeEntity itemType) {
+    public ItemEntity(@NotNull ItemTypeEntity itemType) {
         this();
         setItemType(itemType);
     }
 
-    public ItemEntity(ItemTypeEntity itemType, int amount) {
+    public ItemEntity(@NotNull ItemTypeEntity itemType, int amount) {
         this(itemType);
         setAmount(amount);
     }

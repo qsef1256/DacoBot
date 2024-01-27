@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.game.explosion.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.game.explosion.data.CashRepository;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashRepository;
 import net.qsef1256.dacobot.module.account.entity.UserRepository;
 import net.qsef1256.dacobot.util.JDAService;
 import org.jetbrains.annotations.NotNull;

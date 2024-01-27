@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.data;
+package net.qsef1256.dacobot.game.explosion.domain.cash;
 
 import jakarta.persistence.*;
 import lombok.Getter;

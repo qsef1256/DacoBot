@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.enums;
+package net.qsef1256.dacobot.game.explosion.domain.itemtype;
 
 import lombok.Getter;
 import net.qsef1256.dacobot.setting.constants.DiaColor;

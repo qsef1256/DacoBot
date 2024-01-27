@@ -1,9 +1,10 @@
-package net.qsef1256.dacobot.game.explosion.data;
+package net.qsef1256.dacobot.game.explosion.domain.inventory;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import net.qsef1256.dacobot.game.explosion.domain.item.ItemEntity;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;

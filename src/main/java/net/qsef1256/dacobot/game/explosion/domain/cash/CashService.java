@@ -1,7 +1,5 @@
-package net.qsef1256.dacobot.game.explosion.model;
+package net.qsef1256.dacobot.game.explosion.domain.cash;
 
-import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.game.explosion.data.CashRepository;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.jetbrains.annotations.NotNull;
