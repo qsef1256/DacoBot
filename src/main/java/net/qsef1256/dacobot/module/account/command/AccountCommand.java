@@ -2,7 +2,6 @@ package net.qsef1256.dacobot.module.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
@@ -30,14 +29,16 @@ import java.util.NoSuchElementException;
 public class AccountCommand extends SlashCommand {
 
     @Autowired
-    public AccountCommand(StatusCommand statusCommand) {
+    public AccountCommand(@NotNull RegisterCommand registerCommand,
+                          @NotNull StatusCommand statusCommand,
+                          @NotNull ResetCommand resetCommand) {
         name = "계정";
         help = "계정을 관리합니다.";
 
         children = new SlashCommand[]{
-                new RegisterCommand(),
+                registerCommand,
                 statusCommand,
-                new ResetCommand()
+                resetCommand
         };
     }
 
@@ -46,14 +47,17 @@ public class AccountCommand extends SlashCommand {
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
-    private static class RegisterCommand extends SlashCommand {
+    @Component
+    public static class RegisterCommand extends SlashCommand {
 
-        @Setter(onMethod_ = {@Autowired})
-        private AccountController accountController;
-        @Setter(onMethod_ = {@Autowired})
-        private UserController userController;
+        private final AccountController accountController;
+        private final UserController userController;
 
-        public RegisterCommand() {
+        public RegisterCommand(@NotNull AccountController accountController,
+                               @NotNull UserController userController) {
+            this.accountController = accountController;
+            this.userController = userController;
+
             name = "등록";
             help = "폭발물 취급 허가를 얻습니다.";
         }
@@ -86,12 +90,12 @@ public class AccountCommand extends SlashCommand {
     }
 
     @Component
-    private static class StatusCommand extends SlashCommand {
+    public static class StatusCommand extends SlashCommand {
 
         private final CashService cashService;
 
         @Autowired
-        public StatusCommand(CashService cashService) {
+        public StatusCommand(@NotNull CashService cashService) {
             this.cashService = cashService;
 
             name = "확인";
@@ -143,7 +147,8 @@ public class AccountCommand extends SlashCommand {
 
     }
 
-    private static class ResetCommand extends SlashCommand {
+    @Component
+    public static class ResetCommand extends SlashCommand {
 
         public ResetCommand() {
             name = "초기화";
