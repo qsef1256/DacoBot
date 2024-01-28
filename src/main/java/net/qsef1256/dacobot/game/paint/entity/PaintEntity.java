@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.paint.data;
+package net.qsef1256.dacobot.game.paint.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

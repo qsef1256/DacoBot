@@ -7,7 +7,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Activity;
 import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
-import net.qsef1256.dacobot.listener.CommandHandler;
+import net.qsef1256.dacobot.core.listener.CommandHandler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;

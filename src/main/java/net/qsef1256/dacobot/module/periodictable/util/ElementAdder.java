@@ -1,37 +1,50 @@
 package net.qsef1256.dacobot.module.periodictable.util;
 
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.module.periodictable.entity.Element;
+import net.qsef1256.dacobot.module.periodictable.entity.ElementRepository;
 import net.qsef1256.dacobot.module.periodictable.enums.GenerationCause;
 import net.qsef1256.dacobot.module.periodictable.enums.Phase;
 import net.qsef1256.dacobot.module.periodictable.enums.Series;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Unmodifiable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class ElementAdder {
+@Slf4j
+@SpringBootApplication
+public class ElementAdder implements CommandLineRunner {
 
-    private static final Scanner sc = new Scanner(System.in, StandardCharsets.UTF_8);
-    private static final DaoCommonJpa<Element, Integer> elementDao = new DaoCommonJpaImpl<>(Element.class);
+    private final ElementRepository elementRepository;
 
-    private static final Logger log = LoggerFactory.getLogger(ElementAdder.class);
+    public ElementAdder(@NotNull ElementRepository repository) {
+        elementRepository = repository;
+    }
 
     public static void main(String[] args) {
-        while (true) {
-            Element toAdd = buildElement();
+        SpringApplication.run(DacoBot.class, args);
+    }
 
-            log.info("toAdd: %s".formatted(toAdd.toString()));
+    @Override
+    public void run(String... args) throws Exception {
+        Scanner sc = new Scanner(System.in, StandardCharsets.UTF_8);
+
+        while (true) {
+            log.info("Please type element properties.");
+            Element element = buildElement();
+
+            log.info("Element to add: %s".formatted(element.toString()));
             log.info("to save type y, to close type exit");
 
             String input = sc.next();
             if (Objects.equals(input, "y")) {
-                elementDao.open();
-                elementDao.saveAndClose(toAdd);
+                elementRepository.saveAndFlush(element);
             } else if (Objects.equals(input, "exit")) {
                 break;
             }
@@ -79,7 +92,7 @@ public class ElementAdder {
     public static String scanValue(String valueName) {
         log.info(valueName);
 
-        return sc.nextLine();
+        return new Scanner(System.in, StandardCharsets.UTF_8).nextLine();
     }
 
 }

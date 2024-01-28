@@ -15,16 +15,3 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
-
-  test:
-    database:
-      replace: none
----
-spring:
-  config:
-    activate:
-      on-profile: dev
-
-  jpa:
-    hibernate:
-      ddl-auto: update

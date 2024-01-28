@@ -23,14 +23,14 @@ class PainterTest {
         painter = PainterContainer.getPainter(419761037861060619L);
         painter.resize(6, 10);
 
-        painter.fill(ColorEmoji.YELLOW, 1, 1);
+        painter.fill(1, 1, ColorEmoji.YELLOW);
 
         painter.paintPixel(ColorEmoji.BLUE, 1, 2);
         painter.paintPixel(ColorEmoji.BLUE, 2, 2);
 
         List<Emoji> pixelColors = new ArrayList<>(PaintCommand.parsePixelColor("rrrrbbbb"));
         painter.paintColumn(pixelColors, 3);
-        painter.fill(ColorEmoji.BROWN, 1, 1);
+        painter.fill(1, 1, ColorEmoji.BROWN);
     }
 
     @Test

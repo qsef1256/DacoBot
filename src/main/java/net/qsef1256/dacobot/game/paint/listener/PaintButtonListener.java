@@ -6,8 +6,8 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.paint.command.PaintCommand;
+import net.qsef1256.dacobot.game.paint.model.PaintController;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
-import net.qsef1256.dacobot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
 import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
@@ -23,11 +23,14 @@ public class PaintButtonListener extends ListenerAdapter {
 
     private final CmdStatisticService statistic;
     private final PaintDrawer paintDrawer;
+    private final PaintController paintController;
 
-    private PaintButtonListener(@NotNull CmdStatisticService statistic,
-                                @NotNull PaintDrawer paintDrawer) {
+    public PaintButtonListener(@NotNull CmdStatisticService statistic,
+                               @NotNull PaintDrawer paintDrawer,
+                               @NotNull PaintController paintController) {
         this.statistic = statistic;
         this.paintDrawer = paintDrawer;
+        this.paintController = paintController;
     }
 
     @Override
@@ -74,7 +77,7 @@ public class PaintButtonListener extends ListenerAdapter {
                         if (paintName == null)
                             throw new NoSuchElementException("그림 이름을 받아오는데 실패했습니다.");
 
-                        new PaintManagerImpl().overwrite(user.getIdLong(), paintName);
+                        paintController.overwrite(user.getIdLong(), paintName);
                         callback.editOriginalEmbeds(new EmbedBuilder()
                                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                                 .setColor(DiaColor.SUCCESS)

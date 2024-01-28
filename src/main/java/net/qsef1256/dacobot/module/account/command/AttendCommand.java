@@ -2,11 +2,10 @@ package net.qsef1256.dacobot.module.account.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
+import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
-import net.qsef1256.dacobot.module.account.model.Account;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
@@ -15,10 +14,15 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @Component
 public class AttendCommand extends SlashCommand {
 
-    public AttendCommand() {
+    private final AccountController userController;
+
+    public AttendCommand(@NotNull AccountController userController) {
+        this.userController = userController;
+
         name = "출석";
         help = "/다야 attend";
     }
@@ -28,11 +32,8 @@ public class AttendCommand extends SlashCommand {
         if (event.getMember() == null) return;
         User eventUser = event.getUser();
 
-        try (DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class)) {
-            dao.open();
-
-            Account user = new Account(eventUser.getIdLong());
-            UserEntity userData = user.getData();
+        try {
+            UserEntity userData = userController.getAccount(eventUser.getIdLong());
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {
@@ -42,7 +43,7 @@ public class AttendCommand extends SlashCommand {
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
-                dao.save(userData);
+                userController.save(userData);
 
                 event.replyEmbeds(DiaEmbed.success("출석 체크!",
                         "정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount(),
@@ -54,7 +55,7 @@ public class AttendCommand extends SlashCommand {
                     .build()).queue();
 
             if (e instanceof NoSuchElementException) return;
-            e.printStackTrace();
+            log.error("failed to attend of %s".formatted(event.getUser().getName()), e);
         }
     }
 

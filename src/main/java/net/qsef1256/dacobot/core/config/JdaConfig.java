@@ -24,7 +24,7 @@ public class JdaConfig {
 
     private final List<? extends ListenerAdapter> listeners;
 
-    public JdaConfig(List<? extends ListenerAdapter> listeners) {
+    public JdaConfig(@NotNull List<? extends ListenerAdapter> listeners) {
         this.listeners = listeners;
     }
 

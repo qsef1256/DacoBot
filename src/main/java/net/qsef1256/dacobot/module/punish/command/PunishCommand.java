@@ -20,7 +20,11 @@ import java.util.Objects;
 @Component
 public class PunishCommand extends SlashCommand {
 
-    public PunishCommand() {
+    private final PunishController controller;
+
+    public PunishCommand(@NotNull PunishController controller) {
+        this.controller = controller;
+
         name = "처벌";
         help = "처벌 명령어, 관리진 전용";
 
@@ -58,7 +62,7 @@ public class PunishCommand extends SlashCommand {
                 ? TimeUtil.parseHms(durationOption.getAsString())
                 : Duration.ZERO;
 
-        PunishController.getInstance().punish(user, punishType, reason, duration);
+        controller.punish(user, punishType, reason, duration);
     }
 
 }

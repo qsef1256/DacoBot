@@ -1,11 +1,8 @@
 package net.qsef1256.dacobot.module.account.command;
 
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
-import net.qsef1256.dacobot.module.account.model.Account;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,10 +28,9 @@ class AttendCommandTest {
     }
 
     @Test
-    void testAttend() {
-        try (DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class)) {
-            Account user = new Account(419761037861060620L);
-            UserEntity userData = user.getData();
+    void testAttend(@Autowired AccountController controller) {
+        try {
+            UserEntity userData = controller.getAccount(419761037861060620L);
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {
@@ -42,16 +38,16 @@ class AttendCommandTest {
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
-                dao.save(userData);
+                controller.save(userData);
 
                 log.info("출석 체크! 정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount());
             }
 
         } catch (RuntimeException e) {
-            log.error("오류 발생", e.getMessage());
+            log.error("오류 발생: {}", e.getMessage());
 
             if (e instanceof NoSuchElementException) return;
-            e.printStackTrace();
+            log.error("failed to attend", e);
         }
     }
 

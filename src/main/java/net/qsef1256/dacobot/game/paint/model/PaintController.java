@@ -1,10 +1,10 @@
 package net.qsef1256.dacobot.game.paint.model;
 
-import net.qsef1256.dacobot.game.paint.data.PaintEntity;
+import net.qsef1256.dacobot.game.paint.entity.PaintEntity;
 
 import java.util.List;
 
-public interface PaintManager {
+public interface PaintController {
 
     List<String> getOwnedPaint(long discordId);
 

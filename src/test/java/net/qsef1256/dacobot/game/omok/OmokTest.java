@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.paint.model;
+package net.qsef1256.dacobot.game.omok;
 
 import net.qsef1256.dacobot.game.board.omok.model.OmokGame;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;

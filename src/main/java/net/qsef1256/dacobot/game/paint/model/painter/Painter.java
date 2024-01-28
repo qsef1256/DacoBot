@@ -9,12 +9,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
+// TODO: replace Emoji to Generic parameter
+@Getter
 public class Painter {
 
     // NOT TESTED
     public static final int X_START = 1;
     public static final int Y_START = 1;
-    @Getter
     protected Emoji[][] pallet;
 
     public Painter(int xSize, int ySize) {
@@ -54,24 +55,24 @@ public class Painter {
         return output.toString();
     }
 
-    public void paintPixel(Emoji color, int x, int y) {
+    public void paintPixel(@NotNull Emoji color, int x, int y) {
         validate(x, y);
         pallet[y - Y_START][x - X_START] = color;
     }
 
-    public void paintColumn(List<Emoji> colorList, int y) {
-        if (!isInBound(1, y)) {
+    public void paintColumn(@NotNull List<Emoji> colorList, int y) {
+        if (isOutBound(1, y))
             throw new IllegalArgumentException("올바른 숫자를 입력해주세요. (1<=y<=" + getHeight() + "), 입력된 숫자: " + y);
-        }
+
         for (int x = 0; x < getWidth(); x++) {
             pallet[y - Y_START][x] = colorList.get(x);
         }
     }
 
     public void paintAll(@NotNull List<Emoji> colorList) {
-        if (colorList.isEmpty()) {
+        if (colorList.isEmpty())
             throw new IllegalArgumentException("칠할 게 없네요!");
-        }
+
         int i = 0;
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
@@ -108,30 +109,40 @@ public class Painter {
         return new MatrixUtil<>(Emoji.class).toList(pallet);
     }
 
-    private void fill(int x, int y, Emoji targetColor, Emoji replacementColor) {
-        if (!isInBound(x, y)) return;
+    private void fill(int x,
+                      int y,
+                      @NotNull Emoji targetColor,
+                      @NotNull Emoji replacementColor) {
+        if (isOutBound(x, y)) return;
         if (targetColor == replacementColor) return;
         if (pallet[y - Y_START][x - X_START] != targetColor) return;
         pallet[y - Y_START][x - X_START] = replacementColor;
+
         fill(x + 1, y, targetColor, replacementColor);
         fill(x - 1, y, targetColor, replacementColor);
         fill(x, y + 1, targetColor, replacementColor);
         fill(x, y - 1, targetColor, replacementColor);
     }
 
-    public void fill(Emoji replacementColor, int x, int y) {
+    public void fill(int x,
+                     int y,
+                     @NotNull Emoji replacementColor) {
         validate(x, y);
         fill(x, y, pallet[y - Y_START][x - X_START], replacementColor);
     }
 
     public boolean isInBound(int x, int y) {
-        return X_START <= x && x <= getWidth() && Y_START <= y && y <= getHeight();
+        return !isOutBound(x, y);
+    }
+
+    public boolean isOutBound(int x, int y) {
+        return X_START > x || x > getWidth() || Y_START > y || y > getHeight();
     }
 
     private void validate(int x, int y) {
-        if (!isInBound(x, y)) {
-            throw new IllegalArgumentException("올바른 숫자를 입력하세요. (1<=x<=" + getWidth() + ") (1<=y<=" + getHeight() + "), 입력된 숫자: " + x + ", " + y);
-        }
+        if (isOutBound(x, y))
+            throw new IllegalArgumentException("올바른 숫자를 입력하세요. (1<=x<=%d) (1<=y<=%d), 입력된 숫자: %d, %d"
+                    .formatted(getWidth(), getHeight(), x, y));
     }
 
     @Override
@@ -143,14 +154,17 @@ public class Painter {
     public boolean equals(Object o) {
         if (o == this) return true;
         if (o == null) return false;
-        if (this.getClass() != o.getClass()) return false;
+        if (getClass() != o.getClass()) return false;
 
-        return o.hashCode() == this.hashCode();
+        return o.hashCode() == hashCode();
     }
 
     @Override
     public String toString() {
-        return super.toString() + "[width=" + getWidth() + ", height=" + getHeight() + "]";
+        return "%s[width=%d, height=%d]".formatted(
+                super.toString(),
+                getWidth(),
+                getHeight());
     }
 
 }

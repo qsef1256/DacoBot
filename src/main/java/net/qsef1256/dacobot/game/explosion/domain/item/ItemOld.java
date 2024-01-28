@@ -24,7 +24,8 @@ public class ItemOld {
     private ItemEntity itemEntity;
 
     private ItemOld(int itemId) {
-        if (!itemDao.existsById(itemId)) throw new IllegalArgumentException("ID: %s 아이템을 찾을 수 없습니다.".formatted(itemId));
+        if (!itemDao.existsById(itemId))
+            throw new IllegalArgumentException("ID: %s 아이템을 찾을 수 없습니다.".formatted(itemId));
         itemEntity = new ItemEntity(itemDao.findById(itemId));
         itemEntity.setAmount(1);
     }

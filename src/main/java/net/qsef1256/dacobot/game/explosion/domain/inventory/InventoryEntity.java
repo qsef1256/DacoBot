@@ -35,7 +35,7 @@ public class InventoryEntity {
         return items.get(itemId);
     }
 
-    public void putItem(ItemEntity item) {
+    public void putItem(@NotNull ItemEntity item) {
         items.put(item.getItemId(), item);
     }
 

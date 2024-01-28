@@ -11,7 +11,6 @@ import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
-import net.qsef1256.dacobot.module.account.model.Account;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -93,9 +92,12 @@ public class AccountCommand extends SlashCommand {
     public static class StatusCommand extends SlashCommand {
 
         private final CashService cashService;
+        private final AccountController accountController;
 
         @Autowired
-        public StatusCommand(@NotNull CashService cashService) {
+        public StatusCommand(@NotNull AccountController accountController,
+                             @NotNull CashService cashService) {
+            this.accountController = accountController;
             this.cashService = cashService;
 
             name = "확인";
@@ -103,11 +105,11 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(final @NotNull SlashCommandEvent event) {
-            final User user = event.getUser();
+        protected void execute(@NotNull SlashCommandEvent event) {
+            User user = event.getUser();
 
             try {
-                UserEntity userData = new Account(user.getIdLong()).getData();
+                UserEntity userData = accountController.getAccount(user.getIdLong());
                 long cash = cashService.getCash(user.getIdLong()).getCash();
 
                 String footer = "아직 돈이 없군요. 돈을 벌어보세요!";
@@ -142,6 +144,7 @@ public class AccountCommand extends SlashCommand {
             if (cash > 5000) footer = "이제 5천원 짜리 계정이네요. 잠깐.. 현실 돈이던가";
             if (cash > 10000) footer = "1만을 찍었어요. 더 벌어보자구요.";
             if (cash > 50000) footer = "돈 많아요!";
+
             return footer;
         }
 

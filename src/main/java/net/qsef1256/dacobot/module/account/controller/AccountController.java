@@ -1,11 +1,11 @@
 package net.qsef1256.dacobot.module.account.controller;
 
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserRepository;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.util.JDAService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -14,10 +14,12 @@ import java.time.LocalDateTime;
 @Component
 public class AccountController {
 
-    private final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
+    private final UserRepository userRepository;
     private final JDAService jdaService;
 
-    public AccountController(JDAService jdaService) {
+    public AccountController(@NotNull UserRepository userRepository,
+                             @NotNull JDAService jdaService) {
+        this.userRepository = userRepository;
         this.jdaService = jdaService;
     }
 
@@ -26,11 +28,9 @@ public class AccountController {
      *
      * @param discordId User's snowflake id
      */
-    public void register(final long discordId) {
-        try (dao) {
-            dao.open();
-
-            if (dao.existsById(discordId))
+    public void register(long discordId) {
+        try {
+            if (userRepository.existsById(discordId))
                 throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
 
             UserEntity userData = new UserEntity();
@@ -38,7 +38,7 @@ public class AccountController {
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
 
-            dao.save(userData);
+            userRepository.saveAndFlush(userData);
         } catch (DacoAccountException e) {
             throw e;
         } catch (final RuntimeException e) {
@@ -52,13 +52,11 @@ public class AccountController {
      *
      * @param discordId User's snowflake id
      */
-    public void delete(final long discordId) {
-        try (dao) {
-            dao.open();
-
-            if (!dao.existsById(discordId))
+    public void delete(long discordId) {
+        try {
+            if (!userRepository.existsById(discordId))
                 throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
-            dao.deleteById(discordId);
+            userRepository.deleteById(discordId);
         } catch (DacoAccountException e) {
             throw e;
         } catch (final RuntimeException e) {
@@ -68,12 +66,15 @@ public class AccountController {
         }
     }
 
+    @NotNull
     public UserEntity getAccount(long discordId) {
-        dao.open();
-        UserEntity entity = dao.findById(discordId);
-        dao.close();
+        return userRepository
+                .findById(discordId)
+                .orElseThrow(() -> new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 등록되지 않았습니다."));
+    }
 
-        return entity;
+    public void save(@NotNull UserEntity userData) {
+        userRepository.saveAndFlush(userData);
     }
 
 }

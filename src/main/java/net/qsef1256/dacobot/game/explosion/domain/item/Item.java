@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.Builder;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemType;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

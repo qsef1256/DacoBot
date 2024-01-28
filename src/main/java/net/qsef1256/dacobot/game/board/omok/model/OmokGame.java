@@ -110,7 +110,7 @@ public class OmokGame implements BoardGame<ColorEmoji> {
     }
 
     private void checkStone(int x, int y, ColorEmoji stone) {
-        if (!painter.isInBound(x, y))
+        if (painter.isOutBound(x, y))
             throw new IllegalArgumentException("잘못된 좌표입니다. 입력한 x: " + x + " 입력한 y: " + y);
         if (stone != BLACK && stone != WHITE)
             throw new IllegalArgumentException("잘못된 돌 입니다: " + stone);
@@ -136,7 +136,7 @@ public class OmokGame implements BoardGame<ColorEmoji> {
         int destX = topX;
         int destY = topY;
         for (int i = 0; i < checkLength * 2 + 1; i++) {
-            if (!painter.isInBound(destX, destY)) {
+            if (painter.isOutBound(destX, destY)) {
                 destY += dx;
                 destX += dy;
                 continue;
@@ -183,7 +183,7 @@ public class OmokGame implements BoardGame<ColorEmoji> {
     public void reset() {
         status = OmokStatus.WAIT;
         painter.erasePallet();
-        painter.fill(BOARD, 1, 1);
+        painter.fill(1, 1, BOARD);
         isBlackTurn = true;
     }
 

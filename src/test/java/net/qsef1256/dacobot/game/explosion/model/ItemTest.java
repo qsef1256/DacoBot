@@ -6,10 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.NoSuchElementException;
 
-public class ItemTest {
+class ItemTest {
 
+    // FIXME: assertion need
     @Test
-    public void testItem() {
+    void testItem() {
         ItemOld item = ItemOld.fromId(1);
 
         ItemTypeEntity itemType = item.getItemType();

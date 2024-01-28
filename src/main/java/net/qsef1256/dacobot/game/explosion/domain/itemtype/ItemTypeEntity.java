@@ -1,11 +1,17 @@
 package net.qsef1256.dacobot.game.explosion.domain.itemtype;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "explosion_item_type")
 public class ItemTypeEntity {
 

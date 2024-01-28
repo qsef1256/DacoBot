@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.paint.model;
+package net.qsef1256.dacobot.game.sudoku;
 
 import net.qsef1256.dacobot.game.board.sudoku.model.SudokuGame;
 import net.qsef1256.dacobot.game.board.sudoku.model.board.SudokuBoard;

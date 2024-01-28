@@ -34,7 +34,7 @@ public class InventoryService {
         this.itemService = itemService;
     }
 
-    public InventoryEntity init(long discordId) {
+    public InventoryEntity getInventory(long discordId) {
         Optional<UserEntity> optionalUser = userRepository.findByDiscordId(discordId);
         UserEntity account = optionalUser.orElseGet(() -> createAccount(discordId));
 
@@ -51,15 +51,15 @@ public class InventoryService {
     }
 
     public Map<Integer, ItemEntity> getItems(long discordId) {
-        return init(discordId).getItems();
+        return getInventory(discordId).getItems();
     }
 
     public ItemEntity getItem(long discordId, int itemId) {
-        return init(discordId).getItem(itemId);
+        return getInventory(discordId).getItem(itemId);
     }
 
     public void setItem(long discordId, ItemEntity item) {
-        InventoryEntity inventory = init(discordId);
+        InventoryEntity inventory = getInventory(discordId);
         inventory.putItem(item);
         saveInventory(inventory);
     }
@@ -72,7 +72,7 @@ public class InventoryService {
                         int itemId,
                         int amount) {
         ItemEntity userItem = getItem(discordId, itemId);
-        ItemOld item = itemService.getItem(itemId, amount);
+        ItemOld item = ItemOld.fromId(itemId, amount);
         if (userItem == null) {
             createItem(discordId, itemId, amount);
             return;
@@ -93,6 +93,7 @@ public class InventoryService {
                             int itemId,
                             int amount) {
         ItemEntity itemEntity = ItemOld.fromId(itemId, amount).getItemEntity();
+
         setItem(discordId, itemEntity);
     }
 
@@ -104,7 +105,9 @@ public class InventoryService {
                            int itemId,
                            int amount) {
         ItemEntity userItem = getItem(discordId, itemId);
-        ItemOld item = itemService.getItem(itemId, amount);
+        InventoryEntity inventory = getInventory(discordId);
+
+        ItemOld item = ItemOld.fromId(itemId, amount);
 
         int stock = userItem.getAmount();
         int result = stock - amount;
@@ -118,13 +121,14 @@ public class InventoryService {
     }
 
     public void clearItem(long userId, int itemId) {
-        ItemOld userItem = itemService.fromUser(getUserId(userId), itemId);
+        ItemOld userItem = ItemOld.fromUser(getUserId(userId), itemId);
 
         removeItem(userId,
                 userItem.getItemEntity().getItemId(),
                 userItem.getAmount());
     }
 
+    @NotNull
     private UserEntity createAccount(long discordId) {
         log.info("Creating user account for {}", discordId);
         UserEntity userEntity = accountController.getAccount(discordId);

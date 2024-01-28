@@ -39,11 +39,11 @@ public class DacoBot implements CommandLineRunner {
     private String[] args;
 
     @Autowired
-    public DacoBot(DiaSetting setting,
-                   DiaScheduler scheduler,
-                   JpaController jpaController,
-                   JDA jda,
-                   CommandClient commandClient) {
+    public DacoBot(@NotNull DiaSetting setting,
+                   @NotNull DiaScheduler scheduler,
+                   @NotNull JpaController jpaController,
+                   @NotNull JDA jda,
+                   @NotNull CommandClient commandClient) {
         this.setting = setting;
         this.scheduler = scheduler;
         this.jpaController = jpaController;
