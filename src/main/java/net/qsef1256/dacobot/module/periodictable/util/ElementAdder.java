@@ -12,12 +12,14 @@ import org.jetbrains.annotations.Unmodifiable;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Profile;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
 @Slf4j
+@Profile("element_adder")
 @SpringBootApplication
 public class ElementAdder implements CommandLineRunner {
 

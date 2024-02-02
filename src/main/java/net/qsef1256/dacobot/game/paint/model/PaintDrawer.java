@@ -12,15 +12,14 @@ import net.dv8tion.jda.api.interactions.components.ActionRow;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.data.DataArray;
 import net.dv8tion.jda.api.utils.data.DataObject;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -33,10 +32,9 @@ public class PaintDrawer {
 
     private final Map<Long, Long> messageMap = new HashMap<>();
     private final Map<Long, ColorEmoji> selectedColor = new HashMap<>();
-    private final JDAService jdaService;
+    private final JdaService jdaService;
 
-    @Autowired
-    public PaintDrawer(JDAService jdaService) {
+    public PaintDrawer(@NotNull JdaService jdaService) {
         this.jdaService = jdaService;
     }
 

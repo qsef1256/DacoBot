@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.module.common.key;
 import lombok.Setter;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.UserSnowflake;
-import net.qsef1256.dacobot.util.JDAService;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Objects;
@@ -13,7 +13,7 @@ public class SingleUserKey extends ManagedKeyImpl implements UserKey {
 
     private final UserSnowflake user;
     @Setter(onMethod_ = {@Autowired})
-    private JDAService jdaService;
+    private JdaService jdaService;
 
     @Override
     public Set<User> getUsers() {

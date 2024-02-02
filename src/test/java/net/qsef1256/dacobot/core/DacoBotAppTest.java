@@ -1,7 +1,6 @@
 package net.qsef1256.dacobot.core;
 
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.DacoBotTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-class DacoBotAppTest extends DacoBotTest {
+class DacoBotAppTest {
 
     @Test
     void testDacoBot(@Autowired DacoBot dacoBot) {

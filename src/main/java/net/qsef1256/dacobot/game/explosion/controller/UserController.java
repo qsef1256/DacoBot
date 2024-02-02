@@ -1,12 +1,11 @@
 package net.qsef1256.dacobot.game.explosion.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
 import net.qsef1256.dacobot.game.explosion.domain.cash.CashRepository;
 import net.qsef1256.dacobot.module.account.entity.UserRepository;
-import net.qsef1256.dacobot.util.JDAService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
@@ -15,12 +14,11 @@ import java.util.NoSuchElementException;
 @Component
 public class UserController {
 
-    private final JDAService jdaService;
+    private final JdaService jdaService;
     private final UserRepository user;
     private final CashRepository cash;
 
-    @Autowired
-    public UserController(@NotNull JDAService jdaService,
+    public UserController(@NotNull JdaService jdaService,
                           @NotNull UserRepository user,
                           @NotNull CashRepository cash) {
         this.jdaService = jdaService;

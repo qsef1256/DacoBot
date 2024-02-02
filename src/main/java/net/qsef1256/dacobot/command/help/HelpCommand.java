@@ -45,7 +45,7 @@ public class HelpCommand extends SlashCommand {
     }
 
     @Component
-    private static class MainMenuCommand extends SlashCommand {
+    public static class MainMenuCommand extends SlashCommand {
 
         private final DiaHelp diaHelp;
 
@@ -80,7 +80,7 @@ public class HelpCommand extends SlashCommand {
     }
 
     @Component
-    private static class FindCommand extends SlashCommand {
+    public static class FindCommand extends SlashCommand {
 
         private final DiaHelp diaHelp;
 

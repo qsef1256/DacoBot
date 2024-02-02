@@ -7,13 +7,13 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.struct.NestedMap;
-import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class OmokController { // TODO: cleanup or use another api
 
     @Setter(onMethod_ = {@Autowired})
-    private JDAService jdaService;
+    private JdaService jdaService;
     @Setter(onMethod_ = {@Autowired})
     private RequestAPI requestAPI;
 

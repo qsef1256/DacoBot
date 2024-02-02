@@ -4,8 +4,8 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.apache.commons.collections4.BidiMap;
 import org.apache.commons.collections4.bidimap.DualHashBidiMap;
@@ -25,9 +25,9 @@ import java.util.concurrent.atomic.AtomicReference;
 @Component
 public class RequestAPI {
 
-    private final JDAService jdaService;
+    private final JdaService jdaService;
 
-    public RequestAPI(JDAService jdaService) {
+    public RequestAPI(JdaService jdaService) {
         this.jdaService = jdaService;
     }
 

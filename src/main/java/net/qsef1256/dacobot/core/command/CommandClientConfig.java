@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.config;
+package net.qsef1256.dacobot.core.command;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;

@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.util;
+package net.qsef1256.dacobot.core.jda;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -13,7 +13,6 @@ import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +21,13 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
 @Service
-public class JDAService {
+public class JdaService {
 
     private final DiaSetting setting;
     private final JDA jda;
     private final CommandClient commandClient;
 
-    @Autowired
-    public JDAService(@Lazy JDA jda,
+    public JdaService(@Lazy JDA jda,
                       @Lazy CommandClient commandClient,
                       @Lazy DiaSetting setting) {
         this.jda = jda;

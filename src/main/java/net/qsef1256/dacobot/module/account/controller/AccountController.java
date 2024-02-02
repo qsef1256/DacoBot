@@ -1,10 +1,10 @@
 package net.qsef1256.dacobot.module.account.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.module.account.entity.UserRepository;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
-import net.qsef1256.dacobot.util.JDAService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 public class AccountController {
 
     private final UserRepository userRepository;
-    private final JDAService jdaService;
+    private final JdaService jdaService;
 
     public AccountController(@NotNull UserRepository userRepository,
-                             @NotNull JDAService jdaService) {
+                             @NotNull JdaService jdaService) {
         this.userRepository = userRepository;
         this.jdaService = jdaService;
     }

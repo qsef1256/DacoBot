@@ -5,10 +5,10 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
-import net.qsef1256.dacobot.util.JDAService;
 import net.qsef1256.dialib.util.GenericUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -23,15 +23,15 @@ import java.util.*;
 @Component
 public class DiaHelp {
 
-    private final JDAService jdaService;
+    private final JdaService jdaService;
     private final CommandClient commandClient;
 
     private final Map<String, Map<?, ?>> categories = new HashMap<>();
     private Map<String, Object> settings = new HashMap<>();
     private final Map<String, SlashCommand> slashCommandMap = new HashMap<>();
 
-    public DiaHelp(JDAService jdaService,
-                   CommandClient commandClient) {
+    public DiaHelp(@NotNull JdaService jdaService,
+                   @NotNull CommandClient commandClient) {
         this.jdaService = jdaService;
         this.commandClient = commandClient;
 

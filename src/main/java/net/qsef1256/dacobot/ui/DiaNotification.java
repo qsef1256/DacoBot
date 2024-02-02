@@ -4,8 +4,8 @@ import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
-import net.qsef1256.dacobot.util.JDAService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class DiaNotification {
 
     @Setter(onMethod_ = {@Autowired})
-    private JDAService jdaService;
+    private JdaService jdaService;
 
     public void everyone(@NotNull MessageCreateBuilder message) {
         jdaService.getMainChannel().sendMessage(

@@ -5,12 +5,12 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.module.request.model.Request;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
-import net.qsef1256.dacobot.util.JDAService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,7 @@ public class RequestCommand extends SlashCommand {
     private static class CheckCommand extends SlashCommand {
 
         @Setter(onMethod_ = {@Autowired})
-        private JDAService jdaService;
+        private JdaService jdaService;
         @Setter(onMethod_ = {@Autowired})
         private RequestAPI requestAPI;
 

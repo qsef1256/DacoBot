@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -17,8 +16,7 @@ public class CommandHandler implements CommandListener {
 
     private final CommandClient commandClient;
 
-    @Autowired
-    public CommandHandler(CommandClient commandClient) {
+    public CommandHandler(@NotNull CommandClient commandClient) {
         this.commandClient = commandClient;
     }
 

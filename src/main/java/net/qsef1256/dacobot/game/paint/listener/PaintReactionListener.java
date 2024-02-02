@@ -19,7 +19,7 @@ public class PaintReactionListener extends ListenerAdapter {
 
     private final PaintDrawer paintDrawer;
 
-    public PaintReactionListener(PaintDrawer paintDrawer) {
+    public PaintReactionListener(@NotNull PaintDrawer paintDrawer) {
         this.paintDrawer = paintDrawer;
     }
 
@@ -48,7 +48,9 @@ public class PaintReactionListener extends ListenerAdapter {
     }
 
     @Nullable
-    private ColorEmoji getPixelColor(long userId, long messageIdLong, MessageReaction reaction) {
+    private ColorEmoji getPixelColor(long userId,
+                                     long messageIdLong,
+                                     @NotNull MessageReaction reaction) {
         Long drawerId = paintDrawer.getDrawerId(userId);
         if (drawerId == null) return null;
         if (messageIdLong != drawerId) return null;
