@@ -11,13 +11,14 @@ public class JDAUtil {
 
     @Nullable
     public OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
-        final OptionMapping option = event.getOption(optionName);
+        OptionMapping option = event.getOption(optionName);
         if (option == null) {
             event.reply("%s를 입력해주세요.".formatted(optionName))
                     .setEphemeral(true)
                     .queue();
             return null;
         }
+
         return option;
     }
 

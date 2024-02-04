@@ -26,7 +26,7 @@ public class ReflectionUtil {
     /**
      * 클래스가 일반적인 클래스인지 확인합니다.
      * <p>
-     * 현재는 Concrete, Local, Member 여부를 확인합니다.
+     * Concrete, Local, Member 여부를 확인합니다.
      * </p>
      *
      * @param clazz class
@@ -47,7 +47,7 @@ public class ReflectionUtil {
      * @see #isNested(Class)
      */
     public static boolean isNested(@NotNull Class<?> clazz) {
-        return (clazz.isLocalClass() || clazz.isMemberClass());
+        return clazz.isLocalClass() || clazz.isMemberClass();
     }
 
 }

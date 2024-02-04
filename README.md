@@ -28,7 +28,7 @@
 * `Jakarta EE 10`
 * `JPA 3.0`
 * `CDI 4.0`
-* `Spring Boot 3.1.5`
+* `Spring Boot 3.2.2`
 
 ## Usage
 
@@ -44,15 +44,12 @@
 
 ## Library
 
-<!-- TODO -->
-
 * 코어 라이브러리
     * [JDA](https://github.com/DV8FromTheWorld/JDA): Copyright 2015 Austin Keener, Michael Ritter, Florian Spieß, and the JDA contributors `Apache-2.0`
     * [Chewtils](https://github.com/Chew/JDA-Chewtils): Copyright 2016-2018 John Grosh (jagrosh) & Kaidan Gustave (TheMonitorLizard) `Apache-2.0`
-* Spring Boot
-    * [Spring Core]()
+* Spring 라이브러리 <!-- subprojects are excluded -->
+    * [Spring Boot](https://spring.io/projects/spring-boot): `Apache-2.0`
     * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
-    * TODO
 * DB 라이브러리
     * [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
         * [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`

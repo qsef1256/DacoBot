@@ -131,15 +131,18 @@ public class CreditCommand extends SlashCommand {
                             [JDA](https://github.com/DV8FromTheWorld/JDA): `Apache-2.0`
                             [Chewtils](https://github.com/Chew/JDA-Chewtils): `Apache-2.0`
                             """, false)
+                    .addField("Spring 라이브러리", """
+                            [Spring Boot](https://spring.io/projects/spring-boot): `Apache-2.0`
+                            [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
+                            """, false)
                     .addField("DB 라이브러리", """
                             [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
                             [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
                             [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
                             [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): `LGPL-2.1-or-later`
-                            [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
                             """, false)
                     .addField("기술 라이브러리", """
-                            [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
+                            [Jandex](https://github.com/smallrye/jandex): `Apache-2.0`
                             [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
                             """, false)
                     .addField("기능 라이브러리", """
@@ -160,7 +163,6 @@ public class CreditCommand extends SlashCommand {
                             [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/): `Apache-2.0`
                             [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/): `Apache-2.0`
                             [Apache Commons IO](https://commons.apache.org/proper/commons-io/): `Apache-2.0`
-                            [Apache Maven Model](https://maven.apache.org/ref/3.8.6/maven-model/): `Apache-2.0`
                             """, false)
                     .addField("테스트/로깅 라이브러리", """
                             [JUnit 5](https://junit.org/junit5/): `EPL-2.0`
