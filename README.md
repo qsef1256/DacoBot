@@ -8,19 +8,25 @@
 
 [dependabot-badge]: https://img.shields.io/badge/dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=white
 
+[gradle-badge]: https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white
+
 [discord-badge]: https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white
 
 [discord-invite]: https://discord.gg/uDEVbvJ55q
 
+[github-badge]: https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white
+
+[github-invite]: https://github.com/qsef1256/DacoBot
+
 ![Java][java-badge]
 ![Spring][spring-badge]
+![Gradle][gradle-badge]
 ![MariaDB][mariadb-badge]
 ![Dependabot][dependabot-badge]
 [![Discord][discord-badge]][discord-invite]
+[![GitHub][github-badge]][github-invite]
 
 **D**i**a**mond Dis**co**rd **Bot** by qsef1256
-
----
 
 ## Environment
 

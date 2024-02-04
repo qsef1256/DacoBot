@@ -13,7 +13,6 @@ import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.mariuszgromada.math.mxparser.License;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -36,7 +35,6 @@ public class DacoBot implements CommandLineRunner {
 
     private String[] args;
 
-    @Autowired
     public DacoBot(@NotNull DiaSetting setting,
                    @NotNull DiaScheduler scheduler,
                    @NotNull JDA jda,
