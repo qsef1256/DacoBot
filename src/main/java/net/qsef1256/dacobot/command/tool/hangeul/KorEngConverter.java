@@ -19,6 +19,7 @@ public class KorEngConverter {
     @Getter
     private static final KorEngConverter instance = new KorEngConverter();
 
+    // TODO: finish this
     public String korToEng(@NotNull String kor) {
         return "TODO";
     }

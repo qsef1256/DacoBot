@@ -12,9 +12,11 @@ import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class MessageCommand extends SlashCommand {
 
     public MessageCommand() {
@@ -32,7 +34,7 @@ public class MessageCommand extends SlashCommand {
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-        DiaMessage.needSubCommand(this.children, event.getMember());
+        DiaMessage.needSubCommand(children, event.getMember());
     }
 
     public static class SendCommand extends SlashCommand {

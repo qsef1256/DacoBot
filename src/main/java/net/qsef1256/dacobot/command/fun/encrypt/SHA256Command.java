@@ -1,22 +1,24 @@
 package net.qsef1256.dacobot.command.fun.encrypt;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.entities.User;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
+@Component
 public class SHA256Command extends SlashCommand {
 
     public SHA256Command() {
@@ -54,7 +56,7 @@ public class SHA256Command extends SlashCommand {
                     .addField("SHA-256 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + sha256 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {
-            logger.warn(e.getMessage());
+            log.warn(e.getMessage());
             event.replyEmbeds(DiaEmbed.error(null, "주어진 문자열을 SHA-256로 변환하던 도중 문제가 생겼습니다.", null, null)
                     .setFooter("뭘 넣었길래...")
                     .build()).queue();

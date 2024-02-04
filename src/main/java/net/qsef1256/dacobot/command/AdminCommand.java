@@ -1,7 +1,11 @@
 package net.qsef1256.dacobot.command;
 
+import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -12,11 +16,13 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
+@Component
 public class AdminCommand extends SlashCommand {
 
     public AdminCommand() {
@@ -33,13 +39,16 @@ public class AdminCommand extends SlashCommand {
     }
 
     @Override
-    public void execute(final @NotNull SlashCommandEvent event) {
+    public void execute(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
     private static class StopCommand extends SlashCommand {
+
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
 
         public StopCommand() {
             name = "자자";
@@ -49,12 +58,12 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(final @NotNull SlashCommandEvent event) {
-            logger.info("Shutting down with command");
+        public void execute(@NotNull SlashCommandEvent event) {
+            log.info("Shutting down with command");
 
             event.reply("끄는 중....")
                     .setEphemeral(true)
-                    .queue(msg -> DacoBot.shutdown());
+                    .queue(msg -> dacoBot.shutdown());
         }
 
     }
@@ -70,7 +79,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(final @NotNull SlashCommandEvent event) {
+        public void execute(@NotNull SlashCommandEvent event) {
             final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
             if (option == null) return;
 
@@ -82,6 +91,13 @@ public class AdminCommand extends SlashCommand {
 
     private static class ClearCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
+        @Setter(onMethod_ = {@Autowired})
+        private JDA jda;
+        @Setter(onMethod_ = {@Autowired})
+        private CommandClient commandClient;
+
         public ClearCommand() {
             name = "초기화";
             help = "명령어를 초기화 하고 종료 합니다.";
@@ -89,36 +105,40 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
-            JDA jda = DacoBot.getJda();
-            String forcedGuildId = DacoBot.getCommandClient().forcedGuildId();
+        @SneakyThrows
+        protected void execute(@NotNull SlashCommandEvent event) {
+            String forcedGuildId = commandClient.forcedGuildId();
 
             try {
                 jda.awaitReady();
             } catch (InterruptedException e) {
+                log.error("failed to clean command and restart", e);
                 event.replyEmbeds(DiaEmbed.error(null, null, e, null).build()).queue();
-                e.printStackTrace();
+
                 return;
             }
 
             final Guild guild = jda.getGuildById(forcedGuildId);
             if (guild != null) {
-                logger.info("Cleaning Commands");
+                log.info("Cleaning Commands");
                 guild.updateCommands().queue();
             } else {
-                logger.warn("forced Guild is null");
+                log.warn("forced Guild is null");
             }
 
             event.reply("초기화가 완료 되었습니다. 길드 ID: " + forcedGuildId)
                     .setEphemeral(true)
                     .queue();
 
-            DacoBot.shutdown();
+            dacoBot.shutdown();
         }
 
     }
 
     private static class RestartCommand extends SlashCommand {
+
+        @Setter(onMethod_ = {@Autowired})
+        private DacoBot dacoBot;
 
         public RestartCommand() {
             name = "재시작";
@@ -132,7 +152,7 @@ public class AdminCommand extends SlashCommand {
                     .setEphemeral(true)
                     .queue();
 
-            DacoBot.restart();
+            dacoBot.restart();
         }
 
     }

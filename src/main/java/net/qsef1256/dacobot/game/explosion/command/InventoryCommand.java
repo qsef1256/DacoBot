@@ -1,40 +1,44 @@
 package net.qsef1256.dacobot.game.explosion.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
+import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.qsef1256.dacobot.game.explosion.data.ItemTypeEntity;
-import net.qsef1256.dacobot.game.explosion.model.Cash;
-import net.qsef1256.dacobot.game.explosion.model.Inventory;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
+@Component
 public class InventoryCommand extends SlashCommand {
 
-    public InventoryCommand() {
+    public InventoryCommand(@NotNull SeeCommand seeCommand,
+                            @NotNull ItemInfoCommand infoCommand,
+                            @NotNull ItemAddCommand addCommand,
+                            @NotNull ItemRemoveCommand removeCommand,
+                            @NotNull ItemCommandGroup commandGroup) {
         name = "인벤토리";
         help = "닦던마냥 16개만 있거나 그러지 않아요.";
-
         children = new SlashCommand[]{
-                new SeeCommand(),
-                new ItemInfoCommand(),
-                new ItemAddCommand(),
-                new ItemRemoveCommand()
+                seeCommand,
+                infoCommand,
+                addCommand,
+                removeCommand
         };
-
-        subcommandGroup = new ItemCommandGroup();
+        subcommandGroup = commandGroup;
     }
 
     @Override
@@ -42,9 +46,17 @@ public class InventoryCommand extends SlashCommand {
         event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
     }
 
-    private static class SeeCommand extends SlashCommand {
+    @Component
+    public static class SeeCommand extends SlashCommand {
 
-        public SeeCommand() {
+        private final InventoryService inventory;
+        private final CashService cashService;
+
+        public SeeCommand(@NotNull CashService cashService,
+                          InventoryService inventory) {
+            this.inventory = inventory;
+            this.cashService = cashService;
+
             name = "보기";
             help = "인벤토리를 확인합니다.";
         }
@@ -56,64 +68,69 @@ public class InventoryCommand extends SlashCommand {
             try {
                 event.replyEmbeds(getInventoryEmbed(user).build()).queue();
             } catch (RuntimeException e) {
-                logger.warn(e.getMessage());
-                e.printStackTrace();
+                log.error("인벤토리 로드 실패", e);
+
                 event.replyEmbeds(DiaEmbed.error("인벤토리 로드 실패", null, e, user).build()).queue();
             }
         }
 
         @NotNull
         private EmbedBuilder getInventoryEmbed(@NotNull User user) {
-            final Cash cash = new Cash(user.getIdLong());
-
             EmbedBuilder embedBuilder = new EmbedBuilder()
                     .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                     .setColor(DiaColor.INFO)
                     .setTitle("%s의 인벤토리".formatted(user.getName()));
 
             StringBuilder items = new StringBuilder();
-            Inventory inventory = Inventory.fromUser(user.getIdLong());
 
-            inventory.getItems().forEach((id, item) -> {
+            inventory.getItems(user.getIdLong()).forEach((id, item) -> {
                 ItemTypeEntity itemType = item.getItemType();
 
-                String itemInfo = "%s%s : %s > %s개".formatted(
-                        itemType.getItemIcon() + " ", itemType.getItemName(), itemType.getItemRank(), item.getAmount());
+                String itemInfo = "%s %s : %s > %s개".formatted(
+                        itemType.getItemIcon(),
+                        itemType.getItemName(),
+                        itemType.getItemRank(),
+                        item.getAmount());
                 items.append(itemInfo);
                 items.append("\n");
             });
 
-            embedBuilder.addField("아이템 목록", items.toString(), false);
-            embedBuilder.addField(":moneybag:돈", cash.getCash() + " 캐시", true);
-            embedBuilder.addField(":gem:보유 다이아", cash.getPickaxeCount() + " 개", true);
+            embedBuilder.addField("아이템 목록",
+                    items.toString(), false);
+            embedBuilder.addField(":moneybag:돈",
+                    cashService.getCash(user.getIdLong()) + " 캐시", true);
+            embedBuilder.addField(":gem:보유 다이아",
+                    cashService.getPickaxeCount(user.getIdLong()) + " 개", true);
 
             return embedBuilder;
         }
 
     }
 
-    private static class ItemCommandGroup extends SubcommandGroupData {
+    @Component
+    public static class ItemCommandGroup extends SubcommandGroupData {
 
-        public ItemCommandGroup() {
+        public ItemCommandGroup(@NotNull ItemInfoCommand infoCommand,
+                                @NotNull ItemAddCommand addCommand,
+                                @NotNull ItemRemoveCommand removeCommand) {
             super("아이템", "아이템의 정보를 확인하거나 사용합니다.");
 
             // FIXME: fix command Data
-            addSubcommands(SubcommandData.fromData(new ItemInfoCommand().getData()));
-            addSubcommands(SubcommandData.fromData(new ItemAddCommand().getData()));
-            addSubcommands(SubcommandData.fromData(new ItemRemoveCommand().getData()));
+            addSubcommands(SubcommandData.fromData(infoCommand.getData()));
+            addSubcommands(SubcommandData.fromData(addCommand.getData()));
+            addSubcommands(SubcommandData.fromData(removeCommand.getData()));
         }
 
     }
 
-    private static class ItemInfoCommand extends SlashCommand {
+    @Component
+    public static class ItemInfoCommand extends SlashCommand {
 
         public ItemInfoCommand() {
             name = "정보";
             help = "아이템 정보를 확인합니다.";
 
-            options = List.of(
-                    new OptionData(OptionType.STRING, "이름", "아이템 이름")
-            );
+            options = List.of(new OptionData(OptionType.STRING, "이름", "아이템 이름"));
         }
 
         @Override
@@ -128,9 +145,14 @@ public class InventoryCommand extends SlashCommand {
 
     }
 
-    private static class ItemAddCommand extends SlashCommand {
+    @Component
+    public static class ItemAddCommand extends SlashCommand {
 
-        public ItemAddCommand() {
+        private final InventoryService inventory;
+
+        public ItemAddCommand(@NotNull InventoryService inventory) {
+            this.inventory = inventory;
+
             name = "추가";
             help = "관리용 치트";
             ownerCommand = true;
@@ -141,9 +163,10 @@ public class InventoryCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                Inventory.fromUser(user.getIdLong()).addItem(1);
+                inventory.addItem(user.getIdLong(), 1);
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                log.error("failed to execute " + getClass().getSimpleName(), e);
+
                 event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
             }
         }
@@ -155,9 +178,14 @@ public class InventoryCommand extends SlashCommand {
 
     }
 
-    private static class ItemRemoveCommand extends SlashCommand {
+    @Component
+    public static class ItemRemoveCommand extends SlashCommand {
 
-        public ItemRemoveCommand() {
+        private final InventoryService inventory;
+
+        public ItemRemoveCommand(@NotNull InventoryService inventory) {
+            this.inventory = inventory;
+
             name = "삭제";
             help = "관리용 치트";
             ownerCommand = true;
@@ -168,12 +196,12 @@ public class InventoryCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                Inventory.fromUser(user.getIdLong()).removeItem(1);
+                inventory.removeItem(user.getIdLong(), 1);
             } catch (RuntimeException e) {
-                e.printStackTrace();
+                log.error("failed to execute " + getClass().getSimpleName(), e);
+
                 event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
             }
-
         }
 
         @NotNull

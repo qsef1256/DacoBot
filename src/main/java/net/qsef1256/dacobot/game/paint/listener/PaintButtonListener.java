@@ -1,33 +1,48 @@
 package net.qsef1256.dacobot.game.paint.listener;
 
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.paint.command.PaintCommand;
+import net.qsef1256.dacobot.game.paint.model.PaintController;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
-import net.qsef1256.dacobot.game.paint.model.PaintManagerImpl;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatistic;
+import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
+import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
+@Slf4j
+@Component
 public class PaintButtonListener extends ListenerAdapter {
 
-    @Override
-    public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) {
-        switch (event.getComponentId()) {
+    private final CmdStatisticService statistic;
+    private final PaintDrawer paintDrawer;
+    private final PaintController paintController;
 
+    public PaintButtonListener(@NotNull CmdStatisticService statistic,
+                               @NotNull PaintDrawer paintDrawer,
+                               @NotNull PaintController paintController) {
+        this.statistic = statistic;
+        this.paintDrawer = paintDrawer;
+        this.paintController = paintController;
+    }
+
+    @Override
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
+        switch (event.getComponentId()) {
             case "paint_erase" -> {
                 if (event.getMember() == null) return;
                 User user = event.getUser();
 
                 try {
-                    CmdStatistic statistic = new CmdStatistic(PaintCommand.EraseCommand.class);
+                    CmdStatisticEntity cmdStatistic = statistic.addCmdStatistic(
+                            PaintCommand.EraseCommand.class.getSimpleName());
 
                     PainterContainer.getPainter(user.getIdLong()).erasePallet();
                     event.replyEmbeds(new EmbedBuilder()
@@ -35,10 +50,13 @@ public class PaintButtonListener extends ListenerAdapter {
                             .setColor(DiaColor.SUCCESS)
                             .setTitle("쓱쓱 싹싹")
                             .setDescription("다이아의 용량이 절약 되었습니다.")
-                            .setFooter("용량 절약 횟수: " + statistic.getUseCount() + " 금일: " + statistic.getTodayUsed())
+                            .setFooter("용량 절약 횟수: "
+                                    + cmdStatistic.getUseCount()
+                                    + " 금일: "
+                                    + cmdStatistic.getTodayUsed())
                             .build()).queue();
                 } catch (RuntimeException e) {
-                    logger.warn(e.getMessage());
+                    log.warn(e.getMessage());
                     event.replyEmbeds(new EmbedBuilder()
                             .setColor(DiaColor.FAIL)
                             .setTitle("문제 발생")
@@ -49,7 +67,6 @@ public class PaintButtonListener extends ListenerAdapter {
 
                 event.editButton(event.getButton().asDisabled()).queue();
             }
-
             case "gallery_overwrite" -> {
                 if (event.getMember() == null) return;
                 User user = event.getUser();
@@ -60,7 +77,7 @@ public class PaintButtonListener extends ListenerAdapter {
                         if (paintName == null)
                             throw new NoSuchElementException("그림 이름을 받아오는데 실패했습니다.");
 
-                        new PaintManagerImpl().overwrite(user.getIdLong(), paintName);
+                        paintController.overwrite(user.getIdLong(), paintName);
                         callback.editOriginalEmbeds(new EmbedBuilder()
                                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
                                 .setColor(DiaColor.SUCCESS)
@@ -68,7 +85,7 @@ public class PaintButtonListener extends ListenerAdapter {
                                 .setDescription(paintName + " 그림을 덮어썼습니다.")
                                 .build()).queue();
                     } catch (RuntimeException e) {
-                        logger.warn(e.getMessage());
+                        log.warn(e.getMessage());
                         callback.editOriginalEmbeds(new EmbedBuilder()
                                 .setColor(DiaColor.FAIL)
                                 .setTitle("문제 발생")
@@ -80,13 +97,13 @@ public class PaintButtonListener extends ListenerAdapter {
 
                 event.editButton(event.getButton().asDisabled()).queue();
             }
-
-            case "paint_drawer_up" -> PaintDrawer.setDrawer(event, 0, -1, false);
-            case "paint_drawer_down" -> PaintDrawer.setDrawer(event, 0, 1, false);
-            case "paint_drawer_left" -> PaintDrawer.setDrawer(event, -1, 0, false);
-            case "paint_drawer_right" -> PaintDrawer.setDrawer(event, 1, 0, false);
-            case "paint_drawer_center" -> PaintDrawer.setDrawer(event, 0, 0, true);
+            case "paint_drawer_up" -> paintDrawer.setDrawer(event, 0, -1, false);
+            case "paint_drawer_down" -> paintDrawer.setDrawer(event, 0, 1, false);
+            case "paint_drawer_left" -> paintDrawer.setDrawer(event, -1, 0, false);
+            case "paint_drawer_right" -> paintDrawer.setDrawer(event, 1, 0, false);
+            case "paint_drawer_center" -> paintDrawer.setDrawer(event, 0, 0, true);
             default -> {
+                // do nothing
             }
         }
     }

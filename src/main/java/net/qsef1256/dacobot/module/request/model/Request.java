@@ -36,7 +36,6 @@ public abstract class Request {
 
     protected abstract void accept();
 
-    protected void deny() {
-    }
+    protected void deny() {}
 
 }

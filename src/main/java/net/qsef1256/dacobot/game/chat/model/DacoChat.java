@@ -1,11 +1,9 @@
 package net.qsef1256.dacobot.game.chat.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 // TODO: https://github.com/open-korean-text/open-korean-text ** CONSIDERING **
+@Slf4j
 public class DacoChat {
-
-    public static final Logger logger = LoggerFactory.getLogger("DacoChat");
 
 }

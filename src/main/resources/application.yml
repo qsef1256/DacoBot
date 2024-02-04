@@ -1,0 +1,17 @@
+spring:
+  profiles:
+    group:
+      dev: "dev"
+      prod: "prod"
+
+  main:
+    web-application-type: none
+
+  datasource:
+    url: jdbc:mariadb://localhost:3306/dacobot
+    username: root
+    password: 1234
+
+  jpa:
+    hibernate:
+      ddl-auto: validate

@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.game.paint.model;
 
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.game.paint.command.PaintCommand;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.enums.Emoji;
@@ -11,9 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+@Slf4j
 class PainterTest {
     static Painter painter;
 
@@ -22,19 +23,19 @@ class PainterTest {
         painter = PainterContainer.getPainter(419761037861060619L);
         painter.resize(6, 10);
 
-        painter.fill(ColorEmoji.YELLOW, 1, 1);
+        painter.fill(1, 1, ColorEmoji.YELLOW);
 
         painter.paintPixel(ColorEmoji.BLUE, 1, 2);
         painter.paintPixel(ColorEmoji.BLUE, 2, 2);
 
         List<Emoji> pixelColors = new ArrayList<>(PaintCommand.parsePixelColor("rrrrbbbb"));
         painter.paintColumn(pixelColors, 3);
-        painter.fill(ColorEmoji.BROWN, 1, 1);
+        painter.fill(1, 1, ColorEmoji.BROWN);
     }
 
     @Test
     void printToString() {
-        assertDoesNotThrow(() -> logger.info(painter.printPallet()));
+        assertDoesNotThrow(() -> log.info(painter.printPallet()));
     }
 
     @Test

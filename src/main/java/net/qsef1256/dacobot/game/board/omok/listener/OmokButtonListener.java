@@ -7,18 +7,25 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.qsef1256.dacobot.game.board.omok.model.OmokController;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OmokButtonListener extends ListenerAdapter {
+
+    private final OmokController omokController;
+
+    public OmokButtonListener(OmokController omokController) {
+        this.omokController = omokController;
+    }
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
         switch (event.getComponentId()) {
-
             case "omok_confirm" -> {
                 User user = event.getUser();
 
                 try {
-                    OmokController.confirmStone(user.getIdLong());
+                    omokController.confirmStone(user.getIdLong());
                     event.deferEdit().queue();
                     event.getMessage().delete().queue();
                 } catch (ErrorResponseException ignored) {
@@ -26,12 +33,11 @@ public class OmokButtonListener extends ListenerAdapter {
                     event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
                 }
             }
-
             case "omok_cancel" -> {
                 User user = event.getUser();
 
                 try {
-                    OmokController.cancelStone(user.getIdLong());
+                    omokController.cancelStone(user.getIdLong());
                     event.deferEdit().queue();
                     event.getMessage().delete().queue();
                 } catch (ErrorResponseException ignored) {
@@ -39,7 +45,6 @@ public class OmokButtonListener extends ListenerAdapter {
                     event.replyEmbeds(DiaEmbed.error("오목 요청 실패", null, e, user).build()).queue();
                 }
             }
-
         }
     }
 

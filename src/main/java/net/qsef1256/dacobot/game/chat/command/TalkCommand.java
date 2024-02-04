@@ -4,8 +4,10 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 // TODO: add talk
+@Component
 public class TalkCommand extends Command {
 
     public TalkCommand() {

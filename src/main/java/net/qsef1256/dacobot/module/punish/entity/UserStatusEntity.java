@@ -2,21 +2,23 @@ package net.qsef1256.dacobot.module.punish.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.hibernate.proxy.HibernateProxy;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
 @Entity
 @Table(name = "user_status")
-public class UserStatusEntity {
+public class UserStatusEntity implements Serializable {
 
     @Id
     @OneToOne
     private UserEntity user;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.NORMAL;
     @OneToOne
     @JoinColumn(name = "primary_punish")
@@ -32,7 +34,7 @@ public class UserStatusEntity {
                 : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy hibernateProxy
                 ? hibernateProxy.getHibernateLazyInitializer().getPersistentClass() :
-                this.getClass();
+                getClass();
 
         if (thisEffectiveClass != oEffectiveClass) return false;
 

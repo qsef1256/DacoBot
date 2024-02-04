@@ -1,45 +1,49 @@
 package net.qsef1256.dacobot.module.account.controller;
 
-import lombok.experimental.UtilityClass;
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.core.jda.JdaService;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserRepository;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
-import net.qsef1256.dacobot.util.JDAUtil;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
-@UtilityClass
+@Slf4j
+@Component
 public class AccountController {
 
-    private static final DaoCommonJpa<UserEntity, Long> dao = new DaoCommonJpaImpl<>(UserEntity.class);
+    private final UserRepository userRepository;
+    private final JdaService jdaService;
+
+    public AccountController(@NotNull UserRepository userRepository,
+                             @NotNull JdaService jdaService) {
+        this.userRepository = userRepository;
+        this.jdaService = jdaService;
+    }
 
     /**
      * 다양한 기능을 사용하기 위해 유저 등록을 시도합니다.
      *
      * @param discordId User's snowflake id
      */
-    public static void register(final long discordId) {
-        try (dao) {
-            dao.open();
-
-            if (dao.existsById(discordId))
-                throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
+    public void register(long discordId) {
+        try {
+            if (userRepository.existsById(discordId))
+                throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
 
             UserEntity userData = new UserEntity();
             userData.setDiscordId(discordId);
             userData.setRegisterTime(LocalDateTime.now());
             userData.setStatus("OK");
 
-            dao.save(userData);
+            userRepository.saveAndFlush(userData);
         } catch (DacoAccountException e) {
             throw e;
         } catch (final RuntimeException e) {
-            logger.error(e.getMessage());
-
-            throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
+            log.error(e.getMessage());
+            throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
         }
     }
 
@@ -48,28 +52,29 @@ public class AccountController {
      *
      * @param discordId User's snowflake id
      */
-    public static void delete(final long discordId) {
-        try (dao) {
-            dao.open();
-
-            if (!dao.existsById(discordId))
-                throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
-            dao.deleteById(discordId);
+    public void delete(long discordId) {
+        try {
+            if (!userRepository.existsById(discordId))
+                throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
+            userRepository.deleteById(discordId);
         } catch (DacoAccountException e) {
             throw e;
         } catch (final RuntimeException e) {
-            logger.error(e.getMessage());
+            log.error(e.getMessage());
 
-            throw new DacoAccountException(JDAUtil.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");
+            throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");
         }
     }
 
-    public static UserEntity getAccount(long discordId) {
-        dao.open();
-        UserEntity entity = dao.findById(discordId);
-        dao.close();
+    @NotNull
+    public UserEntity getAccount(long discordId) {
+        return userRepository
+                .findById(discordId)
+                .orElseThrow(() -> new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 등록되지 않았습니다."));
+    }
 
-        return entity;
+    public void save(@NotNull UserEntity userData) {
+        userRepository.saveAndFlush(userData);
     }
 
 }

@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.paint.model.painter;
 
-import net.qsef1256.dacobot.game.paint.data.PixelEntity;
+import net.qsef1256.dacobot.game.paint.entity.PixelEntity;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import org.jetbrains.annotations.NotNull;
 
@@ -39,7 +39,9 @@ public class PixelPainter extends Painter {
 
     public void setPixelEntities(@NotNull List<PixelEntity> pixelList) {
         for (PixelEntity pixel : pixelList) {
-            pallet[pixel.getY()][pixel.getX()] = pixel.getPixelColor() != null ? pixel.getPixelColor() : ColorEmoji.WHITE;
+            pallet[pixel.getY()][pixel.getX()] = pixel.getPixelColor() != null
+                    ? pixel.getPixelColor()
+                    : ColorEmoji.WHITE;
         }
     }
 

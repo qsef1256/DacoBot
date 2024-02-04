@@ -1,9 +1,10 @@
 /.idea/
 /.jpb/
+/.gradle/
 /target/
+/build/
 /lib/
+/out/
 /backup/
 /DacoBot.jar
 src/main/resources/key.properties
-src/main/resources/chatbot/bots/DacoChat/aiml/user.aiml
-src/main/resources/chatbot/bots/DacoChat/aimlif/user.aiml.csv

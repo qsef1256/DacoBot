@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.localization;
 
+import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
@@ -13,12 +14,11 @@ class TimeLocalizerTest {
         assertDoesNotThrow(() -> { // TODO: assertEquals
             System.out.println(TimeLocalizer.format(Duration.ofHours(1)));
 
-            System.out.println(TimeLocalizer.format(Duration.ofDays(370).plusHours(3).plusMinutes(23).plusSeconds(35)));
+            System.out.println(TimeLocalizer.format(Duration.ofDays(370)
+                    .plusHours(3)
+                    .plusMinutes(23)
+                    .plusSeconds(35)));
         });
     }
 
 }
-
-// FIXME: Gitlab TOKEN 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
-// Use and expire
-// whatever...

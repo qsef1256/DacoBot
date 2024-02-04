@@ -1,58 +1,62 @@
 package net.qsef1256.dacobot.game.explosion.controller;
 
-import lombok.experimental.UtilityClass;
-import net.qsef1256.dacobot.database.DaoCommonJpa;
-import net.qsef1256.dacobot.database.DaoCommonJpaImpl;
-import net.qsef1256.dacobot.game.explosion.data.CashEntity;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
-import net.qsef1256.dacobot.util.JDAUtil;
+import lombok.extern.slf4j.Slf4j;
+import net.qsef1256.dacobot.core.jda.JdaService;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashRepository;
+import net.qsef1256.dacobot.module.account.entity.UserRepository;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
-import static net.qsef1256.dacobot.DacoBot.logger;
-
-@UtilityClass
+@Slf4j
+@Component
 public class UserController {
 
-    private static final DaoCommonJpa<UserEntity, Long> mainDao = new DaoCommonJpaImpl<>(UserEntity.class);
-    private static final DaoCommonJpa<CashEntity, Long> cashDao = new DaoCommonJpaImpl<>(CashEntity.class);
+    private final JdaService jdaService;
+    private final UserRepository user;
+    private final CashRepository cash;
 
-    public static void register(final long discord_id) {
+    public UserController(@NotNull JdaService jdaService,
+                          @NotNull UserRepository user,
+                          @NotNull CashRepository cash) {
+        this.jdaService = jdaService;
+        this.user = user;
+        this.cash = cash;
+    }
+
+    // TODO: Is user-cash relation appropriate?
+    public void register(long discordId) {
         try {
-            mainDao.open();
-            cashDao.open();
-
-            if (!mainDao.existsById(discord_id))
-                throw new NoSuchElementException(JDAUtil.getNameAsTag(discord_id) + " 유저가 존재하지 않습니다.");
+            if (!user.existsById(discordId))
+                throw new NoSuchElementException(jdaService.getNameAsTag(discordId) + " 유저가 존재하지 않습니다.");
             CashEntity cashData = new CashEntity();
-            cashData.setDiscordUser(mainDao.findById(discord_id));
+            cashData.setDiscordUser(user.getReferenceById(discordId));
             cashData.setCash(0L);
             cashData.setPickaxeCount(0);
             cashData.setPrestigeCount(0);
-            cashDao.saveAndClose(cashData);
-            mainDao.close();
+            cash.saveAndFlush(cashData);
         } catch (NoSuchElementException e) {
             throw e;
         } catch (final RuntimeException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + " 데이터 등록에 실패했습니다.");
+            log.error(e.getMessage());
+            throw new RuntimeException(jdaService.getNameAsTag(discordId) + " 데이터 등록에 실패했습니다.");
         }
     }
 
-    public static void reset(final long discord_id) {
+    public void reset(long discordId) {
         try {
-            cashDao.open();
-            cashDao.deleteById(discord_id);
-            cashDao.close();
-            register(discord_id);
+            cash.deleteById(discordId);
+            register(discordId);
         } catch (final RuntimeException e) {
-            logger.error(e.getMessage());
-            throw new RuntimeException(JDAUtil.getNameAsTag(discord_id) + " 초기화에 실패했습니다.");
+            log.error(e.getMessage());
+            throw new RuntimeException(jdaService.getNameAsTag(discordId) + " 초기화에 실패했습니다.");
         }
     }
 
-    public static boolean isExist(long discordId) {
-        return cashDao.existsById(discordId);
+    public boolean isExist(long discordId) {
+        return cash.existsById(discordId);
     }
 
 }

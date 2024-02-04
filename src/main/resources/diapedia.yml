@@ -19,6 +19,8 @@ Useful:
   Guideline:
     - "https://github.com/jwasham/coding-interview-university"
     - "https://roadmap.sh/"
+  Markdown:
+    - "https://github.com/Ileriayo/markdown-badges"
 
 Computer Science:
   Language:
@@ -428,7 +430,7 @@ Git:
     Structure:
       Branch:
       Repository:
-      SubModule: "https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88"
+      Submodule: "https://git-scm.com/book/ko/v2/Git-%EB%8F%84%EA%B5%AC-%EC%84%9C%EB%B8%8C%EB%AA%A8%EB%93%88"
 
   Convention:
     Commit: "https://www.conventionalcommits.org/ko/v1.0.0/"

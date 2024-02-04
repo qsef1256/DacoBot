@@ -2,36 +2,39 @@ package net.qsef1256.dacobot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.localization.TimeLocalizer;
+import net.qsef1256.dacobot.core.jda.JdaService;
+import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
-import net.qsef1256.dacobot.util.MavenUtil;
 import net.qsef1256.dialib.util.RandomUtil;
-import org.apache.maven.model.Dependency;
-import org.apache.maven.model.Model;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.info.BuildProperties;
+import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Optional;
 
+@Slf4j
+@Component
 public class CreditCommand extends SlashCommand {
 
-    public CreditCommand() {
+    public CreditCommand(@NotNull MainInfoCommand mainInfoCommand,
+                         @NotNull LibraryCommand libraryCommand,
+                         @NotNull ApiCommand apiCommand) {
         name = "정보";
         help = "다이아 덩어리의 구성 성분";
 
         children = new SlashCommand[]{
-                new MainInfoCommand(),
-                new LibraryCommand(),
-                new APICommand()
+                mainInfoCommand,
+                libraryCommand,
+                apiCommand
         };
     }
 
@@ -42,66 +45,76 @@ public class CreditCommand extends SlashCommand {
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    private static class MainInfoCommand extends SlashCommand {
+    @Component
+    public static class MainInfoCommand extends SlashCommand {
 
-        public MainInfoCommand() {
+        private final JdaService jdaService;
+        private final BuildProperties buildProperties;
+        private final DiaSetting diaSetting;
+
+        public MainInfoCommand(@NotNull JdaService jdaService,
+                               @NotNull DiaSetting diaSetting,
+                               @NotNull BuildProperties buildProperties) {
+            this.jdaService = jdaService;
+            this.diaSetting = diaSetting;
+            this.buildProperties = buildProperties;
+
             name = "보기";
             help = "전반적인 정보를 확인합니다.";
         }
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            Model model;
-
             try {
-                model = MavenUtil.getMavenModel(
-                        DiaSetting.getInstance().getProject().getString("groupId"),
-                        DiaSetting.getInstance().getProject().getString("artifactId"));
+                long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+                String message = RandomUtil.getRandomElement(
+                        Arrays.asList("폭발은 예술이다!",
+                                "흠...",
+                                "연락처는 장식이다 카더라",
+                                "(할말 없음)",
+                                "멘트 추천은 본체한테 DM",
+                                "나는 댕청하다, /댕청"));
+
+                String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
+                String name = buildProperties.getName();
+                String version = buildProperties.getVersion();
+
+                int serverSize = jdaService.getGuilds().size();
+                int userSize = jdaService.getUsers().size();
+
+                String jdaVersion = diaSetting.getProject().getString("jda.version");
+                String springBootVersion = diaSetting.getProject().getString("spring.boot.version");
+
+                event.replyEmbeds(new EmbedBuilder()
+                        .setColor(DiaColor.MAIN_COLOR)
+                        .setTitle(name + " Credits")
+                        .setDescription("본체에게서 떨어져 나온 다이아 덩어리")
+                        .setThumbnail(DiaImage.MAIN_THUMBNAIL)
+                        .addField("본체", String.join(", ", DiaInfo.AUTHOR), true)
+                        .addField("버전", "v" + version, true)
+                        .addField("시작일", DiaInfo.SINCE, true)
+                        .addField("언어", "Java", true)
+                        .addField("서버", serverSize + "개", true)
+                        .addField("유저", userSize + "명", true)
+                        .addField("연락처", "`qsef1256@naver.com`", true)
+                        .addField("가동 시간", formattedUptime, true)
+                        .addField("", message, false)
+                        .setFooter("provided by Spring Boot v%s, JDA v%s".formatted(springBootVersion, jdaVersion))
+                        .build()).queue();
             } catch (final RuntimeException e) {
-                event.replyEmbeds(DiaEmbed.error("정보 확인 실패", "봇 정보 확인에 실패했습니다.", null, null).build()).queue();
-                e.printStackTrace();
+                log.error("failed to get bot information", e);
 
-                return;
+                event.replyEmbeds(DiaEmbed.error("정보 확인 실패",
+                        "봇 정보 확인에 실패했습니다.",
+                        null,
+                        null).build()).queue();
             }
-
-            final long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-            final String message = RandomUtil.getRandomElement(
-                    Arrays.asList("폭발은 예술이다!", "흠...", "연락처는 장식이다 카더라", "(할말 없음)", "멘트 추천은 본체한테 DM", "나는 댕청하다, /댕청"));
-
-            final String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
-            final String name = model.getName();
-            final String version = model.getVersion();
-
-            final int serverSize = DacoBot.getJda().getGuilds().size();
-            final int userSize = DacoBot.getJda().getUsers().size();
-
-            Optional<Dependency> jda = model.getDependencies().stream()
-                    .filter(dependency -> dependency.getArtifactId().equals("JDA"))
-                    .findFirst();
-
-            final String jdaVersion = jda.isPresent() ? jda.get().getVersion() : "?";
-
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(DiaColor.MAIN_COLOR)
-                    .setTitle(name + " Credits")
-                    .setDescription("본체에게서 떨어져 나온 다이아 덩어리")
-                    .setThumbnail(DiaImage.MAIN_THUMBNAIL)
-                    .addField("본체", String.join(", ", DiaInfo.AUTHOR), true)
-                    .addField("버전", "v" + version, true)
-                    .addField("시작일", DiaInfo.SINCE, true)
-                    .addField("언어", "Java", true)
-                    .addField("서버", serverSize + "개", true)
-                    .addField("유저", userSize + "명", true)
-                    .addField("연락처", "`qsef1256@naver.com`", true)
-                    .addField("가동 시간", formattedUptime, true)
-                    .addField("", message, false)
-                    .setFooter("provided by JDA v" + jdaVersion)
-                    .build()).queue();
         }
 
     }
 
-    private static class LibraryCommand extends SlashCommand {
+    @Component
+    public static class LibraryCommand extends SlashCommand {
 
         public LibraryCommand() {
             name = "라이브러리";
@@ -110,21 +123,25 @@ public class CreditCommand extends SlashCommand {
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            event.replyEmbeds(DiaEmbed.primary("라이브러리", "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.", null)
+            event.replyEmbeds(DiaEmbed.primary("라이브러리",
+                            "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.",
+                            null)
                     .addField("코어 라이브러리", """
                             [JDA](https://github.com/DV8FromTheWorld/JDA): `Apache-2.0`
                             [Chewtils](https://github.com/Chew/JDA-Chewtils): `Apache-2.0`
+                            """, false)
+                    .addField("Spring 라이브러리", """
+                            [Spring Boot](https://spring.io/projects/spring-boot): `Apache-2.0`
+                            [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
                             """, false)
                     .addField("DB 라이브러리", """
                             [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
                             [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
                             [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
                             [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): `LGPL-2.1-or-later`
-                            [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
                             """, false)
                     .addField("기술 라이브러리", """
-                            [Weld](https://github.com/weld/core): `Apache-2.0`
-                            [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
+                            [Jandex](https://github.com/smallrye/jandex): `Apache-2.0`
                             [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` `GPL-2.0-with-classpath-exception`
                             """, false)
                     .addField("기능 라이브러리", """
@@ -145,7 +162,6 @@ public class CreditCommand extends SlashCommand {
                             [Apache Commons Configuration](https://commons.apache.org/proper/commons-configuration/): `Apache-2.0`
                             [Apache Commons BeanUtils](https://commons.apache.org/proper/commons-beanutils/): `Apache-2.0`
                             [Apache Commons IO](https://commons.apache.org/proper/commons-io/): `Apache-2.0`
-                            [Apache Maven Model](https://maven.apache.org/ref/3.8.6/maven-model/): `Apache-2.0`
                             """, false)
                     .addField("테스트/로깅 라이브러리", """
                             [JUnit 5](https://junit.org/junit5/): `EPL-2.0`
@@ -161,9 +177,10 @@ public class CreditCommand extends SlashCommand {
 
     }
 
-    private static class APICommand extends SlashCommand {
+    @Component
+    public static class ApiCommand extends SlashCommand {
 
-        public APICommand() {
+        public ApiCommand() {
             name = "api";
             help = "사용중인 API 정보를 확인합니다.";
         }
@@ -175,10 +192,6 @@ public class CreditCommand extends SlashCommand {
                             "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084) 제공 `기상청`", false)
                     .addField("기상청 중기예보 조회 서비스",
                             "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15059468) 제공 `기상청`", false)
-                    .addField("보건복지부 코로나19 감염현황 조회 서비스",
-                            "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15043376) 제공 `보건복지부`", false)
-                    .addField("Geocoder API 2.0",
-                            "[Link](https://www.vworld.kr/dev/v4dv_geocoderguide2_s001.do) 제공 `국토교통부`", false)
                     .build()).queue();
         }
 

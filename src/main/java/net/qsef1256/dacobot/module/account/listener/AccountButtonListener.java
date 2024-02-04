@@ -11,10 +11,21 @@ import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
+@Component
 public class AccountButtonListener extends ListenerAdapter {
+
+    private final AccountController accountController;
+    private final UserController userController;
+
+    public AccountButtonListener(AccountController accountController,
+                                 UserController userController) {
+        this.accountController = accountController;
+        this.userController = userController;
+    }
 
     /**
      * Event for AccountCommand#ResetCommand
@@ -28,7 +39,7 @@ public class AccountButtonListener extends ListenerAdapter {
                 final User user = event.getUser();
 
                 try {
-                    UserController.reset(user.getIdLong());
+                    userController.reset(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 초기화 됨")
                             .setColor(DiaColor.SUCCESS)
@@ -53,7 +64,7 @@ public class AccountButtonListener extends ListenerAdapter {
                 final User user = event.getUser();
 
                 try {
-                    AccountController.delete(user.getIdLong());
+                    accountController.delete(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 삭제 됨")
                             .setColor(DiaColor.SUCCESS)

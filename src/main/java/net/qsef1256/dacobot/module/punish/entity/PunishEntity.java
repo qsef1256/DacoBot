@@ -2,14 +2,15 @@ package net.qsef1256.dacobot.module.punish.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import net.qsef1256.dacobot.module.account.data.UserEntity;
+import net.qsef1256.dacobot.module.account.entity.UserEntity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "punish_data")
-public class PunishEntity {
+public class PunishEntity implements Serializable {
 
     @Id
     private long id;

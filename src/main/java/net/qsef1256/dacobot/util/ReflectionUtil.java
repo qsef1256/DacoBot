@@ -1,18 +1,12 @@
 package net.qsef1256.dacobot.util;
 
-import lombok.Getter;
 import lombok.experimental.UtilityClass;
-import net.qsef1256.dacobot.setting.DiaSetting;
 import org.jetbrains.annotations.NotNull;
-import org.reflections.Reflections;
 
 import java.lang.reflect.Modifier;
 
 @UtilityClass
 public class ReflectionUtil {
-
-    @Getter
-    public static final Reflections reflections = new Reflections(DiaSetting.getInstance().getMainPackage());
 
     /**
      * 클래스가 Concrete 한지 확인합니다. <b>멤버 클래스와 지역 클래스는 true 로 취급합니다.</b>
@@ -32,7 +26,7 @@ public class ReflectionUtil {
     /**
      * 클래스가 일반적인 클래스인지 확인합니다.
      * <p>
-     * 현재는 Concrete, Local, Member 여부를 확인합니다.
+     * Concrete, Local, Member 여부를 확인합니다.
      * </p>
      *
      * @param clazz class
@@ -53,7 +47,7 @@ public class ReflectionUtil {
      * @see #isNested(Class)
      */
     public static boolean isNested(@NotNull Class<?> clazz) {
-        return (clazz.isLocalClass() || clazz.isMemberClass());
+        return clazz.isLocalClass() || clazz.isMemberClass();
     }
 
 }

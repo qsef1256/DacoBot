@@ -7,12 +7,14 @@ import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RuleCommand extends SlashCommand {
 
     public RuleCommand() {
         name = "규칙";
-        help = "안 보고 사고치면 다쳐요";
+        help = "안 보고 사고쳐도 아마 상관 없을지도?";
     }
 
     @Override

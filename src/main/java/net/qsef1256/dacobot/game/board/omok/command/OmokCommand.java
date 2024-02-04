@@ -1,10 +1,11 @@
 package net.qsef1256.dacobot.game.board.omok.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
-import net.dv8tion.jda.api.entities.User;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Setter;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -16,10 +17,13 @@ import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class OmokCommand extends SlashCommand {
 
     public OmokCommand() {
@@ -64,6 +68,9 @@ public class OmokCommand extends SlashCommand {
 
     private static class StartCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private OmokController omokController;
+
         public StartCommand() {
             name = "시작";
             help = "새 오목 게임을 시작합니다.";
@@ -88,7 +95,7 @@ public class OmokCommand extends SlashCommand {
             }
 
             try {
-                OmokController.requestGame(event.getChannel(), user, oppositeUser);
+                omokController.requestGame(event.getChannel(), user, oppositeUser);
 
                 event.reply(oppositeUser.getName() + " 에게 오목 요청을 보냈습니다.").setEphemeral(true).queue();
             } catch (RuntimeException e) {
@@ -99,6 +106,9 @@ public class OmokCommand extends SlashCommand {
     }
 
     private static class PlaceCommand extends SlashCommand {
+
+        @Setter(onMethod_ = {@Autowired})
+        private OmokController omokController;
 
         public PlaceCommand() {
             name = "놓기";
@@ -124,7 +134,7 @@ public class OmokCommand extends SlashCommand {
             long x = optionX.getAsLong();
             long y = optionY.getAsLong();
             try {
-                OmokController.previewStone(user.getIdLong(), (int) x, (int) y);
+                omokController.previewStone(user.getIdLong(), (int) x, (int) y);
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {
@@ -137,6 +147,9 @@ public class OmokCommand extends SlashCommand {
 
     private static class ResignCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private OmokController omokController;
+
         public ResignCommand() {
             name = "기권";
             help = "진행 중인 오목 게임을 기권하고 중단합니다.";
@@ -147,7 +160,7 @@ public class OmokCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                OmokController.resign(user.getIdLong());
+                omokController.resign(user.getIdLong());
 
                 event.reply("오목을 기권했습니다.").queue();
             } catch (RuntimeException e) {
@@ -158,6 +171,9 @@ public class OmokCommand extends SlashCommand {
     }
 
     private static class PullCommand extends SlashCommand {
+
+        @Setter(onMethod_ = {@Autowired})
+        private OmokController omokController;
 
         public PullCommand() {
             name = "끌올";
@@ -170,7 +186,7 @@ public class OmokCommand extends SlashCommand {
             MessageChannel channel = event.getChannel();
 
             try {
-                OmokController.pullBoard(user.getIdLong(), channel);
+                omokController.pullBoard(user.getIdLong(), channel);
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {
@@ -182,6 +198,9 @@ public class OmokCommand extends SlashCommand {
 
     private static class LogCommand extends SlashCommand {
 
+        @Setter(onMethod_ = {@Autowired})
+        private OmokController omokController;
+
         public LogCommand() {
             name = "로그";
             help = "어디다가 뒀더라... 상대의 이전 수를 표시합니다.";
@@ -192,7 +211,7 @@ public class OmokCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                OmokController.prevStone(user.getIdLong());
+                omokController.prevStone(user.getIdLong());
 
                 event.deferReply().queue(callback -> callback.deleteOriginal().queue());
             } catch (RuntimeException e) {

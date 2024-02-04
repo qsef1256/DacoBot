@@ -10,9 +10,11 @@ import net.qsef1256.dacobot.game.board.sudoku.model.SudokuHost;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class SudokuCommand extends SlashCommand {
 
     public SudokuCommand() {

@@ -1,15 +1,34 @@
 # DacoBot
 
+[java-badge]: https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white
+
+[spring-badge]: https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white
+
+[mariadb-badge]: https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white
+
+[dependabot-badge]: https://img.shields.io/badge/dependabot-025E8C?style=for-the-badge&logo=dependabot&logoColor=white
+
+[discord-badge]: https://img.shields.io/badge/Discord-%235865F2.svg?style=for-the-badge&logo=discord&logoColor=white
+
+[discord-invite]: https://discord.gg/uDEVbvJ55q
+
+![Java][java-badge]
+![Spring][spring-badge]
+![MariaDB][mariadb-badge]
+![Dependabot][dependabot-badge]
+[![Discord][discord-badge]][discord-invite]
+
 **D**i**a**mond Dis**co**rd **Bot** by qsef1256
 
-https://discord.gg/uDEVbvJ55q
+---
 
 ## Environment
 
-* `JDA 5.0.0-beta.13`
+* `JDA 5.0.0-beta.20`
 * `Jakarta EE 10`
 * `JPA 3.0`
 * `CDI 4.0`
+* `Spring Boot 3.2.2`
 
 ## Usage
 
@@ -28,14 +47,15 @@ https://discord.gg/uDEVbvJ55q
 * 코어 라이브러리
     * [JDA](https://github.com/DV8FromTheWorld/JDA): Copyright 2015 Austin Keener, Michael Ritter, Florian Spieß, and the JDA contributors `Apache-2.0`
     * [Chewtils](https://github.com/Chew/JDA-Chewtils): Copyright 2016-2018 John Grosh (jagrosh) & Kaidan Gustave (TheMonitorLizard) `Apache-2.0`
+* Spring 라이브러리 <!-- subprojects are excluded -->
+    * [Spring Boot](https://spring.io/projects/spring-boot): `Apache-2.0`
+    * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * DB 라이브러리
     * [Hibernate ORM](https://hibernate.org/orm/): `LGPL-2.1`
         * [Hibernate Validator](https://hibernate.org/validator/): `Apache-2.0`
         * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
         * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
-        * [Spring Data JPA](https://spring.io/projects/spring-data-jpa): `Apache-2.0`
 * 기술 라이브러리
-    * [Guice](https://github.com/google/guice): `Apache-2.0`
     * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
     * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` (secondary) `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리

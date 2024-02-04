@@ -1,32 +1,38 @@
 package net.qsef1256.dacobot.game.explosion.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
-import net.dv8tion.jda.api.entities.User;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.qsef1256.dacobot.game.explosion.model.Cash;
+import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.entities.User;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 
 import java.util.NoSuchElementException;
 
+@Slf4j
+@Component
 public class PickaxeCommand extends SlashCommand {
 
-    public PickaxeCommand() {
+    private final CashService cashService;
+
+    public PickaxeCommand(@NotNull CashService cashService) {
+        this.cashService = cashService;
+
         name = "곡괭이";
         help = "건드리면 폭탄 터트릴꺼에요...";
     }
 
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
-        final User user = event.getUser();
+        User user = event.getUser();
 
         event.deferReply().queue(callback -> {
             try {
-                final Cash cash = new Cash(user.getIdLong());
-
-                final String status;
-                final int pickaxeCount;
-                final int random = RandomUtil.randomInt(1, 100);
+                String status;
+                int pickaxeCount;
+                int random = RandomUtil.randomInt(1, 100);
 
                 switch (random) {
                     case 87, 88, 89 -> {
@@ -51,17 +57,19 @@ public class PickaxeCommand extends SlashCommand {
                     }
                 }
 
-                cash.changePickaxeCount(pickaxeCount);
+                cashService.changePickaxeCount(user.getIdLong(), pickaxeCount);
 
                 String pickaxeCountDisplay = (pickaxeCount > 0) ? "+" + pickaxeCount : String.valueOf(pickaxeCount);
-                callback.editOriginal(status + "`" + pickaxeCountDisplay + "` 다이아 보유량: `" + cash.getPickaxeCount() + "` 개").queue();
+                callback.editOriginal("%s`%s` 다이아 보유량: `%d` 개".formatted(status,
+                        pickaxeCountDisplay,
+                        cashService.getPickaxeCount(user.getIdLong()))).queue();
             } catch (RuntimeException e) {
                 String message = ":warning: " + user.getName() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
 
                 if (e instanceof NoSuchElementException) {
                     message = message + "\n곡괭이 커맨드는 계정 등록이 있어야 사용 가능해요. `/계정 등록` 을 입력하세요.";
                 } else {
-                    e.printStackTrace();
+                    log.error("can't add diamond pickaxe for " + user.getIdLong(), e);
                 }
                 callback.editOriginal(message).queue();
             }
