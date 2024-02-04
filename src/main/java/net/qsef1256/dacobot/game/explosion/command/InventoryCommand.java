@@ -86,8 +86,11 @@ public class InventoryCommand extends SlashCommand {
             inventory.getItems(user.getIdLong()).forEach((id, item) -> {
                 ItemTypeEntity itemType = item.getItemType();
 
-                String itemInfo = "%s%s : %s > %s개".formatted(
-                        itemType.getItemIcon() + " ", itemType.getItemName(), itemType.getItemRank(), item.getAmount());
+                String itemInfo = "%s %s : %s > %s개".formatted(
+                        itemType.getItemIcon(),
+                        itemType.getItemName(),
+                        itemType.getItemRank(),
+                        item.getAmount());
                 items.append(itemInfo);
                 items.append("\n");
             });

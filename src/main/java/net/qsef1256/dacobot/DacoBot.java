@@ -12,6 +12,7 @@ import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.mariuszgromada.math.mxparser.License;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -67,6 +68,7 @@ public class DacoBot implements CommandLineRunner {
         log.info("guilds size: " + guilds.size());
         guilds.forEach(this::upsertToGuild);
 
+        License.iConfirmNonCommercialUse("qsef1256");
         // TODO: global command
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 

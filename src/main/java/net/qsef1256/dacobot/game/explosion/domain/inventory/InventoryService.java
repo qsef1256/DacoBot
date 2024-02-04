@@ -15,6 +15,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Service
 @Transactional
+// FIXME: is transactional work properly? https://cheese10yun.github.io/spring-transacion-same-bean/
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
@@ -96,7 +97,6 @@ public class InventoryService {
         });
     }
 
-    @Transactional
     public void clearItem(long discordId, int itemId) {
         computeItem(discordId, itemId, item -> item.setAmount(0));
     }

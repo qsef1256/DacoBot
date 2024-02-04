@@ -12,7 +12,7 @@ public class TimeUtil {
     /**
      * parsing time with hms format
      *
-     * @param hms time string like 10h 15m 30s
+     * @param hms time string like "10h 15m 30s"
      * @return duration, default {@code Duration.ZERO}
      */
     public Duration parseHms(@NotNull String hms) {
