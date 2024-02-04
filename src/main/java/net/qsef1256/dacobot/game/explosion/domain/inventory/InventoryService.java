@@ -14,6 +14,7 @@ import java.util.function.Consumer;
 
 @Slf4j
 @Service
+@Transactional
 public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
@@ -25,7 +26,6 @@ public class InventoryService {
         this.userService = userService;
     }
 
-    @Transactional
     public Map<Integer, ItemEntity> getItems(long discordId) {
         UserEntity user = userService.getUserOrCreate(discordId);
         InventoryEntity inventory = user.getInventory();
@@ -39,7 +39,7 @@ public class InventoryService {
         return Item.fromEntity(getItems(discordId).get(itemId));
     }
 
-    public void setItem(long discordId, ItemEntity item) {
+    public void setItem(long discordId, @NotNull ItemEntity item) {
         UserEntity user = userService.getUserOrCreate(discordId);
         InventoryEntity inventory = user.getInventory();
         if (inventory != null) {
@@ -49,7 +49,9 @@ public class InventoryService {
         }
     }
 
-    public void computeItem(long discordId, int itemId, Consumer<ItemEntity> action) {
+    private void computeItem(long discordId,
+                             int itemId,
+                             @NotNull Consumer<ItemEntity> action) {
         UserEntity user = userService.getUserOrCreate(discordId);
         InventoryEntity inventory = user.getInventory();
         Map<Integer, ItemEntity> items = inventory.getItems();
@@ -68,11 +70,15 @@ public class InventoryService {
         addItem(discordId, itemId, 1);
     }
 
-    public void addItem(long discordId, int itemId, int amount) {
+    public void addItem(long discordId,
+                        int itemId,
+                        int amount) {
         computeItem(discordId, itemId, item -> item.addAmount(amount));
     }
 
-    public void createItem(long discordId, int itemId, int amount) {
+    public void createItem(long discordId,
+                           int itemId,
+                           int amount) {
         computeItem(discordId, itemId, item -> item.setAmount(amount));
     }
 
@@ -80,7 +86,9 @@ public class InventoryService {
         removeItem(discordId, itemId, 1);
     }
 
-    public void removeItem(long discordId, int itemId, int amount) {
+    public void removeItem(long discordId,
+                           int itemId,
+                           int amount) {
         computeItem(discordId, itemId, item -> {
             int remainingAmount = item.getAmount() - amount;
 
@@ -88,6 +96,7 @@ public class InventoryService {
         });
     }
 
+    @Transactional
     public void clearItem(long discordId, int itemId) {
         computeItem(discordId, itemId, item -> item.setAmount(0));
     }

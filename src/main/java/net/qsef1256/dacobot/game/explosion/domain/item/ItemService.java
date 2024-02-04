@@ -1,10 +1,12 @@
 package net.qsef1256.dacobot.game.explosion.domain.item;
 
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemType;
 import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
 
 @Service
@@ -28,11 +30,14 @@ public class ItemService {
                 .findById((long) itemId)
                 .orElseThrow(() -> new NoSuchElementException("unknown item id: " + itemId));
 
-        return Item.fromEntity(itemRepository
-                .findById(itemType.getItemId())
-                .orElseThrow(() -> new NoSuchElementException("failed to get item: " + itemType.getItemName())));
+        return Item.builder()
+                .id(itemId)
+                .itemType(ItemType.fromEntity(itemType))
+                .amount(amount)
+                .lastGetTime(LocalDateTime.now())
+                .build();
     }
-    
+
     // TODO
     /*
     public Item fromUser(long userId, int itemId) {

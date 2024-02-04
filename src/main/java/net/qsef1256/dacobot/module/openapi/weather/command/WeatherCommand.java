@@ -32,10 +32,10 @@ public class WeatherCommand extends SlashCommand {
     @Override
     protected void execute(@NotNull SlashCommandEvent event) {
         event.deferReply().queue(message -> {
-            Forecast weather;
+            Forecast forecast;
 
             try {
-                weather = weatherAPI.getWeather(60, 123);
+                forecast = weatherAPI.getForecast(60, 123);
             } catch (IOException | RuntimeException e) {
                 message.editOriginalEmbeds(DiaEmbed.error("날씨 불러오기 실패",
                         "기상청이 일을 안하는 것 같네요...",
@@ -46,8 +46,8 @@ public class WeatherCommand extends SlashCommand {
             }
 
             EmbedBuilder embedBuilder = DiaEmbed.info("현재 날씨", null, null);
-            embedBuilder.setDescription(LocalDateTimeUtil.getTimeString(weather.getDateTime()) + " 기준");
-            addWeatherInfo(weather, embedBuilder);
+            embedBuilder.setDescription(LocalDateTimeUtil.getTimeString(forecast.getDateTime()) + " 기준");
+            addWeatherInfo(forecast, embedBuilder);
             embedBuilder.setFooter("provided by 기상청");
 
             message.editOriginalEmbeds(embedBuilder.build()).queue();

@@ -36,7 +36,7 @@ public class ShortWeatherAPI {
      * @throws IllegalArgumentException         Failed retrieve normal data
      * @throws java.util.NoSuchElementException parse failed
      */
-    public Forecast getWeather(int x, int y) throws IOException {
+    public Forecast getForecast(int x, int y) throws IOException {
         LocalDateTime toFind = getDateTime();
 
         String date = toFind.format(DateTimeFormatter.ofPattern("yyyyMMdd"));

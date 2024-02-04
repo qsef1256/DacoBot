@@ -2,42 +2,39 @@ package net.qsef1256.dacobot.command;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.JDA;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
-import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
-import net.qsef1256.dacobot.util.MavenUtil;
 import net.qsef1256.dialib.util.RandomUtil;
-import org.apache.maven.model.Dependency;
-import org.apache.maven.model.Model;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.info.BuildProperties;
+import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Optional;
 
 @Slf4j
 @Component
 public class CreditCommand extends SlashCommand {
 
-    public CreditCommand() {
+    public CreditCommand(@NotNull MainInfoCommand mainInfoCommand,
+                         @NotNull LibraryCommand libraryCommand,
+                         @NotNull ApiCommand apiCommand) {
         name = "정보";
         help = "다이아 덩어리의 구성 성분";
 
         children = new SlashCommand[]{
-                new MainInfoCommand(),
-                new LibraryCommand(),
-                new APICommand()
+                mainInfoCommand,
+                libraryCommand,
+                apiCommand
         };
     }
 
@@ -48,84 +45,79 @@ public class CreditCommand extends SlashCommand {
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    private static class MainInfoCommand extends SlashCommand {
+    @Component
+    public static class MainInfoCommand extends SlashCommand {
 
-        @Setter(onMethod_ = {@Autowired})
-        private JDA jda;
-        @Setter(onMethod_ = {@Autowired})
-        private DiaSetting setting;
+        private final JdaService jdaService;
+        private final BuildProperties buildProperties;
 
-        public MainInfoCommand() {
+        public MainInfoCommand(@NotNull JdaService jdaService,
+                               @NotNull BuildProperties buildProperties) {
+            this.jdaService = jdaService;
+            this.buildProperties = buildProperties;
+
             name = "보기";
             help = "전반적인 정보를 확인합니다.";
         }
 
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
-            Model model;
-
             try {
-                model = MavenUtil.getMavenModel(
-                        setting.getProject().getString("groupId"),
-                        setting.getProject().getString("artifactId"));
+                long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+                String message = RandomUtil.getRandomElement(
+                        Arrays.asList("폭발은 예술이다!",
+                                "흠...",
+                                "연락처는 장식이다 카더라",
+                                "(할말 없음)",
+                                "멘트 추천은 본체한테 DM",
+                                "나는 댕청하다, /댕청"));
+
+                String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
+                String name = buildProperties.getName();
+                String version = buildProperties.getVersion();
+
+                int serverSize = jdaService.getGuilds().size();
+                int userSize = jdaService.getUsers().size();
+
+                String springVersion = SpringVersion.getVersion();
+                String jdaVersion = System.getProperty("jdaVersion", "?");
+
+                event.replyEmbeds(new EmbedBuilder()
+                        .setColor(DiaColor.MAIN_COLOR)
+                        .setTitle(name + " Credits")
+                        .setDescription("본체에게서 떨어져 나온 다이아 덩어리")
+                        .setThumbnail(DiaImage.MAIN_THUMBNAIL)
+                        .addField("본체", String.join(", ", DiaInfo.AUTHOR), true)
+                        .addField("버전", "v" + version, true)
+                        .addField("시작일", DiaInfo.SINCE, true)
+                        .addField("언어", "Java", true)
+                        .addField("서버", serverSize + "개", true)
+                        .addField("유저", userSize + "명", true)
+                        .addField("연락처", "`qsef1256@naver.com`", true)
+                        .addField("가동 시간", formattedUptime, true)
+                        .addField("", message, false)
+                        .setFooter("provided by Spring v%s, JDA v%s".formatted(springVersion, jdaVersion))
+                        .build()).queue();
             } catch (final RuntimeException e) {
-                log.error("failed to get Maven Model", e);
+                log.error("failed to get bot information", e);
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패",
                         "봇 정보 확인에 실패했습니다.",
                         null,
                         null).build()).queue();
-                return;
             }
-
-            long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
-            String message = RandomUtil.getRandomElement(
-                    Arrays.asList("폭발은 예술이다!",
-                            "흠...",
-                            "연락처는 장식이다 카더라",
-                            "(할말 없음)",
-                            "멘트 추천은 본체한테 DM",
-                            "나는 댕청하다, /댕청"));
-
-            String formattedUptime = TimeLocalizer.format(Duration.ofMillis(uptime));
-            String name = model.getName();
-            String version = model.getVersion();
-
-            int serverSize = jda.getGuilds().size();
-            int userSize = jda.getUsers().size();
-
-            Optional<Dependency> jda = model.getDependencies().stream()
-                    .filter(dependency -> dependency.getArtifactId().equals("JDA"))
-                    .findFirst();
-
-            String jdaVersion = jda.isPresent() ? jda.get().getVersion() : "?";
-
-            event.replyEmbeds(new EmbedBuilder()
-                    .setColor(DiaColor.MAIN_COLOR)
-                    .setTitle(name + " Credits")
-                    .setDescription("본체에게서 떨어져 나온 다이아 덩어리")
-                    .setThumbnail(DiaImage.MAIN_THUMBNAIL)
-                    .addField("본체", String.join(", ", DiaInfo.AUTHOR), true)
-                    .addField("버전", "v" + version, true)
-                    .addField("시작일", DiaInfo.SINCE, true)
-                    .addField("언어", "Java", true)
-                    .addField("서버", serverSize + "개", true)
-                    .addField("유저", userSize + "명", true)
-                    .addField("연락처", "`qsef1256@naver.com`", true)
-                    .addField("가동 시간", formattedUptime, true)
-                    .addField("", message, false)
-                    .setFooter("provided by JDA v" + jdaVersion)
-                    .build()).queue();
         }
 
     }
 
-    private static class LibraryCommand extends SlashCommand {
+    @Component
+    public static class LibraryCommand extends SlashCommand {
 
         public LibraryCommand() {
             name = "라이브러리";
             help = "사용 중인 라이브러리 & 라이센스 목록을 확인합니다.";
         }
 
+        // TODO: add Spring
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(DiaEmbed.primary("라이브러리",
@@ -180,9 +172,10 @@ public class CreditCommand extends SlashCommand {
 
     }
 
-    private static class APICommand extends SlashCommand {
+    @Component
+    public static class ApiCommand extends SlashCommand {
 
-        public APICommand() {
+        public ApiCommand() {
             name = "api";
             help = "사용중인 API 정보를 확인합니다.";
         }

@@ -1,8 +1,9 @@
 group = "net.qsef1256"
-version = "2.2.3"
+version = "2.3.0"
 description = "DacoBot"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
+val jdaVersion = "5.0.0-beta.20"
 val springBootVersion = "3.2.2"
 
 plugins {
@@ -47,7 +48,7 @@ dependencies {
     implementation("commons-codec:commons-codec:1.16.0")
     implementation("io.smallrye:jandex:3.1.3")
     implementation("jakarta.el:jakarta.el-api:5.0.1")
-    implementation("net.dv8tion:JDA:5.0.0-beta.20")
+    implementation("net.dv8tion:JDA:$jdaVersion")
     implementation("net.qsef1256:DiaLib:1.1.8")
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.apache.commons:commons-configuration2:2.9.0")
@@ -74,19 +75,25 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-validation:${springBootVersion}")
-    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
-    testImplementation("org.mockito:mockito-core:5.5.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:5.5.0")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.2")
     developmentOnly("org.springframework.boot:spring-boot-devtools:${springBootVersion}")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
+        exclude(group = "com.vaadin.external.google", module = "android-json")
+    }
+    testImplementation("org.junit.jupiter:junit-jupiter:5.10.0")
+    testImplementation("org.mockito:mockito-core:5.5.0")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.5.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.1")
 
     // TODO: Spring shell
 }
 
 springBoot {
     mainClass.set("net.qsef1256.dacobot.DacoBot")
+
+    buildInfo()
 }
 
 publishing {
@@ -98,6 +105,12 @@ publishing {
 configurations {
     all {
         exclude(group = "commons-logging", module = "commons-logging")
+    }
+}
+
+tasks.processResources {
+    filesMatching("application.yml") {
+        expand(project.properties)
     }
 }
 
@@ -127,5 +140,5 @@ tasks.register<Copy>("copyDependencies") {
     description = "Copy all dependencies to destination directory."
     group = JavaBasePlugin.BUILD_TASK_NAME
     from(configurations.runtimeClasspath)
-    into("build/lib")
+    into("out/lib")
 }

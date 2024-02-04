@@ -4,6 +4,7 @@
 /target/
 /build/
 /lib/
+/out/
 /backup/
 /DacoBot.jar
 src/main/resources/key.properties

@@ -145,4 +145,12 @@ public class JdaService {
                 .toArray(new Permission[0]));
     }
 
+    public List<Guild> getGuilds() {
+        return jda.getGuilds();
+    }
+
+    public List<User> getUsers() {
+        return jda.getUsers();
+    }
+
 }
