@@ -79,6 +79,7 @@ public class CreditCommand extends SlashCommand {
                 int serverSize = jdaService.getGuilds().size();
                 int userSize = jdaService.getUsers().size();
 
+                // FIXME: jdaVersion not working
                 String springVersion = SpringVersion.getVersion();
                 String jdaVersion = System.getProperty("jdaVersion", "?");
 
@@ -100,6 +101,7 @@ public class CreditCommand extends SlashCommand {
                         .build()).queue();
             } catch (final RuntimeException e) {
                 log.error("failed to get bot information", e);
+
                 event.replyEmbeds(DiaEmbed.error("정보 확인 실패",
                         "봇 정보 확인에 실패했습니다.",
                         null,

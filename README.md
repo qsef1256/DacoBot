@@ -44,6 +44,8 @@
 
 ## Library
 
+<!-- TODO -->
+
 * 코어 라이브러리
     * [JDA](https://github.com/DV8FromTheWorld/JDA): Copyright 2015 Austin Keener, Michael Ritter, Florian Spieß, and the JDA contributors `Apache-2.0`
     * [Chewtils](https://github.com/Chew/JDA-Chewtils): Copyright 2016-2018 John Grosh (jagrosh) & Kaidan Gustave (TheMonitorLizard) `Apache-2.0`

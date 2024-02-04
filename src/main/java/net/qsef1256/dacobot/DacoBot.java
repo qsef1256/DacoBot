@@ -56,7 +56,6 @@ public class DacoBot implements CommandLineRunner {
 
         log.info(DiaInfo.BOT_NAME + " is Starting!");
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-
         log.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
 
         jda.awaitReady();
@@ -66,7 +65,6 @@ public class DacoBot implements CommandLineRunner {
                 .filter(Objects::nonNull)
                 .toList();
         log.info("guilds size: " + guilds.size());
-
         guilds.forEach(this::upsertToGuild);
 
         // TODO: global command

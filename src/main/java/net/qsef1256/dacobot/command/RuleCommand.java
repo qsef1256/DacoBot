@@ -14,7 +14,7 @@ public class RuleCommand extends SlashCommand {
 
     public RuleCommand() {
         name = "규칙";
-        help = "안 보고 사고치면 다쳐요";
+        help = "안 보고 사고쳐도 아마 상관 없을지도?";
     }
 
     @Override

@@ -37,11 +37,13 @@ public class ItemEntity {
 
     public ItemEntity(@NotNull ItemTypeEntity itemType) {
         this();
+
         setItemType(itemType);
     }
 
     public ItemEntity(@NotNull ItemTypeEntity itemType, int amount) {
         this(itemType);
+
         setAmount(amount);
     }
 

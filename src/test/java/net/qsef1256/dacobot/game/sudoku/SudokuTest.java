@@ -1,5 +1,6 @@
 package net.qsef1256.dacobot.game.sudoku;
 
+import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.game.board.sudoku.model.SudokuGame;
 import net.qsef1256.dacobot.game.board.sudoku.model.board.SudokuBoard;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Slf4j
 class SudokuTest {
 
     @Test
@@ -46,8 +48,7 @@ class SudokuTest {
 
                 sudoku.place(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]), number);
             } catch (RuntimeException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
+                log.error("failed to place sudoku number", e);
             }
 
             if (sudoku.isEnd()) {
@@ -60,7 +61,7 @@ class SudokuTest {
 
     @Test
     void canSet() {
-        SudokuBoard sudoku = new SudokuBoard(25); // TODO: private
+        SudokuBoard sudoku = new SudokuBoard(25);
 
         sudoku.setGrid(new byte[][]{
                 {1, 2, 3, 0, 0, 0, 0, 0, 0},
