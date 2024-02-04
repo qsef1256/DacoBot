@@ -62,7 +62,7 @@
         * [HikariCP](https://github.com/brettwooldridge/HikariCP): `Apache-2.0`
         * [MariaDB Connector/J](https://mariadb.com/kb/en/mariadb-connector-j/): Copyright © 2022 MariaDB. All rights reserved. `LGPL-2.1-or-later`
 * 기술 라이브러리
-    * [Jandex]("https://github.com/smallrye/jandex): `Apache-2.0`
+    * [Jandex](https://github.com/smallrye/jandex): `Apache-2.0`
     * [Jakarta EL Implementation](https://projects.eclipse.org/projects/ee4j.el): `EPL-2.0` (secondary) `GPL-2.0-with-classpath-exception`
 * 기능 라이브러리
     * [mXParser](https://mathparser.org/): Copyright 2010–2020 Mariusz Gromada. All rights reserved. `BSD-2-Clause`
