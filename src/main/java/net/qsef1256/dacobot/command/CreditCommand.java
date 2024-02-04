@@ -121,7 +121,6 @@ public class CreditCommand extends SlashCommand {
             help = "사용 중인 라이브러리 & 라이센스 목록을 확인합니다.";
         }
 
-        // TODO: add Spring
         @Override
         protected void execute(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(DiaEmbed.primary("라이브러리",
