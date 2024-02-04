@@ -1,24 +1,32 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
-import net.qsef1256.dacobot.game.explosion.domain.item.ItemOld;
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
+import net.qsef1256.dacobot.game.explosion.domain.item.Item;
+import net.qsef1256.dacobot.game.explosion.domain.item.ItemService;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemType;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.NoSuchElementException;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+@SpringBootTest
 class ItemTest {
 
-    // FIXME: assertion need
     @Test
-    void testItem() {
-        ItemOld item = ItemOld.fromId(1);
+    void testItem(@Autowired ItemService itemService) {
+        assertDoesNotThrow(() -> {
+            Item item = itemService.getItem(1);
+            if (item == null) throw new NoSuchElementException("can't find item");
 
-        ItemTypeEntity itemType = item.getItemType();
-        if (itemType == null) throw new NoSuchElementException("아이템 없어요");
-        System.out.println("Item name: " + itemType.getItemName());
-        System.out.println("Item icon: " + itemType.getItemIcon());
-        System.out.println("Item desc: " + itemType.getDescription());
-        System.out.println("Item rank: " + itemType.getItemRank().getTitle());
+            ItemType itemType = item.itemType();
+
+            System.out.println("Item name: " + itemType.itemName());
+            System.out.println("Item icon: " + itemType.itemIcon());
+            System.out.println("Item desc: " + itemType.description());
+            System.out.println("Item rank: " + itemType.itemRank().getTitle());
+        });
     }
 
 }

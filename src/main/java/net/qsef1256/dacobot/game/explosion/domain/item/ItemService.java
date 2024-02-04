@@ -1,8 +1,11 @@
 package net.qsef1256.dacobot.game.explosion.domain.item;
 
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+
+import java.util.NoSuchElementException;
 
 @Service
 public class ItemService {
@@ -15,17 +18,23 @@ public class ItemService {
         this.itemRepository = itemRepository;
         this.itemTypeRepository = itemTypeRepository;
     }
-/*
+
     public Item getItem(int itemId) {
         return getItem(itemId, 1);
     }
 
     public Item getItem(int itemId, int amount) {
         ItemTypeEntity itemType = itemTypeRepository
-                .findById(Long.valueOf(itemId))
+                .findById((long) itemId)
                 .orElseThrow(() -> new NoSuchElementException("unknown item id: " + itemId));
-    }
 
+        return Item.fromEntity(itemRepository
+                .findById(itemType.getItemId())
+                .orElseThrow(() -> new NoSuchElementException("failed to get item: " + itemType.getItemName())));
+    }
+    
+    // TODO
+    /*
     public Item fromUser(long userId, int itemId) {
         ItemEntity userItem = itemRepository.findById((int) userId).getItem(itemId);
         if (userItem == null || userItem.getAmount() == 0)
@@ -34,6 +43,6 @@ public class ItemService {
         item.setItemEntity(userItem);
         return item;
     }
-*/
+    */
 
 }

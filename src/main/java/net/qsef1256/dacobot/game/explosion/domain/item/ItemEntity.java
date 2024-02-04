@@ -1,7 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.domain.item;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,7 +18,7 @@ import java.util.Objects;
 @Entity
 @Accessors(chain = true)
 @Table(name = "explosion_item")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor()
 public class ItemEntity {
 
     @Id
@@ -48,6 +47,10 @@ public class ItemEntity {
 
     public int getItemId() {
         return getItemType().getItemId();
+    }
+
+    public void addAmount(int amount) {
+        this.amount += amount;
     }
 
     @Override

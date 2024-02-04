@@ -8,6 +8,7 @@ import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
 import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryEntity;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @Accessors(chain = true)
 @Table(name = "discord_user")
-public class UserEntity {
+public class UserEntity implements Serializable {
 
     @Id
     @Column(name = "discord_id", nullable = false)

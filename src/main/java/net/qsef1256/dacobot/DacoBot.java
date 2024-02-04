@@ -3,13 +3,11 @@ package net.qsef1256.dacobot;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.ContextMenu;
 import com.jagrosh.jdautilities.command.SlashCommand;
-import jakarta.persistence.EntityTransaction;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.qsef1256.dacobot.core.schedule.DiaScheduler;
-import net.qsef1256.dacobot.database.JpaController;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
@@ -34,19 +32,16 @@ public class DacoBot implements CommandLineRunner {
     private final CommandClient commandClient;
     private final DiaSetting setting;
     private final DiaScheduler scheduler;
-    private final JpaController jpaController;
 
     private String[] args;
 
     @Autowired
     public DacoBot(@NotNull DiaSetting setting,
                    @NotNull DiaScheduler scheduler,
-                   @NotNull JpaController jpaController,
                    @NotNull JDA jda,
                    @NotNull CommandClient commandClient) {
         this.setting = setting;
         this.scheduler = scheduler;
-        this.jpaController = jpaController;
         this.jda = jda;
         this.commandClient = commandClient;
     }
@@ -63,7 +58,6 @@ public class DacoBot implements CommandLineRunner {
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
 
         log.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
-        initJpa(); // TODO: replace to Spring Data Jpa
 
         jda.awaitReady();
 
@@ -79,12 +73,6 @@ public class DacoBot implements CommandLineRunner {
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 
         log.info("Finish loading " + DiaInfo.BOT_NAME + "!");
-    }
-
-    private void initJpa() {
-        EntityTransaction transaction = jpaController.getEntityManager().getTransaction();
-        transaction.begin();
-        transaction.commit();
     }
 
     private void upsertToGuild(@NotNull Guild guild) {
@@ -131,7 +119,6 @@ public class DacoBot implements CommandLineRunner {
 
         scheduler.shutdown();
         jda.shutdown();
-        jpaController.shutdown();
     }
 
     /**

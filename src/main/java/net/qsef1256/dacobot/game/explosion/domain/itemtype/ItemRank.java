@@ -2,9 +2,11 @@ package net.qsef1256.dacobot.game.explosion.domain.itemtype;
 
 import lombok.Getter;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
+@Getter
 public enum ItemRank {
 
     CRUDE("저급", "조약돌", new Color(63, 63, 63)),
@@ -17,14 +19,13 @@ public enum ItemRank {
     SPECIAL("특별", "???", DiaColor.MAIN_COLOR),
     TEST("테스트", "배리어", new Color(187, 255, 249));
 
-    @Getter
     private final String title;
-    @Getter
     private final String desc;
-    @Getter
     private final Color color;
 
-    ItemRank(String title, String desc, Color color) {
+    ItemRank(@NotNull String title,
+             @NotNull String desc,
+             @NotNull Color color) {
         this.title = title;
         this.desc = desc;
         this.color = color;

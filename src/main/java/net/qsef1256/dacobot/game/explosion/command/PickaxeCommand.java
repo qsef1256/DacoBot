@@ -17,7 +17,7 @@ public class PickaxeCommand extends SlashCommand {
 
     private final CashService cashService;
 
-    public PickaxeCommand(CashService cashService) {
+    public PickaxeCommand(@NotNull CashService cashService) {
         this.cashService = cashService;
 
         name = "곡괭이";

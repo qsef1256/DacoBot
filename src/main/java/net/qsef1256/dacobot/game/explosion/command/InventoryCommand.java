@@ -17,7 +17,6 @@ import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +25,6 @@ import java.util.List;
 @Component
 public class InventoryCommand extends SlashCommand {
 
-    @Autowired
     public InventoryCommand(@NotNull SeeCommand seeCommand,
                             @NotNull ItemInfoCommand infoCommand,
                             @NotNull ItemAddCommand addCommand,
