@@ -109,8 +109,10 @@ configurations {
 }
 
 tasks.processResources {
-    filesMatching("application.yml") {
-        expand(project.properties)
+    filesMatching("**/project.properties") {
+        expand(
+                "jdaVersion" to jdaVersion,
+                "springBootVersion" to springBootVersion)
     }
 }
 

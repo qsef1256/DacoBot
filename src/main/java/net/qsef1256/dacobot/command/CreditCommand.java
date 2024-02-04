@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
+import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -14,7 +15,6 @@ import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.info.BuildProperties;
-import org.springframework.core.SpringVersion;
 import org.springframework.stereotype.Component;
 
 import java.lang.management.ManagementFactory;
@@ -50,10 +50,13 @@ public class CreditCommand extends SlashCommand {
 
         private final JdaService jdaService;
         private final BuildProperties buildProperties;
+        private final DiaSetting diaSetting;
 
         public MainInfoCommand(@NotNull JdaService jdaService,
+                               @NotNull DiaSetting diaSetting,
                                @NotNull BuildProperties buildProperties) {
             this.jdaService = jdaService;
+            this.diaSetting = diaSetting;
             this.buildProperties = buildProperties;
 
             name = "보기";
@@ -79,9 +82,8 @@ public class CreditCommand extends SlashCommand {
                 int serverSize = jdaService.getGuilds().size();
                 int userSize = jdaService.getUsers().size();
 
-                // FIXME: jdaVersion not working
-                String springVersion = SpringVersion.getVersion();
-                String jdaVersion = System.getProperty("jdaVersion", "?");
+                String jdaVersion = diaSetting.getProject().getString("jda.version");
+                String springBootVersion = diaSetting.getProject().getString("spring.boot.version");
 
                 event.replyEmbeds(new EmbedBuilder()
                         .setColor(DiaColor.MAIN_COLOR)
@@ -97,7 +99,7 @@ public class CreditCommand extends SlashCommand {
                         .addField("연락처", "`qsef1256@naver.com`", true)
                         .addField("가동 시간", formattedUptime, true)
                         .addField("", message, false)
-                        .setFooter("provided by Spring v%s, JDA v%s".formatted(springVersion, jdaVersion))
+                        .setFooter("provided by Spring Boot v%s, JDA v%s".formatted(springBootVersion, jdaVersion))
                         .build()).queue();
             } catch (final RuntimeException e) {
                 log.error("failed to get bot information", e);
