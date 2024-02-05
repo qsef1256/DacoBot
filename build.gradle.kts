@@ -125,6 +125,13 @@ tasks.processResources {
     }
 }
 
+tasks.named<Jar>("jar") {
+    archiveClassifier.set("")
+    destinationDirectory = file("$rootDir/out")
+
+    dependsOn("copyDependencies")
+}
+
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
@@ -136,7 +143,7 @@ tasks.withType<Javadoc> {
 tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = springBoot.mainClass
-        "Class-Path" to configurations.runtimeClasspath.get()
+        attributes["Class-Path"] = configurations.runtimeClasspath.get()
                 .files
                 .joinToString(" ")
                 { "lib/${it.name}" }
