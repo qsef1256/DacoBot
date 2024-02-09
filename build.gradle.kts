@@ -125,13 +125,6 @@ tasks.processResources {
     }
 }
 
-tasks.named<Jar>("jar") {
-    archiveClassifier.set("")
-    destinationDirectory = file("$rootDir/out")
-
-    dependsOn("copyDependencies")
-}
-
 tasks.withType<JavaCompile> {
     options.encoding = "UTF-8"
 }
@@ -152,6 +145,13 @@ tasks.withType<Jar> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.named<Jar>("jar") {
+    archiveClassifier.set("")
+    destinationDirectory = file("$rootDir/out")
+
+    dependsOn("copyDependencies")
 }
 
 tasks.register<Copy>("copyDependencies") {

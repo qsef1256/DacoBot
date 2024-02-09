@@ -1,9 +1,14 @@
 package net.qsef1256.dacobot.game.explosion.domain.inventory;
 
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.game.explosion.domain.item.Item;
 import net.qsef1256.dacobot.game.explosion.domain.item.ItemEntity;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,11 +25,45 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final UserService userService;
+    private final @NotNull CashService cashService;
 
     public InventoryService(@NotNull InventoryRepository inventoryRepository,
-                            @NotNull UserService userService) {
+                            @NotNull UserService userService,
+                            @NotNull CashService cashService) {
         this.inventoryRepository = inventoryRepository;
         this.userService = userService;
+        this.cashService = cashService;
+    }
+
+    // TODO: move it to domain layer? or leave it service layer because it is business logic?
+    @NotNull
+    public EmbedBuilder getInventoryEmbed(@NotNull User user) {
+        EmbedBuilder embedBuilder = new EmbedBuilder()
+                .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
+                .setColor(DiaColor.INFO)
+                .setTitle("%s의 인벤토리".formatted(user.getName()));
+
+        StringBuilder items = new StringBuilder();
+        getItems(user.getIdLong()).forEach((id, item) -> {
+            ItemTypeEntity itemType = item.getItemType();
+
+            String itemInfo = "%s %s : %s > %s개".formatted(
+                    itemType.getItemIcon(),
+                    itemType.getItemName(),
+                    itemType.getItemRank(),
+                    item.getAmount());
+            items.append(itemInfo);
+            items.append("\n");
+        });
+
+        embedBuilder.addField("아이템 목록",
+                items.toString(), false);
+        embedBuilder.addField(":moneybag:돈",
+                cashService.getCash(user.getIdLong()).getCash() + " 캐시", true);
+        embedBuilder.addField(":gem:보유 다이아",
+                cashService.getPickaxeCount(user.getIdLong()) + " 개", true);
+
+        return embedBuilder;
     }
 
     public Map<Integer, ItemEntity> getItems(long discordId) {

@@ -6,13 +6,13 @@ import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
 import net.qsef1256.dacobot.game.explosion.domain.cash.CashRepository;
 import net.qsef1256.dacobot.module.account.entity.UserRepository;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 import java.util.NoSuchElementException;
 
 @Slf4j
-@Component
-public class UserController {
+@Controller
+public class UserController { // TODO: is this service layer?
 
     private final JdaService jdaService;
     private final UserRepository user;

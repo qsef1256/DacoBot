@@ -50,7 +50,7 @@ public class HangManCommand extends SlashCommand {
             event.reply(DiaMessage.underConstruction()).queue();
 
             // https://www.ef.co.kr/english-world/english-vocabulary/top-1000-words/
-            /** TODO
+            /* TODO
              String word = JPAUtil.getRandomRow("english_word", JpaController.getEntityManager());
 
              HangManContainer.setHangman(new HangMan(word));

@@ -3,7 +3,6 @@ package net.qsef1256.dacobot.game.explosion.command;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -12,8 +11,6 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
-import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
@@ -53,7 +50,7 @@ public class InventoryCommand extends SlashCommand {
         private final CashService cashService;
 
         public SeeCommand(@NotNull CashService cashService,
-                          InventoryService inventory) {
+                          @NotNull InventoryService inventory) {
             this.inventory = inventory;
             this.cashService = cashService;
 
@@ -66,43 +63,12 @@ public class InventoryCommand extends SlashCommand {
             User user = event.getUser();
 
             try {
-                event.replyEmbeds(getInventoryEmbed(user).build()).queue();
+                event.replyEmbeds(inventory.getInventoryEmbed(user).build()).queue();
             } catch (RuntimeException e) {
                 log.error("인벤토리 로드 실패", e);
 
                 event.replyEmbeds(DiaEmbed.error("인벤토리 로드 실패", null, e, user).build()).queue();
             }
-        }
-
-        @NotNull
-        private EmbedBuilder getInventoryEmbed(@NotNull User user) {
-            EmbedBuilder embedBuilder = new EmbedBuilder()
-                    .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
-                    .setColor(DiaColor.INFO)
-                    .setTitle("%s의 인벤토리".formatted(user.getName()));
-
-            StringBuilder items = new StringBuilder();
-
-            inventory.getItems(user.getIdLong()).forEach((id, item) -> {
-                ItemTypeEntity itemType = item.getItemType();
-
-                String itemInfo = "%s %s : %s > %s개".formatted(
-                        itemType.getItemIcon(),
-                        itemType.getItemName(),
-                        itemType.getItemRank(),
-                        item.getAmount());
-                items.append(itemInfo);
-                items.append("\n");
-            });
-
-            embedBuilder.addField("아이템 목록",
-                    items.toString(), false);
-            embedBuilder.addField(":moneybag:돈",
-                    cashService.getCash(user.getIdLong()) + " 캐시", true);
-            embedBuilder.addField(":gem:보유 다이아",
-                    cashService.getPickaxeCount(user.getIdLong()) + " 개", true);
-
-            return embedBuilder;
         }
 
     }
