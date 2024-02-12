@@ -9,6 +9,7 @@ import org.jetbrains.annotations.Nullable;
 @UtilityClass
 public class JDAUtil {
 
+    // TODO: move to custom command?
     @Nullable
     public OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
         OptionMapping option = event.getOption(optionName);

@@ -2,9 +2,6 @@ spring:
   profiles:
     active: "dev"
 
-  main:
-    lazy-initialization: true
-
   test:
     database:
       replace: none

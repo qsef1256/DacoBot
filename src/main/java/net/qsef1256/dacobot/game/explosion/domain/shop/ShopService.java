@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.domain.shop;
 
-import net.qsef1256.dacobot.game.explosion.domain.item.ItemEntity;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 
@@ -13,18 +13,18 @@ public class ShopService {
         shopRepository = repository;
     }
 
-    public long getPrice(@NotNull ItemEntity item) {
-        ShopEntity shopEntity = shopRepository.getReferenceById(Long.valueOf(item.getId()));
+    public long getPrice(@NotNull ItemTypeEntity item) {
+        ShopEntity shopEntity = shopRepository.getReferenceById(Long.valueOf(item.getItemId()));
         // FIXME: getReferenceById will throw exception when entity not found
 
         return shopEntity.getPrice();
     }
 
-    public void buy(long discordId, @NotNull ItemEntity item) {
+    public void buy(long discordId, @NotNull ItemTypeEntity item) {
         // TODO
     }
 
-    public void sell(long discordId, @NotNull ItemEntity item) {
+    public void sell(long discordId, @NotNull ItemTypeEntity item) {
         // TODO
     }
 

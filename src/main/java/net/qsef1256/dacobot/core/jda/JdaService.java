@@ -3,6 +3,7 @@ package net.qsef1256.dacobot.core.jda;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
@@ -24,6 +25,7 @@ import java.util.concurrent.atomic.AtomicReference;
 public class JdaService {
 
     private final DiaSetting setting;
+    @Getter
     private final JDA jda;
     private final CommandClient commandClient;
 

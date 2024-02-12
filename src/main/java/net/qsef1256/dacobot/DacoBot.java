@@ -1,12 +1,12 @@
 package net.qsef1256.dacobot;
 
-import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.ContextMenu;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
+import net.qsef1256.dacobot.core.command.CommandClientService;
+import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.core.schedule.DiaScheduler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -28,8 +28,8 @@ import java.util.Objects;
 @SpringBootApplication
 public class DacoBot implements CommandLineRunner {
 
-    private final JDA jda;
-    private final CommandClient commandClient;
+    private final JdaService jda;
+    private final CommandClientService commandClient;
     private final DiaSetting setting;
     private final DiaScheduler scheduler;
 
@@ -37,8 +37,8 @@ public class DacoBot implements CommandLineRunner {
 
     public DacoBot(@NotNull DiaSetting setting,
                    @NotNull DiaScheduler scheduler,
-                   @NotNull JDA jda,
-                   @NotNull CommandClient commandClient) {
+                   @NotNull JdaService jda,
+                   @NotNull CommandClientService commandClient) {
         this.setting = setting;
         this.scheduler = scheduler;
         this.jda = jda;
@@ -55,19 +55,21 @@ public class DacoBot implements CommandLineRunner {
 
         log.info(DiaInfo.BOT_NAME + " is Starting!");
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));
-        log.info("%s Prefix: '%s'".formatted(DiaInfo.BOT_NAME, commandClient.getPrefix()));
+        log.info("%s Prefix: '%s'".formatted(
+                DiaInfo.BOT_NAME,
+                commandClient.getCommandClient().getPrefix()));
 
-        jda.awaitReady();
+        jda.getJda().awaitReady();
 
-        List<Guild> guilds = getAllGuilds()
+        List<Guild> guilds = jda.getAllGuilds()
                 .stream()
                 .filter(Objects::nonNull)
                 .toList();
         log.info("guilds size: " + guilds.size());
+        // TODO: global command
         guilds.forEach(this::upsertToGuild);
 
         License.iConfirmNonCommercialUse("qsef1256");
-        // TODO: global command
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 
         log.info("Finish loading " + DiaInfo.BOT_NAME + "!");
@@ -76,11 +78,11 @@ public class DacoBot implements CommandLineRunner {
     private void upsertToGuild(@NotNull Guild guild) {
         log.info("Upsert command data for Guild id %s".formatted(guild.getId()));
 
-        List<CommandData> commandDataList = commandClient.getSlashCommands()
+        List<CommandData> commandDataList = commandClient.getCommandClient().getSlashCommands()
                 .stream()
                 .map(SlashCommand::buildCommandData)
                 .toList();
-        List<CommandData> contextMenuList = commandClient.getContextMenus()
+        List<CommandData> contextMenuList = commandClient.getCommandClient().getContextMenus()
                 .stream()
                 .map(ContextMenu::buildCommandData)
                 .toList();
@@ -94,29 +96,11 @@ public class DacoBot implements CommandLineRunner {
                 .queue();
     }
 
-    public Guild getMainGuild() {
-        return jda.getGuildById(setting.getMainGuildID());
-    }
-
-    @NotNull
-    public List<Guild> getAllGuilds() {
-        List<Guild> guilds = new ArrayList<>();
-
-        guilds.add(getMainGuild());
-        for (String subGuildId : setting.getSetting()
-                .getString("bot.subGuildIds")
-                .split(",\\s*")) {
-            guilds.add(jda.getGuildById(subGuildId));
-        }
-
-        return guilds;
-    }
-
     public void shutdown() {
         log.info("Shutting down...");
 
         scheduler.shutdown();
-        jda.shutdown();
+        jda.getJda().shutdown();
     }
 
     /**
@@ -129,17 +113,16 @@ public class DacoBot implements CommandLineRunner {
                 .append("bin")
                 .append(File.separator)
                 .append("java ");
-        for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+        for (String jvmArg : ManagementFactory.getRuntimeMXBean().getInputArguments())
             cmd.append(jvmArg).append(" ");
-        }
         cmd.append("-cp ")
                 .append(ManagementFactory.getRuntimeMXBean().getClassPath())
                 .append(" ")
                 .append(DacoBot.class.getName())
                 .append(" ");
-        for (String arg : args) {
+        for (String arg : args)
             cmd.append(arg).append(" ");
-        }
+
         try {
             Runtime.getRuntime().exec(cmd.toString());
         } catch (IOException e) {

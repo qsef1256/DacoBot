@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
 import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryEntity;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -40,9 +39,5 @@ public class UserEntity implements Serializable {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cash_id")
-    private CashEntity explosionCash;
 
 }

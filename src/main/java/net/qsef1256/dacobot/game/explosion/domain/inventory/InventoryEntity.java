@@ -29,7 +29,7 @@ public class InventoryEntity {
     private UserEntity discordUser;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private Map<Integer, ItemEntity> items = new HashMap<>();
+    private Map<Integer, ItemEntity> items = new HashMap<>(); // TODO: why?
 
     public ItemEntity getItem(int itemId) {
         return items.get(itemId);

@@ -3,10 +3,10 @@ package net.qsef1256.dacobot.game.explosion.domain.inventory;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.game.explosion.domain.item.Item;
 import net.qsef1256.dacobot.game.explosion.domain.item.ItemEntity;
 import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
+import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +25,7 @@ public class InventoryService {
 
     private final InventoryRepository inventoryRepository;
     private final UserService userService;
-    private final @NotNull CashService cashService;
+    private final CashService cashService;
 
     public InventoryService(@NotNull InventoryRepository inventoryRepository,
                             @NotNull UserService userService,
@@ -59,7 +59,7 @@ public class InventoryService {
         embedBuilder.addField("아이템 목록",
                 items.toString(), false);
         embedBuilder.addField(":moneybag:돈",
-                cashService.getCash(user.getIdLong()).getCash() + " 캐시", true);
+                cashService.getCash(user.getIdLong()) + " 캐시", true);
         embedBuilder.addField(":gem:보유 다이아",
                 cashService.getPickaxeCount(user.getIdLong()) + " 개", true);
 

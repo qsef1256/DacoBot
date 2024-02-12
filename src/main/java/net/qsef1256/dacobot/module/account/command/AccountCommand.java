@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
-import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
@@ -110,7 +110,7 @@ public class AccountCommand extends SlashCommand {
 
             try {
                 UserEntity userData = accountController.getAccount(user.getIdLong());
-                long cash = cashService.getCash(user.getIdLong()).getCash();
+                long cash = cashService.getCash(user.getIdLong());
 
                 String footer = "아직 돈이 없군요. 돈을 벌어보세요!";
                 footer = getFooter(cash, footer);

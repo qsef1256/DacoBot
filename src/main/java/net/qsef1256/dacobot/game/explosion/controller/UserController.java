@@ -2,8 +2,9 @@ package net.qsef1256.dacobot.game.explosion.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.core.jda.JdaService;
-import net.qsef1256.dacobot.game.explosion.domain.cash.CashEntity;
-import net.qsef1256.dacobot.game.explosion.domain.cash.CashRepository;
+import net.qsef1256.dacobot.game.explosion.v2.cash.CashEntity;
+import net.qsef1256.dacobot.game.explosion.v2.cash.CashRepository;
+import net.qsef1256.dacobot.game.explosion.v2.user.UserId;
 import net.qsef1256.dacobot.module.account.entity.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Controller;
@@ -32,10 +33,9 @@ public class UserController { // TODO: is this service layer?
             if (!user.existsById(discordId))
                 throw new NoSuchElementException(jdaService.getNameAsTag(discordId) + " 유저가 존재하지 않습니다.");
             CashEntity cashData = new CashEntity();
-            cashData.setDiscordUser(user.getReferenceById(discordId));
+            cashData.setUser(new UserId(user.getReferenceById(discordId)));
             cashData.setCash(0L);
             cashData.setPickaxeCount(0);
-            cashData.setPrestigeCount(0);
             cash.saveAndFlush(cashData);
         } catch (NoSuchElementException e) {
             throw e;
@@ -47,7 +47,7 @@ public class UserController { // TODO: is this service layer?
 
     public void reset(long discordId) {
         try {
-            cash.deleteById(discordId);
+            cash.deleteById(user.getReferenceById(discordId));
             register(discordId);
         } catch (final RuntimeException e) {
             log.error(e.getMessage());
@@ -56,7 +56,7 @@ public class UserController { // TODO: is this service layer?
     }
 
     public boolean isExist(long discordId) {
-        return cash.existsById(discordId);
+        return cash.existsById(user.getReferenceById(discordId));
     }
 
 }
