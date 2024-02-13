@@ -28,6 +28,8 @@
 
 **D**i**a**mond Dis**co**rd **Bot** by qsef1256
 
+심심할 때 마다 개발중인 토이 프로젝트, 레거시 및 스파게티 폭탄 주의 (계속 정리 중...)
+
 ## Environment
 
 * `JDA 5.0.0-beta.20`

@@ -61,11 +61,11 @@ public class CommandClientConfig {
             log.warn("There is no command in the registered package. No commands were loaded.");
         for (Command command : commands) {
             String commandType = "Unknown";
-            if (GenericUtil.typeOf(command.getClass().getSuperclass(), Command.class)) {
+            if (GenericUtil.isClass(command.getClass().getSuperclass(), Command.class)) {
                 commandType = "Command";
                 commandClientBuilder.addCommand(command);
             }
-            if (GenericUtil.typeOf(command.getClass().getSuperclass(), SlashCommand.class)) {
+            if (GenericUtil.isSubClass(command.getClass().getSuperclass(), SlashCommand.class)) {
                 commandType = "Slash";
                 commandClientBuilder.addSlashCommand((SlashCommand) command);
             }

@@ -37,7 +37,7 @@ dependencies {
     // Core
     implementation("net.dv8tion:JDA:$jdaVersion")
     implementation("pw.chew:jda-chewtils:2.0-SNAPSHOT")
-    implementation("net.qsef1256:DiaLib:1.1.8")
+    implementation("net.qsef1256:DiaLib:1.1.9")
     // Technical
     implementation("org.glassfish:jakarta.el:5.0.0-M1")
     implementation("jakarta.el:jakarta.el-api:5.0.1")
