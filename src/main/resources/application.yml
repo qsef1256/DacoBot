@@ -1,8 +1,9 @@
 spring:
   profiles:
     group:
-      dev: "dev"
       prod: "prod"
+      dev: "dev"
+      test: "test"
 
   main:
     web-application-type: none
@@ -15,3 +16,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+
+dacobot:
+  jda:
+    boot: true

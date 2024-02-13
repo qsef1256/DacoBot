@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.ZoneId;
 
+// TODO: replace to @ConfigurationProperties(prefix = "dacobot")
 @Getter
 @Component
 public class DiaSetting {

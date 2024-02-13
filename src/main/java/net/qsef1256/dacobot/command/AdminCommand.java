@@ -11,7 +11,7 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.DacoBot;
+import net.qsef1256.dacobot.core.boot.DacoBootstrapper;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
@@ -48,7 +48,7 @@ public class AdminCommand extends SlashCommand {
     private static class StopCommand extends SlashCommand {
 
         @Setter(onMethod_ = {@Autowired})
-        private DacoBot dacoBot;
+        private DacoBootstrapper dacoBot;
 
         public StopCommand() {
             name = "자자";
@@ -92,7 +92,7 @@ public class AdminCommand extends SlashCommand {
     private static class ClearCommand extends SlashCommand {
 
         @Setter(onMethod_ = {@Autowired})
-        private DacoBot dacoBot;
+        private DacoBootstrapper dacoBot;
         @Setter(onMethod_ = {@Autowired})
         private JDA jda;
         @Setter(onMethod_ = {@Autowired})
@@ -138,7 +138,7 @@ public class AdminCommand extends SlashCommand {
     private static class RestartCommand extends SlashCommand {
 
         @Setter(onMethod_ = {@Autowired})
-        private DacoBot dacoBot;
+        private DacoBootstrapper dacoBot;
 
         public RestartCommand() {
             name = "재시작";
