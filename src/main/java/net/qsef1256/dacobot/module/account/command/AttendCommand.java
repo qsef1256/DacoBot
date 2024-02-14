@@ -1,9 +1,9 @@
 package net.qsef1256.dacobot.module.account.command;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -16,7 +16,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
-public class AttendCommand extends SlashCommand {
+public class AttendCommand extends DacoCommand {
 
     private final AccountController userController;
 
@@ -28,7 +28,7 @@ public class AttendCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User eventUser = event.getUser();
 

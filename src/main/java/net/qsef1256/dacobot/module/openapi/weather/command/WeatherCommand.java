@@ -1,10 +1,10 @@
 package net.qsef1256.dacobot.module.openapi.weather.command;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.module.openapi.weather.ShortWeatherAPI;
 import net.qsef1256.dacobot.module.openapi.weather.enums.WeatherCode;
 import net.qsef1256.dacobot.module.openapi.weather.model.Forecast;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class WeatherCommand extends SlashCommand {
+public class WeatherCommand extends DacoCommand {
 
     @Setter(onMethod_ = {@Autowired})
     private ShortWeatherAPI weatherAPI;
@@ -30,7 +30,7 @@ public class WeatherCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.deferReply().queue(message -> {
             Forecast forecast;
 

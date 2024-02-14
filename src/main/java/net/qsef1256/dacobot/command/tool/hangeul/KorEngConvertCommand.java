@@ -1,9 +1,9 @@
 package net.qsef1256.dacobot.command.tool.hangeul;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class KorEngConvertCommand extends SlashCommand {
+public class KorEngConvertCommand extends DacoCommand {
 
     public KorEngConvertCommand() {
         name = "한영";
@@ -21,7 +21,7 @@ public class KorEngConvertCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply(DiaMessage.underConstruction()).queue(); // TODO
     }
 

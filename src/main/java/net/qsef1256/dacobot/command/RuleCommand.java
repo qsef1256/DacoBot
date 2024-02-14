@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot.command;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RuleCommand extends SlashCommand {
+public class RuleCommand extends DacoCommand {
 
     public RuleCommand() {
         name = "규칙";
@@ -18,7 +17,7 @@ public class RuleCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.replyEmbeds(new EmbedBuilder()
                 .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
                 .setColor(DiaColor.MAIN_COLOR)

@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot.command.tool;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -8,6 +7,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
@@ -19,7 +19,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class CalculateCommand extends SlashCommand {
+public class CalculateCommand extends DacoCommand {
 
     public CalculateCommand() {
         name = "계산";
@@ -29,7 +29,7 @@ public class CalculateCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
 
         OptionMapping option = JDAUtil.getOptionMapping(event, "수식");

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.paint.enums.ColorEmoji;
 import net.qsef1256.dacobot.game.paint.enums.Emoji;
 import net.qsef1256.dacobot.game.paint.model.PaintDrawer;
@@ -27,7 +28,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class PaintCommand extends SlashCommand {
+public class PaintCommand extends DacoCommand {
 
     public PaintCommand(@NotNull ShowCommand showCommand,
                         @NotNull PixelCommand pixelCommand,
@@ -101,14 +102,14 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
     @Component
-    public static class ShowCommand extends SlashCommand {
+    public static class ShowCommand extends DacoCommand {
 
         public ShowCommand() {
             name = "보기";
@@ -116,7 +117,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             Painter paint = PainterContainer.getPainter(user.getIdLong());
 
@@ -126,7 +127,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class PixelCommand extends SlashCommand {
+    public static class PixelCommand extends DacoCommand {
 
         public PixelCommand() {
             name = "찍기";
@@ -140,7 +141,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
             OptionMapping optionColor = event.getOption("색깔");
@@ -179,7 +180,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class ColumnCommand extends SlashCommand {
+    public static class ColumnCommand extends DacoCommand {
 
         public ColumnCommand() {
             name = "줄";
@@ -192,7 +193,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping optionY = event.getOption("번호");
             OptionMapping optionColumn = event.getOption("내용");
 
@@ -234,7 +235,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class DrawAllCommand extends SlashCommand {
+    public static class DrawAllCommand extends DacoCommand {
 
         public DrawAllCommand() {
             name = "한줄로";
@@ -247,7 +248,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping optionColumn = event.getOption("내용");
             if (optionColumn == null) {
                 event.reply("내용을 입력해주세요.").queue();
@@ -279,7 +280,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class EraseCommand extends SlashCommand {
+    public static class EraseCommand extends DacoCommand {
 
         public EraseCommand() {
             name = "지우개";
@@ -287,7 +288,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             Painter painter = PainterContainer.getPainter(user.getIdLong());
 
@@ -307,7 +308,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class ResizeCommand extends SlashCommand {
+    public static class ResizeCommand extends DacoCommand {
 
         public ResizeCommand() {
             name = "크기";
@@ -320,7 +321,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
 
@@ -360,7 +361,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class FillCommand extends SlashCommand {
+    public static class FillCommand extends DacoCommand {
 
         public FillCommand() {
             name = "채우기";
@@ -374,7 +375,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
             OptionMapping optionColor = event.getOption("색깔");
@@ -419,7 +420,7 @@ public class PaintCommand extends SlashCommand {
     }
 
     @Component
-    public static class DrawerCommand extends SlashCommand {
+    public static class DrawerCommand extends DacoCommand {
 
         private final PaintDrawer paintDrawer;
 
@@ -431,14 +432,14 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             paintDrawer.initDrawer(event);
         }
 
     }
 
     @Component
-    public static class ColorCommand extends SlashCommand {
+    public static class ColorCommand extends DacoCommand {
 
         public ColorCommand() {
             name = "색깔";
@@ -446,7 +447,7 @@ public class PaintCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             StringBuilder stringBuilder = new StringBuilder();
             for (ColorEmoji color : ColorEmoji.values()) {
                 stringBuilder.append(String.format("%s %s(**%s**)%n",

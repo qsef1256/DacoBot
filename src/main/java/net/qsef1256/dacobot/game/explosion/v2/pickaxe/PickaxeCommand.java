@@ -1,9 +1,9 @@
 package net.qsef1256.dacobot.game.explosion.v2.pickaxe;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -13,7 +13,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
-public class PickaxeCommand extends SlashCommand {
+public class PickaxeCommand extends DacoCommand {
 
     private final CashService cashService;
 
@@ -25,7 +25,7 @@ public class PickaxeCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         User user = event.getUser();
 
         event.deferReply().queue(callback -> {

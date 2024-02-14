@@ -13,6 +13,7 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.util.ReflectionUtil;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,9 +29,10 @@ public class JdaConfig {
         this.listeners = listeners;
     }
 
-    @Bean(name = "jda")
-    public JDA getJda(@NotNull DiaSetting setting,
-                      @NotNull CommandClient commandClient) {
+    @Bean(name = "jdaBuilder")
+    @ConditionalOnProperty(value = "dacobot.jda.boot", havingValue = "true")
+    public JDABuilder getJdaBuilder(@NotNull DiaSetting setting,
+                                    @NotNull CommandClient commandClient) {
         JDABuilder builder = JDABuilder.createDefault(setting
                 .getKey()
                 .getString("discord.token"));
@@ -39,7 +41,13 @@ public class JdaConfig {
         builder.addEventListeners(commandClient);
         registerListeners(builder);
 
-        return builder.build();
+        return builder;
+    }
+
+    @Bean(name = "jda")
+    @ConditionalOnProperty(value = "dacobot.jda.boot", havingValue = "true")
+    public JDA getJda(@NotNull JDABuilder jdaBuilder) {
+        return jdaBuilder.build();
     }
 
     private void configureBot(@NotNull JDABuilder builder) {

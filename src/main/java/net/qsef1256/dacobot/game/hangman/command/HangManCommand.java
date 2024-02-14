@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.hangman.container.HangManContainer;
 import net.qsef1256.dacobot.game.hangman.domain.HangMan;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class HangManCommand extends SlashCommand {
+public class HangManCommand extends DacoCommand {
 
     public HangManCommand() {
         name = "행맨";
@@ -34,11 +35,11 @@ public class HangManCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
-    public static class StartCommand extends SlashCommand {
+    public static class StartCommand extends DacoCommand {
 
         public StartCommand() {
             name = "시작";
@@ -46,7 +47,7 @@ public class HangManCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.reply(DiaMessage.underConstruction()).queue();
 
             // https://www.ef.co.kr/english-world/english-vocabulary/top-1000-words/
@@ -59,7 +60,7 @@ public class HangManCommand extends SlashCommand {
 
     }
 
-    public static class CustomStartCommand extends SlashCommand {
+    public static class CustomStartCommand extends DacoCommand {
 
         public CustomStartCommand() {
             name = "커스텀";
@@ -71,7 +72,7 @@ public class HangManCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping option = JDAUtil.getOptionMapping(event, "단어");
             if (option == null) return;
 
@@ -92,7 +93,7 @@ public class HangManCommand extends SlashCommand {
 
     }
 
-    public static class ShowCommand extends SlashCommand {
+    public static class ShowCommand extends DacoCommand {
 
         public ShowCommand() {
             name = "보기";
@@ -100,13 +101,13 @@ public class HangManCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(getHangmanStatus().build()).queue();
         }
 
     }
 
-    public static class InputCommand extends SlashCommand {
+    public static class InputCommand extends DacoCommand {
 
         public InputCommand() {
             name = "입력";
@@ -118,7 +119,7 @@ public class HangManCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping option = event.getOption("글자");
             if (option == null) {
                 event.reply("글자를 입력해주세요.").setEphemeral(true).queue();

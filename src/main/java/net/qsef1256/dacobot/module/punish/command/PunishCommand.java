@@ -1,11 +1,11 @@
 package net.qsef1256.dacobot.module.punish.command;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.module.punish.controller.PunishController;
 import net.qsef1256.dacobot.module.punish.entity.PunishType;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Component
-public class PunishCommand extends SlashCommand {
+public class PunishCommand extends DacoCommand {
 
     private final PunishController controller;
 
@@ -40,7 +40,7 @@ public class PunishCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         String typeInput = Objects.requireNonNull(event.getOption("종류")).getAsString();
 
         PunishType punishType = PunishType.fromName(typeInput);

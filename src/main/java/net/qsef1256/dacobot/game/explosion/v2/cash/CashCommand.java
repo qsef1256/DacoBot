@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class CashCommand extends SlashCommand {
+public class CashCommand extends DacoCommand {
 
     public CashCommand(@NotNull SeeCommand seeCommand,
                        @NotNull AddCommand addCommand,
@@ -30,12 +31,12 @@ public class CashCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
     @Component
-    public static class SeeCommand extends SlashCommand {
+    public static class SeeCommand extends DacoCommand {
 
         private final CashService cash;
 
@@ -47,7 +48,7 @@ public class CashCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             event.replyEmbeds(DiaEmbed.info("돈 목록",
@@ -58,7 +59,7 @@ public class CashCommand extends SlashCommand {
     }
 
     @Component
-    public static class AddCommand extends SlashCommand {
+    public static class AddCommand extends DacoCommand {
 
         private final CashService cash;
 
@@ -73,7 +74,7 @@ public class CashCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             OptionMapping option = event.getOption("숫자");
             assert option != null;
@@ -87,7 +88,7 @@ public class CashCommand extends SlashCommand {
     }
 
     @Component
-    public static class RemoveCommand extends SlashCommand {
+    public static class RemoveCommand extends DacoCommand {
 
         private final CashService cash;
 
@@ -102,7 +103,7 @@ public class CashCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             OptionMapping option = event.getOption("숫자");
             assert option != null;

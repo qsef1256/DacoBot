@@ -1,9 +1,8 @@
 package net.qsef1256.dacobot.command.fun;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -12,21 +11,17 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 @Component
-public class ZaraCommand extends SlashCommand {
+public class ZaraCommand extends DacoCommand {
 
-    private final CmdStatisticService statistic;
-
-    public ZaraCommand(CmdStatisticService statistic) {
-        this.statistic = statistic;
-
+    public ZaraCommand() {
         name = "자라";
         help = "자라는 거북목 자라과의 동물으로, 한반도 토종 거북입니다.";
+
+        statistic = true;
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
-        statistic.addCmdStatistic(getClass().getSimpleName());
-
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         String message = switch (LocalDateTime.now().getHour()) {
             case 22, 23, 0 -> "새 나라의 어린이는 일찍 잡니다.";
             case 1, 2 -> "부엉 부엉";
@@ -45,7 +40,7 @@ public class ZaraCommand extends SlashCommand {
             }
         }
 
-        embedBuilder.setFooter(statistic.getUseInfo(getClass().getSimpleName()));
+        embedBuilder.setFooter(getUseInfo());
         event.replyEmbeds(embedBuilder.build()).queue();
     }
 

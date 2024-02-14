@@ -1,14 +1,12 @@
 package net.qsef1256.dacobot.command.fun.encrypt;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +17,14 @@ import java.util.Collections;
 
 @Slf4j
 @Component
-public class MD5Command extends SlashCommand {
+public class MD5Command extends DacoCommand {
 
     public MD5Command() {
         name = "md5";
         help = "MD5는 암호화 알고리즘 중 하나로, 뜷렸습니다.";
-        options = Collections.singletonList(new OptionData(OptionType.STRING, "메시지", "시킬 말").setRequired(true));
+        options = Collections.singletonList(
+                new OptionData(OptionType.STRING, "메시지", "시킬 말").setRequired(true)
+        );
     }
 
     @NotNull
@@ -43,17 +43,15 @@ public class MD5Command extends SlashCommand {
     }
 
     @Override
-    public void execute(final @NotNull SlashCommandEvent event) {
-        if (event.getMember() == null) return;
+    public void runCommand(@NotNull SlashCommandEvent event) {
         User user = event.getUser();
-
-        final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
-        if (option == null) return;
+        String message = getOptionString("메시지");
+        if (message == null) return;
 
         try {
-            String md5 = toMD5(option.getAsString());
+            String md5 = toMD5(message);
             event.replyEmbeds(DiaEmbed.info(null, null, user)
-                    .addField("MD5 변환기", "변환할 값: `" + option.getAsString() + "`\n변환된 값: `" + md5 + "`", false)
+                    .addField("MD5 변환기", "변환할 값: `" + message + "`\n변환된 값: `" + md5 + "`", false)
                     .build()).queue();
         } catch (RuntimeException | NoSuchAlgorithmException e) {
             log.warn(e.getMessage());

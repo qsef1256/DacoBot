@@ -22,12 +22,6 @@ public class CmdStatisticService {
                 .orElseGet(() -> createCmdStatistic(name));
     }
 
-    public String getUseInfo(@NotNull String name) {
-        CmdStatisticEntity statistic = getCmdStatistic(name);
-
-        return "금일: " + statistic.getTodayUsed() + " 총합: " + statistic.getUseCount();
-    }
-
     public CmdStatisticEntity addCmdStatistic(@NotNull String name) {
         CmdStatisticEntity statistic = getCmdStatistic(name);
 

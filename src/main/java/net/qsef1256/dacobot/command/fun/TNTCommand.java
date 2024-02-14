@@ -1,12 +1,12 @@
 package net.qsef1256.dacobot.command.fun;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dialib.util.RandomUtil;
@@ -17,7 +17,7 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 @Component
-public class TNTCommand extends SlashCommand {
+public class TNTCommand extends DacoCommand {
 
     private static final double GRAM_TNT_TO_J = 4184;
     private static final double MC_TO_REAL = 0.36; // https://www.youtube.com/watch?v=FwFKiRsYTLs
@@ -30,7 +30,7 @@ public class TNTCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         OptionMapping option = JDAUtil.getOptionMapping(event, "갯수");
         if (option == null) return;
 

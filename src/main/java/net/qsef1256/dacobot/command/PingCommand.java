@@ -1,12 +1,11 @@
 package net.qsef1256.dacobot.command;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PingCommand extends SlashCommand {
+public class PingCommand extends DacoCommand {
 
     public PingCommand() {
         name = "핑";
@@ -14,7 +13,7 @@ public class PingCommand extends SlashCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandEvent event) {
+    public void runCommand(@NotNull SlashCommandEvent event) {
         long time = System.currentTimeMillis();
         event.deferReply().queue(response ->
                 response.editOriginal(String.format("퐁! `%d ms`", System.currentTimeMillis() - time)).queue());

@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.board.omok.model.OmokController;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
@@ -24,7 +25,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class OmokCommand extends SlashCommand {
+public class OmokCommand extends DacoCommand {
 
     public OmokCommand() {
         name = "오목";
@@ -41,11 +42,11 @@ public class OmokCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
-    private static class GameRuleCommand extends SlashCommand {
+    private static class GameRuleCommand extends DacoCommand {
 
         public GameRuleCommand() {
             name = "규칙";
@@ -53,7 +54,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(new EmbedBuilder()
                     .setColor(DiaColor.MAIN_COLOR)
                     .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
@@ -66,7 +67,7 @@ public class OmokCommand extends SlashCommand {
 
     }
 
-    private static class StartCommand extends SlashCommand {
+    private static class StartCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private OmokController omokController;
@@ -81,7 +82,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping userOption = JDAUtil.getOptionMapping(event, "상대");
             if (userOption == null) return;
 
@@ -105,7 +106,7 @@ public class OmokCommand extends SlashCommand {
 
     }
 
-    private static class PlaceCommand extends SlashCommand {
+    private static class PlaceCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private OmokController omokController;
@@ -121,7 +122,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             OptionMapping optionX = event.getOption("x");
             OptionMapping optionY = event.getOption("y");
@@ -145,7 +146,7 @@ public class OmokCommand extends SlashCommand {
 
     }
 
-    private static class ResignCommand extends SlashCommand {
+    private static class ResignCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private OmokController omokController;
@@ -156,7 +157,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -170,7 +171,7 @@ public class OmokCommand extends SlashCommand {
 
     }
 
-    private static class PullCommand extends SlashCommand {
+    private static class PullCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private OmokController omokController;
@@ -181,7 +182,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
             MessageChannel channel = event.getChannel();
 
@@ -196,7 +197,7 @@ public class OmokCommand extends SlashCommand {
 
     }
 
-    private static class LogCommand extends SlashCommand {
+    private static class LogCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private OmokController omokController;
@@ -207,7 +208,7 @@ public class OmokCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

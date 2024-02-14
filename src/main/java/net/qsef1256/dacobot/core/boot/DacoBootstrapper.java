@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.core.boot;
 
 import com.jagrosh.jdautilities.command.ContextMenu;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
@@ -47,6 +48,7 @@ public class DacoBootstrapper {
         this.commandClient = commandClient;
     }
 
+    @PostConstruct
     public void boot() throws Exception {
         log.info(DiaInfo.BOT_NAME + " is Starting!");
         Runtime.getRuntime().addShutdownHook(new Thread(this::shutdown));

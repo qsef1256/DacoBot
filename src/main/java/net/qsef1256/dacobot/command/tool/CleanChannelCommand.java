@@ -1,12 +1,12 @@
 package net.qsef1256.dacobot.command.tool;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.qsef1256.dacobot.command.DacoCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CleanChannelCommand extends SlashCommand {
+public class CleanChannelCommand extends DacoCommand {
 
     public CleanChannelCommand() {
         name = "청소";
@@ -16,7 +16,7 @@ public class CleanChannelCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.getChannel().sendMessage(CLEAN_MESSAGE).queue();
 
         event.reply("채팅 청소가 완료 되었습니다.").queue();

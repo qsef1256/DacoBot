@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.board.GameAPI;
 import net.qsef1256.dacobot.game.board.sudoku.model.SudokuHost;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class SudokuCommand extends SlashCommand {
+public class SudokuCommand extends DacoCommand {
 
     public SudokuCommand() {
         name = "스도쿠";
@@ -31,11 +32,11 @@ public class SudokuCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
-    public static class StartCommand extends SlashCommand {
+    public static class StartCommand extends DacoCommand {
 
         public StartCommand() {
             name = "시작";
@@ -43,7 +44,7 @@ public class SudokuCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             SudokuHost sudoku = new SudokuHost(event.getUser());
 
             try {
@@ -55,7 +56,7 @@ public class SudokuCommand extends SlashCommand {
 
     }
 
-    public static class PlaceCommand extends SlashCommand {
+    public static class PlaceCommand extends DacoCommand {
 
         public PlaceCommand() {
             name = "놓기";
@@ -69,7 +70,7 @@ public class SudokuCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping xOption = event.getOption("x");
             OptionMapping yOption = event.getOption("y");
             OptionMapping numOption = event.getOption("숫자");
@@ -95,7 +96,7 @@ public class SudokuCommand extends SlashCommand {
 
     }
 
-    public static class SeeCommand extends SlashCommand {
+    public static class SeeCommand extends DacoCommand {
 
         public SeeCommand() {
             name = "보기";
@@ -103,7 +104,7 @@ public class SudokuCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             try {
                 SudokuHost game = GameAPI.getGame(new SudokuHost(event.getUser()));
 
@@ -115,7 +116,7 @@ public class SudokuCommand extends SlashCommand {
 
     }
 
-    public static class ResetCommand extends SlashCommand {
+    public static class ResetCommand extends DacoCommand {
 
         public ResetCommand() {
             name = "지우기";
@@ -123,7 +124,7 @@ public class SudokuCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             try {
                 SudokuHost game = GameAPI.getGame(new SudokuHost(event.getUser()));
                 game.resign(event.getUser().getIdLong());
@@ -136,7 +137,7 @@ public class SudokuCommand extends SlashCommand {
 
     }
 
-    public static class SolveCommand extends SlashCommand {
+    public static class SolveCommand extends DacoCommand {
 
         public SolveCommand() {
             name = "해결";
@@ -144,7 +145,7 @@ public class SudokuCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             try {
                 SudokuHost game = GameAPI.getGame(new SudokuHost(event.getUser()));
                 boolean solved = game.getGame().getSudokuGame().solve();

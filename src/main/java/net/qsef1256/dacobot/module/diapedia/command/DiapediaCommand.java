@@ -1,9 +1,9 @@
 package net.qsef1256.dacobot.module.diapedia.command;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.module.diapedia.Diapedia;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class DiapediaCommand extends SlashCommand {
+public class DiapediaCommand extends DacoCommand {
 
     public DiapediaCommand() {
         name = "사전";
@@ -23,7 +23,7 @@ public class DiapediaCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         String search = event.optString("검색어");
 
         if (search == null) {

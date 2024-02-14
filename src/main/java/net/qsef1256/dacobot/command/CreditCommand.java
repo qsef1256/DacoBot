@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 @Slf4j
 @Component
-public class CreditCommand extends SlashCommand {
+public class CreditCommand extends DacoCommand {
 
     public CreditCommand(@NotNull MainInfoCommand mainInfoCommand,
                          @NotNull LibraryCommand libraryCommand,
@@ -39,14 +39,14 @@ public class CreditCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
     @Component
-    public static class MainInfoCommand extends SlashCommand {
+    public static class MainInfoCommand extends DacoCommand {
 
         private final JdaService jdaService;
         private final BuildProperties buildProperties;
@@ -64,7 +64,7 @@ public class CreditCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             try {
                 long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
                 String message = RandomUtil.getRandomElement(
@@ -114,7 +114,7 @@ public class CreditCommand extends SlashCommand {
     }
 
     @Component
-    public static class LibraryCommand extends SlashCommand {
+    public static class LibraryCommand extends DacoCommand {
 
         public LibraryCommand() {
             name = "라이브러리";
@@ -122,7 +122,7 @@ public class CreditCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(DiaEmbed.primary("라이브러리",
                             "다이아 덩어리를 굴러가게 만드는 코드 덩어리들\n\n저작자 표기는 README.md 또는 해당 웹사이트를 참고하세요.",
                             null)
@@ -178,7 +178,7 @@ public class CreditCommand extends SlashCommand {
     }
 
     @Component
-    public static class ApiCommand extends SlashCommand {
+    public static class ApiCommand extends DacoCommand {
 
         public ApiCommand() {
             name = "api";
@@ -186,7 +186,7 @@ public class CreditCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.replyEmbeds(DiaEmbed.primary("외부 API", "다이아 덩어리를 굴러가게 만드는 서비스들", null)
                     .addField("기상청 단기예보 조회 서비스",
                             "[Link](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15084084) 제공 `기상청`", false)

@@ -1,11 +1,11 @@
 package net.qsef1256.dacobot.command.help;
 
-import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.SlashCommand;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.qsef1256.dacobot.core.jda.JdaService;
+import net.qsef1256.dacobot.core.command.CommandClientService;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -23,21 +23,17 @@ import java.util.*;
 @Component
 public class DiaHelp {
 
-    private final JdaService jdaService;
-    private final CommandClient commandClient;
+    private final CommandClientService commandClient;
 
     private final Map<String, Map<?, ?>> categories = new HashMap<>();
     private Map<String, Object> settings = new HashMap<>();
     private final Map<String, SlashCommand> slashCommandMap = new HashMap<>();
 
-    public DiaHelp(@NotNull JdaService jdaService,
-                   @NotNull CommandClient commandClient) {
-        this.jdaService = jdaService;
+    public DiaHelp(@NotNull CommandClientService commandClient) {
         this.commandClient = commandClient;
-
-        load();
     }
 
+    @PostConstruct
     public void load() {
         try (InputStream in = HelpCommand.class
                 .getClassLoader()
@@ -48,7 +44,7 @@ public class DiaHelp {
             throw new RuntimeException("Failed to load commands.yml", e);
         }
 
-        for (SlashCommand command : commandClient.getSlashCommands()) {
+        for (SlashCommand command : commandClient.getCommandClient().getSlashCommands()) {
             log.debug("Loading command name: %s".formatted(command.getClass().getSimpleName()));
             slashCommandMap.put(command.getClass().getSimpleName(), command);
         }
@@ -117,7 +113,7 @@ public class DiaHelp {
         ArrayList<?> list = GenericUtil.getArrayList(map.get("LIST"));
         list.forEach(className -> {
             SlashCommand command = slashCommandMap.get(className.toString());
-            if (!jdaService.canExecute(command, member)) return;
+            if (!commandClient.canExecute(command, member)) return;
             String commandName = command.getName();
             String commandHelp = command.getHelp();
             embedBuilder.addField("/" + commandName, commandHelp, false);

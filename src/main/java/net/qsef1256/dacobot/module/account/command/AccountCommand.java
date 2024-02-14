@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
@@ -25,7 +26,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
-public class AccountCommand extends SlashCommand {
+public class AccountCommand extends DacoCommand {
 
     @Autowired
     public AccountCommand(@NotNull RegisterCommand registerCommand,
@@ -42,12 +43,12 @@ public class AccountCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(final @NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
     @Component
-    public static class RegisterCommand extends SlashCommand {
+    public static class RegisterCommand extends DacoCommand {
 
         private final AccountController accountController;
         private final UserController userController;
@@ -62,7 +63,7 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(final @NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             final User user = event.getUser();
 
             event.deferReply().queue(callback -> {
@@ -89,7 +90,7 @@ public class AccountCommand extends SlashCommand {
     }
 
     @Component
-    public static class StatusCommand extends SlashCommand {
+    public static class StatusCommand extends DacoCommand {
 
         private final CashService cashService;
         private final AccountController accountController;
@@ -105,7 +106,7 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -151,7 +152,7 @@ public class AccountCommand extends SlashCommand {
     }
 
     @Component
-    public static class ResetCommand extends SlashCommand {
+    public static class ResetCommand extends DacoCommand {
 
         public ResetCommand() {
             name = "초기화";
@@ -159,7 +160,7 @@ public class AccountCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(final @NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             final User user = event.getUser();
 
             event.replyEmbeds(new EmbedBuilder()

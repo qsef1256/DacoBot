@@ -7,6 +7,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.module.common.key.SingleUserKey;
 import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
 import net.qsef1256.dacobot.ui.DiaMessage;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class MessageCommand extends SlashCommand {
+public class MessageCommand extends DacoCommand {
 
     public MessageCommand() {
         name = "메시지";
@@ -33,11 +34,11 @@ public class MessageCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         DiaMessage.needSubCommand(children, event.getMember());
     }
 
-    public static class SendCommand extends SlashCommand {
+    public static class SendCommand extends DacoCommand {
 
         public SendCommand() {
             name = "보내기";
@@ -49,7 +50,7 @@ public class MessageCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
             if (option == null) return;
 
@@ -61,7 +62,7 @@ public class MessageCommand extends SlashCommand {
 
     }
 
-    public static class EditCommand extends SlashCommand {
+    public static class EditCommand extends DacoCommand {
 
         public EditCommand() {
             name = "수정";
@@ -73,7 +74,7 @@ public class MessageCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping messageOptions = event.getOption("메시지");
 
             if (messageOptions == null) {
@@ -91,7 +92,7 @@ public class MessageCommand extends SlashCommand {
 
     }
 
-    public static class RemoveCommand extends SlashCommand {
+    public static class RemoveCommand extends DacoCommand {
 
         public RemoveCommand() {
             name = "삭제";
@@ -99,7 +100,7 @@ public class MessageCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             SingleUserKey key = new SingleUserKey("test", event.getUser());
 
             new TrackedEventMessage(key, new MessageCreateBuilder(), event).remove();
@@ -107,7 +108,7 @@ public class MessageCommand extends SlashCommand {
 
     }
 
-    public static class MoveCommand extends SlashCommand {
+    public static class MoveCommand extends DacoCommand {
 
         public MoveCommand() {
             name = "이동";
@@ -115,7 +116,7 @@ public class MessageCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             SingleUserKey key = new SingleUserKey("test", event.getUser());
 
             new TrackedEventMessage(key, new MessageCreateBuilder(), event).move(event.getChannel());

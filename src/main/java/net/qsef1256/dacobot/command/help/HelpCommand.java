@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -23,7 +24,7 @@ import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
-public class HelpCommand extends SlashCommand {
+public class HelpCommand extends DacoCommand {
 
     @Autowired
     public HelpCommand(@NotNull MainMenuCommand menuCommand,
@@ -38,14 +39,14 @@ public class HelpCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
     @Component
-    public static class MainMenuCommand extends SlashCommand {
+    public static class MainMenuCommand extends DacoCommand {
 
         private final DiaHelp diaHelp;
 
@@ -58,7 +59,7 @@ public class HelpCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             Member member = event.getMember();
             if (member == null) return;
 
@@ -80,7 +81,7 @@ public class HelpCommand extends SlashCommand {
     }
 
     @Component
-    public static class FindCommand extends SlashCommand {
+    public static class FindCommand extends DacoCommand {
 
         private final DiaHelp diaHelp;
 
@@ -97,7 +98,7 @@ public class HelpCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             Member member = event.getMember();
             if (member == null) return;
 

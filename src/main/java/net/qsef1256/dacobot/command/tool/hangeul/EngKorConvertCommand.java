@@ -1,20 +1,21 @@
 package net.qsef1256.dacobot.command.tool.hangeul;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Slf4j
 @Component
-public class EngKorConvertCommand extends SlashCommand {
+public class EngKorConvertCommand extends DacoCommand {
 
     public EngKorConvertCommand() {
         name = "영한";
@@ -24,7 +25,7 @@ public class EngKorConvertCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         try {
             OptionMapping option = JDAUtil.getOptionMapping(event, "오타");
             if (option == null) return;

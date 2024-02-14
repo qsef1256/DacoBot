@@ -1,12 +1,12 @@
 package net.qsef1256.dacobot.command.fun.emoji;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import net.qsef1256.dacobot.command.DacoCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CreeperCommand extends SlashCommand {
+public class CreeperCommand extends DacoCommand {
 
     public CreeperCommand() {
         name = "크리퍼";
@@ -14,7 +14,7 @@ public class CreeperCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         String creeperArt = """
                 🟩✳️🟩🟩⬜🟩🟩⬛
                 🟩🟩🟩🟩🟩🟩🟩⬜

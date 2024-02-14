@@ -23,7 +23,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class AdminCommand extends SlashCommand {
+public class AdminCommand extends DacoCommand {
 
     public AdminCommand() {
         name = "다코야";
@@ -39,13 +39,13 @@ public class AdminCommand extends SlashCommand {
     }
 
     @Override
-    public void execute(@NotNull SlashCommandEvent event) {
+    public void runCommand(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    private static class StopCommand extends SlashCommand {
+    private static class StopCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private DacoBootstrapper dacoBot;
@@ -58,7 +58,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(@NotNull SlashCommandEvent event) {
+        public void runCommand(@NotNull SlashCommandEvent event) {
             log.info("Shutting down with command");
 
             event.reply("끄는 중....")
@@ -68,7 +68,7 @@ public class AdminCommand extends SlashCommand {
 
     }
 
-    private static class SayCommand extends SlashCommand {
+    private static class SayCommand extends DacoCommand {
 
         public SayCommand() {
             name = "말해";
@@ -79,7 +79,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        public void execute(@NotNull SlashCommandEvent event) {
+        public void runCommand(@NotNull SlashCommandEvent event) {
             final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
             if (option == null) return;
 
@@ -89,7 +89,7 @@ public class AdminCommand extends SlashCommand {
 
     }
 
-    private static class ClearCommand extends SlashCommand {
+    private static class ClearCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private DacoBootstrapper dacoBot;
@@ -106,7 +106,7 @@ public class AdminCommand extends SlashCommand {
 
         @Override
         @SneakyThrows
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             String forcedGuildId = commandClient.forcedGuildId();
 
             try {
@@ -135,7 +135,7 @@ public class AdminCommand extends SlashCommand {
 
     }
 
-    private static class RestartCommand extends SlashCommand {
+    private static class RestartCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private DacoBootstrapper dacoBot;
@@ -147,7 +147,7 @@ public class AdminCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.reply("재시작 진행 중... 새 봇은 개발 툴에서 추적되지 않으니 주의하세요.")
                     .setEphemeral(true)
                     .queue();

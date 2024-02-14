@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
 import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class InventoryCommand extends SlashCommand {
+public class InventoryCommand extends DacoCommand {
 
     public InventoryCommand(@NotNull SeeCommand seeCommand,
                             @NotNull ItemInfoCommand infoCommand,
@@ -39,12 +40,12 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply("추가 명령어를 입력하세요! : " + getHelp()).queue();
     }
 
     @Component
-    public static class SeeCommand extends SlashCommand {
+    public static class SeeCommand extends DacoCommand {
 
         private final InventoryService inventory;
         private final CashService cashService;
@@ -59,7 +60,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -90,7 +91,7 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Component
-    public static class ItemInfoCommand extends SlashCommand {
+    public static class ItemInfoCommand extends DacoCommand {
 
         public ItemInfoCommand() {
             name = "정보";
@@ -100,7 +101,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             event.reply(DiaMessage.underConstruction()).queue();
         }
 
@@ -112,7 +113,7 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Component
-    public static class ItemAddCommand extends SlashCommand {
+    public static class ItemAddCommand extends DacoCommand {
 
         private final InventoryService inventory;
 
@@ -125,7 +126,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -145,7 +146,7 @@ public class InventoryCommand extends SlashCommand {
     }
 
     @Component
-    public static class ItemRemoveCommand extends SlashCommand {
+    public static class ItemRemoveCommand extends DacoCommand {
 
         private final InventoryService inventory;
 
@@ -158,7 +159,7 @@ public class InventoryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

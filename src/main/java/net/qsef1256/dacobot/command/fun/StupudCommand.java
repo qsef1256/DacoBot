@@ -1,11 +1,9 @@
 package net.qsef1256.dacobot.command.fun;
 
-import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
-import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
@@ -14,23 +12,19 @@ import org.springframework.stereotype.Component;
 import java.util.Arrays;
 
 @Component
-public class StupudCommand extends SlashCommand {
+public class StupudCommand extends DacoCommand {
 
-    private final CmdStatisticService statistic;
-
-    public StupudCommand(CmdStatisticService statistic) {
-        this.statistic = statistic;
-
+    public StupudCommand() {
         name = "댕청";
         help = "I'm stupud";
+
+        statistic = true;
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
-        CmdStatisticEntity cmdStatistic = statistic.addCmdStatistic(getClass().getSimpleName());
-
         final String message = RandomUtil.getRandomElement(
                 Arrays.asList("I'm stupud", "나는 바보다", "I'M STUPUD", "멍멍", "하하하ㅏ하", "**나는 댕청하다**"));
 
@@ -39,7 +33,9 @@ public class StupudCommand extends SlashCommand {
                 .setTitle("나는 댕청하다")
                 .setColor(DiaColor.MAIN_COLOR)
                 .setDescription(message)
-                .setFooter("바보 스택을 쌓은 횟수: " + cmdStatistic.getUseCount() + " 금일: " + cmdStatistic.getTodayUsed())
+                .setFooter("바보 스택을 쌓은 횟수: %d 금일: %d".formatted(
+                        getCmdStatistic().getUseCount(),
+                        getCmdStatistic().getTodayUsed()))
                 .build()).queue();
     }
 

@@ -53,19 +53,4 @@ class CmdStatisticServiceTest {
         assertEquals(2, updatedStatistic.getTodayUsed());
     }
 
-    @Test
-    void getUseInfo(@Autowired CmdStatisticService service) {
-        service.addCmdStatistic("TestCommand");
-        service.addCmdStatistic("TestCommand");
-
-        assertEquals("금일: 2 총합: 2", service.getUseInfo("TestCommand"));
-    }
-
-    @Test
-    void asdfCommand(@Autowired CmdStatisticService service) {
-        service.addCmdStatistic("TestCommand");
-
-        assertEquals("금일: 1 총합: 1", service.getUseInfo("TestCommand"));
-    }
-
 }

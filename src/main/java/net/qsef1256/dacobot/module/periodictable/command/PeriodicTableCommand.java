@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.module.periodictable.entity.Element;
 import net.qsef1256.dacobot.module.periodictable.entity.ElementRepository;
 import net.qsef1256.dacobot.ui.DiaEmbed;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
 import java.util.Collections;
 
 @Component
-public class PeriodicTableCommand extends SlashCommand {
+public class PeriodicTableCommand extends DacoCommand {
 
     public PeriodicTableCommand(@NotNull ShowTableCommand tableCommand,
                                 @NotNull SearchCommand searchCommand) {
@@ -32,14 +33,14 @@ public class PeriodicTableCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         DiaMessage.needSubCommand(getChildren(), event.getMember());
 
         event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
     }
 
     @Component
-    public static class ShowTableCommand extends SlashCommand {
+    public static class ShowTableCommand extends DacoCommand {
 
         public ShowTableCommand() {
             name = "보기";
@@ -47,7 +48,7 @@ public class PeriodicTableCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             String url = "https://ko.wikipedia.org/wiki/%EC%A3%BC%EA%B8%B0%EC%9C%A8%ED%91%9C#/media/%ED%8C%8C%EC%9D%BC:Simple_Periodic_Table_Chart-en.svg";
 
             event.reply(url).queue();
@@ -56,7 +57,7 @@ public class PeriodicTableCommand extends SlashCommand {
     }
 
     @Component
-    public static class SearchCommand extends SlashCommand {
+    public static class SearchCommand extends DacoCommand {
 
         private final ElementRepository repository;
 
@@ -70,7 +71,7 @@ public class PeriodicTableCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping option = JDAUtil.getOptionMapping(event, "검색어");
             if (option == null) return;
 

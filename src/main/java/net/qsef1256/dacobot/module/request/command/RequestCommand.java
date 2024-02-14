@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.module.request.model.Request;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
@@ -16,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RequestCommand extends SlashCommand {
+public class RequestCommand extends DacoCommand {
 
     public RequestCommand() {
         name = "요청";
@@ -31,13 +32,13 @@ public class RequestCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
+    protected void runCommand(@NotNull SlashCommandEvent event) {
         SlashCommand[] children = getChildren();
 
         event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
     }
 
-    private static class CheckCommand extends SlashCommand {
+    private static class CheckCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private JdaService jdaService;
@@ -50,7 +51,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -72,7 +73,7 @@ public class RequestCommand extends SlashCommand {
 
     }
 
-    private static class AcceptCommand extends SlashCommand {
+    private static class AcceptCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private RequestAPI requestAPI;
@@ -83,7 +84,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -95,7 +96,7 @@ public class RequestCommand extends SlashCommand {
 
     }
 
-    private static class DenyCommand extends SlashCommand {
+    private static class DenyCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private RequestAPI requestAPI;
@@ -106,7 +107,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {
@@ -118,7 +119,7 @@ public class RequestCommand extends SlashCommand {
 
     }
 
-    private static class CancelCommand extends SlashCommand {
+    private static class CancelCommand extends DacoCommand {
 
         @Setter(onMethod_ = {@Autowired})
         private RequestAPI requestAPI;
@@ -129,7 +130,7 @@ public class RequestCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             try {

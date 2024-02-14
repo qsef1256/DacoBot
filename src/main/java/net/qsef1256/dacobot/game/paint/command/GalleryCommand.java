@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
+import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.paint.gallery.Gallery;
 import net.qsef1256.dacobot.game.paint.model.PaintController;
 import net.qsef1256.dacobot.game.paint.model.painter.Painter;
@@ -16,7 +17,6 @@ import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;
 import net.qsef1256.dacobot.game.paint.model.painter.PixelPainter;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +24,7 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class GalleryCommand extends SlashCommand {
+public class GalleryCommand extends DacoCommand {
 
     public GalleryCommand(@NotNull ShowCommand showCommand,
                           @NotNull SaveCommand saveCommand,
@@ -44,14 +44,12 @@ public class GalleryCommand extends SlashCommand {
     }
 
     @Override
-    protected void execute(@NotNull SlashCommandEvent event) {
-        SlashCommand[] children = getChildren();
-
-        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
+    protected void runCommand(@NotNull SlashCommandEvent event) {
+        callNeedSubCommand();
     }
 
     @Component
-    public static class ShowCommand extends SlashCommand {
+    public static class ShowCommand extends DacoCommand {
 
         @NotNull
         private final Gallery gallery;
@@ -68,20 +66,18 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
-            OptionMapping paintNameOption = event.getOption("이름");
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
-            String paintName = paintNameOption != null
-                    ? paintNameOption.getAsString()
-                    : null;
-            event.replyEmbeds(gallery.applyPainter(user, paintName, new PixelPainter())).queue();
+            event.replyEmbeds(gallery.applyPainter(user,
+                    getOptionString("이름", false),
+                    new PixelPainter())).queue();
         }
 
     }
 
     @Component
-    public static class SaveCommand extends SlashCommand {
+    public static class SaveCommand extends DacoCommand {
 
         private final PaintController paintController;
         private final Gallery gallery;
@@ -100,16 +96,13 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
-            OptionMapping paintNameOption = event.getOption("이름");
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
-            String paintName = paintNameOption != null
-                    ? paintNameOption.getAsString()
-                    : null;
+            String paintName = getOptionString("이름");
+            if (paintName == null) return;
 
             Painter painter = PainterContainer.getPainter(user.getIdLong());
-            assert paintName != null; // TODO: fix scope of Gallery
 
             try {
                 paintController.save(user.getIdLong(), paintName);
@@ -135,7 +128,7 @@ public class GalleryCommand extends SlashCommand {
     }
 
     @Component
-    public static class DeleteCommand extends SlashCommand {
+    public static class DeleteCommand extends DacoCommand {
 
         private final PaintController paintController;
 
@@ -151,7 +144,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping paintNameOption = event.getOption("이름");
             User user = event.getUser();
 
@@ -180,7 +173,7 @@ public class GalleryCommand extends SlashCommand {
     }
 
     @Component
-    public static class LoadCommand extends SlashCommand {
+    public static class LoadCommand extends DacoCommand {
 
         private final Gallery gallery;
 
@@ -196,7 +189,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             OptionMapping paintNameOption = event.getOption("이름");
             User user = event.getUser();
 
@@ -214,7 +207,7 @@ public class GalleryCommand extends SlashCommand {
     }
 
     @Component
-    public static class ListCommand extends SlashCommand {
+    public static class ListCommand extends DacoCommand {
 
         private final PaintController paintController;
 
@@ -226,7 +219,7 @@ public class GalleryCommand extends SlashCommand {
         }
 
         @Override
-        protected void execute(@NotNull SlashCommandEvent event) {
+        protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
             List<String> paintNames = paintController.getOwnedPaint(user.getIdLong());
