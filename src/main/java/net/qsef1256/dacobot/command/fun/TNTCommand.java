@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dialib.util.MathUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -48,18 +49,49 @@ public class TNTCommand extends DacoCommand {
         String boom = ":boom: TNT %d개가 터졌습니다.".formatted(Math.round(tntCount));
 
         if (tntCount < 0) {
-            result = boom + " :sparkles: 물리 법칙이 붕괴되어 모든 세계가 사라졌습니다...";
+            result = "%s :sparkles: 물리 법칙이 붕괴되어 모든 세계가 사라졌습니다...".formatted(boom);
         } else if (tntCount == 0) {
-            result = boom + " :dash: 아무 일도 일어나지 않았습니다.";
+            result = "%s :dash: 아무 일도 일어나지 않았습니다.".formatted(boom);
         } else if (tntCount == 1) {
-            result = boom + " 블록 %d개가 날아갔습니다!".formatted(RandomUtil.randomInt(16, 29));
+            result = "%s 블록 %d개가 날아갔습니다!".formatted(boom, RandomUtil.randomInt(16, 29));
         } else if (tntCount < 10) {
-            result = boom + " 블록 %d개가 날아갔습니다!".formatted(Math.round(tntCount * RandomUtil.randomInt(14, 25)));
+            result = "%s 블록 %d개가 날아갔습니다!".formatted(boom, Math.round(tntCount * RandomUtil.randomInt(14, 25)));
         } else if (tntCount < 250) {
-            result = boom + " 블록 %d개가 날아갔습니다! ".formatted(Math.round(tntCount * RandomUtil.randomInt(10, 19)))
+            result = "%s 블록 %d개가 날아갔습니다! ".formatted(boom, Math.round(tntCount * RandomUtil.randomInt(10, 19)))
                     + (RandomUtil.randomBool() ? "%s 도 잘못해서 휩쓸리고 말았습니다!".formatted(user.getName()) : "");
         } else if (tntCount < 25000) {
-            result = boom + " 블록 몇개가 날아갔는진 모?루겠어요. %s는 폭사했습니다!".formatted(user.getName());
+            result = "%s 블록 몇개가 날아갔는진 모?루겠어요. %s는 폭사했습니다!".formatted(boom, user.getName());
+        } else if (tntCount < 100000) {
+            result = "%s %s는 폭사했습니다!".formatted(boom, user.getName())
+                    + (RandomUtil.randomBool() ? "주변에 있던 %s의 집도 날아갔습니다!".formatted(user.getName()) : "");
+        } else if (tntCount < 1000000) {
+            result = "%s 주변 바이옴이 날아갔습니다! %s는 폭사했습니다!".formatted(boom, user.getName());
+        } else if (tntCount < 1500000) {
+            result = "%s 응답 시간 초과로 서버가 날아갔습니다! %s는 폭사하기 전에 튕겼습니다!".formatted(boom, user.getName());
+        } else if (tntCount < 2500000) {
+            result = "%s 서버를 돌리던 컴퓨터가 폭발했습니다! %s는 폭사하기 전에 튕겼습니다! 수리비로 %s 만원이 지출 되었습니다. :computer::fire_extinguisher:"
+                    .formatted(boom, user.getName(), MathUtil.floorDigit(RandomUtil.randomInt(600000, 2500000), 5));
+        } else if (tntCount < 10000000) {
+            result = "%s 서버를 돌리던 집이 폭발했습니다! %s는 폭사했습니다! 장례 및 수습비로 %s 만원이 지출 되었습니다. :house_abandoned::fire_engine::ambulance:"
+                    .formatted(boom, user.getName(), MathUtil.floorDigit(RandomUtil.randomInt(2500000, 350000000), 5));
+        } else if (tntCount < 70000000) {
+            result = "%s %s가 살던 도시가 폭발했습니다! %s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다! :cityscape::rotating_light:"
+                    .formatted(boom, user.getName(), RandomUtil.randomInt(25, 5000));
+        } else if (tntCount < 250000000) {
+            result = "%s %s가 살던 국가가 폭발했습니다! %s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다! :flag_kr::rotating_light:"
+                    .formatted(boom, user.getName(), RandomUtil.randomInt(2500, 5000000)); // TODO: regular distribution?
+        } else if (tntCount < 750000000) {
+            result = "%s %s가 살던 대륙이 폭발했습니다! 전 지구적 재앙이 발생해 인류 문명이 붕괴했습니다! :mountain_snow:"
+                    .formatted(boom, user.getName());
+        } else if (tntCount < 1700000000) {
+            result = "%s 지구가 폭발했습니다! 폭발한 지구의 잔해가 태양계에 새로운 소행성대를 만들었습니다! :earth_asia:"
+                    .formatted(boom);
+        } else if (tntCount < 2100000000) {
+            result = "%s 우주가 폭발했습니다! 새로운 빅뱅이 탄생했습니다! :fireworks:"
+                    .formatted(boom);
+        } else if (tntCount == Integer.MAX_VALUE) {
+            result = "%s Integer가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
+                    .formatted(boom);
         } else {
             result = boom;
         }
