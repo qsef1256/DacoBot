@@ -69,25 +69,25 @@ public class TNTCommand extends DacoCommand {
         } else if (tntCount < 1500000) {
             result = "%s 응답 시간 초과로 서버가 날아갔습니다! %s는 폭사하기 전에 튕겼습니다!".formatted(boom, user.getName());
         } else if (tntCount < 2500000) {
-            result = "%s 서버를 돌리던 컴퓨터가 폭발했습니다! %s는 폭사하기 전에 튕겼습니다! 수리비로 %s 만원이 지출 되었습니다. :computer::fire_extinguisher:"
+            result = "%s :computer::fire_extinguisher: 서버를 돌리던 컴퓨터가 폭발했습니다! %s는 폭사하기 전에 튕겼습니다! 수리비로 %s 만원이 지출 되었습니다."
                     .formatted(boom, user.getName(), MathUtil.floorDigit(RandomUtil.randomInt(600000, 2500000), 5));
         } else if (tntCount < 10000000) {
-            result = "%s 서버를 돌리던 집이 폭발했습니다! %s는 폭사했습니다! 장례 및 수습비로 %s 만원이 지출 되었습니다. :house_abandoned::fire_engine::ambulance:"
+            result = "%s :house_abandoned::fire_engine::ambulance: 서버를 돌리던 집이 폭발했습니다! %s는 폭사했습니다! 장례 및 수습비로 %s 만원이 지출 되었습니다."
                     .formatted(boom, user.getName(), MathUtil.floorDigit(RandomUtil.randomInt(2500000, 350000000), 5));
         } else if (tntCount < 70000000) {
-            result = "%s %s가 살던 도시가 폭발했습니다! %s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다! :cityscape::rotating_light:"
+            result = "%s :cityscape::rotating_light: %s가 살던 도시가 폭발했습니다! %s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다!"
                     .formatted(boom, user.getName(), RandomUtil.randomInt(25, 5000));
         } else if (tntCount < 250000000) {
-            result = "%s %s가 살던 국가가 폭발했습니다! %s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다! :flag_kr::rotating_light:"
+            result = "%s :flag_kr::rotating_light: %s가 살던 국가가 폭발했습니다! %s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다!"
                     .formatted(boom, user.getName(), RandomUtil.randomInt(2500, 5000000)); // TODO: regular distribution?
         } else if (tntCount < 750000000) {
-            result = "%s %s가 살던 대륙이 폭발했습니다! 전 지구적 재앙이 발생해 인류 문명이 붕괴했습니다! :mountain_snow:"
+            result = "%s :volcano: %s가 살던 대륙이 폭발했습니다! 전 지구적 재앙이 발생해 인류 문명이 붕괴했습니다!"
                     .formatted(boom, user.getName());
         } else if (tntCount < 1700000000) {
-            result = "%s 지구가 폭발했습니다! 폭발한 지구의 잔해가 태양계에 새로운 소행성대를 만들었습니다! :earth_asia:"
+            result = "%s :earth_asia: 지구가 폭발했습니다! 폭발한 지구의 잔해가 태양계에 새로운 소행성대를 만들었습니다!"
                     .formatted(boom);
         } else if (tntCount < 2100000000) {
-            result = "%s 우주가 폭발했습니다! 새로운 빅뱅이 탄생했습니다! :fireworks:"
+            result = "%s :fireworks: 우주가 폭발했습니다! 새로운 빅뱅이 탄생했습니다!"
                     .formatted(boom);
         } else if (tntCount == Integer.MAX_VALUE) {
             result = "%s Integer가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
