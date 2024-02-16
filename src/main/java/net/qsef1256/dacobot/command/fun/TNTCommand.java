@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot.command.fun;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
+import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -13,6 +14,7 @@ import net.qsef1256.dialib.util.MathUtil;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
@@ -39,7 +41,6 @@ public class TNTCommand extends DacoCommand {
         if (option == null) return;
 
         User user = event.getUser();
-        String result;
         double tntCount;
         try {
             tntCount = option.getAsDouble();
@@ -49,53 +50,51 @@ public class TNTCommand extends DacoCommand {
             return;
         }
 
-        String boom = ":boom: TNT %d개가 터졌습니다.".formatted(Math.round(tntCount));
-
-        result = switchTntCondition(tntCount)
-                .caseCondition(tnt -> tnt < 0, () -> "%s :sparkles: 물리 법칙이 붕괴되어 모든 세계가 사라졌습니다..."
+        String boom = ":boom: TNT %d개가 터졌습니다.%n".formatted(Math.round(tntCount));
+        String result = ResultSwitch.get(tntCount, String.class)
+                .caseCondition(tntCount < 0, "%s :sparkles: 물리 법칙이 붕괴되어 모든 세계가 사라졌습니다..."
                         .formatted(boom))
-                .caseCondition(tnt -> tnt == 0, () -> "%s :dash: 아무 일도 일어나지 않았습니다."
+                .caseCondition(0D, "%s :dash: 아무 일도 일어나지 않았습니다."
                         .formatted(boom))
-                .caseCondition(tnt -> tnt == 1, () -> "%s 블록 %d개가 날아갔습니다!"
+                .caseCondition(1D, "%s 블록 %d개가 날아갔습니다!"
                         .formatted(boom, RandomUtil.randomInt(16, 29)))
-                .caseCondition(tnt -> tnt < 10, () -> "%s 블록 %d개가 날아갔습니다!"
+                .caseCondition(tntCount < 10, "%s 블록 %d개가 날아갔습니다!"
                         .formatted(boom, Math.round(tntCount * RandomUtil.randomInt(14, 25))))
-                .caseCondition(tnt -> tnt < 250, () -> "%s 블록 %d개가 날아갔습니다! "
+                .caseCondition(tntCount < 250, "%s 블록 %d개가 날아갔습니다! "
                         .formatted(boom, Math.round(tntCount * RandomUtil.randomInt(10, 19)))
                         + (RandomUtil.randomBool() ? "%s 도 잘못해서 휩쓸리고 말았습니다!"
                         .formatted(user.getName()) : ""))
-                .caseCondition(tnt -> tnt < 25000, () -> "%s 블록 몇개가 날아갔는진 모?루겠어요. %s는 폭사했습니다!"
+                .caseCondition(tntCount < 25000, "%s 블록 몇개가 날아갔는진 모?루겠어요. %s는 폭사했습니다!"
                         .formatted(boom, user.getName()))
-                .caseCondition(tnt -> tnt < 100000, () -> "%s %s는 폭사했습니다!"
+                .caseCondition(tntCount < 100000, "%s %s는 폭사했습니다!"
                         .formatted(boom, user.getName())
                         + (RandomUtil.randomBool() ? "주변에 있던 %s의 집도 날아갔습니다!"
                         .formatted(user.getName()) : ""))
-                .caseCondition(tnt -> tnt < 1000000, () -> "%s 주변 바이옴이 날아갔습니다! %s는 폭사했습니다!"
+                .caseCondition(tntCount < 1000000, "%s 주변 바이옴이 날아갔습니다! %s는 폭사했습니다!"
                         .formatted(boom, user.getName()))
-                .caseCondition(tnt -> tnt < 1500000, () -> "%s 응답 시간 초과로 서버가 날아갔습니다! %s는 폭사하기 전에 튕겼습니다!"
+                .caseCondition(tntCount < 1500000, "%s 응답 시간 초과로 서버가 날아갔습니다! %s는 폭사하기 전에 튕겼습니다!"
                         .formatted(boom, user.getName()))
-                .caseCondition(tnt -> tnt < 2500000, () -> ("%s :computer::fire_extinguisher: 서버를 돌리던 컴퓨터가 폭발했습니다! " +
+                .caseCondition(tntCount < 2500000, ("%s :computer::fire_extinguisher: 서버를 돌리던 컴퓨터가 폭발했습니다! " +
                         "%s는 폭사하기 전에 튕겼습니다! 수리비로 %s 만원이 지출 되었습니다.")
                         .formatted(boom, user.getName(), MathUtil.floorDigit(RandomUtil.randomInt(600000, 2500000), 5)))
-                .caseCondition(tnt -> tnt < 10000000, () -> ("%s :house_abandoned::fire_engine::ambulance: " +
+                .caseCondition(tntCount < 10000000, ("%s :house_abandoned::fire_engine::ambulance: " +
                         "서버를 돌리던 집이 폭발했습니다! %s는 폭사했습니다! 장례 및 수습비로 %s 만원이 지출 되었습니다.")
                         .formatted(boom, user.getName(), MathUtil.floorDigit(RandomUtil.randomInt(2500000, 350000000), 5)))
-                .caseCondition(tnt -> tnt < 70000000, () -> ("%s :cityscape::rotating_light: %s가 살던 도시가 폭발했습니다! " +
+                .caseCondition(tntCount < 70000000, ("%s :cityscape::rotating_light: %s가 살던 도시가 폭발했습니다! " +
                         "%s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다!")
                         .formatted(boom, user.getName(), RandomUtil.randomInt(25, 5000)))
-                .caseCondition(tnt -> tnt < 250000000, () -> ("%s :flag_kr::rotating_light: %s가 살던 국가가 폭발했습니다! " +
+                .caseCondition(tntCount < 250000000, ("%s :flag_kr::rotating_light: %s가 살던 국가가 폭발했습니다! " +
                         "%s 명의 사상자가 발생했고 국가비상사태가 선포되었습니다!")
                         .formatted(boom, user.getName(), RandomUtil.randomInt(2500, 5000000))) // TODO: regular distribution?
-                .caseCondition(tnt -> tnt < 750000000, () -> "%s :volcano: %s가 살던 대륙이 폭발했습니다! 전 지구적 재앙이 발생해 인류 문명이 붕괴했습니다!"
+                .caseCondition(tntCount < 750000000, "%s :volcano: %s가 살던 대륙이 폭발했습니다! 전 지구적 재앙이 발생해 인류 문명이 붕괴했습니다!"
                         .formatted(boom, user.getName()))
-                .caseCondition(tnt -> tnt < 1700000000, () -> "%s :earth_asia: 지구가 폭발했습니다! 폭발한 지구의 잔해가 태양계에 새로운 소행성대를 만들었습니다!"
+                .caseCondition(tntCount < 1700000000, "%s :earth_asia: 지구가 폭발했습니다! 폭발한 지구의 잔해가 태양계에 새로운 소행성대를 만들었습니다!"
                         .formatted(boom))
-                .caseCondition(tnt -> tnt < 2100000000, () -> "%s :fireworks: 우주가 폭발했습니다! 새로운 빅뱅이 탄생했습니다!"
+                .caseCondition(tntCount < 2100000000, "%s :fireworks: 우주가 폭발했습니다! 새로운 빅뱅이 탄생했습니다!"
                         .formatted(boom))
-                .caseCondition(tnt -> tnt == Integer.MAX_VALUE, () -> "%s Integer가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
+                .caseCondition((double) Integer.MAX_VALUE, "%s Integer가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
                         .formatted(boom))
-                .defaultResult(() -> boom);
-
+                .defaultResult(boom);
 
         double ton = tntCount * MC_TO_REAL;
         double kt = ton / 1000;
@@ -140,40 +139,90 @@ public class TNTCommand extends DacoCommand {
                 "[Link](https://www.atomicarchive.com/resources/documents/effects/glasstone-dolan/chapter6.html#%C2%A76.72)", false);
         embedBuilder.setFooter("계산 결과는 정확하지 않습니다.");
 
-        event.replyEmbeds(embedBuilder.build()).
-
-                queue();
+        event.replyEmbeds(embedBuilder.build()).queue();
     }
 
-    @NotNull
-    @Contract(value = "_ -> new", pure = true)
-    private ResultSwitch<Double, String> switchTntCondition(double tnt) {
-        return new ResultSwitch<>(tnt);
-    }
-
-    // TODO: move to DiaLib? is enough generic way?
     private static class ResultSwitch<T, R> {
 
+        @NotNull
         private final T value;
+        @Getter
+        @Nullable
         private R result;
 
         public ResultSwitch(@NotNull T value) {
             this.value = value;
         }
 
+        /**
+         * Get ResultSwitch with value.
+         *
+         * @see #get(Object, Class)
+         */
+        @NotNull
+        @Contract(value = "_ -> new", pure = true)
+        public static <T, R> ResultSwitch<T, R> get(@NotNull T value) {
+            return new ResultSwitch<>(value);
+        }
+
+        /**
+         * Get ResultSwitch with value and result class.
+         *
+         * @param value input value for switch
+         * @param clazz type of R
+         * @param <T>   input type
+         * @param <R>   result type
+         * @return result value
+         */
+        @NotNull
+        @Contract(value = "_,_ -> new", pure = true)
+        public static <T, R> ResultSwitch<T, R> get(@NotNull T value,
+                                                    @NotNull Class<R> clazz) {
+            return get(value);
+        }
+        
+        public ResultSwitch<T, R> caseCondition(@NotNull T condition,
+                                                @NotNull Supplier<R> resultSupplier) {
+            return caseCondition(val -> value.equals(condition), resultSupplier);
+        }
+
+        public ResultSwitch<T, R> caseCondition(@NotNull T condition,
+                                                @Nullable R result) {
+            return caseCondition(condition, () -> result);
+        }
+
+        public ResultSwitch<T, R> caseCondition(boolean condition,
+                                                @NotNull Supplier<R> resultSupplier) {
+            return caseCondition(val -> condition, resultSupplier);
+        }
+
+        public ResultSwitch<T, R> caseCondition(boolean condition,
+                                                @Nullable R result) {
+            return caseCondition(condition, () -> result);
+        }
+
         public ResultSwitch<T, R> caseCondition(@NotNull Predicate<T> condition,
                                                 @NotNull Supplier<R> resultSupplier) {
-            if (result == null && condition.test(value))
-                result = resultSupplier.get();
+            if (result == null && condition.test(value)) result = resultSupplier.get();
 
             return this;
         }
 
-        public R defaultResult(Supplier<R> resultSupplier) {
-            if (result == null)
-                result = resultSupplier.get();
+        public ResultSwitch<T, R> caseCondition(@NotNull Predicate<T> condition,
+                                                @Nullable R result) {
+            return caseCondition(condition, () -> result);
+        }
+
+        @Nullable
+        public R defaultResult(@NotNull Supplier<R> resultSupplier) {
+            if (result == null) result = resultSupplier.get();
 
             return result;
+        }
+
+        @Nullable
+        public R defaultResult(@Nullable R result) {
+            return defaultResult(() -> result);
         }
 
     }
