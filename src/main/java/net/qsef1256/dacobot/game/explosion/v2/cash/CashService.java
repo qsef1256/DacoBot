@@ -1,7 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.v2.cash;
 
-import net.qsef1256.dacobot.game.explosion.domain.inventory.UserService;
-import net.qsef1256.dacobot.game.explosion.v2.user.UserId;
+import net.qsef1256.dacobot.game.explosion.v2.user.UserIdService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,20 +10,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class CashService {
 
     private final CashRepository cash;
-    private final UserService user;
+    private final UserIdService userId;
 
-    public CashService(@NotNull UserService user,
+    public CashService(@NotNull UserIdService userId,
                        @NotNull CashRepository cash) {
-        this.user = user;
+        this.userId = userId;
         this.cash = cash;
     }
 
     @NotNull
     private CashEntity getCashEntity(long discordId) {
-        return cash.getReferenceById(new UserId(user.getUser(discordId)));
+        if (!cash.existsById(userId.getUserId(discordId))) createCash(discordId);
+
+        return cash.getReferenceById(userId.getUserId(discordId));
     }
 
-    // FIXME: auto creating cash entity? ma---ybe need? Hmm... or Controller layer required?
+    private void createCash(long discordId) {
+        CashEntity cashEntity = new CashEntity();
+        cashEntity.setUser(userId.getUserId(discordId));
+        cashEntity.setCash(0);
+
+        cash.saveAndFlush(cashEntity);
+    }
+
     public long getCash(long discordId) {
         return getCashEntity(discordId).getCash();
     }
