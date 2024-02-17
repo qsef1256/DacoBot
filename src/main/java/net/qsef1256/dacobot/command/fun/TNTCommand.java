@@ -28,7 +28,9 @@ public class TNTCommand extends DacoCommand {
         name = "tnt";
         help = "마인크래프트 TNT n개의 폭발력은 얼마 정도일까요?";
 
-        options = List.of(new OptionData(OptionType.INTEGER, "갯수", "폭발 시킬 TNT 갯수").setRequired(true));
+        options = List.of(
+                new OptionData(OptionType.INTEGER, "갯수", "폭발 시킬 TNT 갯수").setRequired(true)
+        );
     }
 
     @Override

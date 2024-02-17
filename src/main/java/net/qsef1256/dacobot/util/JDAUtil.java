@@ -11,6 +11,7 @@ public class JDAUtil {
 
     // TODO: move to custom command?
     @Nullable
+    @Deprecated(since = "use DacoCommand#getOption")
     public OptionMapping getOptionMapping(@NotNull SlashCommandEvent event, String optionName) {
         OptionMapping option = event.getOption(optionName);
         if (option == null) {

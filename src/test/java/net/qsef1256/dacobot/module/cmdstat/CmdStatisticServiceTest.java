@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot.module.cmdstat;
 
-import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

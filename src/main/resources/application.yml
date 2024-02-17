@@ -17,6 +17,14 @@ spring:
     hibernate:
       ddl-auto: validate
 
+logging:
+  level:
+    root: INFO
+
+  file:
+    name: "dacobot.log"
+    path: "C:/Users/202030231/IdeaProjects/DacoBot/log/"
+
 dacobot:
   jda:
     boot: true

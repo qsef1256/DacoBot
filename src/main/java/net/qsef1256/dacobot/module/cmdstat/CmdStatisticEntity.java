@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.module.cmdstat.data;
+package net.qsef1256.dacobot.module.cmdstat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -2,7 +2,6 @@ package net.qsef1256.dacobot.module.cmdstat;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.module.cmdstat.data.CmdStatisticEntity;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;

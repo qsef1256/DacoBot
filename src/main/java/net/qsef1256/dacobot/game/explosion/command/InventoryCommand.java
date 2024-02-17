@@ -11,7 +11,6 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
@@ -48,12 +47,9 @@ public class InventoryCommand extends DacoCommand {
     public static class SeeCommand extends DacoCommand {
 
         private final InventoryService inventory;
-        private final CashService cashService;
 
-        public SeeCommand(@NotNull CashService cashService,
-                          @NotNull InventoryService inventory) {
+        public SeeCommand(@NotNull InventoryService inventory) {
             this.inventory = inventory;
-            this.cashService = cashService;
 
             name = "보기";
             help = "인벤토리를 확인합니다.";
