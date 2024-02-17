@@ -1,7 +1,6 @@
 package net.qsef1256.dacobot.command.fun;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import lombok.Getter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
@@ -10,17 +9,14 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
+import net.qsef1256.dialib.common.ResultSwitch;
 import net.qsef1256.dialib.util.MathUtil;
 import net.qsef1256.dialib.util.RandomUtil;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 @Component
 public class TNTCommand extends DacoCommand {
@@ -51,7 +47,7 @@ public class TNTCommand extends DacoCommand {
         }
 
         String boom = ":boom: TNT %d개가 터졌습니다.%n".formatted(Math.round(tntCount));
-        String result = ResultSwitch.get(tntCount, String.class)
+        String result = ResultSwitch.get(tntCount, boom)
                 .caseCondition(tntCount < 0, "%s :sparkles: 물리 법칙이 붕괴되어 모든 세계가 사라졌습니다..."
                         .formatted(boom))
                 .caseCondition(0D, "%s :dash: 아무 일도 일어나지 않았습니다."
@@ -94,7 +90,7 @@ public class TNTCommand extends DacoCommand {
                         .formatted(boom))
                 .caseCondition((double) Integer.MAX_VALUE, "%s Integer가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
                         .formatted(boom))
-                .defaultResult(boom);
+                .getResult();
 
         double ton = tntCount * MC_TO_REAL;
         double kt = ton / 1000;
@@ -140,91 +136,6 @@ public class TNTCommand extends DacoCommand {
         embedBuilder.setFooter("계산 결과는 정확하지 않습니다.");
 
         event.replyEmbeds(embedBuilder.build()).queue();
-    }
-
-    private static class ResultSwitch<T, R> {
-
-        @NotNull
-        private final T value;
-        @Getter
-        @Nullable
-        private R result;
-
-        public ResultSwitch(@NotNull T value) {
-            this.value = value;
-        }
-
-        /**
-         * Get ResultSwitch with value.
-         *
-         * @see #get(Object, Class)
-         */
-        @NotNull
-        @Contract(value = "_ -> new", pure = true)
-        public static <T, R> ResultSwitch<T, R> get(@NotNull T value) {
-            return new ResultSwitch<>(value);
-        }
-
-        /**
-         * Get ResultSwitch with value and result class.
-         *
-         * @param value input value for switch
-         * @param clazz type of R
-         * @param <T>   input type
-         * @param <R>   result type
-         * @return result value
-         */
-        @NotNull
-        @Contract(value = "_,_ -> new", pure = true)
-        public static <T, R> ResultSwitch<T, R> get(@NotNull T value,
-                                                    @NotNull Class<R> clazz) {
-            return get(value);
-        }
-        
-        public ResultSwitch<T, R> caseCondition(@NotNull T condition,
-                                                @NotNull Supplier<R> resultSupplier) {
-            return caseCondition(val -> value.equals(condition), resultSupplier);
-        }
-
-        public ResultSwitch<T, R> caseCondition(@NotNull T condition,
-                                                @Nullable R result) {
-            return caseCondition(condition, () -> result);
-        }
-
-        public ResultSwitch<T, R> caseCondition(boolean condition,
-                                                @NotNull Supplier<R> resultSupplier) {
-            return caseCondition(val -> condition, resultSupplier);
-        }
-
-        public ResultSwitch<T, R> caseCondition(boolean condition,
-                                                @Nullable R result) {
-            return caseCondition(condition, () -> result);
-        }
-
-        public ResultSwitch<T, R> caseCondition(@NotNull Predicate<T> condition,
-                                                @NotNull Supplier<R> resultSupplier) {
-            if (result == null && condition.test(value)) result = resultSupplier.get();
-
-            return this;
-        }
-
-        public ResultSwitch<T, R> caseCondition(@NotNull Predicate<T> condition,
-                                                @Nullable R result) {
-            return caseCondition(condition, () -> result);
-        }
-
-        @Nullable
-        public R defaultResult(@NotNull Supplier<R> resultSupplier) {
-            if (result == null) result = resultSupplier.get();
-
-            return result;
-        }
-
-        @Nullable
-        public R defaultResult(@Nullable R result) {
-            return defaultResult(() -> result);
-        }
-
     }
 
 }
