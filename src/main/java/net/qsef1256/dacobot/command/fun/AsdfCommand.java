@@ -24,7 +24,7 @@ public class AsdfCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        final String message = RandomUtil.getRandomElement(
+        String message = RandomUtil.getRandomElement(
                 Arrays.asList("마늘요리", "ㅁㄴㅇㄹ", "마니오리", "마늘우림", "마녀오리", "마녀이름", "마니아러", "미나어롷", "므느으르",
                         "뫼니에르", "모닝알람", "매너어림", "만능요리", "마니와라", "무녀유령", "마늘오리", "매니아로", "마나오링",
                         "마나의룬", "모난오리"));

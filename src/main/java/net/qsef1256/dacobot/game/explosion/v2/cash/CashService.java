@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot.game.explosion.v2.cash;
 
 import net.qsef1256.dacobot.game.explosion.domain.inventory.UserService;
+import net.qsef1256.dacobot.game.explosion.v2.user.UserId;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,9 +21,10 @@ public class CashService {
 
     @NotNull
     private CashEntity getCashEntity(long discordId) {
-        return cash.getReferenceById(user.getUser(discordId));
+        return cash.getReferenceById(new UserId(user.getUser(discordId)));
     }
 
+    // FIXME: auto creating cash entity? ma---ybe need? Hmm... or Controller layer required?
     public long getCash(long discordId) {
         return getCashEntity(discordId).getCash();
     }

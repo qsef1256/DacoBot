@@ -18,8 +18,6 @@ public class ChaosCommand extends DacoCommand {
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
         event.reply("혼돈! 파괴! 망각!").queue();
-
-
     }
 
 }

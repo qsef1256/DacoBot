@@ -3,7 +3,6 @@ package net.qsef1256.dacobot.game.explosion.v2.cash;
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.command.DacoCommand;
@@ -76,10 +75,10 @@ public class CashCommand extends DacoCommand {
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
-            OptionMapping option = event.getOption("숫자");
-            assert option != null;
+            Long option = getOptionLong("숫자");
+            if (option == null) return;
 
-            cash.changeCash(user.getIdLong(), option.getAsLong());
+            cash.changeCash(user.getIdLong(), option);
             event.replyEmbeds(DiaEmbed.info("돈 목록",
                     "돈: " + cash.getCash(user.getIdLong()),
                     user).build()).queue();
@@ -105,10 +104,10 @@ public class CashCommand extends DacoCommand {
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
-            OptionMapping option = event.getOption("숫자");
-            assert option != null;
+            Long option = getOptionLong("숫자");
+            if (option == null) return;
 
-            cash.changeCash(user.getIdLong(), -option.getAsLong());
+            cash.changeCash(user.getIdLong(), -option);
             event.replyEmbeds(DiaEmbed.info("돈 목록",
                     "돈: " + cash.getCash(user.getIdLong()),
                     user).build()).queue();

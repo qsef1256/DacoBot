@@ -27,13 +27,18 @@ public class UserController { // TODO: is this service layer?
         this.cash = cash;
     }
 
+    @NotNull
+    private UserId getUserId(long discordId) {
+        return new UserId(user.getReferenceById(discordId));
+    }
+
     // TODO: Is user-cash relation appropriate?
     public void register(long discordId) {
         try {
             if (!user.existsById(discordId))
                 throw new NoSuchElementException(jdaService.getNameAsTag(discordId) + " 유저가 존재하지 않습니다.");
             CashEntity cashData = new CashEntity();
-            cashData.setUser(new UserId(user.getReferenceById(discordId)));
+            cashData.setUser(getUserId(discordId));
             cashData.setCash(0L);
             cashData.setPickaxeCount(0);
             cash.saveAndFlush(cashData);
@@ -47,7 +52,7 @@ public class UserController { // TODO: is this service layer?
 
     public void reset(long discordId) {
         try {
-            cash.deleteById(user.getReferenceById(discordId));
+            cash.deleteById(getUserId(discordId));
             register(discordId);
         } catch (final RuntimeException e) {
             log.error(e.getMessage());
@@ -56,7 +61,7 @@ public class UserController { // TODO: is this service layer?
     }
 
     public boolean isExist(long discordId) {
-        return cash.existsById(user.getReferenceById(discordId));
+        return cash.existsById(getUserId(discordId));
     }
 
 }

@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.qsef1256.dacobot.core.command.CommandClientService;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticEntity;
@@ -92,6 +93,20 @@ public abstract class DacoCommand extends SlashCommand {
         return ":construction: 공사중...";
     }
 
+    /**
+     * Get option and transform.
+     *
+     * <p>Example:
+     * <pre>{@code
+     *     Long number = getOptionLong("Number");
+     *     if (number == null) return;
+     * }</pre>
+     *
+     * @param transformer transformer for option value
+     * @param optionName  name of option
+     * @param required    if true and option are null, send notice and close interaction of event
+     * @return string value of option
+     */
     @Nullable
     protected <T> T getOption(@NotNull Function<OptionMapping, T> transformer,
                               @NotNull String optionName,
@@ -112,11 +127,7 @@ public abstract class DacoCommand extends SlashCommand {
     }
 
     /**
-     * Get option string
-     *
-     * @param optionName name of option
-     * @param required   if true and option are null, send notice and close interaction of event
-     * @return string value of option
+     * @see #getOption(Function, String, boolean)
      */
     @Nullable
     protected String getOptionString(@NotNull String optionName, boolean required) {
@@ -124,15 +135,75 @@ public abstract class DacoCommand extends SlashCommand {
     }
 
     /**
-     * Get option string
-     *
-     * @param optionName name of option
-     * @return string value of option
-     * @see #getOptionString(String, boolean)
+     * @see #getOption(Function, String, boolean)
      */
     @Nullable
     protected String getOptionString(@NotNull String optionName) {
         return getOptionString(optionName, true);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected Long getOptionLong(@NotNull String optionName, boolean required) {
+        return getOption(OptionMapping::getAsLong, optionName, required);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected Long getOptionLong(@NotNull String optionName) {
+        return getOptionLong(optionName, true);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected Double getOptionDouble(@NotNull String optionName, boolean required) {
+        return getOption(OptionMapping::getAsDouble, optionName, required);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected Double getOptionDouble(@NotNull String optionName) {
+        return getOptionDouble(optionName, true);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected Integer getOptionInt(@NotNull String optionName, boolean required) {
+        return getOption(OptionMapping::getAsInt, optionName, required);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected Integer getOptionInt(@NotNull String optionName) {
+        return getOptionInt(optionName, true);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected User getOptionUser(@NotNull String optionName, boolean required) {
+        return getOption(OptionMapping::getAsUser, optionName, required);
+    }
+
+    /**
+     * @see #getOption(Function, String, boolean)
+     */
+    @Nullable
+    protected User getOptionUser(@NotNull String optionName) {
+        return getOptionUser(optionName, true);
     }
 
 }

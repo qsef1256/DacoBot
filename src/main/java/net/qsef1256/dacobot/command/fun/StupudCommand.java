@@ -25,7 +25,7 @@ public class StupudCommand extends DacoCommand {
     protected void runCommand(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
         User user = event.getUser();
-        final String message = RandomUtil.getRandomElement(
+        String message = RandomUtil.getRandomElement(
                 Arrays.asList("I'm stupud", "나는 바보다", "I'M STUPUD", "멍멍", "하하하ㅏ하", "**나는 댕청하다**"));
 
         event.replyEmbeds(new EmbedBuilder()
