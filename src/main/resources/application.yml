@@ -21,9 +21,11 @@ logging:
   level:
     root: INFO
 
+  pattern:
+    console: "%d{HH:mm:ss.SSS} %boldCyan(%-25.-25thread) %red(%10.10X{jda.shard}) %boldGreen(%-20.-20logger{0}) %highlight(%-6level) %msg%n"
+
   file:
-    name: "dacobot.log"
-    path: "C:/Users/202030231/IdeaProjects/DacoBot/log/"
+    name: "./log/dacobot.log"
 
 dacobot:
   jda:
