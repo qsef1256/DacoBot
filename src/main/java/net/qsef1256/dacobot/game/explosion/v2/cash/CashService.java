@@ -28,7 +28,6 @@ public class CashService {
     private void createCash(long discordId) {
         CashEntity cashEntity = new CashEntity();
         cashEntity.setUser(userId.getUserId(discordId));
-        cashEntity.setCash(0);
 
         cash.saveAndFlush(cashEntity);
     }

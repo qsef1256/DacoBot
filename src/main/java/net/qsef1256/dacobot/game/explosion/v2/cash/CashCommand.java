@@ -70,6 +70,8 @@ public class CashCommand extends DacoCommand {
             options = List.of(
                     new OptionData(OptionType.INTEGER, "숫자", "숫자")
             );
+
+            ownerCommand = true;
         }
 
         @Override
@@ -99,6 +101,8 @@ public class CashCommand extends DacoCommand {
             options = List.of(
                     new OptionData(OptionType.INTEGER, "숫자", "숫자")
             );
+
+            ownerCommand = true;
         }
 
         @Override

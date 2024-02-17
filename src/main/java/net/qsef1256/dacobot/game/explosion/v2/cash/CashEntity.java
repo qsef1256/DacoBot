@@ -20,10 +20,10 @@ public class CashEntity implements Serializable {
 
     @Column(name = "explosion_cash", nullable = false)
     @ColumnDefault(value = "0")
-    private long cash;
+    private long cash = 0;
 
     @Column(name = "pickaxe_count")
     @ColumnDefault(value = "0")
-    private int pickaxeCount;
+    private int pickaxeCount = 0;
 
 }
