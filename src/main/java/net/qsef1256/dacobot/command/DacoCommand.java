@@ -36,7 +36,8 @@ public abstract class DacoCommand extends SlashCommand {
     @Override
     protected final void execute(@NotNull SlashCommandEvent event) {
         this.event = event;
-        if (statistic) cmdStatistic = statisticService.addCmdStatistic(name);
+        if (statistic)
+            cmdStatistic = statisticService.addCmdStatistic(getClass().getSimpleName());
 
         runCommand(event);
     }
