@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot.module.message.type;
 
 import com.sun.jdi.request.DuplicateRequestException;
+import lombok.Setter;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -10,21 +11,29 @@ import net.qsef1256.dacobot.module.common.key.ManagedKey;
 import net.qsef1256.dacobot.module.message.MessageApiImpl;
 import net.qsef1256.dacobot.module.message.data.MessageData;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * SlashCommand 등에서 사용하는 Interaction 을 위한 확장
  */
 public class TrackedEventMessage extends TrackedMessage implements Timed {
 
+    @Setter(onMethod_ = {@Autowired})
+    private MessageApiImpl messageApi;
     private final IReplyCallback event;
 
-    public TrackedEventMessage(ManagedKey key, MessageCreateBuilder message, @NotNull IReplyCallback event) {
+    public TrackedEventMessage(ManagedKey key,
+                               MessageCreateBuilder message,
+                               @NotNull IReplyCallback event) {
         super(key, message, event.getMessageChannel());
 
         this.event = event;
     }
 
-    public TrackedEventMessage(ManagedKey key, MessageCreateBuilder message, @NotNull IReplyCallback event, Runnable onRemove) {
+    public TrackedEventMessage(ManagedKey key,
+                               MessageCreateBuilder message,
+                               @NotNull IReplyCallback event,
+                               Runnable onRemove) {
         super(key, message, event.getMessageChannel(), onRemove);
 
         this.event = event;
@@ -35,14 +44,14 @@ public class TrackedEventMessage extends TrackedMessage implements Timed {
         if (exists()) throw new DuplicateRequestException("이미 메시지가 있습니다: " + key);
 
         event.reply(message.build()).queue(result -> result.retrieveOriginal().queue(
-                original -> getMessageApi().add(key, new MessageData(original.getIdLong(), event.getMessageChannel()))));
+                original -> messageApi.add(key, new MessageData(original.getIdLong(), event.getMessageChannel()))));
     }
 
     public void edit(@NotNull ReplyMessage replyMessage, @NotNull MessageEditBuilder content) {
         MessageData messageData = getMessageData();
 
         messageData.getChannel()
-                .editMessageById(getMessageApi().get(key).getMessageId(), content.build())
+                .editMessageById(messageApi.get(key).getMessageId(), content.build())
                 .queue();
         replyMessage.send();
     }
@@ -86,10 +95,6 @@ public class TrackedEventMessage extends TrackedMessage implements Timed {
         delete();
 
         new TrackedEventMessage(key, messageBuilder, event).send();
-    }
-
-    private static MessageApiImpl getMessageApi() {
-        return MessageApiImpl.getInstance();
     }
 
 }

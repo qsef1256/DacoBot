@@ -9,10 +9,9 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -98,7 +97,7 @@ public class InventoryCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            event.reply(DiaMessage.underConstruction()).queue();
+            event.reply(underConstruction()).queue();
         }
 
         @NotNull

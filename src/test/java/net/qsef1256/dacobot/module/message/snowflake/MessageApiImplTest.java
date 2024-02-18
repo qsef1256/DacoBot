@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -22,7 +24,11 @@ import static org.mockito.Mockito.when;
 
 @Slf4j
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@SpringBootTest
 class MessageApiImplTest {
+
+    @Autowired
+    private MessageApiImpl messageApi;
 
     private static MultiUserKey key1, key2, key3, key4, key5, key6;
     private static SingleUserKey key7, key8, key9, key10;
@@ -57,22 +63,18 @@ class MessageApiImplTest {
         key10 = new SingleUserKey("testDiff", user1);
     }
 
-    private static MessageApiImpl getInstance() {
-        return MessageApiImpl.getInstance();
-    }
-
     @BeforeEach
     public void clear() {
-        getInstance().remove(key1);
-        getInstance().remove(key2);
-        getInstance().remove(key3);
-        getInstance().remove(key4);
-        getInstance().remove(key5);
-        getInstance().remove(key6);
-        getInstance().remove(key7);
-        getInstance().remove(key8);
-        getInstance().remove(key9);
-        getInstance().remove(key10);
+        messageApi.remove(key1);
+        messageApi.remove(key2);
+        messageApi.remove(key3);
+        messageApi.remove(key4);
+        messageApi.remove(key5);
+        messageApi.remove(key6);
+        messageApi.remove(key7);
+        messageApi.remove(key8);
+        messageApi.remove(key9);
+        messageApi.remove(key10);
     }
 
     @Test
@@ -85,40 +87,42 @@ class MessageApiImplTest {
 
     @Test
     @Order(2)
+    @SuppressWarnings("java:S5778")
     void add() {
         channel = Mockito.mock(MessageChannel.class);
 
-        getInstance().add(key1, createData(1L));
+        messageApi.add(key1, createData(1L));
 
         log.info(key1.toString());
         log.info(key2.toString());
-        log.info(ToStringUtil.mapToString(getInstance().getAsMap()));
-        assertThrows(MessageApiException.class, () -> getInstance().add(key2, createData(2L)));
-        assertThrows(MessageApiException.class, () -> getInstance().add(key3, createData(3L)));
-        assertDoesNotThrow(() -> getInstance().add(key4, createData(4L)));
-        assertDoesNotThrow(() -> getInstance().add(key5, createData(5L)));
-        assertDoesNotThrow(() -> getInstance().add(key6, createData(6L)));
+        log.info(ToStringUtil.mapToString(messageApi.getAsMap()));
+        assertThrows(MessageApiException.class, () -> messageApi.add(key2, createData(2L)));
+        assertThrows(MessageApiException.class, () -> messageApi.add(key3, createData(3L)));
+        assertDoesNotThrow(() -> messageApi.add(key4, createData(4L)));
+        assertDoesNotThrow(() -> messageApi.add(key5, createData(5L)));
+        assertDoesNotThrow(() -> messageApi.add(key6, createData(6L)));
 
-        getInstance().add(key7, createData(7L));
-        assertThrows(MessageApiException.class, () -> getInstance().add(key8, createData(8L)));
-        assertDoesNotThrow(() -> getInstance().add(key9, createData(9L)));
-        assertDoesNotThrow(() -> getInstance().add(key10, createData(10L)));
+        messageApi.add(key7, createData(7L));
+        assertThrows(MessageApiException.class, () -> messageApi.add(key8, createData(8L)));
+        assertDoesNotThrow(() -> messageApi.add(key9, createData(9L)));
+        assertDoesNotThrow(() -> messageApi.add(key10, createData(10L)));
     }
 
     @Test
     @Order(3)
     void get() {
-        getInstance().add(key1, createData(1L));
-        assertEquals(createData(1L), getInstance().get(key2));
+        messageApi.add(key1, createData(1L));
+        assertEquals(createData(1L), messageApi.get(key2));
 
-        getInstance().add(key7, createData(7L));
-        assertEquals(createData(7L), getInstance().get(key8));
-        assertThrows(NoSuchElementException.class, () -> getInstance().get(key9));
-        assertThrows(NoSuchElementException.class, () -> getInstance().get(key10));
+        messageApi.add(key7, createData(7L));
+        assertEquals(createData(7L), messageApi.get(key8));
+        assertThrows(NoSuchElementException.class, () -> messageApi.get(key9));
+        assertThrows(NoSuchElementException.class, () -> messageApi.get(key10));
     }
 
+    @NotNull
     @Contract("_ -> new")
-    private @NotNull MessageData createData(long snowflake) {
+    private MessageData createData(long snowflake) {
         return new MessageData(snowflake, channel);
     }
 

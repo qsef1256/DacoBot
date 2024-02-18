@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.module.account.command;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import net.qsef1256.dacobot.ui.DiaEmbed;

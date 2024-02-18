@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.command;
+package net.qsef1256.dacobot.core.command;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.SlashCommand;
@@ -8,9 +8,10 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.CommandClientService;
+import net.qsef1256.dacobot.core.command.commandclient.CommandClientService;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticEntity;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public abstract class DacoCommand extends SlashCommand {
      * @return 추가 명령어를 입력하세요! : 추가, 삭제
      */
     @NotNull
-    protected String needSubCommand(Member member) {
+    protected String needSubCommand(@Nullable Member member) {
         String[] childNames = new String[children.length];
 
         int i = 0;
@@ -111,7 +112,7 @@ public abstract class DacoCommand extends SlashCommand {
      * @param defaultValue default value if option value is null
      * @return string value of option
      */
-    @Nullable
+    @Nullable(value = "if option is not required and defaultValue is null")
     protected <T> T getOption(@NotNull Function<OptionMapping, T> transformer,
                               @NotNull String optionName,
                               @Nullable T defaultValue) {
@@ -123,13 +124,12 @@ public abstract class DacoCommand extends SlashCommand {
                 .filter(option -> option.getName().equals(optionName))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("can't find option " + optionName));
-
         OptionMapping option = event.getOption(optionName);
+
         if (option == null) {
-            if (optionData.isRequired())
-                event.reply("%s를 입력해주세요.".formatted(optionName))
-                        .setEphemeral(true)
-                        .queue(); // TODO: just throw exception?
+            if (optionData.isRequired() && defaultValue == null)
+                throw new OptionNotFoundException(optionName);
+
             return defaultValue;
         }
 
@@ -139,7 +139,8 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
+
+    @Contract("_, !null -> !null")
     protected String getOptionString(@NotNull String optionName,
                                      @Nullable String defaultValue) {
         return getOption(OptionMapping::getAsString, optionName, defaultValue);
@@ -148,7 +149,6 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
     protected String getOptionString(@NotNull String optionName) {
         return getOptionString(optionName, null);
     }
@@ -156,7 +156,7 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
+    @Contract("_, !null -> !null")
     protected Long getOptionLong(@NotNull String optionName,
                                  @Nullable Long defaultValue) {
         return getOption(OptionMapping::getAsLong, optionName, defaultValue);
@@ -165,7 +165,6 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
     protected Long getOptionLong(@NotNull String optionName) {
         return getOptionLong(optionName, null);
     }
@@ -173,7 +172,7 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
+    @Contract("_, !null -> !null")
     protected Double getOptionDouble(@NotNull String optionName,
                                      @Nullable Double defaultValue) {
         return getOption(OptionMapping::getAsDouble, optionName, defaultValue);
@@ -182,7 +181,6 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
     protected Double getOptionDouble(@NotNull String optionName) {
         return getOptionDouble(optionName, null);
     }
@@ -190,7 +188,7 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
+    @Contract("_, !null -> !null")
     protected Integer getOptionInt(@NotNull String optionName,
                                    @Nullable Integer defaultValue) {
         return getOption(OptionMapping::getAsInt, optionName, defaultValue);
@@ -199,7 +197,6 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
     protected Integer getOptionInt(@NotNull String optionName) {
         return getOptionInt(optionName, null);
     }
@@ -207,7 +204,7 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
+    @Contract("_, !null -> !null")
     protected User getOptionUser(@NotNull String optionName,
                                  @Nullable User defaultValue) {
         return getOption(OptionMapping::getAsUser, optionName, defaultValue);
@@ -216,7 +213,6 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-    @Nullable
     protected User getOptionUser(@NotNull String optionName) {
         return getOptionUser(optionName, null);
     }

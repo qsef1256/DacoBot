@@ -5,7 +5,7 @@ import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.core.command.CommandClientService;
+import net.qsef1256.dacobot.core.command.commandclient.CommandClientService;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.core.schedule.DiaScheduler;
 import net.qsef1256.dacobot.setting.DiaSetting;

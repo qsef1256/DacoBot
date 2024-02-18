@@ -7,10 +7,9 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.module.common.key.SingleUserKey;
 import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -35,7 +34,7 @@ public class MessageCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        DiaMessage.needSubCommand(children, event.getMember());
+        callNeedSubCommand();
     }
 
     public static class SendCommand extends DacoCommand {

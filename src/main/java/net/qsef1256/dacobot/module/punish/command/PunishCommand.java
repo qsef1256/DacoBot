@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.module.punish.controller.PunishController;
 import net.qsef1256.dacobot.module.punish.entity.PunishType;
 import net.qsef1256.dacobot.ui.DiaEmbed;

@@ -5,13 +5,12 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.Setter;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.module.request.model.Request;
 import net.qsef1256.dacobot.module.request.model.RequestAPI;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -33,9 +32,7 @@ public class RequestCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        SlashCommand[] children = getChildren();
-
-        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
+        callNeedSubCommand();
     }
 
     private static class CheckCommand extends DacoCommand {

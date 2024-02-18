@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.paint.model;
 
-import net.qsef1256.dacobot.core.command.CommandClientService;
+import net.qsef1256.dacobot.core.command.commandclient.CommandClientService;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.game.paint.entity.PaintEntity;
 import net.qsef1256.dacobot.game.paint.model.painter.PainterContainer;

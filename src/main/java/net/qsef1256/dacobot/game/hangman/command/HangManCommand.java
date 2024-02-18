@@ -6,12 +6,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.game.hangman.container.HangManContainer;
 import net.qsef1256.dacobot.game.hangman.domain.HangMan;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +35,7 @@ public class HangManCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
+        callNeedSubCommand();
     }
 
     public static class StartCommand extends DacoCommand {
@@ -48,7 +47,7 @@ public class HangManCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            event.reply(DiaMessage.underConstruction()).queue();
+            event.reply(underConstruction()).queue();
 
             // https://www.ef.co.kr/english-world/english-vocabulary/top-1000-words/
             /* TODO

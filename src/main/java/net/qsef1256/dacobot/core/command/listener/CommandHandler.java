@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.listener;
+package net.qsef1256.dacobot.core.command.listener;
 
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandListener;
@@ -6,6 +6,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.qsef1256.dacobot.core.command.OptionNotFoundException;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -24,9 +25,18 @@ public class CommandHandler implements CommandListener {
     public void onSlashCommandException(@NotNull SlashCommandEvent event,
                                         @NotNull SlashCommand command,
                                         @NotNull Throwable throwable) {
-        log.error("%s slash command exception".formatted(command.getName()), throwable);
+        if (throwable instanceof OptionNotFoundException e) {
+            event.reply("%s를 입력해주세요.".formatted(e.getOptionName()))
+                    .setEphemeral(true)
+                    .queue();
+            return;
+        }
 
-        event.replyEmbeds(DiaEmbed.error(null, null, throwable, event.getUser()).build()).queue();
+        log.error("%s slash command exception".formatted(command.getName()), throwable);
+        event.replyEmbeds(DiaEmbed.error(null,
+                null,
+                throwable
+                , event.getUser()).build()).queue();
     }
 
     @Override

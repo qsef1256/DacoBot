@@ -4,15 +4,15 @@ import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.github.benmanes.caffeine.cache.stats.CacheStats;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.module.common.key.ManagedKey;
 import net.qsef1256.dacobot.module.message.data.MessageData;
 import net.qsef1256.dacobot.module.message.exception.MessageApiException;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.TestOnly;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Map;
@@ -23,26 +23,28 @@ import java.util.NoSuchElementException;
  * <p>제한 시간이 지정되어 있으며, 지날시 자동 삭제됩니다.</p>
  */
 @Slf4j
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Component
 public class MessageApiImpl implements MessageApi {
 
     @Getter
     private static final int CACHE_SIZE = 10000;
     @Getter
     private static final Duration EXPIRE_AFTER_WRITE = Duration.ofDays(1);
-    @Getter
-    private static final MessageApiImpl instance = new MessageApiImpl();
 
-    private final LoadingCache<ManagedKey, MessageData> keyCache = Caffeine.newBuilder()
-            .maximumSize(CACHE_SIZE)
-            .expireAfterWrite(EXPIRE_AFTER_WRITE)
-            .removalListener(new MessageRemovalListener<>())
-            .build(new CacheLoader<>() {
-                @Override
-                public @Nullable MessageData load(ManagedKey key) {
-                    return keyCache.get(key);
-                }
-            });
+    public MessageApiImpl(@NotNull MessageRemovalListener<ManagedKey, MessageData> removalListener) {
+        keyCache = Caffeine.newBuilder()
+                .maximumSize(CACHE_SIZE)
+                .expireAfterWrite(EXPIRE_AFTER_WRITE)
+                .removalListener(removalListener)
+                .build(new CacheLoader<>() {
+                    @Override
+                    public @Nullable MessageData load(ManagedKey key) {
+                        return keyCache.get(key);
+                    }
+                });
+    }
+
+    private final LoadingCache<ManagedKey, MessageData> keyCache;
 
     @Override
     public void add(ManagedKey key, MessageData snowflake) {

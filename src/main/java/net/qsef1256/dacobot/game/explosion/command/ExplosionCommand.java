@@ -1,8 +1,7 @@
 package net.qsef1256.dacobot.game.explosion.command;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.qsef1256.dacobot.command.DacoCommand;
-import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +15,7 @@ public class ExplosionCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        event.reply(DiaMessage.underConstruction()).queue();
+        event.reply(underConstruction()).queue();
     }
 
 }

@@ -1,6 +1,7 @@
 package net.qsef1256.dacobot.game.board;
 
 import com.sun.jdi.request.DuplicateRequestException;
+import lombok.Setter;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.callbacks.IReplyCallback;
@@ -10,6 +11,7 @@ import net.qsef1256.dacobot.module.message.MessageApiImpl;
 import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.TestOnly;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,9 @@ import java.util.NoSuchElementException;
 public class GameAPI {
 
     private static final Map<ManagedKey, GameHost<?>> gameMap = new HashMap<>();
+
+    @Setter(onMethod_ = {@Autowired})
+    private MessageApiImpl messageApi;
 
     @SuppressWarnings("unchecked")
     public <T> T getGame(@NotNull GameHost<?> game) {
@@ -41,7 +46,7 @@ public class GameAPI {
     }
 
     public void removeGame(ManagedKey message) {
-        if (!MessageApiImpl.getInstance().has(message))
+        if (!messageApi.has(message))
             throw new NoSuchElementException(message.getType() + " 게임을 찾지 못했습니다.");
 
         gameMap.remove(message);

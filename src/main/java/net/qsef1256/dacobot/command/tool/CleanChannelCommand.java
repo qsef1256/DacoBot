@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.command.tool;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 

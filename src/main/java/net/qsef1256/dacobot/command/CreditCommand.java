@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.core.localization.TimeLocalizer;
 import net.qsef1256.dacobot.setting.DiaSetting;
@@ -11,7 +12,6 @@ import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.boot.info.BuildProperties;
@@ -40,9 +40,7 @@ public class CreditCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        SlashCommand[] children = getChildren();
-
-        event.reply(DiaMessage.needSubCommand(children, event.getMember())).queue();
+        callNeedSubCommand();
     }
 
     @Component

@@ -2,6 +2,7 @@ package net.qsef1256.dacobot.module.message.type;
 
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
@@ -11,9 +12,13 @@ import net.qsef1256.dacobot.module.message.MessageApiImpl;
 import net.qsef1256.dacobot.module.message.data.MessageData;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 public class TrackedMessage implements AbstractMessage, ControlledMessage, Timed {
+
+    @Setter(onMethod_ = {@Autowired})
+    private MessageApiImpl messageApi;
 
     @Getter
     protected final ManagedKey key;
@@ -30,7 +35,7 @@ public class TrackedMessage implements AbstractMessage, ControlledMessage, Timed
         this.key = key;
         this.message = message;
         this.channel = channel;
-        this.onRemove = null;
+        onRemove = null;
     }
 
     public TrackedMessage(@NotNull ManagedKey key,
@@ -47,7 +52,7 @@ public class TrackedMessage implements AbstractMessage, ControlledMessage, Timed
             throw new DuplicateRequestException("이미 메시지가 있습니다: " + key);
         else
             channel.sendMessage(message.build()).queue(result -> {
-                getMessageApi().add(key, new MessageData(result.getIdLong(), channel));
+                messageApi.add(key, new MessageData(result.getIdLong(), channel));
                 log.info("result");
             });
     }
@@ -60,7 +65,7 @@ public class TrackedMessage implements AbstractMessage, ControlledMessage, Timed
 
     @Override
     public boolean exists() {
-        return getMessageApi().has(key);
+        return messageApi.has(key);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class TrackedMessage implements AbstractMessage, ControlledMessage, Timed
 
     @Override
     public void invalidate() {
-        getMessageApi().remove(key);
+        messageApi.remove(key);
     }
 
     @Override
@@ -84,21 +89,17 @@ public class TrackedMessage implements AbstractMessage, ControlledMessage, Timed
     }
 
     protected MessageData getMessageData() {
-        return getMessageApi().get(key);
+        return messageApi.get(key);
     }
 
     @Override
     public void refresh() {
-        getMessageApi().refresh(key);
+        messageApi.refresh(key);
     }
 
     @Override
     public void onTimeout() {
-        getMessageApi().get(key).getOnRemove().run();
-    }
-
-    private static MessageApiImpl getMessageApi() {
-        return MessageApiImpl.getInstance();
+        messageApi.get(key).getOnRemove().run();
     }
 
 }

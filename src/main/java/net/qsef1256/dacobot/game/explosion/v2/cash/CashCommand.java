@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.command.DacoCommand;
+import net.qsef1256.dacobot.core.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -78,8 +78,6 @@ public class CashCommand extends DacoCommand {
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = getOptionUser("유저", event.getUser());
             Long option = getOptionLong("숫자");
-            if (user == null) return;
-            if (option == null) return;
 
             cash.changeCash(user.getIdLong(), option);
             event.replyEmbeds(DiaEmbed.info("돈 목록",
@@ -111,8 +109,6 @@ public class CashCommand extends DacoCommand {
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = getOptionUser("유저", event.getUser());
             Long option = getOptionLong("숫자");
-            if (user == null) return;
-            if (option == null) return;
 
             cash.changeCash(user.getIdLong(), -option);
             event.replyEmbeds(DiaEmbed.info("돈 목록",
