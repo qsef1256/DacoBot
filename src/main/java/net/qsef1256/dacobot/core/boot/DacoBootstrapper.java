@@ -1,12 +1,9 @@
 package net.qsef1256.dacobot.core.boot;
 
-import com.jagrosh.jdautilities.command.ContextMenu;
-import com.jagrosh.jdautilities.command.SlashCommand;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.qsef1256.dacobot.DacoBot;
 import net.qsef1256.dacobot.core.command.CommandClientService;
 import net.qsef1256.dacobot.core.jda.JdaService;
@@ -22,7 +19,6 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -64,33 +60,12 @@ public class DacoBootstrapper {
                 .toList();
         log.info("guilds size: " + guilds.size());
         // TODO: global command
-        guilds.forEach(this::upsertToGuild);
+        guilds.forEach(commandClient::upsertToGuild);
 
         License.iConfirmNonCommercialUse("qsef1256");
         LocalDateTimeUtil.setZoneId(setting.getZoneId());
 
         log.info("Finish loading " + DiaInfo.BOT_NAME + "!");
-    }
-
-    private void upsertToGuild(@NotNull Guild guild) {
-        log.info("Upsert command data for Guild id %s".formatted(guild.getId()));
-
-        List<CommandData> commandDataList = commandClient.getCommandClient().getSlashCommands()
-                .stream()
-                .map(SlashCommand::buildCommandData)
-                .toList();
-        List<CommandData> contextMenuList = commandClient.getCommandClient().getContextMenus()
-                .stream()
-                .map(ContextMenu::buildCommandData)
-                .toList();
-
-        List<CommandData> allCommandData = new ArrayList<>();
-        allCommandData.addAll(commandDataList);
-        allCommandData.addAll(contextMenuList);
-
-        guild.updateCommands()
-                .addCommands(allCommandData)
-                .queue();
     }
 
     @PreDestroy

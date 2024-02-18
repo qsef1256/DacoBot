@@ -16,19 +16,16 @@ import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
+import net.qsef1256.dialib.common.ResultSwitch;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.NoSuchElementException;
 
 @Slf4j
 @Component
 public class AccountCommand extends DacoCommand {
 
-    @Autowired
     public AccountCommand(@NotNull RegisterCommand registerCommand,
                           @NotNull StatusCommand statusCommand,
                           @NotNull ResetCommand resetCommand) {
@@ -44,7 +41,7 @@ public class AccountCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
+        callNeedSubCommand();
     }
 
     @Component
@@ -64,7 +61,7 @@ public class AccountCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            final User user = event.getUser();
+            User user = event.getUser();
 
             event.deferReply().queue(callback -> {
                 try {
@@ -95,14 +92,13 @@ public class AccountCommand extends DacoCommand {
         private final CashService cashService;
         private final AccountController accountController;
 
-        @Autowired
         public StatusCommand(@NotNull AccountController accountController,
                              @NotNull CashService cashService) {
             this.accountController = accountController;
             this.cashService = cashService;
 
             name = "확인";
-            help = "계정 상태를 확인합니다. 아니면 돈 자랑...";
+            help = "계정 상태를 확인합니다. 아니면 돈 자랑을 하거나...";
         }
 
         @Override
@@ -113,9 +109,6 @@ public class AccountCommand extends DacoCommand {
                 UserEntity userData = accountController.getAccount(user.getIdLong());
                 long cash = cashService.getCash(user.getIdLong());
 
-                String footer = "아직 돈이 없군요. 돈을 벌어보세요!";
-                footer = getFooter(cash, footer);
-
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("계정 정보")
                         .setColor(DiaColor.INFO)
@@ -125,7 +118,7 @@ public class AccountCommand extends DacoCommand {
                         .addField("가입 일자", userData.getRegisterTime().format(DateTimeFormatter.ISO_LOCAL_DATE), true)
                         .addField("계정 상태", userData.getStatus(), true)
                         .addField("돈", cash + " 코인", false)
-                        .setFooter(footer)
+                        .setFooter(getFooter(cash))
                         .build()).queue();
 
             } catch (RuntimeException e) {
@@ -133,20 +126,20 @@ public class AccountCommand extends DacoCommand {
                         .setFooter("계정 신청은 /계정 등록")
                         .build()).queue();
 
-                if (e instanceof NoSuchElementException) return;
+                if (e instanceof DacoAccountException) return;
                 log.error("계정 정보 확인 실패", e);
             }
         }
 
-        private String getFooter(final long cash, String footer) {
-            if (cash > 1) footer = "한푼 두푼 모으다 보면 많아질꺼에요.";
-            if (cash > 100) footer = "멋지네요! 100 코인 돌파!";
-            if (cash > 500) footer = "500 코인 돌파!";
-            if (cash > 5000) footer = "이제 5천원 짜리 계정이네요. 잠깐.. 현실 돈이던가";
-            if (cash > 10000) footer = "1만을 찍었어요. 더 벌어보자구요.";
-            if (cash > 50000) footer = "돈 많아요!";
-
-            return footer;
+        private String getFooter(long cash) {
+            return ResultSwitch.get(cash, String.class)
+                    .caseCondition(cash > 1, "한푼 두푼 모으다 보면 많아질꺼에요.")
+                    .caseCondition(cash > 100, "멋지네요! 100 코인 돌파!")
+                    .caseCondition(cash > 500, "500 코인 돌파!")
+                    .caseCondition(cash > 5000, "이제 5천원 짜리 계정이네요. 잠깐.. 현실 돈이던가")
+                    .caseCondition(cash > 10000, "1만을 찍었어요. 더 벌어보자구요.")
+                    .caseCondition(cash > 50000, "돈이 많군요!")
+                    .defaultResult("아직 돈이 없군요. 돈을 벌어보세요!");
         }
 
     }
@@ -161,7 +154,7 @@ public class AccountCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            final User user = event.getUser();
+            User user = event.getUser();
 
             event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 초기화 확인")

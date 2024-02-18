@@ -41,7 +41,7 @@ public class AccountController {
             userRepository.saveAndFlush(userData);
         } catch (DacoAccountException e) {
             throw e;
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             log.error(e.getMessage());
             throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
         }
@@ -59,7 +59,7 @@ public class AccountController {
             userRepository.deleteById(discordId);
         } catch (DacoAccountException e) {
             throw e;
-        } catch (final RuntimeException e) {
+        } catch (RuntimeException e) {
             log.error(e.getMessage());
 
             throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");

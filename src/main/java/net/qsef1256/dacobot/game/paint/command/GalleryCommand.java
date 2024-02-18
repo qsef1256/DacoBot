@@ -70,7 +70,7 @@ public class GalleryCommand extends DacoCommand {
             User user = event.getUser();
 
             event.replyEmbeds(gallery.applyPainter(user,
-                    getOptionString("이름", false),
+                    getOptionString("이름"),
                     new PixelPainter())).queue();
         }
 
@@ -221,7 +221,6 @@ public class GalleryCommand extends DacoCommand {
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
-
             List<String> paintNames = paintController.getOwnedPaint(user.getIdLong());
 
             event.replyEmbeds(new EmbedBuilder()

@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.ui.DiaMessage;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +30,7 @@ public class CashCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        event.reply(DiaMessage.needSubCommand(getChildren(), event.getMember())).queue();
+        callNeedSubCommand();
     }
 
     @Component
@@ -68,7 +67,8 @@ public class CashCommand extends DacoCommand {
             name = "추가";
             help = "돈을 추가합니다.";
             options = List.of(
-                    new OptionData(OptionType.INTEGER, "숫자", "숫자")
+                    new OptionData(OptionType.INTEGER, "숫자", "숫자", true),
+                    new OptionData(OptionType.USER, "유저", "유저", false)
             );
 
             ownerCommand = true;
@@ -76,8 +76,9 @@ public class CashCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            User user = event.getUser();
+            User user = getOptionUser("유저", event.getUser());
             Long option = getOptionLong("숫자");
+            if (user == null) return;
             if (option == null) return;
 
             cash.changeCash(user.getIdLong(), option);
@@ -99,7 +100,8 @@ public class CashCommand extends DacoCommand {
             name = "제거";
             help = "돈을 제거합니다.";
             options = List.of(
-                    new OptionData(OptionType.INTEGER, "숫자", "숫자")
+                    new OptionData(OptionType.INTEGER, "숫자", "숫자", true),
+                    new OptionData(OptionType.USER, "유저", "유저")
             );
 
             ownerCommand = true;
@@ -107,8 +109,9 @@ public class CashCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            User user = event.getUser();
+            User user = getOptionUser("유저", event.getUser());
             Long option = getOptionLong("숫자");
+            if (user == null) return;
             if (option == null) return;
 
             cash.changeCash(user.getIdLong(), -option);

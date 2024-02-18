@@ -21,8 +21,8 @@ public class AccountButtonListener extends ListenerAdapter {
     private final AccountController accountController;
     private final UserController userController;
 
-    public AccountButtonListener(AccountController accountController,
-                                 UserController userController) {
+    public AccountButtonListener(@NotNull AccountController accountController,
+                                 @NotNull UserController userController) {
         this.accountController = accountController;
         this.userController = userController;
     }
@@ -33,10 +33,10 @@ public class AccountButtonListener extends ListenerAdapter {
      * @see AccountCommand
      */
     @Override
-    public void onButtonInteraction(final @NotNull ButtonInteractionEvent event) { // TODO: refactoring to Account model
+    public void onButtonInteraction(@NotNull ButtonInteractionEvent event) { // TODO: refactoring to Account model
         switch (event.getComponentId()) {
             case "account_reset" -> {
-                final User user = event.getUser();
+                User user = event.getUser();
 
                 try {
                     userController.reset(user.getIdLong());
@@ -54,14 +54,14 @@ public class AccountButtonListener extends ListenerAdapter {
                             .setFooter("예술의 끝으로 계정을 대폭발 시키려고 하지만 누군가가 막고 있군요...")
                             .build()).queue();
 
-                    if (e instanceof NoSuchElementException) return;
+                    if (e instanceof NoSuchElementException) return; // TODO: anti-pattern
                     e.printStackTrace();
                 }
 
                 event.editButton(event.getButton().asDisabled()).queue();
             }
             case "account_delete" -> {
-                final User user = event.getUser();
+                User user = event.getUser();
 
                 try {
                     accountController.delete(user.getIdLong());

@@ -5,6 +5,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * Bot boot logic moved to {@link net.qsef1256.dacobot.core.boot.DacoBootstrapper}
+ */
 @Slf4j
 @SpringBootApplication
 public class DacoBot implements CommandLineRunner {
@@ -15,7 +18,7 @@ public class DacoBot implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // empty now...
+        // empty now
     }
 
 }

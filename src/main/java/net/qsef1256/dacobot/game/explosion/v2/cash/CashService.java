@@ -25,11 +25,15 @@ public class CashService {
         return cash.getReferenceById(userId.getUserId(discordId));
     }
 
-    private void createCash(long discordId) {
+    public void createCash(long discordId) {
         CashEntity cashEntity = new CashEntity();
         cashEntity.setUser(userId.getUserId(discordId));
 
-        cash.saveAndFlush(cashEntity);
+        cash.save(cashEntity);
+    }
+
+    public void deleteCash(long discordId) {
+        cash.deleteById(userId.getUserId(discordId));
     }
 
     public long getCash(long discordId) {

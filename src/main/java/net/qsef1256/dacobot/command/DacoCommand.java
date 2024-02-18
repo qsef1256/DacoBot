@@ -7,6 +7,7 @@ import lombok.Getter;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.core.command.CommandClientService;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticEntity;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
+
+// TODO: fill javadoc
 
 /**
  * 뭐라 적지?
@@ -103,108 +106,119 @@ public abstract class DacoCommand extends SlashCommand {
      *     if (number == null) return;
      * }</pre>
      *
-     * @param transformer transformer for option value
-     * @param optionName  name of option
-     * @param required    if true and option are null, send notice and close interaction of event
+     * @param transformer  transformer for option value
+     * @param optionName   name of option
+     * @param defaultValue default value if option value is null
      * @return string value of option
      */
     @Nullable
     protected <T> T getOption(@NotNull Function<OptionMapping, T> transformer,
                               @NotNull String optionName,
-                              boolean required) {
+                              @Nullable T defaultValue) {
         if (event == null)
             throw new IllegalStateException("Slash command event is null, is command executed?");
 
+        OptionData optionData = getOptions()
+                .stream()
+                .filter(option -> option.getName().equals(optionName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("can't find option " + optionName));
+
         OptionMapping option = event.getOption(optionName);
         if (option == null) {
-            if (required)
+            if (optionData.isRequired())
                 event.reply("%s를 입력해주세요.".formatted(optionName))
                         .setEphemeral(true)
-                        .queue();
-            return null;
+                        .queue(); // TODO: just throw exception?
+            return defaultValue;
         }
 
         return transformer.apply(option);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
-    protected String getOptionString(@NotNull String optionName, boolean required) {
-        return getOption(OptionMapping::getAsString, optionName, required);
+    protected String getOptionString(@NotNull String optionName,
+                                     @Nullable String defaultValue) {
+        return getOption(OptionMapping::getAsString, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
     protected String getOptionString(@NotNull String optionName) {
-        return getOptionString(optionName, true);
+        return getOptionString(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
-    protected Long getOptionLong(@NotNull String optionName, boolean required) {
-        return getOption(OptionMapping::getAsLong, optionName, required);
+    protected Long getOptionLong(@NotNull String optionName,
+                                 @Nullable Long defaultValue) {
+        return getOption(OptionMapping::getAsLong, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
     protected Long getOptionLong(@NotNull String optionName) {
-        return getOptionLong(optionName, true);
+        return getOptionLong(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
-    protected Double getOptionDouble(@NotNull String optionName, boolean required) {
-        return getOption(OptionMapping::getAsDouble, optionName, required);
+    protected Double getOptionDouble(@NotNull String optionName,
+                                     @Nullable Double defaultValue) {
+        return getOption(OptionMapping::getAsDouble, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
     protected Double getOptionDouble(@NotNull String optionName) {
-        return getOptionDouble(optionName, true);
+        return getOptionDouble(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
-    protected Integer getOptionInt(@NotNull String optionName, boolean required) {
-        return getOption(OptionMapping::getAsInt, optionName, required);
+    protected Integer getOptionInt(@NotNull String optionName,
+                                   @Nullable Integer defaultValue) {
+        return getOption(OptionMapping::getAsInt, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
     protected Integer getOptionInt(@NotNull String optionName) {
-        return getOptionInt(optionName, true);
+        return getOptionInt(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
-    protected User getOptionUser(@NotNull String optionName, boolean required) {
-        return getOption(OptionMapping::getAsUser, optionName, required);
+    protected User getOptionUser(@NotNull String optionName,
+                                 @Nullable User defaultValue) {
+        return getOption(OptionMapping::getAsUser, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, boolean)
+     * @see #getOption(Function, String, Object)
      */
     @Nullable
     protected User getOptionUser(@NotNull String optionName) {
-        return getOptionUser(optionName, true);
+        return getOptionUser(optionName, null);
     }
 
 }
