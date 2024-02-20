@@ -1,0 +1,24 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  test:
+    database:
+      replace: none
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        sql: DEBUG
+
+dacobot:
+  jda:
+    boot: false

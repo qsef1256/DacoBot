@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 /**
  * DTO for {@link ItemEntity}
  */
-
+// TODO: use MapStruct
 @Builder
 public record Item(@NotNull @PositiveOrZero Integer id,
                    @NotNull ItemType itemType,
