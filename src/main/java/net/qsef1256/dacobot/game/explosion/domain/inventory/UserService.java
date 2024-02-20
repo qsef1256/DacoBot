@@ -32,4 +32,12 @@ public class UserService {
         });
     }
 
+    public boolean isUserExist(long discordId) {
+        return userRepository.existsById(discordId);
+    }
+
+    public boolean isUserNotExist(long discordId) {
+        return !isUserExist(discordId);
+    }
+
 }

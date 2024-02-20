@@ -14,6 +14,9 @@ public class UserIdService {
     }
 
     public UserId getUserId(long discordId) {
+        if (userService.isUserNotExist(discordId))
+            throw new IllegalArgumentException("need user account for %s".formatted(discordId));
+
         return new UserId(userService.getUser(discordId));
     }
 

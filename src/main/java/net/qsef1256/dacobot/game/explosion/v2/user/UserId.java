@@ -8,7 +8,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.qsef1256.dacobot.module.account.entity.UserEntity;
-import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
 
@@ -17,7 +16,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Component
 public class UserId implements Serializable {
 
     @OneToOne
