@@ -132,7 +132,7 @@ public class AccountCommand extends DacoCommand {
         }
 
         private String getFooter(long cash) {
-            return ResultSwitch.get(cash, String.class)
+            return ResultSwitch.of(cash, String.class)
                     .caseCondition(cash > 1, "한푼 두푼 모으다 보면 많아질꺼에요.")
                     .caseCondition(cash > 100, "멋지네요! 100 코인 돌파!")
                     .caseCondition(cash > 500, "500 코인 돌파!")

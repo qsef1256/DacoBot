@@ -18,7 +18,7 @@ import java.util.Objects;
 @Entity
 @Accessors(chain = true)
 @Table(name = "explosion_item")
-@NoArgsConstructor()
+@NoArgsConstructor
 public class ItemEntity {
 
     @Id
