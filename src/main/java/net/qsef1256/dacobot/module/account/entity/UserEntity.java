@@ -36,6 +36,7 @@ public class UserEntity implements Serializable {
     private Integer attendCount = 0;
 
     // TODO: move to DiaGame
+    // TODO: where is owning side?
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;

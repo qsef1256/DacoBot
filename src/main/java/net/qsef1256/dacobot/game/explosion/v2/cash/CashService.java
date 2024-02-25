@@ -1,39 +1,35 @@
 package net.qsef1256.dacobot.game.explosion.v2.cash;
 
-import net.qsef1256.dacobot.game.explosion.v2.user.UserIdService;
+import lombok.AllArgsConstructor;
+import net.qsef1256.dacobot.game.explosion.domain.inventory.UserService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class CashService {
 
     private final CashRepository cash;
-    private final UserIdService userId;
-
-    public CashService(@NotNull UserIdService userId,
-                       @NotNull CashRepository cash) {
-        this.userId = userId;
-        this.cash = cash;
-    }
+    private final UserService user;
 
     @NotNull
     private CashEntity getCashEntity(long discordId) {
-        if (!cash.existsById(userId.getUserId(discordId))) createCash(discordId);
+        if (!cash.existsById(discordId)) createCash(discordId);
 
-        return cash.getReferenceById(userId.getUserId(discordId));
+        return cash.getReferenceById(discordId);
     }
 
     public void createCash(long discordId) {
         CashEntity cashEntity = new CashEntity();
-        cashEntity.setUser(userId.getUserId(discordId));
+        cashEntity.setUser(user.getUser(discordId));
 
         cash.save(cashEntity);
     }
 
     public void deleteCash(long discordId) {
-        cash.deleteById(userId.getUserId(discordId));
+        cash.deleteById(discordId);
     }
 
     public long getCash(long discordId) {
