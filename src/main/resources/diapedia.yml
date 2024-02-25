@@ -1,4 +1,4 @@
-Version: 2023-08-18
+Version: 2024-02-25
 
 Useful:
   Site:
@@ -91,7 +91,7 @@ Computer Science:
     Functional Programming: "https://ko.wikipedia.org/wiki/%ED%95%A8%EC%88%98%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
     Declarative Programming: "https://ko.wikipedia.org/wiki/%EC%84%A0%EC%96%B8%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
     Aspect Oriented Programming: "https://galid1.tistory.com/497?category=769011" # AOP
-    Domain Driven Design:
+    Domain Driven Design: # DDD
 
   Software Development Process:
     Requirements Engineering:
@@ -128,6 +128,7 @@ Computer Science:
     Monolith vs Microservices: "https://www.atlassian.com/ko/microservices/microservices-architecture/microservices-vs-monolith" # MSA
     Layered Architecture: "https://hudi.blog/layered-architecture/"
     Hexagonal: "https://tech.osci.kr/hexagonal-architecture/"
+    Clean Architecture:
 
     Anti-pattern:
       Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
@@ -276,6 +277,8 @@ Java:
         - "https://velog.io/@corepen_/3%EC%A3%BC-%EC%99%84%EB%8F%85-Daily-%EC%84%9C%ED%8F%89-%EC%8B%A4%EC%9A%A9%EC%A3%BC%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8-1"
         - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
       Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
+      Etc:
+        - "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
 
   Useful:
     - "https://www.javatips.net/"
