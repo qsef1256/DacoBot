@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import net.qsef1256.dacobot.game.explosion.domain.item.ItemEntity;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.module.account.user.UserEntity;
 import org.hibernate.Hibernate;
 import org.jetbrains.annotations.NotNull;
 

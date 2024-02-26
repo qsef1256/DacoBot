@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.module.account.entity;
+package net.qsef1256.dacobot.module.account.user;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

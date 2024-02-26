@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.module.account.entity;
+package net.qsef1256.dacobot.module.account.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;

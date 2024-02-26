@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.domain.inventory;
 
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.module.account.user.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

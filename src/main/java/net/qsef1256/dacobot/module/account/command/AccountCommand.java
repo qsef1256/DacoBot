@@ -7,11 +7,10 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.core.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.controller.UserController;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
-import net.qsef1256.dacobot.module.account.controller.AccountController;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.game.explosion.v2.wallet.WalletService;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
+import net.qsef1256.dacobot.module.account.user.UserController;
+import net.qsef1256.dacobot.module.account.user.UserEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
@@ -47,12 +46,9 @@ public class AccountCommand extends DacoCommand {
     @Component
     public static class RegisterCommand extends DacoCommand {
 
-        private final AccountController accountController;
         private final UserController userController;
 
-        public RegisterCommand(@NotNull AccountController accountController,
-                               @NotNull UserController userController) {
-            this.accountController = accountController;
+        public RegisterCommand(@NotNull UserController userController) {
             this.userController = userController;
 
             name = "등록";
@@ -65,7 +61,6 @@ public class AccountCommand extends DacoCommand {
 
             event.deferReply().queue(callback -> {
                 try {
-                    accountController.register(user.getIdLong());
                     userController.register(user.getIdLong());
                     callback.editOriginalEmbeds(new EmbedBuilder()
                             .setTitle("등록 성공")
@@ -89,13 +84,13 @@ public class AccountCommand extends DacoCommand {
     @Component
     public static class StatusCommand extends DacoCommand {
 
-        private final CashService cashService;
-        private final AccountController accountController;
+        private final WalletService walletService;
+        private final UserController userController;
 
-        public StatusCommand(@NotNull AccountController accountController,
-                             @NotNull CashService cashService) {
-            this.accountController = accountController;
-            this.cashService = cashService;
+        public StatusCommand(@NotNull UserController userController,
+                             @NotNull WalletService walletService) {
+            this.userController = userController;
+            this.walletService = walletService;
 
             name = "확인";
             help = "계정 상태를 확인합니다. 아니면 돈 자랑을 하거나...";
@@ -106,8 +101,8 @@ public class AccountCommand extends DacoCommand {
             User user = event.getUser();
 
             try {
-                UserEntity userData = accountController.getAccount(user.getIdLong());
-                long cash = cashService.getCash(user.getIdLong());
+                UserEntity userData = userController.getAccount(user.getIdLong());
+                long cash = walletService.getCash(user.getIdLong());
 
                 event.replyEmbeds(new EmbedBuilder()
                         .setTitle("계정 정보")

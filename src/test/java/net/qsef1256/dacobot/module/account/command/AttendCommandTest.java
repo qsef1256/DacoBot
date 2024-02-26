@@ -1,8 +1,8 @@
 package net.qsef1256.dacobot.module.account.command;
 
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.module.account.controller.AccountController;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.module.account.user.UserController;
+import net.qsef1256.dacobot.module.account.user.UserEntity;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,17 +18,17 @@ import java.util.NoSuchElementException;
 class AttendCommandTest {
 
     @BeforeEach
-    void registerUser(@Autowired AccountController controller) {
+    void registerUser(@Autowired UserController controller) {
         controller.register(419761037861060620L);
     }
 
     @AfterEach
-    void deleteUser(@Autowired AccountController controller) {
+    void deleteUser(@Autowired UserController controller) {
         controller.delete(419761037861060620L);
     }
 
     @Test
-    void testAttend(@Autowired AccountController controller) {
+    void testAttend(@Autowired UserController controller) {
         try {
             UserEntity userData = controller.getAccount(419761037861060620L);
 
@@ -38,7 +38,6 @@ class AttendCommandTest {
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
-                controller.save(userData);
 
                 log.info("출석 체크! 정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount());
             }
