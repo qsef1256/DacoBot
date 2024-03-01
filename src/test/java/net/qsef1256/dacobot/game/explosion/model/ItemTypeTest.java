@@ -1,6 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
-import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemType;
+import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +14,12 @@ class ItemTypeTest {
     @Test
     void testItem(@Autowired ItemTypeRepository inventory) {
         assertDoesNotThrow(() -> {
-            ItemType itemType = ItemType.fromEntity(inventory.getReferenceById(1));
+            ItemTypeEntity itemType = inventory.getReferenceById(1);
 
-            System.out.println("Item name: " + itemType.itemName());
-            System.out.println("Item icon: " + itemType.itemIcon());
-            System.out.println("Item desc: " + itemType.description());
-            System.out.println("Item rank: " + itemType.itemRank().getTitle());
+            System.out.println("Item name: " + itemType.getItemName());
+            System.out.println("Item icon: " + itemType.getItemIcon());
+            System.out.println("Item desc: " + itemType.getDescription());
+            System.out.println("Item rank: " + itemType.getItemRank().getTitle());
         });
     }
 

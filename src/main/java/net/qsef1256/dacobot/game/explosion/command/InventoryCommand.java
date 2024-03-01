@@ -97,7 +97,7 @@ public class InventoryCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            event.reply(underConstruction()).queue();
+            callUnderConstruction();
         }
 
         @NotNull
@@ -124,13 +124,7 @@ public class InventoryCommand extends DacoCommand {
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
-            try {
-                inventory.addItem(user.getIdLong(), 1);
-            } catch (RuntimeException e) {
-                log.error("failed to execute " + getClass().getSimpleName(), e);
-
-                event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
-            }
+            inventory.addItem(user.getIdLong(), 1);
         }
 
         @NotNull
@@ -157,13 +151,7 @@ public class InventoryCommand extends DacoCommand {
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
 
-            try {
-                inventory.removeItem(user.getIdLong(), 1);
-            } catch (RuntimeException e) {
-                log.error("failed to execute " + getClass().getSimpleName(), e);
-
-                event.replyEmbeds(DiaEmbed.error(null, null, e, user).build()).queue();
-            }
+            inventory.removeItem(user.getIdLong(), 1);
         }
 
         @NotNull

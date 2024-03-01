@@ -21,13 +21,13 @@ public class Item {
     @JoinColumn(name = "item_type")
     private ItemTypeEntity type;
     @Positive
-    private int amount = 1;
+    private long amount = 1;
 
-    public void addAmount(int amount) {
+    public void addAmount(long amount) {
         this.amount += amount;
     }
 
-    public void removeAmount(int amount) {
+    public void removeAmount(long amount) {
         this.amount -= amount;
     }
 

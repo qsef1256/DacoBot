@@ -68,11 +68,11 @@ public class PickaxeCommand extends DacoCommand {
             } catch (RuntimeException e) {
                 String message = ":warning: " + user.getName() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
 
-                if (e instanceof NoSuchElementException) { // TODO: I think this is anti-pattern, move message to model layer?
+                if (e instanceof NoSuchElementException)  // TODO: I think this is anti-pattern, move message to model layer?
                     message = message + "\n곡괭이 커맨드는 계정 등록이 있어야 사용 가능해요. `/계정 등록` 을 입력하세요.";
-                } else {
+                else
                     log.error("can't add diamond pickaxe for " + user.getIdLong(), e);
-                }
+
                 callback.editOriginal(message).queue();
             }
         });

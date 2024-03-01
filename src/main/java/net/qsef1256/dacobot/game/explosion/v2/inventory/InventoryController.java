@@ -43,7 +43,7 @@ public class InventoryController {
         embedBuilder.addField(":moneybag:돈",
                 "%d 캐시".formatted(cashService.getCash(user.getIdLong())), true);
         Item item = inventory.getItem(user.getIdLong(), 2);
-        int amount = item == null ? 0 : item.getAmount();
+        long amount = item == null ? 0 : item.getAmount();
 
         embedBuilder.addField(":gem:보유 다이아",
                 "%d 개".formatted(amount), true);

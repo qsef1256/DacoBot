@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.qsef1256.dacobot.game.explosion.v2.item.Item;
-import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeEntity;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,24 +26,6 @@ public class Inventory {
 
     public Inventory(long userId) {
         this.userId = userId;
-    }
-
-    @Nullable
-    public Item getItemByType(@NotNull ItemTypeEntity itemType) {
-        return items.stream()
-                .filter(item -> item.getType().equals(itemType))
-                .findAny()
-                .orElse(null);
-    }
-
-    @Nullable
-    public Item getItemByTypeId(int itemTypeId) {
-        return items.stream()
-                .filter(item -> item.getType()
-                        .getItemId()
-                        .equals(itemTypeId))
-                .findAny()
-                .orElse(null);
     }
 
     public void addItem(@NotNull Item item) {

@@ -35,9 +35,17 @@ public class InventoryService {
 
     @Nullable
     public Item getItem(long discordId, int itemId) {
-        Inventory inventory = getInventory(discordId);
+        return getItemByTypeId(discordId, itemId);
+    }
 
-        return inventory.getItemByTypeId(itemId);
+    @Nullable
+    private Item getItemByTypeId(long discordId, int itemTypeId) {
+        return getInventory(discordId)
+                .getItems()
+                .stream()
+                .filter(item -> item.getType().getItemId().equals(itemTypeId))
+                .findAny()
+                .orElse(null);
     }
 
     public void setItem(long discordId, @NotNull Item item) {
@@ -49,7 +57,7 @@ public class InventoryService {
 
     @NotNull
     @Contract("_, _ -> new")
-    private Item newItem(int itemId, int amount) {
+    private Item newItem(int itemId, long amount) {
         if (!type.existsById(itemId))
             throw new IllegalArgumentException("unknown item id:" + itemId);
 
@@ -62,9 +70,9 @@ public class InventoryService {
 
     public void addItem(long discordId,
                         int itemId,
-                        int amount) {
+                        long amount) {
         Inventory inventory = getInventory(discordId);
-        Item item = inventory.getItemByTypeId(itemId);
+        Item item = getItemByTypeId(discordId, itemId);
         if (item != null)
             item.addAmount(amount);
         else
@@ -79,14 +87,13 @@ public class InventoryService {
 
     public void setItem(long discordId,
                         int itemId,
-                        int amount) {
+                        long amount) {
         Inventory inventory = getInventory(discordId);
-        Item item = inventory.getItemByTypeId(itemId);
+        Item item = getItemByTypeId(discordId, itemId);
         if (item == null)
             inventory.addItem(newItem(itemId, amount));
         else
             item.setAmount(amount);
-
         repository.save(inventory);
     }
 
@@ -96,9 +103,9 @@ public class InventoryService {
 
     public void removeItem(long discordId,
                            int itemId,
-                           int amount) {
+                           long amount) {
         Inventory inventory = getInventory(discordId);
-        Item item = inventory.getItemByTypeId(itemId);
+        Item item = getItemByTypeId(discordId, itemId);
         if (item == null) return;
 
         if (item.getAmount() > amount)
@@ -110,7 +117,7 @@ public class InventoryService {
 
     public void clearItem(long discordId, int itemId) {
         Inventory inventory = getInventory(discordId);
-        Item item = inventory.getItemByTypeId(itemId);
+        Item item = getItemByTypeId(discordId, itemId);
         if (item == null) return;
 
         inventory.removeItem(item);

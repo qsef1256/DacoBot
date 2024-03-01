@@ -15,7 +15,7 @@ public class ExplosionCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        event.reply(underConstruction()).queue();
+        callUnderConstruction();
     }
 
 }
