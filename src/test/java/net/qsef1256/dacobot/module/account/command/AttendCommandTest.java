@@ -30,7 +30,7 @@ class AttendCommandTest {
     @Test
     void testAttend(@Autowired UserController controller) {
         try {
-            UserEntity userData = controller.getAccount(419761037861060620L);
+            UserEntity userData = controller.getUser(419761037861060620L);
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {

@@ -7,13 +7,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.qsef1256.dacobot.core.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.v2.wallet.WalletService;
+import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.module.account.user.UserController;
 import net.qsef1256.dacobot.module.account.user.UserEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.setting.constants.DiaImage;
-import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.common.ResultSwitch;
 import org.jetbrains.annotations.NotNull;
@@ -84,13 +82,13 @@ public class AccountCommand extends DacoCommand {
     @Component
     public static class StatusCommand extends DacoCommand {
 
-        private final WalletService walletService;
+        private final CashService cashService;
         private final UserController userController;
 
         public StatusCommand(@NotNull UserController userController,
-                             @NotNull WalletService walletService) {
+                             @NotNull CashService cashService) {
             this.userController = userController;
-            this.walletService = walletService;
+            this.cashService = cashService;
 
             name = "확인";
             help = "계정 상태를 확인합니다. 아니면 돈 자랑을 하거나...";
@@ -101,17 +99,13 @@ public class AccountCommand extends DacoCommand {
             User user = event.getUser();
 
             try {
-                UserEntity userData = userController.getAccount(user.getIdLong());
-                long cash = walletService.getCash(user.getIdLong());
+                UserEntity userData = userController.getUser(user.getIdLong());
+                long cash = cashService.getCash(user.getIdLong());
 
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("계정 정보")
-                        .setColor(DiaColor.INFO)
-                        .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
-                        .setThumbnail(user.getEffectiveAvatarUrl())
+                // TODO: add account status
+                event.replyEmbeds(DiaEmbed.info("계정 정보", null, user)
                         .addField("닉네임", user.getName(), true)
                         .addField("가입 일자", userData.getRegisterTime().format(DateTimeFormatter.ISO_LOCAL_DATE), true)
-                        .addField("계정 상태", userData.getStatus(), true)
                         .addField("돈", cash + " 코인", false)
                         .setFooter(getFooter(cash))
                         .build()).queue();

@@ -2,7 +2,6 @@ package net.qsef1256.dacobot.module.account.user;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,6 @@ public class UserService {
         UserEntity userData = new UserEntity();
         userData.setDiscordId(discordId);
         userData.setRegisterTime(LocalDateTime.now());
-        userData.setInventory(new InventoryEntity()); // TODO: remove
-        userData.setStatus("OK");
 
         return userRepository.save(userData);
     }

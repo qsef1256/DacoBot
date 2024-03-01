@@ -10,7 +10,8 @@ import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.qsef1256.dacobot.core.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
+import net.qsef1256.dacobot.game.explosion.v2.inventory.InventoryController;
+import net.qsef1256.dacobot.game.explosion.v2.inventory.InventoryService;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -45,9 +46,9 @@ public class InventoryCommand extends DacoCommand {
     @Component
     public static class SeeCommand extends DacoCommand {
 
-        private final InventoryService inventory;
+        private final InventoryController inventory;
 
-        public SeeCommand(@NotNull InventoryService inventory) {
+        public SeeCommand(@NotNull InventoryController inventory) {
             this.inventory = inventory;
 
             name = "보기";
@@ -57,9 +58,8 @@ public class InventoryCommand extends DacoCommand {
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
             User user = event.getUser();
-
             try {
-                event.replyEmbeds(inventory.getInventoryEmbed(user).build()).queue();
+                event.replyEmbeds(inventory.getInventoryEmbed(user)).queue();
             } catch (RuntimeException e) {
                 log.error("인벤토리 로드 실패", e);
 

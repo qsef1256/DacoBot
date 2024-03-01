@@ -21,7 +21,6 @@ class UserTest {
     static {
         testUser.setDiscordId(419761037861060620L);
         testUser.setRegisterTime(LocalDateTime.now());
-        testUser.setStatus("TEST");
     }
 
     @Test

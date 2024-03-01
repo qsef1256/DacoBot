@@ -33,7 +33,7 @@ public class AttendCommand extends DacoCommand {
         User eventUser = event.getUser();
 
         try {
-            UserEntity userData = userController.getAccount(eventUser.getIdLong());
+            UserEntity userData = userController.getUser(eventUser.getIdLong());
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {

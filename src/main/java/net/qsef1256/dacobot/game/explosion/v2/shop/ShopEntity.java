@@ -1,9 +1,9 @@
-package net.qsef1256.dacobot.game.explosion.domain.shop;
+package net.qsef1256.dacobot.game.explosion.v2.shop;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
+import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter

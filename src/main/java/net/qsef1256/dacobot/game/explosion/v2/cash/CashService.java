@@ -1,7 +1,6 @@
 package net.qsef1256.dacobot.game.explosion.v2.cash;
 
 import lombok.AllArgsConstructor;
-import net.qsef1256.dacobot.game.explosion.domain.inventory.UserService;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class CashService {
 
     private final CashRepository cash;
-    private final UserService user;
 
     @NotNull
     private CashEntity getCashEntity(long discordId) {
@@ -23,7 +21,7 @@ public class CashService {
 
     public void createCash(long discordId) {
         CashEntity cashEntity = new CashEntity();
-        cashEntity.setUser(user.getUser(discordId));
+        cashEntity.setUserId(discordId);
 
         cash.save(cashEntity);
     }

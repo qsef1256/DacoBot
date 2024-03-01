@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.domain.itemtype;
+package net.qsef1256.dacobot.game.explosion.v2.itemtype;
 
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;

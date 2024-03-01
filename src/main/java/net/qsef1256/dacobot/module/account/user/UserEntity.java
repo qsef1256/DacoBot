@@ -1,10 +1,12 @@
-package net.qsef1256.dacobot.module.account.entity;
+package net.qsef1256.dacobot.module.account.user;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryEntity;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
@@ -23,22 +25,11 @@ public class UserEntity implements Serializable {
 
     private LocalDateTime registerTime = LocalDateTime.now();
 
-    // TODO: this is moved to admin service...
-    @Column(nullable = false)
-    @ColumnDefault(value = "'OK'")
-    private String status = "OK";
-
     // TODO: separation required (maybe)
     private LocalDateTime lastAttendTime;
 
     @Column(nullable = false)
     @ColumnDefault(value = "0")
     private Integer attendCount = 0;
-
-    // TODO: move to DiaGame
-    // TODO: where is owning side?
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "inventory_id")
-    private InventoryEntity inventory;
 
 }

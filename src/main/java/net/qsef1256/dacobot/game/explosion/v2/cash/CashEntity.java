@@ -1,28 +1,23 @@
 package net.qsef1256.dacobot.game.explosion.v2.cash;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
 import org.hibernate.annotations.ColumnDefault;
-
-import java.io.Serializable;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "new_explosion_cash")
-public class CashEntity implements Serializable {
+@Table(name = "explosion_cash")
+public class CashEntity {
 
     @Id
-    private Long id;
+    private long userId;
 
-    @MapsId
-    @OneToOne(optional = false, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
-
-    @Column(name = "explosion_cash", nullable = false)
+    @Column(name = "cash", nullable = false)
     @ColumnDefault(value = "0")
     private long cash = 0;
 

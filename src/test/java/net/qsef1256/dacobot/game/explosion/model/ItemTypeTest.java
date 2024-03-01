@@ -1,26 +1,20 @@
 package net.qsef1256.dacobot.game.explosion.model;
 
-import net.qsef1256.dacobot.game.explosion.domain.item.Item;
-import net.qsef1256.dacobot.game.explosion.domain.item.ItemService;
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemType;
+import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemType;
+import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.NoSuchElementException;
-
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @SpringBootTest
-class ItemTest {
+class ItemTypeTest {
 
     @Test
-    void testItem(@Autowired ItemService itemService) {
+    void testItem(@Autowired ItemTypeRepository inventory) {
         assertDoesNotThrow(() -> {
-            Item item = itemService.getItem(1);
-            if (item == null) throw new NoSuchElementException("can't find item");
-
-            ItemType itemType = item.itemType();
+            ItemType itemType = ItemType.fromEntity(inventory.getReferenceById(1));
 
             System.out.println("Item name: " + itemType.itemName());
             System.out.println("Item icon: " + itemType.itemIcon());

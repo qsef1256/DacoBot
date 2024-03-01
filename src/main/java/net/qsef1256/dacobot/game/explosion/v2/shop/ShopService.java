@@ -1,6 +1,6 @@
-package net.qsef1256.dacobot.game.explosion.domain.shop;
+package net.qsef1256.dacobot.game.explosion.v2.shop;
 
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
+import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeEntity;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 

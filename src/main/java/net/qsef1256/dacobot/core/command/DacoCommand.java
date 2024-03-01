@@ -98,6 +98,13 @@ public abstract class DacoCommand extends SlashCommand {
         return ":construction: 공사중...";
     }
 
+    protected void callUnderConstruction() {
+        if (event == null)
+            throw new IllegalStateException("Slash command event is null, is command executed?");
+
+        event.reply(underConstruction()).queue();
+    }
+
     /**
      * Get option and transform.
      *

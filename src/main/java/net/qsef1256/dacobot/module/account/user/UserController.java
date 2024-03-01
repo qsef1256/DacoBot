@@ -3,9 +3,11 @@ package net.qsef1256.dacobot.module.account.user;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.core.jda.JdaService;
+import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final CashService cashService;
     private final JdaService jdaService;
 
     /**
@@ -41,11 +44,13 @@ public class UserController {
      *
      * @param discordId User's snowflake id
      */
+    @Transactional
     public void delete(long discordId) {
         try {
             if (userService.isUserNotExist(discordId))
                 throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
 
+            cashService.deleteCash(discordId);
             userService.deleteUser(discordId);
         } catch (DacoAccountException e) {
             throw e;
@@ -61,8 +66,9 @@ public class UserController {
     }
 
     @NotNull
-    public UserEntity getAccount(long discordId) {
-        return Optional.ofNullable(userService.getUser(discordId))
+    public UserEntity getUser(long discordId) {
+        return Optional
+                .ofNullable(userService.getUser(discordId))
                 .orElseThrow(() -> new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 등록되지 않았습니다."));
     }
 
