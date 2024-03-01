@@ -42,16 +42,4 @@ public class CashService {
         cash.save(cashEntity);
     }
 
-    public int getPickaxeCount(long discordId) {
-        return getCashEntity(discordId).getPickaxeCount();
-    }
-
-    public void changePickaxeCount(long discordId, int count) {
-        CashEntity cashEntity = getCashEntity(discordId);
-        int currentCount = cashEntity.getPickaxeCount();
-        cashEntity.setPickaxeCount(Math.max(0, currentCount + count));
-
-        cash.save(cashEntity);
-    }
-
 }

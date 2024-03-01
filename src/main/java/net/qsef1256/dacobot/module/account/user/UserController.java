@@ -28,14 +28,16 @@ public class UserController {
     public void register(long discordId) {
         try {
             if (userService.isUserExist(discordId))
-                throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 이미 등록 되어 있습니다.");
+                throw new DacoAccountException("%s 유저는 이미 등록 되어 있습니다."
+                        .formatted(jdaService.getNameAsTag(discordId)));
 
             userService.createUser(discordId);
         } catch (DacoAccountException e) {
             throw e;
         } catch (RuntimeException e) {
             log.error(e.getMessage());
-            throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저 등록에 실패했습니다");
+            throw new DacoAccountException("%s 유저 등록에 실패했습니다"
+                    .formatted(jdaService.getNameAsTag(discordId)));
         }
     }
 
@@ -48,7 +50,8 @@ public class UserController {
     public void delete(long discordId) {
         try {
             if (userService.isUserNotExist(discordId))
-                throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정은 이미 삭제 되었습니다.");
+                throw new DacoAccountException("%s 계정은 이미 삭제 되었습니다."
+                        .formatted(jdaService.getNameAsTag(discordId)));
 
             cashService.deleteCash(discordId);
             userService.deleteUser(discordId);
@@ -57,7 +60,8 @@ public class UserController {
         } catch (RuntimeException e) {
             log.error(e.getMessage());
 
-            throw new DacoAccountException(jdaService.getNameAsTag(discordId) + " 계정 삭제에 실패했습니다.");
+            throw new DacoAccountException("%s 계정 삭제에 실패했습니다."
+                    .formatted(jdaService.getNameAsTag(discordId)));
         }
     }
 
@@ -69,7 +73,8 @@ public class UserController {
     public UserEntity getUser(long discordId) {
         return Optional
                 .ofNullable(userService.getUser(discordId))
-                .orElseThrow(() -> new DacoAccountException(jdaService.getNameAsTag(discordId) + " 유저는 등록되지 않았습니다."));
+                .orElseThrow(() -> new DacoAccountException("%s 유저는 등록되지 않았습니다."
+                        .formatted(jdaService.getNameAsTag(discordId))));
     }
 
 }

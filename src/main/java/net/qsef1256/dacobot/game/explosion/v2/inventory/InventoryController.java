@@ -5,6 +5,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.v2.item.Item;
 import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import org.jetbrains.annotations.NotNull;
@@ -12,13 +13,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 
 @Controller
-@Transactional
 @AllArgsConstructor
 public class InventoryController {
 
     private final InventoryService inventory;
     private final CashService cashService;
 
+    @Transactional
     public MessageEmbed getInventoryEmbed(@NotNull User user) {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
@@ -30,7 +31,7 @@ public class InventoryController {
             ItemTypeEntity itemType = item.getType();
 
             String itemInfo = "%s %s : %s > %s개".formatted(
-                    itemType.getItemIcon() != null ? itemType.getItemIcon() : "",
+                    itemType.getItemIcon(),
                     itemType.getItemName(),
                     itemType.getItemRank(),
                     item.getAmount());
@@ -40,9 +41,12 @@ public class InventoryController {
 
         embedBuilder.addField("아이템 목록", items.toString(), false);
         embedBuilder.addField(":moneybag:돈",
-                cashService.getCash(user.getIdLong()) + " 캐시", true);
+                "%d 캐시".formatted(cashService.getCash(user.getIdLong())), true);
+        Item item = inventory.getItem(user.getIdLong(), 2);
+        int amount = item == null ? 0 : item.getAmount();
+
         embedBuilder.addField(":gem:보유 다이아",
-                cashService.getPickaxeCount(user.getIdLong()) + " 개", true);
+                "%d 개".formatted(amount), true);
 
         return embedBuilder.build();
     }

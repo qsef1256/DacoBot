@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "user_inventory")
+@Table(name = "explosion_inventory")
 public class Inventory {
 
     @Id
@@ -22,7 +22,7 @@ public class Inventory {
 
     @ElementCollection
     @CollectionTable(
-            name = "user_inventory_item"
+            name = "explosion_inventory_item"
     )
     private final List<Item> items = new ArrayList<>();
 

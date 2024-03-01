@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.core.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.v2.inventory.InventoryService;
 import net.qsef1256.dialib.util.RandomUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -15,10 +15,10 @@ import java.util.NoSuchElementException;
 @Component
 public class PickaxeCommand extends DacoCommand {
 
-    private final CashService cashService;
+    private final InventoryService inventory;
 
-    public PickaxeCommand(@NotNull CashService cashService) {
-        this.cashService = cashService;
+    public PickaxeCommand(@NotNull InventoryService inventory) {
+        this.inventory = inventory;
 
         name = "곡괭이";
         help = "건드리면 폭탄 터트릴꺼에요...";
@@ -57,12 +57,14 @@ public class PickaxeCommand extends DacoCommand {
                     }
                 }
 
-                cashService.changePickaxeCount(user.getIdLong(), pickaxeCount);
+                inventory.addItem(user.getIdLong(), 2, pickaxeCount);
 
-                String pickaxeCountDisplay = (pickaxeCount > 0) ? "+" + pickaxeCount : String.valueOf(pickaxeCount);
+                String pickaxeCountDisplay = (pickaxeCount > 0)
+                        ? "+" + pickaxeCount
+                        : String.valueOf(pickaxeCount);
                 callback.editOriginal("%s`%s` 다이아 보유량: `%d` 개".formatted(status,
                         pickaxeCountDisplay,
-                        cashService.getPickaxeCount(user.getIdLong()))).queue();
+                        inventory.getItem(user.getIdLong(), 2).getAmount())).queue();
             } catch (RuntimeException e) {
                 String message = ":warning: " + user.getName() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
 

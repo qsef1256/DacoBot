@@ -21,8 +21,4 @@ public class CashEntity {
     @ColumnDefault(value = "0")
     private long cash = 0;
 
-    @Column(name = "pickaxe_count")
-    @ColumnDefault(value = "0")
-    private int pickaxeCount = 0;
-
 }
