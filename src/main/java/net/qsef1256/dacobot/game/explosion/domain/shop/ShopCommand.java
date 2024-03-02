@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.command;
+package net.qsef1256.dacobot.game.explosion.domain.shop;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;

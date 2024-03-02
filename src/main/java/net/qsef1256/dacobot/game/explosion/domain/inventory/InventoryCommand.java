@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.game.explosion.command;
+package net.qsef1256.dacobot.game.explosion.domain.inventory;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
@@ -6,12 +6,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryController;
-import net.qsef1256.dacobot.game.explosion.domain.inventory.InventoryService;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -25,8 +21,7 @@ public class InventoryCommand extends DacoCommand {
     public InventoryCommand(@NotNull SeeCommand seeCommand,
                             @NotNull ItemInfoCommand infoCommand,
                             @NotNull ItemAddCommand addCommand,
-                            @NotNull ItemRemoveCommand removeCommand,
-                            @NotNull ItemCommandGroup commandGroup) {
+                            @NotNull ItemRemoveCommand removeCommand) {
         name = "인벤토리";
         help = "닦던마냥 16개만 있거나 그러지 않아요.";
         children = new SlashCommand[]{
@@ -35,7 +30,6 @@ public class InventoryCommand extends DacoCommand {
                 addCommand,
                 removeCommand
         };
-        subcommandGroup = commandGroup;
     }
 
     @Override
@@ -65,22 +59,6 @@ public class InventoryCommand extends DacoCommand {
 
                 event.replyEmbeds(DiaEmbed.error("인벤토리 로드 실패", null, e, user).build()).queue();
             }
-        }
-
-    }
-
-    @Component
-    public static class ItemCommandGroup extends SubcommandGroupData {
-
-        public ItemCommandGroup(@NotNull ItemInfoCommand infoCommand,
-                                @NotNull ItemAddCommand addCommand,
-                                @NotNull ItemRemoveCommand removeCommand) {
-            super("아이템", "아이템의 정보를 확인하거나 사용합니다.");
-
-            // FIXME: fix command Data
-            addSubcommands(SubcommandData.fromData(infoCommand.getData()));
-            addSubcommands(SubcommandData.fromData(addCommand.getData()));
-            addSubcommands(SubcommandData.fromData(removeCommand.getData()));
         }
 
     }
