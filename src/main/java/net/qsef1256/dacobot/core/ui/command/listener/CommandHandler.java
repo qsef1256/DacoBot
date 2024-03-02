@@ -35,8 +35,8 @@ public class CommandHandler implements CommandListener {
         log.error("%s slash command exception".formatted(command.getName()), throwable);
         event.replyEmbeds(DiaEmbed.error(null,
                 null,
-                throwable
-                , event.getUser()).build()).queue();
+                throwable,
+                event.getUser()).build()).queue();
     }
 
     @Override

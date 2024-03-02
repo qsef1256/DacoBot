@@ -71,10 +71,10 @@ public abstract class DacoCommand extends SlashCommand {
     }
 
     /**
-     * 추가 명령어 필요 안내 메시지를 얻습니다.
+     * Reply to a message informing you that additional commands are needed.
      *
      * @param member executing member
-     * @return 추가 명령어를 입력하세요! : 추가, 삭제
+     * @return message like 추가 명령어를 입력하세요! : 추가, 삭제
      */
     @NotNull
     protected String needSubCommand(@Nullable Member member) {
@@ -90,6 +90,9 @@ public abstract class DacoCommand extends SlashCommand {
         return "추가 명령어를 입력하세요! : " + String.join(", ", childNames);
     }
 
+    /**
+     * Reply {@link #needSubCommand(Member)} message.
+     */
     protected void callNeedSubCommand() {
         if (event == null)
             throw new IllegalStateException("Slash command event is null, is command executed?");
