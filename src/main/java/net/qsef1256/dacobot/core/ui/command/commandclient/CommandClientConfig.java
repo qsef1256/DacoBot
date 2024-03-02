@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.command.commandclient;
+package net.qsef1256.dacobot.core.ui.command.commandclient;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -7,7 +7,7 @@ import com.jagrosh.jdautilities.command.SlashCommand;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Activity;
 import net.qsef1256.dacobot.command.tool.hangeul.EngKorContextMenu;
-import net.qsef1256.dacobot.core.command.listener.CommandHandler;
+import net.qsef1256.dacobot.core.ui.command.listener.CommandHandler;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dialib.util.GenericUtil;
 import org.jetbrains.annotations.NotNull;

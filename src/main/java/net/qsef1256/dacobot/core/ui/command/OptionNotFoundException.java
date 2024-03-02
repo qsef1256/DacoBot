@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.command;
+package net.qsef1256.dacobot.core.ui.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OptionNotFoundException extends RuntimeException {
 
-    private String optionName;
+    private final String optionName;
 
 }

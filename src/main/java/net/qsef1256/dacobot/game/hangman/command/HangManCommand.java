@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.game.hangman.container.HangManContainer;
 import net.qsef1256.dacobot.game.hangman.domain.HangMan;
 import net.qsef1256.dacobot.setting.constants.DiaColor;

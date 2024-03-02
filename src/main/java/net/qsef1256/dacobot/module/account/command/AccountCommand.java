@@ -5,9 +5,10 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
+import net.qsef1256.dacobot.module.account.button.DeleteButton;
+import net.qsef1256.dacobot.module.account.button.ResetButton;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import net.qsef1256.dacobot.module.account.user.UserController;
 import net.qsef1256.dacobot.module.account.user.UserEntity;
@@ -136,9 +137,16 @@ public class AccountCommand extends DacoCommand {
     @Component
     public static class ResetCommand extends DacoCommand {
 
-        public ResetCommand() {
+        private final DeleteButton deleteButton;
+        private final ResetButton resetButton;
+
+        public ResetCommand(@NotNull DeleteButton deleteButton,
+                            @NotNull ResetButton resetButton) {
             name = "초기화";
             help = "당신의 계정을 폭파시킵니다. 주의! 되돌릴 수 없습니다.";
+
+            this.deleteButton = deleteButton;
+            this.resetButton = resetButton;
         }
 
         @Override
@@ -154,8 +162,8 @@ public class AccountCommand extends DacoCommand {
                             .setFooter("이렇게까지 만들었는데도 날려먹으면 네 탓!!!")
                             .build())
                     .addActionRow(
-                            Button.danger("account_reset", "초기화"),
-                            Button.danger("account_delete", "삭제"))
+                            deleteButton,
+                            resetButton)
                     .setEphemeral(true)
                     .queue();
         }

@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.command.commandclient;
+package net.qsef1256.dacobot.core.ui.command.commandclient;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
@@ -40,7 +40,7 @@ public class CommandClientService {
     }
 
     /**
-     * 해당 멤버가 해당 슬래시 명령어를 실행할 수 있는지 확인합니다.
+     * Checks whether that member can execute that slash command.
      *
      * @param slashCommand slash command to check
      * @param member       executing member

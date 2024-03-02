@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;

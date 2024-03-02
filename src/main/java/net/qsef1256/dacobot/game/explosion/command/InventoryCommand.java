@@ -9,7 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.interactions.commands.build.SubcommandGroupData;
 import net.dv8tion.jda.api.utils.data.DataObject;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.game.explosion.v2.inventory.InventoryController;
 import net.qsef1256.dacobot.game.explosion.v2.inventory.InventoryService;
 import net.qsef1256.dacobot.ui.DiaEmbed;

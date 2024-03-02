@@ -1,4 +1,4 @@
-package net.qsef1256.dacobot.core.command;
+package net.qsef1256.dacobot.core.ui.command;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.SlashCommand;
@@ -8,7 +8,7 @@ import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.commandclient.CommandClientService;
+import net.qsef1256.dacobot.core.ui.command.commandclient.CommandClientService;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticEntity;
 import net.qsef1256.dacobot.module.cmdstat.CmdStatisticService;
 import org.jetbrains.annotations.Contract;
@@ -19,10 +19,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
-// TODO: fill javadoc
-
 /**
- * 뭐라 적지?
+ * Extended version of {@link SlashCommand}, containing getOption, statistic service
  */
 @Component
 public abstract class DacoCommand extends SlashCommand {
@@ -58,12 +56,18 @@ public abstract class DacoCommand extends SlashCommand {
         this.commandClientService = commandClientService;
     }
 
+    /**
+     * Get command statistic like "금일: 4 총합: 46"
+     * <p>Required {@code statistic = true} in constructor.
+     *
+     * @return use info
+     */
     protected String getUseInfo() {
         if (!statistic)
             throw new IllegalStateException("statistic is disabled, can't command use statistic info.");
         CmdStatisticEntity statistic = getCmdStatistic();
 
-        return "금일: " + statistic.getTodayUsed() + " 총합: " + statistic.getUseCount();
+        return "금일: %d 총합: %d".formatted(statistic.getTodayUsed(), statistic.getUseCount());
     }
 
     /**
@@ -98,6 +102,9 @@ public abstract class DacoCommand extends SlashCommand {
         return ":construction: 공사중...";
     }
 
+    /**
+     * Reply {@link #underConstruction()} message.
+     */
     protected void callUnderConstruction() {
         if (event == null)
             throw new IllegalStateException("Slash command event is null, is command executed?");
@@ -146,7 +153,6 @@ public abstract class DacoCommand extends SlashCommand {
     /**
      * @see #getOption(Function, String, Object)
      */
-
     @Contract("_, !null -> !null")
     protected String getOptionString(@NotNull String optionName,
                                      @Nullable String defaultValue) {
