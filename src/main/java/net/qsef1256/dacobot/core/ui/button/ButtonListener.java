@@ -16,10 +16,10 @@ public class ButtonListener extends ListenerAdapter {
 
     @Override
     public void onButtonInteraction(@NotNull ButtonInteractionEvent event) {
-        String buttonId = event.getComponentId();
+        String id = event.getComponentId();
 
-        DacoButton dacoButton = buttons.get(buttonId);
-        if (dacoButton != null) dacoButton.runButton(event); // TODO: when button is null?
+        DacoButton button = buttons.get(id);
+        if (button != null) button.runButton(event); // TODO: when button is null?
     }
 
 }

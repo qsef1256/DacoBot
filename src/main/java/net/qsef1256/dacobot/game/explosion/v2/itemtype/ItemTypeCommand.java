@@ -13,7 +13,7 @@ public class ItemTypeCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        // asdf;
+        // TODO: fill this
     }
 
 }
