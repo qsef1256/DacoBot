@@ -43,6 +43,7 @@ public class AttendCommand extends DacoCommand {
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
+                userController.saveUser(userData);
 
                 event.replyEmbeds(DiaEmbed.success("출석 체크!",
                         "정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount(),

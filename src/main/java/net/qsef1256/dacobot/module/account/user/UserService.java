@@ -50,4 +50,8 @@ public class UserService {
         userRepository.deleteById(discordId);
     }
 
+    public void saveUser(@NotNull UserEntity userData) {
+        userRepository.save(userData);
+    }
+
 }

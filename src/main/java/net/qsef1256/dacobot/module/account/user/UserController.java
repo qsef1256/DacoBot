@@ -77,4 +77,8 @@ public class UserController {
                         .formatted(jdaService.getNameAsTag(discordId))));
     }
 
+    public void saveUser(@NotNull UserEntity userData) {
+        userService.saveUser(userData);
+    }
+
 }
