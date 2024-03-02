@@ -24,6 +24,7 @@ public class InventoryCommand extends DacoCommand {
                             @NotNull ItemRemoveCommand removeCommand) {
         name = "인벤토리";
         help = "닦던마냥 16개만 있거나 그러지 않아요.";
+
         children = new SlashCommand[]{
                 seeCommand,
                 infoCommand,
