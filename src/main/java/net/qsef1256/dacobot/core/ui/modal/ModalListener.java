@@ -19,7 +19,7 @@ public class ModalListener extends ListenerAdapter {
         String id = event.getModalId();
 
         DacoModal modal = modals.get(id);
-        if (modal != null) modal.runModal(event); // TODO: when button is null?
+        if (modal != null) modal.runModal(event); // TODO: when modal is null?
     }
 
 }

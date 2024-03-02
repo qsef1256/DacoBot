@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.module.account.user;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dacobot.core.jda.JdaService;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;

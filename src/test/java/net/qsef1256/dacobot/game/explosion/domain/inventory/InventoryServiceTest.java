@@ -1,6 +1,5 @@
 package net.qsef1256.dacobot.game.explosion.domain.inventory;
 
-import net.qsef1256.dacobot.game.explosion.v2.inventory.InventoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

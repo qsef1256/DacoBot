@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
 import net.qsef1256.dacobot.module.account.button.DeleteButton;
 import net.qsef1256.dacobot.module.account.button.ResetButton;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
