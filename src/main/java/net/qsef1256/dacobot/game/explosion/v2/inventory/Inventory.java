@@ -20,7 +20,8 @@ public class Inventory {
 
     @ElementCollection
     @CollectionTable(
-            name = "explosion_inventory_item"
+            name = "explosion_inventory_item",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "userId")
     )
     private final List<Item> items = new ArrayList<>();
 

@@ -2,6 +2,9 @@ package net.qsef1256.dacobot.game.explosion.v2.inventory;
 
 import lombok.AllArgsConstructor;
 import net.qsef1256.dacobot.game.explosion.v2.item.Item;
+import net.qsef1256.dacobot.game.explosion.v2.item.ItemDto;
+import net.qsef1256.dacobot.game.explosion.v2.item.ItemMapper;
+import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeMapper;
 import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeRepository;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
@@ -9,7 +12,9 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -27,27 +32,30 @@ public class InventoryService {
     }
 
     @NotNull
-    public List<Item> getItems(long discordId) {
+    public List<ItemDto> getItems(long discordId) {
         Inventory inventory = getInventory(discordId);
 
-        return inventory.getItems();
+        return inventory.getItems().stream()
+                .map(ItemMapper.INSTANCE::mapItemDto)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    @Nullable
-    public Item getItem(long discordId, int itemId) {
-        return getItemByTypeId(discordId, itemId);
-    }
-
-    @Nullable
-    private Item getItemByTypeId(long discordId, int itemTypeId) {
+    @NotNull
+    public ItemDto getItem(long discordId, int itemId) {
         return getInventory(discordId)
                 .getItems()
                 .stream()
-                .filter(item -> item.getType().getItemId().equals(itemTypeId))
+                .filter(item -> item.getType().getItemId().equals(itemId))
                 .findAny()
-                .orElse(null);
+                .map(ItemMapper.INSTANCE::mapItemDto)
+                .orElse(new ItemDto(ItemTypeMapper.INSTANCE
+                        .mapItemTypeDto(type.getReferenceById(itemId)), 0));
     }
 
+    public void setItem(long discordId, @NotNull ItemDto item) {
+        setItem(discordId, ItemMapper.INSTANCE.mapItem(item));
+    }
+    
     public void setItem(long discordId, @NotNull Item item) {
         Inventory inventory = getInventory(discordId);
         inventory.addItem(item);
@@ -64,6 +72,16 @@ public class InventoryService {
         return new Item(type.getReferenceById(itemId), amount);
     }
 
+    @Nullable
+    private Item getItemEntity(long discordId, int itemId) {
+        return getInventory(discordId)
+                .getItems()
+                .stream()
+                .filter(item -> item.getType().getItemId().equals(itemId))
+                .findAny()
+                .orElse(null);
+    }
+
     public void addItem(long discordId, int itemId) {
         addItem(discordId, itemId, 1);
     }
@@ -72,7 +90,7 @@ public class InventoryService {
                         int itemId,
                         long amount) {
         Inventory inventory = getInventory(discordId);
-        Item item = getItemByTypeId(discordId, itemId);
+        Item item = getItemEntity(discordId, itemId);
         if (item != null)
             item.addAmount(amount);
         else
@@ -89,7 +107,7 @@ public class InventoryService {
                         int itemId,
                         long amount) {
         Inventory inventory = getInventory(discordId);
-        Item item = getItemByTypeId(discordId, itemId);
+        Item item = getItemEntity(discordId, itemId);
         if (item == null)
             inventory.addItem(newItem(itemId, amount));
         else
@@ -105,7 +123,7 @@ public class InventoryService {
                            int itemId,
                            long amount) {
         Inventory inventory = getInventory(discordId);
-        Item item = getItemByTypeId(discordId, itemId);
+        Item item = getItemEntity(discordId, itemId);
         if (item == null) return;
 
         if (item.getAmount() > amount)
@@ -117,7 +135,7 @@ public class InventoryService {
 
     public void clearItem(long discordId, int itemId) {
         Inventory inventory = getInventory(discordId);
-        Item item = getItemByTypeId(discordId, itemId);
+        Item item = getItemEntity(discordId, itemId);
         if (item == null) return;
 
         inventory.removeItem(item);

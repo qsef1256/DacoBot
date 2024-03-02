@@ -87,9 +87,9 @@ dependencies {
     // MariaDB
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client:3.3.3")
 
-    // Annotation processors
+    // Annotation processors//
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final'")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
         exclude(group = "com.vaadin.external.google", module = "android-json")

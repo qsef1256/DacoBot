@@ -64,7 +64,7 @@ public class PickaxeCommand extends DacoCommand {
                         : String.valueOf(pickaxeCount);
                 callback.editOriginal("%s`%s` 다이아 보유량: `%d` 개".formatted(status,
                         pickaxeCountDisplay,
-                        inventory.getItem(user.getIdLong(), 2).getAmount())).queue();
+                        inventory.getItem(user.getIdLong(), 2).amount())).queue();
             } catch (RuntimeException e) {
                 String message = ":warning: " + user.getName() + " 는 손이 미끄러져 다이아를 캐지 못했습니다!\n\n오류: " + e.getMessage();
 

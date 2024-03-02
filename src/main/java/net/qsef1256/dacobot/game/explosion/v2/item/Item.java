@@ -1,8 +1,9 @@
 package net.qsef1256.dacobot.game.explosion.v2.item;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,9 +18,10 @@ import net.qsef1256.dacobot.game.explosion.v2.itemtype.ItemTypeEntity;
 @AllArgsConstructor
 public class Item {
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_type")
     private ItemTypeEntity type;
+
     @Positive
     private long amount = 1;
 

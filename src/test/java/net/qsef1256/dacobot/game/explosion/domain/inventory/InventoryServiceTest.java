@@ -33,7 +33,7 @@ class InventoryServiceTest {
 
         assertTrue(inventory
                 .getItem(TEST_ID, 1)
-                .getAmount() >= 1);
+                .amount() >= 1);
     }
 
     @Test
@@ -43,7 +43,7 @@ class InventoryServiceTest {
 
         assertEquals(1, inventory
                 .getItem(TEST_ID, 1)
-                .getAmount());
+                .amount());
     }
 
     @Test

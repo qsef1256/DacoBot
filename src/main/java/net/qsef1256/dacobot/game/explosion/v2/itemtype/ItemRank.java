@@ -6,6 +6,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
+// TODO: Emoji for ItemRank
 @Getter
 public enum ItemRank {
 
