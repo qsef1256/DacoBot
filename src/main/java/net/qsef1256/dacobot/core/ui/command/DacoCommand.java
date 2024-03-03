@@ -87,15 +87,18 @@ public abstract class DacoCommand extends SlashCommand {
             i++;
         }
 
-        return "추가 명령어를 입력하세요! : " + String.join(", ", childNames);
+        return "추가 명령어를 입력하세요! : %s".formatted(String.join(", ", childNames));
+    }
+
+    private void checkCommandExecuted() {
+        if (event == null) throw new IllegalStateException("Slash command event is null, is command executed?");
     }
 
     /**
      * Reply {@link #needSubCommand(Member)} message.
      */
     protected void callNeedSubCommand() {
-        if (event == null)
-            throw new IllegalStateException("Slash command event is null, is command executed?");
+        checkCommandExecuted();
 
         event.reply(needSubCommand(event.getMember())).queue();
     }
@@ -109,8 +112,7 @@ public abstract class DacoCommand extends SlashCommand {
      * Reply {@link #underConstruction()} message.
      */
     protected void callUnderConstruction() {
-        if (event == null)
-            throw new IllegalStateException("Slash command event is null, is command executed?");
+        checkCommandExecuted();
 
         event.reply(underConstruction()).queue();
     }
@@ -131,10 +133,10 @@ public abstract class DacoCommand extends SlashCommand {
      */
     @Nullable(value = "if option is not required and defaultValue is null")
     protected <T> T getOption(@NotNull Function<OptionMapping, T> transformer,
+                              @NotNull Class<T> targetClass,
                               @NotNull String optionName,
                               @Nullable T defaultValue) {
-        if (event == null)
-            throw new IllegalStateException("Slash command event is null, is command executed?");
+        checkCommandExecuted();
 
         OptionData optionData = getOptions()
                 .stream()
@@ -150,84 +152,90 @@ public abstract class DacoCommand extends SlashCommand {
             return defaultValue;
         }
 
-        return transformer.apply(option);
+        try {
+            return transformer.apply(option);
+        } catch (Exception e) {
+            throw new OptionTypeMismatchException(optionName,
+                    option.getAsString(),
+                    targetClass.getSimpleName());
+        }
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     @Contract("_, !null -> !null")
     protected String getOptionString(@NotNull String optionName,
                                      @Nullable String defaultValue) {
-        return getOption(OptionMapping::getAsString, optionName, defaultValue);
+        return getOption(OptionMapping::getAsString, String.class, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     protected String getOptionString(@NotNull String optionName) {
         return getOptionString(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     @Contract("_, !null -> !null")
     protected Long getOptionLong(@NotNull String optionName,
                                  @Nullable Long defaultValue) {
-        return getOption(OptionMapping::getAsLong, optionName, defaultValue);
+        return getOption(OptionMapping::getAsLong, Long.class, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     protected Long getOptionLong(@NotNull String optionName) {
         return getOptionLong(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     @Contract("_, !null -> !null")
     protected Double getOptionDouble(@NotNull String optionName,
                                      @Nullable Double defaultValue) {
-        return getOption(OptionMapping::getAsDouble, optionName, defaultValue);
+        return getOption(OptionMapping::getAsDouble, Double.class, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     protected Double getOptionDouble(@NotNull String optionName) {
         return getOptionDouble(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     @Contract("_, !null -> !null")
     protected Integer getOptionInt(@NotNull String optionName,
                                    @Nullable Integer defaultValue) {
-        return getOption(OptionMapping::getAsInt, optionName, defaultValue);
+        return getOption(OptionMapping::getAsInt, Integer.class, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     protected Integer getOptionInt(@NotNull String optionName) {
         return getOptionInt(optionName, null);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     @Contract("_, !null -> !null")
     protected User getOptionUser(@NotNull String optionName,
                                  @Nullable User defaultValue) {
-        return getOption(OptionMapping::getAsUser, optionName, defaultValue);
+        return getOption(OptionMapping::getAsUser, User.class, optionName, defaultValue);
     }
 
     /**
-     * @see #getOption(Function, String, Object)
+     * @see #getOption(Function, Class, String, Object)
      */
     protected User getOptionUser(@NotNull String optionName) {
         return getOptionUser(optionName, null);

@@ -4,13 +4,11 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.mariuszgromada.math.mxparser.Expression;
 import org.springframework.stereotype.Component;
@@ -32,11 +30,9 @@ public class CalculateCommand extends DacoCommand {
     protected void runCommand(@NotNull SlashCommandEvent event) {
         if (event.getMember() == null) return;
 
-        OptionMapping option = JDAUtil.getOptionMapping(event, "수식");
-        if (option == null) return;
-
         User user = event.getUser();
-        String formula = option.getAsString();
+        String formula = getOptionString("수식");
+        if (formula == null) return;
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setAuthor(user.getName(), null, user.getEffectiveAvatarUrl());

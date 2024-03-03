@@ -10,7 +10,6 @@ import net.dv8tion.jda.api.utils.messages.MessageEditBuilder;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.module.common.key.SingleUserKey;
 import net.qsef1256.dacobot.module.message.type.TrackedEventMessage;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -50,11 +49,11 @@ public class MessageCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
-            if (option == null) return;
+            String input = getOptionString("메시지");
+            if (input == null) return;
 
             SingleUserKey key = new SingleUserKey("test", event.getUser());
-            MessageCreateBuilder message = new MessageCreateBuilder().addContent(option.getAsString());
+            MessageCreateBuilder message = new MessageCreateBuilder().addContent(input);
 
             new TrackedEventMessage(key, message, event).send();
         }

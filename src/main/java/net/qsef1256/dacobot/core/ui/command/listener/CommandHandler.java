@@ -7,6 +7,7 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.qsef1256.dacobot.core.ui.command.OptionNotFoundException;
+import net.qsef1256.dacobot.core.ui.command.OptionTypeMismatchException;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -27,6 +28,15 @@ public class CommandHandler implements CommandListener {
                                         @NotNull Throwable throwable) {
         if (throwable instanceof OptionNotFoundException e) {
             event.reply("%s를 입력해주세요.".formatted(e.getOptionName()))
+                    .setEphemeral(true)
+                    .queue();
+            return;
+        }
+        if (throwable instanceof OptionTypeMismatchException e) {
+            event.reply("올바른 %s를 입력하세요. 입력된 값: %s, 필요한 값: %s".formatted(
+                            e.getOptionName(),
+                            e.getOptionValue(),
+                            e.getTargetType()))
                     .setEphemeral(true)
                     .queue();
             return;

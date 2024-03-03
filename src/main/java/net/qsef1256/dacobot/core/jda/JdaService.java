@@ -36,7 +36,7 @@ public class JdaService {
      * @return User's Name | null if bot can't find name
      */
     @Nullable
-    public String getNameAsTag(final long userId) {
+    public String getNameAsTag(long userId) {
         User user = jda.getUserById(userId);
         if (user == null) return null;
 
@@ -82,7 +82,7 @@ public class JdaService {
         return user.get();
     }
 
-    public Member getMemberFromUser(User user) {
+    public Member getMemberFromUser(@NotNull User user) {
         Guild guild = getMainGuild(); // TODO: for sub guilds?
 
         if (guild == null) return null;
@@ -100,8 +100,9 @@ public class JdaService {
     public MessageChannel getMainChannel() {
         return getMainGuild().getTextChannelById(setting.getMainChannelId());
     }
-
-    public @NotNull List<Guild> getAllGuilds() {
+    
+    @NotNull
+    public List<Guild> getAllGuilds() {
         List<Guild> guilds = new ArrayList<>();
 
         guilds.add(getMainGuild());
@@ -113,7 +114,6 @@ public class JdaService {
 
         return guilds;
     }
-
 
     public List<Guild> getGuilds() {
         return jda.getGuilds();

@@ -2,12 +2,10 @@ package net.qsef1256.dacobot.command.tool.moss;
 
 import com.jagrosh.jdautilities.command.SlashCommand;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -42,10 +40,8 @@ public class MossCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            OptionMapping option = JDAUtil.getOptionMapping(event, "내용");
-            if (option == null) return;
-
-            String input = option.getAsString();
+            String input = getOptionString("내용");
+            if (input == null) return;
 
             event.replyEmbeds(DiaEmbed.success("모스 부호", null, event.getUser())
                     .addField("입력", input, true)
@@ -66,10 +62,8 @@ public class MossCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            OptionMapping option = JDAUtil.getOptionMapping(event, "내용");
-            if (option == null) return;
-
-            String input = option.getAsString();
+            String input = getOptionString("내용");
+            if (input == null) return;
 
             event.replyEmbeds(DiaEmbed.success("모스 부호", null, event.getUser())
                     .addField("입력", input, true)

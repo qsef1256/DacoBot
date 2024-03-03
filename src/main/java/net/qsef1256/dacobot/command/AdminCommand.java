@@ -8,13 +8,11 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.qsef1256.dacobot.core.boot.DacoBootstrapper;
 import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -78,11 +76,11 @@ public class AdminCommand extends DacoCommand {
 
         @Override
         public void runCommand(@NotNull SlashCommandEvent event) {
-            final OptionMapping option = JDAUtil.getOptionMapping(event, "메시지");
+            String option = getOptionString("메시지");
             if (option == null) return;
 
             event.deferReply().queue(m -> m.deleteOriginal().queue());
-            event.getChannel().sendMessage(option.getAsString()).queue();
+            event.getChannel().sendMessage(option).queue();
         }
 
     }
