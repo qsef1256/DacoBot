@@ -22,11 +22,14 @@ import java.util.List;
 public class CommandClientConfig {
 
     private final DiaSetting setting;
+    private final CommandHandler handler;
     private final List<? extends Command> commands;
 
     public CommandClientConfig(@NotNull DiaSetting setting,
+                               @NotNull CommandHandler handler,
                                @Qualifier("botCommands") List<? extends Command> commands) {
         this.setting = setting;
+        this.handler = handler;
         this.commands = commands;
     }
 
@@ -38,7 +41,7 @@ public class CommandClientConfig {
         registerContextMenu(commandClientBuilder);
 
         CommandClient commandClient = commandClientBuilder.build();
-        commandClient.setListener(new CommandHandler(commandClient));
+        commandClient.setListener(handler);
 
         return commandClient;
     }
