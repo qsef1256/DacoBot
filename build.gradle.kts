@@ -4,7 +4,7 @@ description = "DacoBot"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 val jdaVersion = "5.0.0-beta.20"
-val springBootVersion = "3.2.3"
+val springBootVersion = "3.2.4"
 
 plugins {
     `java-library`
@@ -45,7 +45,7 @@ dependencies {
     implementation("com.jayway.jsonpath:json-path:2.9.0")
     // Apache
     implementation("org.apache.commons:commons-collections4:4.4")
-    implementation("org.apache.commons:commons-configuration2:2.9.0")
+    implementation("org.apache.commons:commons-configuration2:2.10.1")
     implementation("org.apache.commons:commons-dbcp2:2.11.0")
     implementation("org.apache.commons:commons-lang3:3.14.0")
     implementation("org.apache.commons:commons-text:1.11.0")
@@ -58,7 +58,7 @@ dependencies {
     implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
     // Utility
     implementation("org.jetbrains:annotations:24.1.0")
-    implementation("org.projectlombok:lombok:1.18.30")
+    implementation("org.projectlombok:lombok:1.18.32")
     implementation("org.dom4j:dom4j:2.1.4")
     implementation("org.reflections:reflections:0.10.2")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
