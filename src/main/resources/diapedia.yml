@@ -16,8 +16,7 @@ Useful:
       - "https://github.com/Lubycon/quantumic-design"
   Learn:
     - "https://www.geeksforgeeks.org/"
-  Guideline:
-    - "https://github.com/jwasham/coding-interview-university"
+  Roadmap:
     - "https://roadmap.sh/"
   Markdown:
     - "https://github.com/Ileriayo/markdown-badges"
@@ -92,6 +91,8 @@ Computer Science:
     Declarative Programming: "https://ko.wikipedia.org/wiki/%EC%84%A0%EC%96%B8%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
     Aspect Oriented Programming: "https://galid1.tistory.com/497?category=769011" # AOP
     Domain Driven Design: # DDD
+      Domain model purity, completeness: "https://velog.io/@leejh3224/%EB%B2%88%EC%97%AD-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%AA%A8%EB%8D%B8-%EC%88%9C%EC%88%98%EC%84%B1-vs-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%AA%A8%EB%8D%B8-%EC%99%84%EC%A0%84%EC%84%B1"
+    Business Driven Development: "https://en.wikipedia.org/wiki/Business-driven_development"
 
   Software Development Process:
     Requirements Engineering:
@@ -125,6 +126,8 @@ Computer Science:
   
   Software Architecture:
     MVC: "https://m.blog.naver.com/jhc9639/220967034588"
+    MVP:
+    MVVC:
     Monolith vs Microservices: "https://www.atlassian.com/ko/microservices/microservices-architecture/microservices-vs-monolith" # MSA
     Layered Architecture: "https://hudi.blog/layered-architecture/"
     Hexagonal: "https://tech.osci.kr/hexagonal-architecture/"
@@ -161,6 +164,11 @@ Computer Science:
   Scaling:
     - "https://tech.kakao.com/2023/02/01/university-student-mentoring-get-out-from-the-well/"
 
+  Roadmap:
+    - "https://github.com/ossu/computer-science"
+    - "https://github.com/jwasham/coding-interview-university"
+    - "https://github.com/minnsane/TeachYourselfCS-KR"
+
 Java:
   Grammar:
     Enum:
@@ -185,15 +193,13 @@ Java:
       - "https://catsbi.oopy.io/344dbe7b-9774-48fc-9c95-b554e9c1c4bc"
       - "https://technical-leader.tistory.com/7"
     GRASP: "https://www.hanbit.co.kr/network/category/category_view.html?cms_code=CMS8586826397&cate_cd="
-    Singleton: "https://jdm.kr/blog/10"
-    Composite: # Delegation
-      - "https://gmlwjd9405.github.io/2018/08/10/composite-pattern.html"
-      - "https://mygumi.tistory.com/343"
-      - "https://incheol-jung.gitbook.io/docs/q-and-a/architecture/undefined-2"
-    Builder: "https://jdm.kr/blog/217"
-    Static Factory Method: "https://velog.io/@ljinsk3/%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EA%B9%8C"
-    Abstract Factory: "https://jdm.kr/blog/192"
-    Factory Method: "https://jdm.kr/blog/180"
+    Creational Pattern:
+      Singleton: "https://jdm.kr/blog/10"
+      Builder: "https://jdm.kr/blog/217"
+      Static Factory Method: "https://velog.io/@ljinsk3/%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EA%B9%8C"
+      Abstract Factory: "https://jdm.kr/blog/192"
+      Factory Method: "https://jdm.kr/blog/180"
+      Prototype: "https://refactoring.guru/design-patterns/prototype"
     DI:
       - "https://devlog-wjdrbs96.tistory.com/165?category=882236"
       - "https://galid1.tistory.com/493?category=769011"
@@ -202,7 +208,11 @@ Java:
     Decorator: "https://catsbi.oopy.io/f58693bb-b2aa-4175-a786-a98f42b638c3"
     Command: "https://victorydntmd.tistory.com/295?category=719467"
     Visitor: "https://thecodinglog.github.io/design/2019/10/29/visitor-pattern.html"
-    Composition over inheritance: "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
+    Composite: # Delegation
+      - "https://gmlwjd9405.github.io/2018/08/10/composite-pattern.html"
+      - "https://mygumi.tistory.com/343"
+      - "https://incheol-jung.gitbook.io/docs/q-and-a/architecture/undefined-2"
+      - "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
     Anti Pattern: # Common Mistakes
       - "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
 
@@ -222,13 +232,15 @@ Java:
         HikariCP:
       ORM:
         JPA:
-        Hibernate:
+          CQRS: "https://velog.io/@dvmflstm/axon-spring-boot%EB%A5%BC-%EC%9D%B4%EC%9A%A9%ED%95%B4-CQRS-event-sourcing-%ED%8C%A8%ED%84%B4-%EC%82%AC%EC%9A%A9%ED%95%98%EA%B8%B0"
+          Hibernate:
         Spring Data JPA:
           Description:
             - "https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#preface"
             - "https://goddaehee.tistory.com/209"
             - "https://velog.io/@agugu95/SpringBoot-Entity-Design-Caution"
           Transactional: "https://mommoo.tistory.com/92"
+        MyBatis:
 
     Validate:
       Hibernate Validator:
@@ -242,9 +254,15 @@ Java:
       Controller:
         Description: "https://hardlearner.tistory.com/315"
         Model Object: "https://velog.io/@msriver/Spring-Model-%EA%B0%9D%EC%B2%B4"
+      AOP: "https://mangkyu.tistory.com/175"
       Spring Boot: "https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#getting-help"
       Spring Security:
         Architecture: "https://catsbi.oopy.io/f9b0d83c-4775-47da-9c81-2261851fe0d0"
+      Spring Webflux:
+      Spring Cloud:
+      Spring Batch: "https://dkswnkk.tistory.com/707"
+      Spring Actuator: "https://velog.io/@zenon8485/%EC%8A%A4%ED%94%84%EB%A7%81-%EB%B6%80%ED%8A%B8-%EC%95%A1%EC%B6%94%EC%97%90%EC%9D%B4%ED%84%B0"
+      Pointcut:
 
     RxJava: "https://velog.io/@haero_kim/series/Reactive-Programming"
 
@@ -277,8 +295,7 @@ Java:
         - "https://velog.io/@corepen_/3%EC%A3%BC-%EC%99%84%EB%8F%85-Daily-%EC%84%9C%ED%8F%89-%EC%8B%A4%EC%9A%A9%EC%A3%BC%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8-1"
         - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
       Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
-      Etc:
-        - "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
+      Facts and Fallacies of Software Engineering: "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
 
   Useful:
     - "https://www.javatips.net/"
@@ -336,6 +353,8 @@ Security:
     Protocol:
       TLS/SSL:
         HTTPS:
+    JWT:
+    OAuth2:
 
   Vulnerability:
     - Log4Shell
