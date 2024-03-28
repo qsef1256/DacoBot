@@ -26,8 +26,8 @@ Computer Science:
     Programming Language:
       - Java
       - JavaScript (ECMAScript)
-      - C
-      - C#
+      - C, C++, C#
+      - Rust
       - Python
     Markup Language:
       - HTML # HTML is not a programming language
@@ -57,7 +57,8 @@ Computer Science:
       - "https://itwiki.kr/w/%EA%B2%B0%ED%95%A9%EB%8F%84"
       - "https://rutgo-letsgo.tistory.com/227"
       - "https://velog.io/@eddy_song/separation-of-concerns"
-
+    Law of Demeter: "https://coding-start.tistory.com/264"
+  
   Data Structure:
     Description: "https://iwuooh.com/entry/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0Data-Structure%EC%9D%98-%EC%A0%95%EC%9D%98%EC%99%80-%EC%A2%85%EB%A5%98"
     Array:
@@ -78,7 +79,7 @@ Computer Science:
       Quick Sort:
       Merge Sort:
       Heap Sort:
-    DFS:
+    DFS: "https://namu.wiki/w/%EA%B9%8A%EC%9D%B4%20%EC%9A%B0%EC%84%A0%20%ED%83%90%EC%83%89"
     BFS: "https://namu.wiki/w/%EB%84%88%EB%B9%84%20%EC%9A%B0%EC%84%A0%20%ED%83%90%EC%83%89"
     Dynamic Programming:
       Memoization:
@@ -296,7 +297,10 @@ Java:
         - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
       Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
       Facts and Fallacies of Software Engineering: "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
-
+    Architecture:
+      - "https://channy.creation.net/blog/1828"
+      - "https://12factor.net/ko/"
+  
   Useful:
     - "https://www.javatips.net/"
 
@@ -415,11 +419,14 @@ Network:
 DevOps:
   CI/CD:
     Description: "https://www.nextree.co.kr/p10799/"
-    Tool:
+    Solution:
       - Jenkins
       - Github Actions
       - GitLab
       - TeamCity
+
+    Tool:
+      Renovate: "https://github.com/renovatebot/renovate"
 
   Orchestration:
     Docker vs Kubernetes: "https://www.itworld.co.kr/news/135282"
