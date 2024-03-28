@@ -17,7 +17,7 @@ public class DacoBot implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         // empty now
     }
 

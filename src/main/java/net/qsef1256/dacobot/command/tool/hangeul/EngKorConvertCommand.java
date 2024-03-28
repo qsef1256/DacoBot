@@ -2,12 +2,10 @@ package net.qsef1256.dacobot.command.tool.hangeul;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
@@ -27,11 +25,11 @@ public class EngKorConvertCommand extends DacoCommand {
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
         try {
-            OptionMapping option = JDAUtil.getOptionMapping(event, "오타");
-            if (option == null) return;
+            String input = getOptionString("오타");
+            if (input == null) return;
 
             event.replyEmbeds(DiaEmbed.info("영한 변환",
-                    KorEngConverter.getInstance().engToKor(option.getAsString()),
+                    KorEngConverter.getInstance().engToKor(input),
                     event.getUser()).build()).queue();
         } catch (RuntimeException e) {
             log.warn(e.getMessage());

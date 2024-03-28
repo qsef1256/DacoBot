@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 @Slf4j
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class CmdStatisticService {
 
@@ -31,7 +33,7 @@ public class CmdStatisticService {
         statistic.setTodayUsed(statistic.getTodayUsed() + 1);
         statistic.setLastUseTime(LocalDateTime.now());
 
-        repository.saveAndFlush(statistic);
+        repository.save(statistic);
         return statistic;
     }
 
@@ -43,7 +45,7 @@ public class CmdStatisticService {
         cmdStatisticEntity.setCommandName(name);
         cmdStatisticEntity.setLastUseTime(LocalDateTime.now());
 
-        repository.saveAndFlush(cmdStatisticEntity);
+        repository.save(cmdStatisticEntity);
         return cmdStatisticEntity;
     }
 

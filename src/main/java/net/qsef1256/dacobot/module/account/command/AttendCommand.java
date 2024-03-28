@@ -3,9 +3,9 @@ package net.qsef1256.dacobot.module.account.command;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.User;
-import net.qsef1256.dacobot.core.command.DacoCommand;
-import net.qsef1256.dacobot.module.account.controller.AccountController;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
+import net.qsef1256.dacobot.module.account.user.UserController;
+import net.qsef1256.dacobot.module.account.user.UserEntity;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
 import org.jetbrains.annotations.NotNull;
@@ -18,9 +18,9 @@ import java.util.NoSuchElementException;
 @Component
 public class AttendCommand extends DacoCommand {
 
-    private final AccountController userController;
+    private final UserController userController;
 
-    public AttendCommand(@NotNull AccountController userController) {
+    public AttendCommand(@NotNull UserController userController) {
         this.userController = userController;
 
         name = "출석";
@@ -33,7 +33,7 @@ public class AttendCommand extends DacoCommand {
         User eventUser = event.getUser();
 
         try {
-            UserEntity userData = userController.getAccount(eventUser.getIdLong());
+            UserEntity userData = userController.getUser(eventUser.getIdLong());
 
             LocalDateTime lastAttendTime = userData.getLastAttendTime();
             if (lastAttendTime != null && LocalDateTimeUtil.isToday(lastAttendTime)) {
@@ -43,7 +43,7 @@ public class AttendCommand extends DacoCommand {
             } else {
                 userData.setLastAttendTime(LocalDateTime.now());
                 userData.setAttendCount(userData.getAttendCount() + 1);
-                userController.save(userData);
+                userController.saveUser(userData);
 
                 event.replyEmbeds(DiaEmbed.success("출석 체크!",
                         "정상적으로 출석 체크 되었습니다.\n\n" + "출석 횟수: " + userData.getAttendCount(),

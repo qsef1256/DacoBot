@@ -4,10 +4,9 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.qsef1256.dacobot.game.explosion.controller.UserController;
 import net.qsef1256.dacobot.module.account.command.AccountCommand;
-import net.qsef1256.dacobot.module.account.controller.AccountController;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
+import net.qsef1256.dacobot.module.account.user.UserController;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import org.jetbrains.annotations.NotNull;
@@ -18,12 +17,9 @@ import java.util.NoSuchElementException;
 @Component
 public class AccountButtonListener extends ListenerAdapter {
 
-    private final AccountController accountController;
     private final UserController userController;
 
-    public AccountButtonListener(@NotNull AccountController accountController,
-                                 @NotNull UserController userController) {
-        this.accountController = accountController;
+    public AccountButtonListener(@NotNull UserController userController) {
         this.userController = userController;
     }
 
@@ -64,7 +60,7 @@ public class AccountButtonListener extends ListenerAdapter {
                 User user = event.getUser();
 
                 try {
-                    accountController.delete(user.getIdLong());
+                    userController.delete(user.getIdLong());
                     event.replyEmbeds(new EmbedBuilder()
                             .setTitle("계정 삭제 됨")
                             .setColor(DiaColor.SUCCESS)

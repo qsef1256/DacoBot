@@ -23,7 +23,7 @@ public class ItemTypeEntity {
     private String itemName;
 
     @Column(columnDefinition = "TEXT")
-    private String itemIcon;
+    private String itemIcon = "";
 
     @Column(columnDefinition = "TEXT")
     private String description;

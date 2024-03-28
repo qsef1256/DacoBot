@@ -5,6 +5,8 @@ spring:
       dev: "dev"
       test: "test"
 
+    active: dev
+
   main:
     web-application-type: none
 

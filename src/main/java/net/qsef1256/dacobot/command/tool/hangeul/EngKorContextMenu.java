@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class EngKorContextMenu extends MessageContextMenu {
 
     public EngKorContextMenu() {
-        this.name = "영한 오타 번역기";
+        name = "영한 오타 번역기";
     }
 
     @Override

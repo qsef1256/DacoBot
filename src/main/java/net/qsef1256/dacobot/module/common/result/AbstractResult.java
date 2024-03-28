@@ -6,6 +6,10 @@ public interface AbstractResult {
 
     boolean isSuccess();
 
+    default boolean isFailure() {
+        return !isSuccess();
+    }
+
     @Nullable
     String getMessage();
 

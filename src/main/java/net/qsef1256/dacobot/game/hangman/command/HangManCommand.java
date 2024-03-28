@@ -6,12 +6,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.game.hangman.container.HangManContainer;
 import net.qsef1256.dacobot.game.hangman.domain.HangMan;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dialib.util.CommonUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -72,10 +71,9 @@ public class HangManCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            OptionMapping option = JDAUtil.getOptionMapping(event, "단어");
-            if (option == null) return;
+            String word = getOptionString("단어");
+            if (word == null) return;
 
-            String word = option.getAsString();
             if (!CommonUtil.isBetween(3, word.length(), 15)) {
                 event.reply("단어는 3 ~ 15글자 사이여야 합니다.").setEphemeral(true).queue();
                 return;

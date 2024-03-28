@@ -1,109 +1,85 @@
 package net.qsef1256.dacobot.game.explosion.domain.inventory;
 
-import lombok.extern.slf4j.Slf4j;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.User;
+import lombok.AllArgsConstructor;
 import net.qsef1256.dacobot.game.explosion.domain.item.Item;
-import net.qsef1256.dacobot.game.explosion.domain.item.ItemEntity;
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
-import net.qsef1256.dacobot.setting.constants.DiaColor;
+import net.qsef1256.dacobot.game.explosion.domain.item.ItemDto;
+import net.qsef1256.dacobot.game.explosion.domain.item.ItemMapper;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeMapper;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeRepository;
+import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
-@Slf4j
 @Service
 @Transactional
-// FIXME: is transactional work properly? https://cheese10yun.github.io/spring-transacion-same-bean/
+@AllArgsConstructor
 public class InventoryService {
 
-    private final InventoryRepository inventoryRepository;
-    private final UserService userService;
-    private final CashService cashService;
+    private final ItemTypeRepository type;
+    private final InventoryRepository repository;
 
-    public InventoryService(@NotNull InventoryRepository inventoryRepository,
-                            @NotNull UserService userService,
-                            @NotNull CashService cashService) {
-        this.inventoryRepository = inventoryRepository;
-        this.userService = userService;
-        this.cashService = cashService;
-    }
-
-    // TODO: move it to domain layer? or leave it service layer because it is business logic?
     @NotNull
-    public EmbedBuilder getInventoryEmbed(@NotNull User user) {
-        EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setAuthor(user.getName(), null, user.getEffectiveAvatarUrl())
-                .setColor(DiaColor.INFO)
-                .setTitle("%s의 인벤토리".formatted(user.getName()));
+    private Inventory getInventory(long discordId) {
+        if (!repository.existsById(discordId)) repository.save(new Inventory(discordId));
 
-        StringBuilder items = new StringBuilder();
-        getItems(user.getIdLong()).forEach((id, item) -> {
-            ItemTypeEntity itemType = item.getItemType();
-
-            String itemInfo = "%s %s : %s > %s개".formatted(
-                    itemType.getItemIcon(),
-                    itemType.getItemName(),
-                    itemType.getItemRank(),
-                    item.getAmount());
-            items.append(itemInfo);
-            items.append("\n");
-        });
-
-        embedBuilder.addField("아이템 목록",
-                items.toString(), false);
-        embedBuilder.addField(":moneybag:돈",
-                cashService.getCash(user.getIdLong()) + " 캐시", true);
-        embedBuilder.addField(":gem:보유 다이아",
-                cashService.getPickaxeCount(user.getIdLong()) + " 개", true);
-
-        return embedBuilder;
+        return repository.getReferenceById(discordId);
     }
 
-    public Map<Integer, ItemEntity> getItems(long discordId) {
-        UserEntity user = userService.getUserOrCreate(discordId);
-        InventoryEntity inventory = user.getInventory();
+    @NotNull
+    public List<ItemDto> getItems(long discordId) {
+        Inventory inventory = getInventory(discordId);
 
-        return inventory != null
-                ? inventory.getItems()
-                : new HashMap<>();
+        return inventory.getItems().stream()
+                .map(ItemMapper.INSTANCE::mapItemDto)
+                .collect(Collectors.toCollection(ArrayList::new));
     }
 
-    public Item getItem(long discordId, int itemId) {
-        return Item.fromEntity(getItems(discordId).get(itemId));
+    @NotNull
+    public ItemDto getItem(long discordId, int itemId) {
+        return getInventory(discordId)
+                .getItems()
+                .stream()
+                .filter(item -> item.getType().getItemId().equals(itemId))
+                .findAny()
+                .map(ItemMapper.INSTANCE::mapItemDto)
+                .orElse(new ItemDto(ItemTypeMapper.INSTANCE
+                        .mapItemTypeDto(type.getReferenceById(itemId)), 0));
     }
 
-    public void setItem(long discordId, @NotNull ItemEntity item) {
-        UserEntity user = userService.getUserOrCreate(discordId);
-        InventoryEntity inventory = user.getInventory();
-        if (inventory != null) {
-            inventory.putItem(item);
-
-            inventoryRepository.save(inventory);
-        }
+    public void setItem(long discordId, @NotNull ItemDto item) {
+        setItem(discordId, ItemMapper.INSTANCE.mapItem(item));
     }
 
-    private void computeItem(long discordId,
-                             int itemId,
-                             @NotNull Consumer<ItemEntity> action) {
-        UserEntity user = userService.getUserOrCreate(discordId);
-        InventoryEntity inventory = user.getInventory();
-        Map<Integer, ItemEntity> items = inventory.getItems();
+    public void setItem(long discordId, @NotNull Item item) {
+        Inventory inventory = getInventory(discordId);
+        inventory.addItem(item);
 
-        items.compute(itemId, (k, v) -> {
-            ItemEntity item = (v == null) ? new ItemEntity() : v;
-            action.accept(item);
+        repository.save(inventory);
+    }
 
-            return item;
-        });
+    @NotNull
+    @Contract("_, _ -> new")
+    private Item newItem(int itemId, long amount) {
+        if (!type.existsById(itemId))
+            throw new IllegalArgumentException("unknown item id:" + itemId);
 
-        inventoryRepository.save(inventory);
+        return new Item(type.getReferenceById(itemId), amount);
+    }
+
+    @Nullable
+    private Item getItemEntity(long discordId, int itemId) {
+        return getInventory(discordId)
+                .getItems()
+                .stream()
+                .filter(item -> item.getType().getItemId().equals(itemId))
+                .findAny()
+                .orElse(null);
     }
 
     public void addItem(long discordId, int itemId) {
@@ -112,14 +88,31 @@ public class InventoryService {
 
     public void addItem(long discordId,
                         int itemId,
-                        int amount) {
-        computeItem(discordId, itemId, item -> item.addAmount(amount));
+                        long amount) {
+        Inventory inventory = getInventory(discordId);
+        Item item = getItemEntity(discordId, itemId);
+        if (item != null)
+            item.addAmount(amount);
+        else
+            inventory.addItem(newItem(itemId, amount));
+
+        repository.save(inventory);
     }
 
-    public void createItem(long discordId,
-                           int itemId,
-                           int amount) {
-        computeItem(discordId, itemId, item -> item.setAmount(amount));
+    public void setItem(long discordId, int itemId) {
+        setItem(discordId, itemId, 1);
+    }
+
+    public void setItem(long discordId,
+                        int itemId,
+                        long amount) {
+        Inventory inventory = getInventory(discordId);
+        Item item = getItemEntity(discordId, itemId);
+        if (item == null)
+            inventory.addItem(newItem(itemId, amount));
+        else
+            item.setAmount(amount);
+        repository.save(inventory);
     }
 
     public void removeItem(long discordId, int itemId) {
@@ -128,16 +121,32 @@ public class InventoryService {
 
     public void removeItem(long discordId,
                            int itemId,
-                           int amount) {
-        computeItem(discordId, itemId, item -> {
-            int remainingAmount = item.getAmount() - amount;
+                           long amount) {
+        Inventory inventory = getInventory(discordId);
+        Item item = getItemEntity(discordId, itemId);
+        if (item == null) return;
 
-            item.setAmount(Math.max(remainingAmount, 0));
-        });
+        if (item.getAmount() > amount)
+            item.removeAmount(amount);
+        else
+            inventory.removeItem(item);
+        repository.save(inventory);
     }
 
     public void clearItem(long discordId, int itemId) {
-        computeItem(discordId, itemId, item -> item.setAmount(0));
+        Inventory inventory = getInventory(discordId);
+        Item item = getItemEntity(discordId, itemId);
+        if (item == null) return;
+
+        inventory.removeItem(item);
+        repository.save(inventory);
+    }
+
+    public void clearInventory(long discordId) {
+        Inventory inventory = getInventory(discordId);
+
+        inventory.getItems().clear();
+        repository.save(inventory);
     }
 
 }

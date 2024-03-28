@@ -89,7 +89,7 @@
     * [SLF4J](https://www.slf4j.org/): Copyright © 2004-2021 QOS.ch `MIT`
     * [Logback](https://logback.qos.ch/): Copyright © 2021 QOS.ch `EPL-1.0` `LGPL-2.1`
 * 기타 라이센스
-    * [Twemoji](https://twemoji.twitter.com/): Copyright 2020 Twitter, Inc and other contributors / 색상 수정됨 `MIT`, `CC-BY-4.0`
+    * [Twemoji](https://github.com/twitter/twemoji): Copyright 2020 Twitter, Inc and other contributors / 색상 수정됨 `MIT`, `CC-BY-4.0`
 
 라이선스 코드는 [SPDX](https://spdx.org/licenses/) 를 기준으로 합니다.
 

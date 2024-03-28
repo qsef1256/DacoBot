@@ -24,8 +24,8 @@ public class HangMan {
         if (!word.chars().allMatch(value -> isAlphabet(String.valueOf((char) value))))
             throw new IllegalArgumentException("Parameter word is not english: " + word);
 
-        this.originWord = word.toLowerCase();
-        this.charMatches = new boolean[word.length()];
+        originWord = word.toLowerCase();
+        charMatches = new boolean[word.length()];
     }
 
     public HangMan(@NotBlank @NotNull String word, @Positive int remainLife) {
@@ -67,6 +67,7 @@ public class HangMan {
 
         inputtedChar.add(input);
         if (!isContain) removeLife();
+
         return isContain;
     }
 
