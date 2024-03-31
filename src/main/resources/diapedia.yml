@@ -16,8 +16,10 @@ Useful:
       - "https://github.com/Lubycon/quantumic-design"
   Learn:
     - "https://www.geeksforgeeks.org/"
-  Roadmap:
     - "https://roadmap.sh/"
+    - "https://www.freecodecamp.org/"
+    - "https://github.com/EbookFoundation/free-programming-books"
+    - "https://github.com/sindresorhus/awesome"
   Markdown:
     - "https://github.com/Ileriayo/markdown-badges"
 
@@ -113,7 +115,26 @@ Computer Science:
 
   Unified Modeling Language: # UML
     Description: "https://aswalmighty.tistory.com/88?category=788367"
-    Class Relationship: "https://itproda.tistory.com/101"
+    Class Relationship:
+      Description: "https://itproda.tistory.com/101"
+      Association:
+        Shape: "──→"
+        Description: "참조를 가지고 있음"
+      Dependency:
+        Shape: "--→"
+        Description: "메서드의 파라미터에 사용됨"
+      Realization:
+        Shape: "--▷"
+        Description: "implements"
+      Generalization:
+        Shape: "──▷"
+        Description: "extends"
+      Aggregation:
+        Shape: "◇──"
+        Description: "포함, 수명주기 별도"
+      Composition:
+        Shape: "◆──"
+        Description: "포함, 수명주기 공유"
     Diagrams:
       - Usecase Diagram
       - Class Diagram
@@ -297,6 +318,7 @@ Java:
         - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
       Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
       Facts and Fallacies of Software Engineering: "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
+      Introduction to Algorithms: "https://gooddaytocode.blogspot.com/2016/07/introduction-to-algorithms.html"
     Architecture:
       - "https://channy.creation.net/blog/1828"
       - "https://12factor.net/ko/"
