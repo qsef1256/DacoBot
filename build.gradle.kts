@@ -41,12 +41,12 @@ dependencies {
     // Technical
     implementation("org.glassfish:jakarta.el:5.0.0-M1")
     implementation("jakarta.el:jakarta.el-api:5.0.1")
-    implementation("io.smallrye:jandex:3.1.6")
+    implementation("io.smallrye:jandex:3.1.7")
     implementation("com.jayway.jsonpath:json-path:2.9.0")
     // Apache
     implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.apache.commons:commons-configuration2:2.10.1")
-    implementation("org.apache.commons:commons-dbcp2:2.11.0")
+    implementation("org.apache.commons:commons-dbcp2:2.12.0")
     implementation("org.apache.commons:commons-lang3:3.14.0")
     implementation("org.apache.commons:commons-text:1.11.0")
     implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
@@ -63,8 +63,8 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.guava:guava:33.0.0-jre")
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+    implementation("com.google.guava:guava:33.1.0-jre")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
     implementation("org.mapstruct:mapstruct:1.5.5.Final")
     // Database
     implementation("com.zaxxer:HikariCP:5.1.0")
@@ -75,8 +75,8 @@ dependencies {
     implementation("org.hibernate.validator:hibernate-validator-annotation-processor:8.0.1.Final")
     // Log
     implementation("org.slf4j:slf4j-api:2.0.12")
-    implementation("ch.qos.logback:logback-classic:1.5.1")
-    implementation("ch.qos.logback:logback-core:1.5.1")
+    implementation("ch.qos.logback:logback-classic:1.5.2")
+    implementation("ch.qos.logback:logback-core:1.5.3")
     implementation("org.threeten:threetenbp:1.6.8")
     implementation("org.yaml:snakeyaml:2.2")
     // Spring

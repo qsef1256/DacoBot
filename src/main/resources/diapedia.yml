@@ -59,6 +59,7 @@ Computer Science:
       - "https://itwiki.kr/w/%EA%B2%B0%ED%95%A9%EB%8F%84"
       - "https://rutgo-letsgo.tistory.com/227"
       - "https://velog.io/@eddy_song/separation-of-concerns"
+      - "https://ganghee-lee.tistory.com/13"
     Law of Demeter: "https://coding-start.tistory.com/264"
   
   Data Structure:
@@ -86,6 +87,10 @@ Computer Science:
     Dynamic Programming:
       Memoization:
     Greedy:
+    List:
+      - "https://en.wikipedia.org/wiki/Lloyd%27s_algorithm"
+      - "https://going-to-end.tistory.com/entry/Minimax-algorithm-%EB%AF%B8%EB%8B%88%EB%A7%A5%EC%8A%A4-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98#google_vignette"
+      - "https://velog.io/@digh0515/AI-5-1.-Alpha-Beta-Pruning-%EC%95%8C%ED%8C%8C%EB%B2%A0%ED%83%80-%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80"
 
   Paradigm:
     Procedural Programming: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%B0%A8%EC%A0%81_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
@@ -156,6 +161,7 @@ Computer Science:
     Clean Architecture:
 
     Anti-pattern:
+      Desc: "http://antipatterns.com/"
       Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
     # TODO: another architecture
 
@@ -449,6 +455,7 @@ DevOps:
 
     Tool:
       Renovate: "https://github.com/renovatebot/renovate"
+      mdBook: "https://github.com/rust-lang/mdBook"
 
   Orchestration:
     Docker vs Kubernetes: "https://www.itworld.co.kr/news/135282"
@@ -485,7 +492,10 @@ Git:
 
   Convention:
     Commit: "https://www.conventionalcommits.org/ko/v1.0.0/"
-    Branch: "https://velog.io/@kw2577/Git-branch-%EC%A0%84%EB%9E%B5"
+    Branch:
+      Git-flow:
+        - "https://velog.io/@kw2577/Git-branch-%EC%A0%84%EB%9E%B5"
+        - "https://techblog.woowahan.com/2553/"
 
 Artificial Intelligence:
   Product:
