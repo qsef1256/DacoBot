@@ -1,4 +1,4 @@
-Version: 2024-02-25
+Version: 2024-04-15
 
 Useful:
   Site:
@@ -61,7 +61,7 @@ Computer Science:
       - "https://velog.io/@eddy_song/separation-of-concerns"
       - "https://ganghee-lee.tistory.com/13"
     Law of Demeter: "https://coding-start.tistory.com/264"
-  
+
   Data Structure:
     Description: "https://iwuooh.com/entry/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0Data-Structure%EC%9D%98-%EC%A0%95%EC%9D%98%EC%99%80-%EC%A2%85%EB%A5%98"
     Array:
@@ -328,7 +328,7 @@ Java:
     Architecture:
       - "https://channy.creation.net/blog/1828"
       - "https://12factor.net/ko/"
-  
+
   Useful:
     - "https://www.javatips.net/"
 
