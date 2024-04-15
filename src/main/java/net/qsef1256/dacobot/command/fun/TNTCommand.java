@@ -49,7 +49,7 @@ public class TNTCommand extends DacoCommand {
         }
 
         String boom = ":boom: TNT %d개가 터졌습니다.%n".formatted(Math.round(tntCount));
-        String result = ResultSwitch.get(tntCount, boom)
+        String result = ResultSwitch.of(tntCount, boom)
                 .caseCondition(tntCount < 0, "%s :sparkles: 물리 법칙이 붕괴되어 모든 세계가 사라졌습니다..."
                         .formatted(boom))
                 .caseCondition(0D, "%s :dash: 아무 일도 일어나지 않았습니다."
