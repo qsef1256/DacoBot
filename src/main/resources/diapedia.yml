@@ -73,9 +73,16 @@ Computer Science:
     Tree:
       Binary Tree:
       RB Tree:
+      Etc:
+        - "https://en.wikipedia.org/wiki/Abstract_syntax_tree"
+        - "https://en.wikipedia.org/wiki/Parse_tree"
     Heap: "https://evan-moon.github.io/2019/10/12/introduction-data-structure-heap/"
 
   Algorithm:
+    Problem List: # TODO: Let's solve this
+      - "https://www.acmicpc.net/step"
+      - "https://solved.ac/problems/sprout"
+      - "https://solved.ac/class"
     Recursive: "https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=minichuuuuu&logNo=220650556844"
     Backtracking: "https://chanhuiseok.github.io/posts/algo-23/"
     Sorting:
@@ -91,7 +98,7 @@ Computer Science:
       - "https://en.wikipedia.org/wiki/Lloyd%27s_algorithm"
       - "https://going-to-end.tistory.com/entry/Minimax-algorithm-%EB%AF%B8%EB%8B%88%EB%A7%A5%EC%8A%A4-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98#google_vignette"
       - "https://velog.io/@digh0515/AI-5-1.-Alpha-Beta-Pruning-%EC%95%8C%ED%8C%8C%EB%B2%A0%ED%83%80-%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80"
-
+  
   Paradigm:
     Procedural Programming: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%B0%A8%EC%A0%81_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
     Objective Oriented Programming: "https://ko.wikipedia.org/wiki/%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" # OOP
@@ -162,7 +169,9 @@ Computer Science:
 
     Anti-pattern:
       Desc: "http://antipatterns.com/"
+      God Class: ""
       Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
+      Class Explosion: "https://www.linkedin.com/pulse/understanding-class-explosion-dhruv-tatran"
     # TODO: another architecture
 
   Refactoring:
@@ -215,11 +224,16 @@ Java:
   Java API:
     CompletableFuture: "https://mangkyu.tistory.com/263"
     ConcurrentHashMap: "https://devlog-wjdrbs96.tistory.com/269"
-
+    Structured Concurrency: "https://mangkyu.tistory.com/325"
+  
   Design Pattern:
     Description:
       - "https://catsbi.oopy.io/344dbe7b-9774-48fc-9c95-b554e9c1c4bc"
       - "https://technical-leader.tistory.com/7"
+    Catalogue:
+      - "https://en.wikipedia.org/wiki/Software_design_pattern"
+      - "https://java-design-patterns.com/patterns/"
+      - "https://martinfowler.com/eaaCatalog/index.html"
     GRASP: "https://www.hanbit.co.kr/network/category/category_view.html?cms_code=CMS8586826397&cate_cd="
     Creational Pattern:
       Singleton: "https://jdm.kr/blog/10"
@@ -228,7 +242,7 @@ Java:
       Abstract Factory: "https://jdm.kr/blog/192"
       Factory Method: "https://jdm.kr/blog/180"
       Prototype: "https://refactoring.guru/design-patterns/prototype"
-    DI:
+    Dependency Injection: # DI
       - "https://devlog-wjdrbs96.tistory.com/165?category=882236"
       - "https://galid1.tistory.com/493?category=769011"
     DAO, DTO, VO: "https://choitaetae.tistory.com/97"
@@ -240,7 +254,9 @@ Java:
       - "https://gmlwjd9405.github.io/2018/08/10/composite-pattern.html"
       - "https://mygumi.tistory.com/343"
       - "https://incheol-jung.gitbook.io/docs/q-and-a/architecture/undefined-2"
+    Composition over Inheritance:
       - "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
+      - "https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5%EC%9D%98-%EC%83%81%EC%86%8D-%EB%AC%B8%EC%A0%9C%EC%A0%90%EA%B3%BC-%ED%95%A9%EC%84%B1Composition-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"
     Anti Pattern: # Common Mistakes
       - "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
 
@@ -325,6 +341,9 @@ Java:
       Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
       Facts and Fallacies of Software Engineering: "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
       Introduction to Algorithms: "https://gooddaytocode.blogspot.com/2016/07/introduction-to-algorithms.html"
+      Software Conflict 2.0: "https://m.blog.naver.com/babo4958/50087370942"
+      Code Complete: "https://en.wikipedia.org/wiki/Code_Complete"
+
     Architecture:
       - "https://channy.creation.net/blog/1828"
       - "https://12factor.net/ko/"
@@ -504,6 +523,10 @@ Artificial Intelligence:
     - Google Bard
 
   Behavior Tree: "https://engineering.linecorp.com/ko/blog/behavior-tree/"
+
+UI/UX:
+  Website:
+    - "https://uiux.egovframe.go.kr/guide/index.html"
 
 Etc:
   Don't try this at home:
