@@ -60,8 +60,11 @@ Computer Science:
       - "https://rutgo-letsgo.tistory.com/227"
       - "https://velog.io/@eddy_song/separation-of-concerns"
       - "https://ganghee-lee.tistory.com/13"
+    Composition over Inheritance:
+      - "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
+      - "https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5%EC%9D%98-%EC%83%81%EC%86%8D-%EB%AC%B8%EC%A0%9C%EC%A0%90%EA%B3%BC-%ED%95%A9%EC%84%B1Composition-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"
     Law of Demeter: "https://coding-start.tistory.com/264"
-  
+
   Data Structure:
     Description: "https://iwuooh.com/entry/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0Data-Structure%EC%9D%98-%EC%A0%95%EC%9D%98%EC%99%80-%EC%A2%85%EB%A5%98"
     Array:
@@ -123,6 +126,7 @@ Computer Science:
       Deadlock: "https://jwprogramming.tistory.com/12"
       Race condition: "https://iredays.tistory.com/125"
       Parallelism: "https://velog.io/@wlsrhkd4023/%EB%8F%99%EC%8B%9C%EC%84%B1Concurrency%EA%B3%BC-%EB%B3%91%EB%A0%AC%EC%84%B1Parallelism-%EC%B0%A8%EC%9D%B4"
+      Actor model: "https://en.wikipedia.org/wiki/Actor_model"
     Multi-Thread: "https://rebro.kr/174"
 
   Unified Modeling Language: # UML
@@ -157,7 +161,7 @@ Computer Science:
       - State Diagram
       - Sequence Diagram
       - Communication Diagram
-  
+
   Software Architecture:
     MVC: "https://m.blog.naver.com/jhc9639/220967034588"
     MVP:
@@ -166,12 +170,11 @@ Computer Science:
     Layered Architecture: "https://hudi.blog/layered-architecture/"
     Hexagonal: "https://tech.osci.kr/hexagonal-architecture/"
     Clean Architecture:
+    Pattern:
+      DAO, DTO, VO: "https://choitaetae.tistory.com/97"
 
-    Anti-pattern:
-      Description: "http://antipatterns.com/"
-      God Class: ""
+    Anti pattern:
       Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
-      Class Explosion: "https://www.linkedin.com/pulse/understanding-class-explosion-dhruv-tatran"
     # TODO: another architecture
 
   Refactoring:
@@ -190,7 +193,7 @@ Computer Science:
       - Integration Test
       - Acceptance Test
     Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
-    Anti-pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+    Anti pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
 
   Programming Culture:
     Code Review:
@@ -234,31 +237,38 @@ Java:
       - "https://en.wikipedia.org/wiki/Software_design_pattern"
       - "https://java-design-patterns.com/patterns/"
       - "https://martinfowler.com/eaaCatalog/index.html"
-    GRASP: "https://www.hanbit.co.kr/network/category/category_view.html?cms_code=CMS8586826397&cate_cd="
     Creational Pattern:
+      GRASP: "https://www.hanbit.co.kr/network/category/category_view.html?cms_code=CMS8586826397&cate_cd="
       Singleton: "https://jdm.kr/blog/10"
       Builder: "https://jdm.kr/blog/217"
       Static Factory Method: "https://velog.io/@ljinsk3/%EC%A0%95%EC%A0%81-%ED%8C%A9%ED%86%A0%EB%A6%AC-%EB%A9%94%EC%84%9C%EB%93%9C%EB%8A%94-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EA%B9%8C"
       Abstract Factory: "https://jdm.kr/blog/192"
       Factory Method: "https://jdm.kr/blog/180"
       Prototype: "https://refactoring.guru/design-patterns/prototype"
-    Dependency Injection: # DI
-      - "https://devlog-wjdrbs96.tistory.com/165?category=882236"
-      - "https://galid1.tistory.com/493?category=769011"
-    DAO, DTO, VO: "https://choitaetae.tistory.com/97"
-    Observer: "https://jdm.kr/blog/32"
-    Decorator: "https://catsbi.oopy.io/f58693bb-b2aa-4175-a786-a98f42b638c3"
-    Command: "https://victorydntmd.tistory.com/295?category=719467"
-    Visitor: "https://thecodinglog.github.io/design/2019/10/29/visitor-pattern.html"
-    Composite: # Delegation
-      - "https://gmlwjd9405.github.io/2018/08/10/composite-pattern.html"
-      - "https://mygumi.tistory.com/343"
-      - "https://incheol-jung.gitbook.io/docs/q-and-a/architecture/undefined-2"
-    Composition over Inheritance:
-      - "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
-      - "https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5%EC%9D%98-%EC%83%81%EC%86%8D-%EB%AC%B8%EC%A0%9C%EC%A0%90%EA%B3%BC-%ED%95%A9%EC%84%B1Composition-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"
+      Dependency Injection: # DI
+        - "https://devlog-wjdrbs96.tistory.com/165?category=882236"
+        - "https://galid1.tistory.com/493?category=769011"
+
+    Structural Pattern:
+      Decorator: "https://catsbi.oopy.io/f58693bb-b2aa-4175-a786-a98f42b638c3"
+      Composite: # Delegation
+        - "https://gmlwjd9405.github.io/2018/08/10/composite-pattern.html"
+        - "https://mygumi.tistory.com/343"
+        - "https://incheol-jung.gitbook.io/docs/q-and-a/architecture/undefined-2"
+
+    Behavioral Pattern:
+      Command: "https://victorydntmd.tistory.com/295?category=719467"
+      Observer: "https://jdm.kr/blog/32"
+      Visitor: "https://thecodinglog.github.io/design/2019/10/29/visitor-pattern.html"
+
+    Concurrency Pattern:
+
     Anti Pattern: # Common Mistakes
-      - "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+      Description:
+        - "http://antipatterns.com/"
+        - "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+      God Class: ""
+      Class Explosion: "https://www.linkedin.com/pulse/understanding-class-explosion-dhruv-tatran"
 
   Framework & Library:
     Utility:
