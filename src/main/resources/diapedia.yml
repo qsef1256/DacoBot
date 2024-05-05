@@ -168,7 +168,7 @@ Computer Science:
     Clean Architecture:
 
     Anti-pattern:
-      Desc: "http://antipatterns.com/"
+      Description: "http://antipatterns.com/"
       God Class: ""
       Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
       Class Explosion: "https://www.linkedin.com/pulse/understanding-class-explosion-dhruv-tatran"
