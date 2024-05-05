@@ -46,6 +46,8 @@ Computer Science:
       - Mustache
 
   Principle:
+    Catalogue:
+      - "https://java-design-patterns.com/principles"
     OOP:
       - Abstraction
       - Encapsulation
