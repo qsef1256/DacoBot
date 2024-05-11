@@ -48,6 +48,8 @@ Computer Science:
   Principle:
     Catalogue:
       - "https://java-design-patterns.com/principles"
+      - "http://principles-wiki.net/principles:start"
+      - "https://github.com/codeanddonuts/hacker-laws-kr"
     OOP:
       - Abstraction
       - Encapsulation
@@ -230,7 +232,7 @@ Java:
     CompletableFuture: "https://mangkyu.tistory.com/263"
     ConcurrentHashMap: "https://devlog-wjdrbs96.tistory.com/269"
     Structured Concurrency: "https://mangkyu.tistory.com/325"
-  
+
   Design Pattern:
     Description:
       - "https://catsbi.oopy.io/344dbe7b-9774-48fc-9c95-b554e9c1c4bc"
