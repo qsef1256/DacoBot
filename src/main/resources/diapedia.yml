@@ -191,14 +191,18 @@ Computer Science:
       - "https://refactoring.guru/refactoring/smells"
       - "https://nesoy.github.io/articles/2018-05/Refactoring-BadSmell"
 
-  Testing:
-    Type:
-      - Unit Test
-      - Integration Test
-      - Acceptance Test
-    Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
-    Anti pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+  QA:
+    Testing:
+      Type:
+        - Unit Test
+        - Integration Test
+        - Acceptance Test
+      Code Coverage:
+      Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
+      Anti pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
 
+    Software Metric: "https://en.wikipedia.org/wiki/Software_metric"
+  
   Programming Culture:
     Code Review:
   
