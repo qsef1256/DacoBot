@@ -9,13 +9,12 @@ import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.game.board.omok.model.OmokController;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -82,15 +81,15 @@ public class OmokCommand extends DacoCommand {
 
         @Override
         protected void runCommand(@NotNull SlashCommandEvent event) {
-            OptionMapping userOption = JDAUtil.getOptionMapping(event, "상대");
+            User userOption = getOptionUser("상대");
             if (userOption == null) return;
 
             User user = event.getUser();
             User oppositeUser;
             try {
-                oppositeUser = userOption.getAsUser();
+                oppositeUser = userOption;
             } catch (IllegalArgumentException e) {
-                event.reply("올바른 유저가 아닙니다: " + userOption.getAsString()).queue();
+                event.reply("올바른 유저가 아닙니다: %s".formatted(userOption.toString())).queue();
                 return;
             }
 

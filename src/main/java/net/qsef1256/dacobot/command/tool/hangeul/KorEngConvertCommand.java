@@ -3,7 +3,7 @@ package net.qsef1256.dacobot.command.tool.hangeul;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 

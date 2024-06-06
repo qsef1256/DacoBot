@@ -5,14 +5,12 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.setting.constants.DiaImage;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -99,14 +97,14 @@ public class HelpCommand extends DacoCommand {
             Member member = event.getMember();
             if (member == null) return;
 
-            final OptionMapping option = JDAUtil.getOptionMapping(event, "카테고리");
-            if (option == null) return;
+            String category = getOptionString("카테고리");
+            if (category == null) return;
 
             try {
-                event.replyEmbeds(diaHelp.getSearchResult(member, option.getAsString()).build()).queue();
+                event.replyEmbeds(diaHelp.getSearchResult(member, category).build()).queue();
             } catch (NoSuchElementException e) {
                 event.replyEmbeds(DiaEmbed.fail("찾기 실패",
-                                option.getAsString() + " 카테고리는 존재하지 않아요!",
+                                category + " 카테고리는 존재하지 않아요!",
                                 null)
                         .setFooter("/도움말 전체 로 카테고리 목록을 확인하세요.")
                         .build()).queue();
@@ -114,7 +112,7 @@ public class HelpCommand extends DacoCommand {
                 log.warn(e.getMessage());
 
                 event.replyEmbeds(DiaEmbed.error(null,
-                        option.getAsString() + " 카테고리 로딩중 오류가 발생했어요.",
+                        category + " 카테고리 로딩중 오류가 발생했어요.",
                         null,
                         null).build()).queue();
             }

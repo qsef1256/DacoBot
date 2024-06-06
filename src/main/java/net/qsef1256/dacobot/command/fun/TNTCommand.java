@@ -3,12 +3,10 @@ package net.qsef1256.dacobot.command.fun;
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import net.qsef1256.dacobot.ui.DiaEmbed;
-import net.qsef1256.dacobot.util.JDAUtil;
 import net.qsef1256.dialib.common.ResultSwitch;
 import net.qsef1256.dialib.util.MathUtil;
 import net.qsef1256.dialib.util.RandomUtil;
@@ -35,15 +33,15 @@ public class TNTCommand extends DacoCommand {
 
     @Override
     protected void runCommand(@NotNull SlashCommandEvent event) {
-        OptionMapping option = JDAUtil.getOptionMapping(event, "갯수");
+        Double option = getOptionDouble("갯수");
         if (option == null) return;
 
         User user = event.getUser();
         double tntCount;
         try {
-            tntCount = option.getAsDouble();
+            tntCount = option;
         } catch (NumberFormatException e) {
-            event.replyEmbeds(DiaEmbed.error("폭발 실패", "올바른 정수를 입력하세요: %s".formatted(option.getAsString()),
+            event.replyEmbeds(DiaEmbed.error("폭발 실패", "올바른 정수를 입력하세요: %s".formatted(option),
                     null, null).build()).queue();
             return;
         }
@@ -90,7 +88,7 @@ public class TNTCommand extends DacoCommand {
                         .formatted(boom))
                 .caseCondition(tntCount < 2100000000, "%s :fireworks: 우주가 폭발했습니다! 새로운 빅뱅이 탄생했습니다!"
                         .formatted(boom))
-                .caseCondition((double) Integer.MAX_VALUE, "%s Integer가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
+                .caseCondition((double) Integer.MAX_VALUE, "%s `Integer`가 폭발했습니다! 오버플로우가 일어났습니다! 하지만 다코봇은 안전합니다."
                         .formatted(boom))
                 .getResult();
 

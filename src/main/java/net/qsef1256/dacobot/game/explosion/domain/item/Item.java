@@ -1,45 +1,36 @@
 package net.qsef1256.dacobot.game.explosion.domain.item;
 
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.PositiveOrZero;
-import lombok.Builder;
-import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemType;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import net.qsef1256.dacobot.game.explosion.domain.itemtype.ItemTypeEntity;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
+@Getter
+@Setter
+@Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
+public class Item {
 
-/**
- * DTO for {@link ItemEntity}
- */
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_type")
+    private ItemTypeEntity type;
 
-@Builder
-public record Item(@NotNull @PositiveOrZero Integer id,
-                   @NotNull ItemType itemType,
-                   @Positive Integer amount,
-                   @Nullable LocalDateTime lastGetTime) implements Serializable {
+    @Positive
+    private long amount = 1;
 
-    public Item {
-        if (lastGetTime == null) lastGetTime = LocalDateTime.now();
+    public void addAmount(long amount) {
+        this.amount += amount;
     }
 
-    public static Item toEntity(@NotNull Item item) {
-        return Item.builder()
-                .id(item.id())
-                .itemType(item.itemType())
-                .amount(item.amount())
-                .lastGetTime(item.lastGetTime())
-                .build();
-    }
-
-    public static Item fromEntity(@NotNull ItemEntity itemEntity) {
-        return Item.builder()
-                .id(itemEntity.getId())
-                .itemType(ItemType.fromEntity(itemEntity.getItemType()))
-                .amount(itemEntity.getAmount())
-                .lastGetTime(itemEntity.getLastGetTime())
-                .build();
+    public void removeAmount(long amount) {
+        this.amount -= amount;
     }
 
 }

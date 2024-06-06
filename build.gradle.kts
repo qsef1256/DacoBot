@@ -53,7 +53,7 @@ dependencies {
     implementation("commons-beanutils:commons-beanutils:1.9.4") {
         exclude(group = "commons-collections", module = "commons-collections")
     }
-    implementation("commons-codec:commons-codec:1.16.0")
+    implementation("commons-codec:commons-codec:1.16.1")
     // Functional
     implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
     // Utility

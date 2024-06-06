@@ -1,7 +1,7 @@
 package net.qsef1256.dacobot.command.fun.emoji;
 
 import com.jagrosh.jdautilities.command.SlashCommandEvent;
-import net.qsef1256.dacobot.core.command.DacoCommand;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 

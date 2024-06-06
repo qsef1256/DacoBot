@@ -5,16 +5,14 @@ import com.jagrosh.jdautilities.command.SlashCommandEvent;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
-import net.dv8tion.jda.api.interactions.components.buttons.Button;
-import net.qsef1256.dacobot.core.command.DacoCommand;
-import net.qsef1256.dacobot.game.explosion.controller.UserController;
-import net.qsef1256.dacobot.game.explosion.v2.cash.CashService;
-import net.qsef1256.dacobot.module.account.controller.AccountController;
-import net.qsef1256.dacobot.module.account.entity.UserEntity;
+import net.qsef1256.dacobot.core.ui.command.DacoCommand;
+import net.qsef1256.dacobot.game.explosion.domain.cash.CashService;
+import net.qsef1256.dacobot.module.account.button.DeleteButton;
+import net.qsef1256.dacobot.module.account.button.ResetButton;
 import net.qsef1256.dacobot.module.account.exception.DacoAccountException;
+import net.qsef1256.dacobot.module.account.user.UserController;
+import net.qsef1256.dacobot.module.account.user.UserEntity;
 import net.qsef1256.dacobot.setting.constants.DiaColor;
-import net.qsef1256.dacobot.setting.constants.DiaImage;
-import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dacobot.ui.DiaEmbed;
 import net.qsef1256.dialib.common.ResultSwitch;
 import org.jetbrains.annotations.NotNull;
@@ -47,12 +45,9 @@ public class AccountCommand extends DacoCommand {
     @Component
     public static class RegisterCommand extends DacoCommand {
 
-        private final AccountController accountController;
         private final UserController userController;
 
-        public RegisterCommand(@NotNull AccountController accountController,
-                               @NotNull UserController userController) {
-            this.accountController = accountController;
+        public RegisterCommand(@NotNull UserController userController) {
             this.userController = userController;
 
             name = "등록";
@@ -65,7 +60,6 @@ public class AccountCommand extends DacoCommand {
 
             event.deferReply().queue(callback -> {
                 try {
-                    accountController.register(user.getIdLong());
                     userController.register(user.getIdLong());
                     callback.editOriginalEmbeds(new EmbedBuilder()
                             .setTitle("등록 성공")
@@ -90,11 +84,11 @@ public class AccountCommand extends DacoCommand {
     public static class StatusCommand extends DacoCommand {
 
         private final CashService cashService;
-        private final AccountController accountController;
+        private final UserController userController;
 
-        public StatusCommand(@NotNull AccountController accountController,
+        public StatusCommand(@NotNull UserController userController,
                              @NotNull CashService cashService) {
-            this.accountController = accountController;
+            this.userController = userController;
             this.cashService = cashService;
 
             name = "확인";
@@ -106,17 +100,13 @@ public class AccountCommand extends DacoCommand {
             User user = event.getUser();
 
             try {
-                UserEntity userData = accountController.getAccount(user.getIdLong());
+                UserEntity userData = userController.getUser(user.getIdLong());
                 long cash = cashService.getCash(user.getIdLong());
 
-                event.replyEmbeds(new EmbedBuilder()
-                        .setTitle("계정 정보")
-                        .setColor(DiaColor.INFO)
-                        .setAuthor(DiaInfo.BOT_NAME, null, DiaImage.MAIN_THUMBNAIL)
-                        .setThumbnail(user.getEffectiveAvatarUrl())
+                // TODO: add account status
+                event.replyEmbeds(DiaEmbed.info("계정 정보", null, user)
                         .addField("닉네임", user.getName(), true)
                         .addField("가입 일자", userData.getRegisterTime().format(DateTimeFormatter.ISO_LOCAL_DATE), true)
-                        .addField("계정 상태", userData.getStatus(), true)
                         .addField("돈", cash + " 코인", false)
                         .setFooter(getFooter(cash))
                         .build()).queue();
@@ -147,9 +137,16 @@ public class AccountCommand extends DacoCommand {
     @Component
     public static class ResetCommand extends DacoCommand {
 
-        public ResetCommand() {
+        private final DeleteButton deleteButton;
+        private final ResetButton resetButton;
+
+        public ResetCommand(@NotNull DeleteButton deleteButton,
+                            @NotNull ResetButton resetButton) {
             name = "초기화";
             help = "당신의 계정을 폭파시킵니다. 주의! 되돌릴 수 없습니다.";
+
+            this.deleteButton = deleteButton;
+            this.resetButton = resetButton;
         }
 
         @Override
@@ -165,8 +162,8 @@ public class AccountCommand extends DacoCommand {
                             .setFooter("이렇게까지 만들었는데도 날려먹으면 네 탓!!!")
                             .build())
                     .addActionRow(
-                            Button.danger("account_reset", "초기화"),
-                            Button.danger("account_delete", "삭제"))
+                            deleteButton,
+                            resetButton)
                     .setEphemeral(true)
                     .queue();
         }

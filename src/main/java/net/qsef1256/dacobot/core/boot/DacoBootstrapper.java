@@ -2,16 +2,16 @@ package net.qsef1256.dacobot.core.boot;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.Guild;
 import net.qsef1256.dacobot.DacoBot;
-import net.qsef1256.dacobot.core.command.commandclient.CommandClientService;
 import net.qsef1256.dacobot.core.jda.JdaService;
 import net.qsef1256.dacobot.core.schedule.DiaScheduler;
+import net.qsef1256.dacobot.core.ui.command.commandclient.CommandClientService;
 import net.qsef1256.dacobot.setting.DiaSetting;
 import net.qsef1256.dacobot.setting.constants.DiaInfo;
 import net.qsef1256.dialib.util.LocalDateTimeUtil;
-import org.jetbrains.annotations.NotNull;
 import org.mariuszgromada.math.mxparser.License;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.stereotype.Component;
@@ -25,6 +25,7 @@ import java.util.Objects;
 // TODO: separate shutdown, restart to Configuration?
 @Slf4j
 @Component
+@AllArgsConstructor
 public class DacoBootstrapper {
 
     private final ApplicationArguments args;
@@ -32,18 +33,6 @@ public class DacoBootstrapper {
     private final CommandClientService commandClient;
     private final DiaSetting setting;
     private final DiaScheduler scheduler;
-
-    public DacoBootstrapper(@NotNull ApplicationArguments args,
-                            @NotNull DiaSetting setting,
-                            @NotNull DiaScheduler scheduler,
-                            @NotNull JdaService jda,
-                            @NotNull CommandClientService commandClient) {
-        this.args = args;
-        this.setting = setting;
-        this.scheduler = scheduler;
-        this.jda = jda;
-        this.commandClient = commandClient;
-    }
 
     @PostConstruct
     public void boot() throws Exception {
