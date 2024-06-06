@@ -45,30 +45,6 @@ Computer Science:
       - Thymeleaf
       - Mustache
 
-  Principle:
-    Catalogue:
-      - "https://java-design-patterns.com/principles"
-      - "http://principles-wiki.net/principles:start"
-      - "https://github.com/codeanddonuts/hacker-laws-kr"
-    OOP:
-      - Abstraction
-      - Encapsulation
-      - Inheritance
-      - Polymorphism
-    SOLID:
-      - "https://ko.wikipedia.org/wiki/SOLID_(%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%EC%84%A4%EA%B3%84)"
-      - "https://www.nextree.co.kr/p6960/"
-      - "https://limkydev.tistory.com/77"
-    Coupling and Cohension:
-      - "https://itwiki.kr/w/%EA%B2%B0%ED%95%A9%EB%8F%84"
-      - "https://rutgo-letsgo.tistory.com/227"
-      - "https://velog.io/@eddy_song/separation-of-concerns"
-      - "https://ganghee-lee.tistory.com/13"
-    Composition over Inheritance:
-      - "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
-      - "https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5%EC%9D%98-%EC%83%81%EC%86%8D-%EB%AC%B8%EC%A0%9C%EC%A0%90%EA%B3%BC-%ED%95%A9%EC%84%B1Composition-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"
-    Law of Demeter: "https://coding-start.tistory.com/264"
-
   Data Structure:
     Description: "https://iwuooh.com/entry/%EC%9E%90%EB%A3%8C%EA%B5%AC%EC%A1%B0Data-Structure%EC%9D%98-%EC%A0%95%EC%9D%98%EC%99%80-%EC%A2%85%EB%A5%98"
     Array:
@@ -86,6 +62,8 @@ Computer Science:
     Heap: "https://evan-moon.github.io/2019/10/12/introduction-data-structure-heap/"
 
   Algorithm:
+    Book:
+      - "https://en.wikipedia.org/wiki/Introduction_to_Algorithms"
     Problem List: # TODO: Let's solve this
       - "https://www.acmicpc.net/step"
       - "https://solved.ac/problems/sprout"
@@ -106,25 +84,6 @@ Computer Science:
       - "https://going-to-end.tistory.com/entry/Minimax-algorithm-%EB%AF%B8%EB%8B%88%EB%A7%A5%EC%8A%A4-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98#google_vignette"
       - "https://velog.io/@digh0515/AI-5-1.-Alpha-Beta-Pruning-%EC%95%8C%ED%8C%8C%EB%B2%A0%ED%83%80-%ED%94%84%EB%A1%9C%EC%8B%9C%EC%A0%80"
   
-  Paradigm:
-    Procedural Programming: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%B0%A8%EC%A0%81_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
-    Objective Oriented Programming: "https://ko.wikipedia.org/wiki/%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" # OOP
-    Functional Programming: "https://ko.wikipedia.org/wiki/%ED%95%A8%EC%88%98%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
-    Declarative Programming: "https://ko.wikipedia.org/wiki/%EC%84%A0%EC%96%B8%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
-    Aspect Oriented Programming: "https://galid1.tistory.com/497?category=769011" # AOP
-    Domain Driven Design: # DDD
-      Domain model purity, completeness: "https://velog.io/@leejh3224/%EB%B2%88%EC%97%AD-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%AA%A8%EB%8D%B8-%EC%88%9C%EC%88%98%EC%84%B1-vs-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%AA%A8%EB%8D%B8-%EC%99%84%EC%A0%84%EC%84%B1"
-    Business Driven Development: "https://en.wikipedia.org/wiki/Business-driven_development"
-
-  Software Development Process:
-    Requirements Engineering:
-      Description: "https://ko.wikipedia.org/wiki/%EC%9A%94%EA%B5%AC%EA%B3%B5%ED%95%99"
-    
-    Waterfall:
-    Agile: "https://evan-moon.github.io/2019/07/02/what-is-agile/#%EC%95%A0%EC%9E%90%EC%9D%BC%EC%9D%84-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94%EA%B1%B8%EA%B9%8C"
-    Test Driven Development: # TDD
-    eXtreme Programming:
-
   Operating System:
     Concurrency:
       Deadlock: "https://jwprogramming.tistory.com/12"
@@ -132,6 +91,102 @@ Computer Science:
       Parallelism: "https://velog.io/@wlsrhkd4023/%EB%8F%99%EC%8B%9C%EC%84%B1Concurrency%EA%B3%BC-%EB%B3%91%EB%A0%AC%EC%84%B1Parallelism-%EC%B0%A8%EC%9D%B4"
       Actor model: "https://en.wikipedia.org/wiki/Actor_model"
     Multi-Thread: "https://rebro.kr/174"
+    Thrashing: "https://jwprogramming.tistory.com/56"
+  
+  Roadmap:
+    - "https://github.com/ossu/computer-science"
+    - "https://github.com/jwasham/coding-interview-university"
+    - "https://github.com/minnsane/TeachYourselfCS-KR"
+
+  Network:
+    Description:
+      - "https://yozm.wishket.com/magazine/detail/1875/"
+
+    Principle:
+      Async/Sync/Blocking/Non-Blocking: "https://velog.io/@wonhee010/%EB%8F%99%EA%B8%B0vs%EB%B9%84%EB%8F%99%EA%B8%B0-feat.-blocking-vs-non-blocking"
+
+    Protocol:
+      Description: "https://bohyeon-n.github.io/deploy/network/internet-2.html"
+      HTTP:
+      TCP/UDP:
+
+    OSI-7-Layer:
+      Description: "https://shlee0882.tistory.com/110"
+      1. Physical:
+        - Cable
+        - Hub
+      2. Data link:
+        - Switch
+        - Bridge
+      3. Network:
+        - Router
+      4. Transport:
+        - TCP
+        - UDP
+      5. Session:
+      6. Presentation:
+        - ASCII
+        - UTF-8
+      7. Application:
+        - HTTP
+        - SMTP
+        - SSH
+        - User Application
+
+    IP class: "https://limkydev.tistory.com/168" # A/B/C class
+    Subnet mask: "https://limkydev.tistory.com/166"
+    Gateway: "https://melonicedlatte.com/network/2020/04/28/201100.html"
+
+Software Engineering:
+  Description: "https://en.wikipedia.org/wiki/Software_engineering"
+  
+  Principle:
+    Catalogue:
+      - "https://java-design-patterns.com/principles"
+      - "http://principles-wiki.net/principles:start"
+      - "https://github.com/codeanddonuts/hacker-laws-kr"
+      - "https://en.wikipedia.org/wiki/List_of_software_development_philosophies"
+    OOP:
+      - Abstraction
+      - Encapsulation
+      - Inheritance
+      - Polymorphism
+    SOLID:
+      - "https://ko.wikipedia.org/wiki/SOLID_(%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%EC%84%A4%EA%B3%84)"
+      - "https://www.nextree.co.kr/p6960/"
+      - "https://limkydev.tistory.com/77"
+    Coupling and Cohension:
+      - "https://itwiki.kr/w/%EA%B2%B0%ED%95%A9%EB%8F%84"
+      - "https://rutgo-letsgo.tistory.com/227"
+      - "https://velog.io/@eddy_song/separation-of-concerns"
+      - "https://ganghee-lee.tistory.com/13"
+    Composition over Inheritance:
+      - "https://en.m.wikipedia.org/wiki/Composition_over_inheritance"
+      - "https://inpa.tistory.com/entry/OOP-%F0%9F%92%A0-%EA%B0%9D%EC%B2%B4-%EC%A7%80%ED%96%A5%EC%9D%98-%EC%83%81%EC%86%8D-%EB%AC%B8%EC%A0%9C%EC%A0%90%EA%B3%BC-%ED%95%A9%EC%84%B1Composition-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0"
+    Law of Demeter: "https://coding-start.tistory.com/264"
+
+  Paradigm:
+    Procedural Programming: "https://ko.wikipedia.org/wiki/%EC%A0%88%EC%B0%A8%EC%A0%81_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
+    Objective Oriented Programming: "https://ko.wikipedia.org/wiki/%EA%B0%9D%EC%B2%B4_%EC%A7%80%ED%96%A5_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D" # OOP
+    Functional Programming: "https://ko.wikipedia.org/wiki/%ED%95%A8%EC%88%98%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
+    Concatnative Programming: "https://en.wikipedia.org/wiki/Concatenative_programming_language"
+    Declarative Programming: "https://ko.wikipedia.org/wiki/%EC%84%A0%EC%96%B8%ED%98%95_%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D"
+    Aspect Oriented Programming: "https://galid1.tistory.com/497?category=769011" # AOP
+    Domain Driven Design: # DDD
+      Domain model purity, completeness: "https://velog.io/@leejh3224/%EB%B2%88%EC%97%AD-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%AA%A8%EB%8D%B8-%EC%88%9C%EC%88%98%EC%84%B1-vs-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%AA%A8%EB%8D%B8-%EC%99%84%EC%A0%84%EC%84%B1"
+    Business Driven Development: "https://en.wikipedia.org/wiki/Business-driven_development"
+    Design by Contract: "https://en.wikipedia.org/wiki/Design_by_contract"
+    Defensive Programming: "https://en.wikipedia.org/wiki/Defensive_programming"
+
+  Software Development Process:
+    Code and Fix: "https://blog.naver.com/donaeun/110016155215
+    Requirements Engineering:
+      Description: "https://ko.wikipedia.org/wiki/%EC%9A%94%EA%B5%AC%EA%B3%B5%ED%95%99"
+    
+    Waterfall:
+    Agile: "https://evan-moon.github.io/2019/07/02/what-is-agile/#%EC%95%A0%EC%9E%90%EC%9D%BC%EC%9D%84-%EC%99%9C-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94%EA%B1%B8%EA%B9%8C"
+    Test Driven Development: # TDD
+    eXtreme Programming:
 
   Unified Modeling Language: # UML
     Description: "https://aswalmighty.tistory.com/88?category=788367"
@@ -165,77 +220,6 @@ Computer Science:
       - State Diagram
       - Sequence Diagram
       - Communication Diagram
-
-  Software Architecture:
-    MVC: "https://m.blog.naver.com/jhc9639/220967034588"
-    MVP:
-    MVVC:
-    Monolith vs Microservices: "https://www.atlassian.com/ko/microservices/microservices-architecture/microservices-vs-monolith" # MSA
-    Layered Architecture: "https://hudi.blog/layered-architecture/"
-    Hexagonal: "https://tech.osci.kr/hexagonal-architecture/"
-    Clean Architecture:
-    Pattern:
-      DAO, DTO, VO: "https://choitaetae.tistory.com/97"
-
-    Anti pattern:
-      Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
-    # TODO: another architecture
-
-  Refactoring:
-    Common:
-      - "http://dj6316.torchpad.com/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81%28refactoring%29/CH.03+%EC%BD%94%EB%93%9C%EC%9D%98+%EA%B5%AC%EB%A6%B0%EB%82%B4/1.%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C"
-      - "https://chodragon9.github.io/blog/legacy-code-to-easy-code/"
-    Code Smell:
-      - "https://dnight.tistory.com/entry/%EC%BD%94%EB%93%9C%EC%8A%A4%EB%A9%9C-CodeSmall"
-      - "http://rapapa.net/?p=2406"
-      - "https://refactoring.guru/refactoring/smells"
-      - "https://nesoy.github.io/articles/2018-05/Refactoring-BadSmell"
-
-  QA:
-    Testing:
-      Type:
-        - Unit Test
-        - Integration Test
-        - Acceptance Test
-      Code Coverage:
-      Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
-      Anti pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
-
-    Software Metric: "https://en.wikipedia.org/wiki/Software_metric"
-  
-  Programming Culture:
-    Code Review:
-  
-  Problem: # TODO: make multi-thread section
-    Thrashing: "https://jwprogramming.tistory.com/56"
-
-  Scaling:
-    - "https://tech.kakao.com/2023/02/01/university-student-mentoring-get-out-from-the-well/"
-
-  Roadmap:
-    - "https://github.com/ossu/computer-science"
-    - "https://github.com/jwasham/coding-interview-university"
-    - "https://github.com/minnsane/TeachYourselfCS-KR"
-
-Java:
-  Grammar:
-    Enum:
-      - "https://honbabzone.com/java/java-enum/"
-      - "https://velog.io/@kyle/%EC%9E%90%EB%B0%94-Enum-%EA%B8%B0%EB%B3%B8-%EB%B0%8F-%ED%99%9C%EC%9A%A9"
-    Record: "https://scshim.tistory.com/372"
-    Nested Class: "https://gyrfalcon.tistory.com/entry/JAVAJ-Nested-Class"
-    Lambda:
-      Common: "https://khj93.tistory.com/entry/JAVA-%EB%9E%8C%EB%8B%A4%EC%8B%9DRambda%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B4%EA%B3%A0-%EC%82%AC%EC%9A%A9%EB%B2%95"
-      Functional Interface: "https://bcp0109.tistory.com/313"
-      Method reference: "https://www.tcpschool.com/java/java_lambda_reference"
-    Closure: "https://futurecreator.github.io/2018/08/09/java-lambda-and-closure/"
-    Generic: "http://www.joefkelley.com/460/"
-    Interface: "https://icarus8050.tistory.com/77"
-
-  Java API:
-    CompletableFuture: "https://mangkyu.tistory.com/263"
-    ConcurrentHashMap: "https://devlog-wjdrbs96.tistory.com/269"
-    Structured Concurrency: "https://mangkyu.tistory.com/325"
 
   Design Pattern:
     Description:
@@ -278,6 +262,109 @@ Java:
       God Class: ""
       Class Explosion: "https://www.linkedin.com/pulse/understanding-class-explosion-dhruv-tatran"
 
+  Software Architecture:
+    MVC: "https://m.blog.naver.com/jhc9639/220967034588"
+    MVP:
+    MVVC:
+    Monolith vs Microservices: "https://www.atlassian.com/ko/microservices/microservices-architecture/microservices-vs-monolith" # MSA
+    Layered Architecture: "https://hudi.blog/layered-architecture/"
+    Hexagonal: "https://tech.osci.kr/hexagonal-architecture/"
+    Clean Architecture:
+    Pattern:
+      DAO, DTO, VO: "https://choitaetae.tistory.com/97"
+
+    Anti pattern:
+      Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
+    # TODO: another architecture
+
+  Refactoring:
+    Common:
+      - "http://dj6316.torchpad.com/%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81%28refactoring%29/CH.03+%EC%BD%94%EB%93%9C%EC%9D%98+%EA%B5%AC%EB%A6%B0%EB%82%B4/1.%EC%A4%91%EB%B3%B5%EC%BD%94%EB%93%9C"
+      - "https://chodragon9.github.io/blog/legacy-code-to-easy-code/"
+    Code Smell:
+      - "https://dnight.tistory.com/entry/%EC%BD%94%EB%93%9C%EC%8A%A4%EB%A9%9C-CodeSmall"
+      - "http://rapapa.net/?p=2406"
+      - "https://refactoring.guru/refactoring/smells"
+      - "https://nesoy.github.io/articles/2018-05/Refactoring-BadSmell"
+
+  Links: "https://brunch.co.kr/keyword/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99"
+
+  References:
+    Web:
+      - "https://velog.io/@corepen_"
+      - "https://catsbi.oopy.io/5ce4e76e-645a-4c5f-9e61-7ffb5390e09e"
+    Book:
+      Clean Code: "https://velog.io/@0909oje/10%EC%9E%A5.-%ED%81%B4%EB%9E%98%EC%8A%A4"
+      Effective Java: "https://mangkyu.tistory.com/133"
+      The Pragmatic Programmer:
+        - "https://velog.io/@corepen_/3%EC%A3%BC-%EC%99%84%EB%8F%85-Daily-%EC%84%9C%ED%8F%89-%EC%8B%A4%EC%9A%A9%EC%A3%BC%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8-1"
+        - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
+      Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
+      Facts and Fallacies of Software Engineering: "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
+      Introduction to Algorithms: "https://gooddaytocode.blogspot.com/2016/07/introduction-to-algorithms.html"
+      Software Conflict 2.0: "https://m.blog.naver.com/babo4958/50087370942"
+      Code Complete: "https://en.wikipedia.org/wiki/Code_Complete"
+      The Tao of Programming: "https://www.mit.edu/~xela/tao.html"
+      Inspired: "https://brunch.co.kr/@eunbeecho/25"
+      Grow Together: "https://mangkyu.tistory.com/248"
+
+    Architecture:
+      - "https://channy.creation.net/blog/1828"
+      - "https://12factor.net/ko/"
+  
+  Programming Culture:
+    Code Review:
+
+  Bad practices:
+    Catalogue:
+      - "https://github.com/Lee-WonJun/JDD-Description"
+      - "https://taylor.town/-10x"
+    Yak Shaving: "https://brunch.co.kr/@lesstif/4"
+    Schlemiel the Painter Algorithm: "https://www.lesstif.com/software-engineering/schlemiel-the-painter-s-algorithm-106857766.html"
+
+  Scaling:
+    - "https://tech.kakao.com/2023/02/01/university-student-mentoring-get-out-from-the-well/"
+
+QA:
+  Testing:
+    Type:
+      - Unit Test
+      - Integration Test
+      - Acceptance Test
+    Code Coverage:
+    Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
+    Anti pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+
+    Tool:
+      JUnit:
+      Gauge: "https://gauge.org/index.html"
+
+    Software Metric: 
+      Description: "https://en.wikipedia.org/wiki/Software_metric"
+      CMMI: "https://ko.wikipedia.org/wiki/%EB%8A%A5%EB%A0%A5_%EC%84%B1%EC%88%99%EB%8F%84_%ED%86%B5%ED%95%A9_%EB%AA%A8%EB%8D%B8"
+  
+Java:
+  Grammar:
+    Interface: "https://icarus8050.tistory.com/77"
+    Enum:
+      - "https://honbabzone.com/java/java-enum/"
+      - "https://velog.io/@kyle/%EC%9E%90%EB%B0%94-Enum-%EA%B8%B0%EB%B3%B8-%EB%B0%8F-%ED%99%9C%EC%9A%A9"
+    Record: "https://scshim.tistory.com/372"
+    Nested Class: "https://gyrfalcon.tistory.com/entry/JAVAJ-Nested-Class"
+    Lambda:
+      Common: "https://khj93.tistory.com/entry/JAVA-%EB%9E%8C%EB%8B%A4%EC%8B%9DRambda%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B4%EA%B3%A0-%EC%82%AC%EC%9A%A9%EB%B2%95"
+      Functional Interface: "https://bcp0109.tistory.com/313"
+      Method reference: "https://www.tcpschool.com/java/java_lambda_reference"
+    Generic: "http://www.joefkelley.com/460/"
+    Closure: "https://futurecreator.github.io/2018/08/09/java-lambda-and-closure/"
+    Functor and Monad: "https://gist.github.com/jooyunghan/e14f426839454063d98454581b204452"
+
+  Java API:
+    CompletableFuture: "https://mangkyu.tistory.com/263"
+    ConcurrentHashMap: "https://devlog-wjdrbs96.tistory.com/269"
+    Structured Concurrency: "https://mangkyu.tistory.com/325"
+    Virtual Thread: "https://mangkyu.tistory.com/309"
+
   Framework & Library:
     Utility:
       Lombok: "https://projectlombok.org/"
@@ -302,13 +389,16 @@ Java:
             - "https://goddaehee.tistory.com/209"
             - "https://velog.io/@agugu95/SpringBoot-Entity-Design-Caution"
           Transactional: "https://mommoo.tistory.com/92"
-        MyBatis:
+      
+      MyBatis:
+      JOOQ:
 
     Validate:
       Hibernate Validator:
 
     Compiler:
       JavaCC: "https://javacc.github.io/javacc/"
+      GraalVM: "https://www.graalvm.org/"
 
     Spring:
       IoC Container:
@@ -345,28 +435,8 @@ Java:
       MAT: "https://www.eclipse.org/mat/"
     Thread Dump:
       "https://fastthread.io/"
+    Dev-Tips: "https://github.com/HomoEfficio/dev-tips"
 
-  References:
-    Web:
-      - "https://velog.io/@corepen_"
-      - "https://catsbi.oopy.io/5ce4e76e-645a-4c5f-9e61-7ffb5390e09e"
-    Book:
-      Clean Code: "https://velog.io/@0909oje/10%EC%9E%A5.-%ED%81%B4%EB%9E%98%EC%8A%A4"
-      Effective Java: "https://mangkyu.tistory.com/133"
-      The Pragmatic Programmer:
-        - "https://velog.io/@corepen_/3%EC%A3%BC-%EC%99%84%EB%8F%85-Daily-%EC%84%9C%ED%8F%89-%EC%8B%A4%EC%9A%A9%EC%A3%BC%EC%9D%98-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%A8%B8-1"
-        - "https://byjay.github.io/review/programming/2018-11-04-the-progmatic-programmer/"
-      Refactoring by Martin Fowler: "https://develop123.tistory.com/2"
-      Facts and Fallacies of Software Engineering: "https://effectiveprogramming.tistory.com/entry/%EC%9A%B0%EB%A6%AC%EA%B0%80-%EB%AF%B8%EC%B2%98-%EC%95%8C%EC%A7%80-%EB%AA%BB%ED%95%9C-%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%EA%B3%B5%ED%95%99%EC%9D%98-%EC%82%AC%EC%8B%A4%EA%B3%BC-%EC%98%A4%ED%95%B4"
-      Introduction to Algorithms: "https://gooddaytocode.blogspot.com/2016/07/introduction-to-algorithms.html"
-      Software Conflict 2.0: "https://m.blog.naver.com/babo4958/50087370942"
-      Code Complete: "https://en.wikipedia.org/wiki/Code_Complete"
-      The Tao of Programming: "https://www.mit.edu/~xela/tao.html"
-
-    Architecture:
-      - "https://channy.creation.net/blog/1828"
-      - "https://12factor.net/ko/"
-  
   Useful:
     - "https://www.javatips.net/"
 
@@ -443,45 +513,6 @@ Security:
     - 9:Security Logging and Monitoring Failures
     - 10:Server-Side Request Forgery
 
-Network:
-  Description:
-    - "https://yozm.wishket.com/magazine/detail/1875/"
-
-  Principle:
-    Async/Sync/Blocking/Non-Blocking: "https://velog.io/@wonhee010/%EB%8F%99%EA%B8%B0vs%EB%B9%84%EB%8F%99%EA%B8%B0-feat.-blocking-vs-non-blocking"
-
-  Protocol:
-    Description: "https://bohyeon-n.github.io/deploy/network/internet-2.html"
-    HTTP:
-    TCP/UDP:
-
-  OSI-7-Layer:
-    Description: "https://shlee0882.tistory.com/110"
-    1. Physical:
-      - Cable
-      - Hub
-    2. Data link:
-      - Switch
-      - Bridge
-    3. Network:
-      - Router
-    4. Transport:
-      - TCP
-      - UDP
-    5. Session:
-    6. Presentation:
-      - ASCII
-      - UTF-8
-    7. Application:
-      - HTTP
-      - SMTP
-      - SSH
-      - User Application
-
-  IP class: "https://limkydev.tistory.com/168" # A/B/C class
-  Subnet mask: "https://limkydev.tistory.com/166"
-  Gateway: "https://melonicedlatte.com/network/2020/04/28/201100.html"
-
 DevOps:
   CI/CD:
     Description: "https://www.nextree.co.kr/p10799/"
@@ -535,19 +566,30 @@ Git:
         - "https://velog.io/@kw2577/Git-branch-%EC%A0%84%EB%9E%B5"
         - "https://techblog.woowahan.com/2553/"
 
+  Mono Repo:
+
 Artificial Intelligence:
   Product:
     - ChatGPT
-    - Sketch2Code
+    - Llama3
     - Google Bard
+    - Claude
+  Prompt Enginnering:
+    - "https://developers.google.com/machine-learning/resources/prompt-eng?hl=ko"
+    - "https://platform.openai.com/docs/guides/prompt-engineering"
+    - "https://www.promptingguide.ai/kr"
+  GPT:
+    Plugins:
 
-  Behavior Tree: "https://engineering.linecorp.com/ko/blog/behavior-tree/"
+  Algorithm:
+    Behavior Tree: "https://engineering.linecorp.com/ko/blog/behavior-tree/"
 
 UI/UX:
   Website:
     - "https://uiux.egovframe.go.kr/guide/index.html"
 
+Employment:
+  Advice:
+    - "https://okky.kr/articles/1499894?topic=community&page=2"
+
 Etc:
-  Don't try this at home:
-    - "https://github.com/Lee-WonJun/JDD-Description"
-    - "https://taylor.town/-10x"
