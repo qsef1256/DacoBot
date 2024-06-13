@@ -3,7 +3,7 @@ version = "2.3.0"
 description = "DacoBot"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
-val jdaVersion = "5.0.0-beta.20"
+val jdaVersion = "5.0.0-beta.24"
 val springBootVersion = "3.2.4"
 
 plugins {
@@ -41,21 +41,21 @@ dependencies {
     // Technical
     implementation("org.glassfish:jakarta.el:5.0.0-M1")
     implementation("jakarta.el:jakarta.el-api:5.0.1")
-    implementation("io.smallrye:jandex:3.1.7")
+    implementation("io.smallrye:jandex:3.2.0")
     implementation("com.jayway.jsonpath:json-path:2.9.0")
     // Apache
-    implementation("org.apache.commons:commons-collections4:4.4")
-    implementation("org.apache.commons:commons-configuration2:2.10.1")
+    implementation("org.apache.commons:commons-collections4:4.5.0-M1")
+    implementation("org.apache.commons:commons-configuration2:2.11.0")
     implementation("org.apache.commons:commons-dbcp2:2.12.0")
     implementation("org.apache.commons:commons-lang3:3.14.0")
     implementation("org.apache.commons:commons-text:1.11.0")
-    implementation("org.apache.httpcomponents.client5:httpclient5:5.3.1")
+    implementation("org.apache.httpcomponents.client5:httpclient5:5.4-alpha2")
     implementation("commons-beanutils:commons-beanutils:1.9.4") {
         exclude(group = "commons-collections", module = "commons-collections")
     }
-    implementation("commons-codec:commons-codec:1.16.0")
+    implementation("commons-codec:commons-codec:1.17.0")
     // Functional
-    implementation("org.mariuszgromada.math:MathParser.org-mXparser:5.2.1")
+    implementation("org.mariuszgromada.math:MathParser.org-mXparser:6.0.0")
     // Utility
     implementation("org.jetbrains:annotations:24.1.0")
     implementation("org.projectlombok:lombok:1.18.32")
@@ -63,9 +63,9 @@ dependencies {
     implementation("org.reflections:reflections:0.10.2")
     implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.guava:guava:33.1.0-jre")
+    implementation("com.google.guava:guava:33.2.1-jre")
     implementation("com.fasterxml.jackson.core:jackson-databind:2.17.0")
-    implementation("org.mapstruct:mapstruct:1.5.5.Final")
+    implementation("org.mapstruct:mapstruct:1.6.0.Beta1")
     // Database
     implementation("com.zaxxer:HikariCP:5.1.0")
     implementation("org.hibernate:hibernate-core:6.4.4.Final")
@@ -75,8 +75,8 @@ dependencies {
     implementation("org.hibernate.validator:hibernate-validator-annotation-processor:8.0.1.Final")
     // Log
     implementation("org.slf4j:slf4j-api:2.0.12")
-    implementation("ch.qos.logback:logback-classic:1.5.2")
-    implementation("ch.qos.logback:logback-core:1.5.3")
+    implementation("ch.qos.logback:logback-classic:1.5.6")
+    implementation("ch.qos.logback:logback-core:1.5.6")
     implementation("org.threeten:threetenbp:1.6.8")
     implementation("org.yaml:snakeyaml:2.2")
     // Spring
@@ -89,15 +89,15 @@ dependencies {
 
     // Annotation processors//
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor:${springBootVersion}")
-    annotationProcessor("org.mapstruct:mapstruct-processor:1.5.5.Final")
+    annotationProcessor("org.mapstruct:mapstruct-processor:1.6.0.Beta1")
     // Test
     testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}") {
         exclude(group = "com.vaadin.external.google", module = "android-json")
     }
-    testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.11.0-M1")
     testImplementation("org.mockito:mockito-core:5.11.0")
-    testImplementation("org.mockito:mockito-junit-jupiter:5.11.0")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.10.2")
+    testImplementation("org.mockito:mockito-junit-jupiter:5.12.0")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.11.0-M2")
 
     // TODO: Spring shell
 }
