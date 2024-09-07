@@ -18,14 +18,15 @@ plugins {
 repositories {
     mavenCentral()
     mavenLocal()
-    maven { url = uri("https://mvn.lumine.io/repository/maven-public/") }
-    maven { url = uri("https://jitpack.io") }
-    maven { url = uri("https://papermc.io/repo/repository/maven-public/") }
-    maven { url = uri("https://oss.sonatype.org/content/groups/public/") }
-    maven { url = uri("https://nexus.scarsz.me/content/groups/public/") }
-    maven { url = uri("https://m2.dv8tion.net/releases") }
-    maven { url = uri("https://m2.chew.pro/snapshots/") }
-    maven { url = uri("https://jcenter.bintray.com") }
+
+    maven("https://mvn.lumine.io/repository/maven-public/")
+    maven("https://jitpack.io")
+    maven("https://papermc.io/repo/repository/maven-public/")
+    maven("https://oss.sonatype.org/content/groups/public/")
+    maven("https://nexus.scarsz.me/content/groups/public/")
+    maven("https://m2.dv8tion.net/releases")
+    maven("https://m2.chew.pro/snapshots/")
+    maven("https://jcenter.bintray.com")
     maven {
         url = uri("http://localhost:8081/repository/dialib-releases")
 
@@ -123,8 +124,9 @@ configurations {
 tasks.processResources {
     filesMatching("**/project.properties") {
         expand(
-                "jdaVersion" to jdaVersion,
-                "springBootVersion" to springBootVersion)
+            "jdaVersion" to jdaVersion,
+            "springBootVersion" to springBootVersion
+        )
     }
 }
 
@@ -140,9 +142,9 @@ tasks.withType<Jar> {
     manifest {
         attributes["Main-Class"] = springBoot.mainClass
         attributes["Class-Path"] = configurations.runtimeClasspath.get()
-                .files
-                .joinToString(" ")
-                { "lib/${it.name}" }
+            .files
+            .joinToString(" ")
+            { "lib/${it.name}" }
     }
 }
 

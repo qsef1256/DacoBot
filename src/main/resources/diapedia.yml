@@ -6,6 +6,7 @@ Useful:
     - "https://translate.google.com"
     - "https://stackoverflow.com"
     - "https://www.curioustore.com/"
+    - "https://var.gg/ko" # Curioustore update
     - "https://chat.openai.com/"
   API:
     - "https://github.com/public-apis/public-apis"
@@ -146,6 +147,7 @@ Software Engineering:
       - "http://principles-wiki.net/principles:start"
       - "https://github.com/codeanddonuts/hacker-laws-kr"
       - "https://en.wikipedia.org/wiki/List_of_software_development_philosophies"
+      - "https://martinfowler.com/eaaCatalog/index.html"
     OOP:
       - Abstraction
       - Encapsulation
@@ -177,6 +179,7 @@ Software Engineering:
     Business Driven Development: "https://en.wikipedia.org/wiki/Business-driven_development"
     Design by Contract: "https://en.wikipedia.org/wiki/Design_by_contract"
     Defensive Programming: "https://en.wikipedia.org/wiki/Defensive_programming"
+    Service Orientation: "https://en.wikipedia.org/wiki/Service-orientation"
 
   Software Development Process:
     Code and Fix: "https://blog.naver.com/donaeun/110016155215
@@ -272,6 +275,9 @@ Software Engineering:
     Clean Architecture:
     Pattern:
       DAO, DTO, VO: "https://choitaetae.tistory.com/97"
+    
+    Packaging Strategy:
+      - "https://medium.com/@andrewMacmurray/package-principles-850d89da5e5b"
 
     Anti pattern:
       Distributed Monolith: "https://scoutapm.com/blog/distributed-monoliths-vs-microservices"
@@ -286,6 +292,8 @@ Software Engineering:
       - "http://rapapa.net/?p=2406"
       - "https://refactoring.guru/refactoring/smells"
       - "https://nesoy.github.io/articles/2018-05/Refactoring-BadSmell"
+    Naming/Reformatting:
+      - "https://velog.io/@teo/cleancode"
 
   Links: "https://brunch.co.kr/keyword/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4%EA%B3%B5%ED%95%99"
 
@@ -293,6 +301,7 @@ Software Engineering:
     Web:
       - "https://velog.io/@corepen_"
       - "https://catsbi.oopy.io/5ce4e76e-645a-4c5f-9e61-7ffb5390e09e"
+      - "https://algoritmos-iii.github.io/assets/bibliografia/simple-technique-for-handling-multiple-polymorphism.pdf"
     Book:
       Clean Code: "https://velog.io/@0909oje/10%EC%9E%A5.-%ED%81%B4%EB%9E%98%EC%8A%A4"
       Effective Java: "https://mangkyu.tistory.com/133"
@@ -307,6 +316,7 @@ Software Engineering:
       The Tao of Programming: "https://www.mit.edu/~xela/tao.html"
       Inspired: "https://brunch.co.kr/@eunbeecho/25"
       Grow Together: "https://mangkyu.tistory.com/248"
+      Structure and Interpretation of Computer Programs: "https://nlp.jbnu.ac.kr/SICP/"
 
     Architecture:
       - "https://channy.creation.net/blog/1828"
@@ -314,6 +324,8 @@ Software Engineering:
   
   Programming Culture:
     Code Review:
+      Anti-pattern:
+        - "https://news.hada.io/topic?id=16472"
 
   Bad practices:
     Catalogue:
@@ -324,6 +336,9 @@ Software Engineering:
 
   Scaling:
     - "https://tech.kakao.com/2023/02/01/university-student-mentoring-get-out-from-the-well/"
+  
+  Certificate:
+    TOPCIT: "https://www.topcit.or.kr/upload/edubox/essence/ess_ko_01/index.html"
 
 QA:
   Testing:
@@ -331,17 +346,25 @@ QA:
       - Unit Test
       - Integration Test
       - Acceptance Test
+      - Performance Test
     Code Coverage:
     Difference: "https://tecoble.techcourse.co.kr/post/2021-05-25-unit-test-vs-integration-test-vs-acceptance-test/"
     Anti pattern: "https://velog.io/@leejh3224/%EC%86%8C%ED%94%84%ED%8A%B8%EC%9B%A8%EC%96%B4-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%95%88%ED%8B%B0-%ED%8C%A8%ED%84%B4"
+    Performance Test: "https://techblog.woowahan.com/2572/"
 
     Tool:
       JUnit:
+      Spoke: https://spockframework.org/
       Gauge: "https://gauge.org/index.html"
+      JMeter:
 
     Software Metric: 
       Description: "https://en.wikipedia.org/wiki/Software_metric"
       CMMI: "https://ko.wikipedia.org/wiki/%EB%8A%A5%EB%A0%A5_%EC%84%B1%EC%88%99%EB%8F%84_%ED%86%B5%ED%95%A9_%EB%AA%A8%EB%8D%B8"
+  
+    Certificate:
+      ISTQB:
+        - CTFL
   
 Java:
   Grammar:
@@ -364,6 +387,7 @@ Java:
     ConcurrentHashMap: "https://devlog-wjdrbs96.tistory.com/269"
     Structured Concurrency: "https://mangkyu.tistory.com/325"
     Virtual Thread: "https://mangkyu.tistory.com/309"
+    Service Loader: "https://velog.io/@adduci/Java-%EC%84%9C%EB%B9%84%EC%8A%A4-%EB%A1%9C%EB%8D%94ServiceLoader"
 
   Framework & Library:
     Utility:
